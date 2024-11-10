@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package report;
+option go_package = "./report";
+
+enum LogLevel{
+  DEBUG = 0;
+  INFO = 1;
+  WARN = 2;
+  ERROR = 3;
+};
+
+message FeaturesReq{
+  FeatureTransDelayReq trans_delay = 1;
+}
+
+message DelayResult {
+  int64 sendDelay = 1;
+  int64 receiveDelay = 2;
+}
+
+message FeatureTransDelayReq{
+  bool enable = 1;
+  int64 last_send_timestamp = 2;
+  int64 last_receive_timestamp = 3;
+  int64 sent_at_timestamp = 4;
+}
+
+message NodeDescription{
+  string os = 1;
+  string os_version = 2;
+  string alias = 3;
+  string ip = 4;
+  string mac = 5;
+  string hostname = 6;
+}
+
+message NodeInfo {
+  string client_id = 1;
+  NodeDescription node_description = 2;
+}
+
+message LogReportReq {
+  NodeInfo node_info = 1;
+  LogLevel level = 2;
+  string message = 3;
+  FeaturesReq features = 4;
+}
+
+enum ReportResultCode {
+  SUCCESS = 0;
+  FAILED = 1;
+};
+
+message FeaturesRsp{
+  FeatureTransDelayRsp trans_delay = 1;
+}
+
+message FeatureTransDelayRsp{
+  bool enable = 1;
+  int64 sent_at_timestamp = 2;
+}
+
+message LogReportRsp{
+  ReportResultCode code = 1;
+  FeaturesRsp features = 2;
+}
+
+message InitReq{
+  NodeDescription node_description = 1;
+}
+
+message InitRsp{
+  NodeInfo node_info = 1;
+}
+
+service Report {
+  rpc Init(InitReq) returns(InitRsp);
+  rpc LogReport(LogReportReq) returns(LogReportRsp);
+}

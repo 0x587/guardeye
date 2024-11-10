@@ -1,0 +1,12 @@
+Name: report-report-gateway
+Host: 0.0.0.0
+Port: 8888
+Upstreams:
+  - Grpc:
+      Target: ${TARGET}:8080
+    ProtoSets:
+      - etc/report.pb
+    Mappings:
+      - Method: post
+        Path: /log_report
+        RpcPath: report.Report/LogReport

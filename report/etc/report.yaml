@@ -1,0 +1,23 @@
+Name: report.rpc
+ListenOn: 0.0.0.0:8080
+Mode: dev
+
+DevServer:
+  Enabled: true
+#Etcd:
+#  Hosts:
+#  - 10.0.4.112:2379
+#  Key: report.rpc
+
+RawLogPusherConf:
+  Brokers:
+    - 10.0.4.112:9094
+  Topic: raw_log
+
+ReportRedis:
+  Host: 10.0.4.112:6379
+  Type: node
+
+MongoConf:
+  Uri: mongodb://root:example@10.0.4.112:27017
+  Database: guardeye
