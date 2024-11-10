@@ -7,6 +7,7 @@ import (
 
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
+
 	"google.golang.org/protobuf/proto"
 
 	"github.com/zeromicro/go-zero/core/logx"

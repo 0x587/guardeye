@@ -30,8 +30,8 @@ message NodeDescription{
   string os = 1;
   string os_version = 2;
   string alias = 3;
-  string ip = 4;
-  string mac = 5;
+  repeated string ips = 4;
+  repeated string macs = 5;
   string hostname = 6;
 }
 

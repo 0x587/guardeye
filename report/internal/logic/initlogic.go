@@ -3,9 +3,10 @@ package logic
 import (
 	"context"
 
-	model "github.com/0x587/guardeye/report/internal/models"
+	"github.com/0x587/guardeye/report/internal/models"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
+
 	"github.com/google/uuid"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -32,7 +33,7 @@ func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
 	}
 	err = l.svcCtx.NodeClient.Insert(l.ctx, &model.Node{
 		Description: *in.GetNodeDescription(),
-		Ip:          in.GetNodeDescription().GetIp(),
+		Ips:         in.GetNodeDescription().GetIps(),
 	})
 	if err != nil {
 		return nil, err

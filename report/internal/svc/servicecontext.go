@@ -2,7 +2,8 @@ package svc
 
 import (
 	"github.com/0x587/guardeye/report/internal/config"
-	model "github.com/0x587/guardeye/report/internal/models"
+	"github.com/0x587/guardeye/report/internal/models"
+
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 )

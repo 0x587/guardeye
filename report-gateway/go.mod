@@ -1,4 +1,4 @@
-module github.com/0x587/guardeye/reportgateway
+module github.com/0x587/reportgateway
 
 go 1.22.4
 
