@@ -3,8 +3,8 @@ package logic
 import (
 	"context"
 
-	"github.com/0x587/guardeye/report/internal/model"
 	"github.com/0x587/guardeye/report/internal/svc"
+	"github.com/0x587/guardeye/report/model"
 	"github.com/0x587/guardeye/report/report"
 
 	"github.com/google/uuid"

@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/0x587/guardeye/report/internal/model"
 	"github.com/0x587/guardeye/report/internal/svc"
+	"github.com/0x587/guardeye/report/model"
 	"github.com/0x587/guardeye/report/report"
 	"github.com/zeromicro/go-queue/kq"
 )

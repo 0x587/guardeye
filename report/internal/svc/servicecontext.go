@@ -2,7 +2,7 @@ package svc
 
 import (
 	"github.com/0x587/guardeye/report/internal/config"
-	"github.com/0x587/guardeye/report/internal/model"
+	model2 "github.com/0x587/guardeye/report/model"
 
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -12,8 +12,8 @@ type ServiceContext struct {
 	Config             config.Config
 	RawLogPusherClient *kq.Pusher
 	RedisClient        *redis.Redis
-	NodeDBClient       model.NodeModel
-	RawLogDBClient     model.RawLogModel
+	NodeDBClient       model2.NodeModel
+	RawLogDBClient     model2.RawLogModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -24,12 +24,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			c.RawLogPusherConf.Topic,
 		),
 		RedisClient: redis.MustNewRedis(c.ReportRedis),
-		NodeDBClient: model.NewNodeModel(
+		NodeDBClient: model2.NewNodeModel(
 			c.MongoConf.Uri,
 			c.MongoConf.Database,
 			"node",
 		),
-		RawLogDBClient: model.NewRawLogModel(
+		RawLogDBClient: model2.NewRawLogModel(
 			c.MongoConf.Uri,
 			c.MongoConf.Database,
 			"rawlog",
