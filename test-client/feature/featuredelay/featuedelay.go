@@ -19,17 +19,17 @@ type impl struct {
 	lastReceive int64
 }
 
-func (i impl) MakeReq() (*reportclient.FeatureTransDelayReq, error) {
+func (i *impl) MakeReq() (*reportclient.FeatureTransDelayReq, error) {
 	return &reportclient.FeatureTransDelayReq{
 		Enable:               true,
 		LastSendTimestamp:    i.lastSend,
 		LastReceiveTimestamp: i.lastReceive,
-		SentAtTimestamp:      time.Now().Unix(),
+		SentAtTimestamp:      time.Now().UnixNano(),
 	}, nil
 }
 
-func (i impl) HandleRsp(rsp *reportclient.FeatureTransDelayRsp) error {
+func (i *impl) HandleRsp(rsp *reportclient.FeatureTransDelayRsp) error {
 	i.lastSend = rsp.GetSentAtTimestamp()
-	i.lastReceive = time.Now().Unix()
+	i.lastReceive = time.Now().UnixNano()
 	return nil
 }

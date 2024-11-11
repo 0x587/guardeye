@@ -9,8 +9,6 @@ import (
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 
-	"google.golang.org/protobuf/proto"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -53,14 +51,22 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 		serverTime := time.Now()
 		d := &report.DelayResult{
 			SendDelay:    lastReceiveTime.UnixNano() - lastSendTime.UnixNano(),
-			ReceiveDelay: clientSendTime.UnixNano() - serverTime.UnixNano(),
+			ReceiveDelay: serverTime.UnixNano() - clientSendTime.UnixNano(),
 		}
-		bytes, err := proto.Marshal(d)
+		fmt.Printf("lastSendTime %v lastReceiveTime %v clientSendTime %v serverTime %v\n", lastSendTime, lastReceiveTime, clientSendTime, serverTime)
+		logx.Infof("delay: %v", d)
+		bytes, err := json.Marshal(d)
 		if err != nil {
 			return nil, err
 		}
 		if err := l.svcCtx.RedisClient.SetCtx(l.ctx, delayKey(in.GetNodeInfo()), string(bytes)); err != nil {
 			return nil, err
+		}
+		rsp.Features = &report.FeaturesRsp{
+			TransDelay: &report.FeatureTransDelayRsp{
+				Enable:          true,
+				SentAtTimestamp: time.Now().UnixNano(),
+			},
 		}
 	}
 	return rsp, nil
