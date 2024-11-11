@@ -24,6 +24,7 @@ type (
 	LogReportRsp         = report.LogReportRsp
 	NodeDescription      = report.NodeDescription
 	NodeInfo             = report.NodeInfo
+	Provider             = report.Provider
 
 	Report interface {
 		Init(ctx context.Context, in *InitReq, opts ...grpc.CallOption) (*InitRsp, error)

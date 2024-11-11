@@ -3,13 +3,6 @@ syntax = "proto3";
 package report;
 option go_package = "./report";
 
-enum LogLevel{
-  DEBUG = 0;
-  INFO = 1;
-  WARN = 2;
-  ERROR = 3;
-};
-
 message FeaturesReq{
   FeatureTransDelayReq trans_delay = 1;
 }
@@ -40,11 +33,16 @@ message NodeInfo {
   NodeDescription node_description = 2;
 }
 
+message Provider{
+  string type = 1;
+  repeated string args = 2;
+}
+
 message LogReportReq {
   NodeInfo node_info = 1;
-  LogLevel level = 2;
-  string message = 3;
-  FeaturesReq features = 4;
+  string message = 2;
+  Provider provider = 3;
+  FeaturesReq features = 10;
 }
 
 enum ReportResultCode {
