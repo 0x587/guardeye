@@ -5,7 +5,7 @@ go 1.22.4
 toolchain go1.23.3
 
 require (
-	github.com/0x587/guardeye/report v0.0.0-20241110133645-545cad966166
+	github.com/0x587/guardeye/report v0.0.0-20241111071958-e8c123c20032
 	github.com/fsnotify/fsnotify v1.8.0
 	github.com/hpcloud/tail v1.0.0
 	github.com/samber/lo v1.47.0

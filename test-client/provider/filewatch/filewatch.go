@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/fsnotify/fsnotify"
 	"github.com/hpcloud/tail"
@@ -20,34 +21,55 @@ func New(ctx context.Context, path string) provider.IF {
 		log.Fatal("path not exist")
 	}
 	res := &impl{
-		out: make(chan string),
+		path: path,
+		out:  make(chan string),
 	}
 	if f.IsDir() {
 		res.watchDir(ctx, path)
 	} else {
-		res.watchFile(ctx, path)
+		res.watchFile(ctx, path, true)
 	}
 	return res
 }
 
 type impl struct {
-	out chan string
+	path string
+	out  chan string
 }
 
-func (i *impl) Get() <-chan string {
-	return i.out
+const (
+	ProviderType = "FileWatcher"
+)
+
+func (i *impl) Get() <-chan *provider.Msg {
+	res := make(chan *provider.Msg)
+	go func() {
+		for msg := range i.out {
+			res <- &provider.Msg{
+				Message: msg,
+				Provider: reportclient.Provider{
+					Type: ProviderType,
+					Args: []string{i.path},
+				},
+			}
+		}
+	}()
+	return res
 }
 
-func (i *impl) getWatchFileChan(ctx context.Context, filepath string) chan string {
+func (i *impl) getWatchFileChan(ctx context.Context, filepath string, alreadyExist bool) chan string {
 	res := make(chan string)
-	file, err := tail.TailFile(filepath, tail.Config{
+	tconf := tail.Config{
 		Follow: true,
 		ReOpen: true,
-		Location: &tail.SeekInfo{
+	}
+	if alreadyExist {
+		tconf.Location = &tail.SeekInfo{
 			Offset: 0,
 			Whence: io.SeekEnd,
-		},
-	})
+		}
+	}
+	file, err := tail.TailFile(filepath, tconf)
 	logx.Must(err)
 	go func() {
 		defer func(file *tail.Tail) {
@@ -82,9 +104,9 @@ func (i *impl) appendChanToOut(ctx context.Context, c chan string) {
 	}()
 }
 
-func (i *impl) watchFile(ctx context.Context, path string) {
+func (i *impl) watchFile(ctx context.Context, path string, alreadyExist bool) {
 	logx.Infof("watch file: %s", path)
-	i.appendChanToOut(ctx, i.getWatchFileChan(ctx, path))
+	i.appendChanToOut(ctx, i.getWatchFileChan(ctx, path, alreadyExist))
 }
 
 func (i *impl) watchDir(ctx context.Context, dirpath string) {
@@ -97,7 +119,7 @@ func (i *impl) watchDir(ctx context.Context, dirpath string) {
 		if info.IsDir() {
 			logx.Must(watcher.Add(path))
 		} else {
-			i.watchFile(ctx, path)
+			i.watchFile(ctx, path, true)
 		}
 		return nil
 	}))
@@ -122,7 +144,7 @@ func (i *impl) watchDir(ctx context.Context, dirpath string) {
 						logx.Must(watcher.Add(event.Name))
 						continue
 					}
-					i.watchFile(ctx, event.Name)
+					i.watchFile(ctx, event.Name, false)
 				}
 			case err, ok := <-watcher.Errors:
 				if !ok {

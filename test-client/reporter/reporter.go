@@ -6,7 +6,6 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
@@ -46,11 +45,12 @@ type impl struct {
 }
 
 func (i *impl) Loop(ctx context.Context) {
-	cs := lo.Map(i.providers, func(item provider.IF, _ int) <-chan string {
+	cs := lo.Map(i.providers, func(item provider.IF, _ int) <-chan *provider.Msg {
 		return item.Get()
 	})
-	for log := range lo.FanIn(0, cs...) {
-		err := i.doLogReport(ctx, log)
+	for msg := range lo.FanIn(0, cs...) {
+		logx.Infof("report: %v", msg)
+		err := i.doLogReport(ctx, msg)
 		if err != nil {
 			logx.Errorf("report error: %v", err)
 		}
@@ -68,14 +68,14 @@ func (i *impl) doInit(ctx context.Context) error {
 	return nil
 }
 
-func (i *impl) doLogReport(ctx context.Context, msg string) error {
+func (i *impl) doLogReport(ctx context.Context, msg *provider.Msg) error {
 	resp, err := i.reportClient.LogReport(ctx, &reportclient.LogReportReq{
 		NodeInfo: &reportclient.NodeInfo{
 			ClientId:        i.clientID,
 			NodeDescription: i.getNodeDesc(),
 		},
-		Level:   report.LogLevel_DEBUG,
-		Message: msg,
+		Message:  msg.Message,
+		Provider: &msg.Provider,
 		Features: &reportclient.FeaturesReq{
 			TransDelay: lo.Must(i.featureDelay.MakeReq()),
 		},

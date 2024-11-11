@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -29,7 +30,7 @@ func NewLogReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogRepo
 
 func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRsp, error) {
 	// product raw log
-	logBytes, err := proto.Marshal(in)
+	logBytes, err := json.Marshal(in)
 	if err != nil {
 		return nil, err
 	}

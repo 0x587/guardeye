@@ -1,5 +1,7 @@
 github.com/0x587/guardeye/report v0.0.0-20241110133645-545cad966166 h1:OwY8226mvTAVmngUKrD/Xrp17IGzxIPzdBiFYQ6c5+M=
 github.com/0x587/guardeye/report v0.0.0-20241110133645-545cad966166/go.mod h1:o4jnL0hSSR3nLvd7HEEFC22gSfCPR70QR2f4mPM6qxo=
+github.com/0x587/guardeye/report v0.0.0-20241111071958-e8c123c20032 h1:OSmTAxdXOds7zADD8H3Ro+5oBe/pxKspLj5TSt3lIkU=
+github.com/0x587/guardeye/report v0.0.0-20241111071958-e8c123c20032/go.mod h1:o4jnL0hSSR3nLvd7HEEFC22gSfCPR70QR2f4mPM6qxo=
 github.com/alicebob/gopher-json v0.0.0-20230218143504-906a9b012302 h1:uvdUDbHQHO85qeSydJtItA4T55Pw6BtAejd0APRJOCE=
 github.com/alicebob/gopher-json v0.0.0-20230218143504-906a9b012302/go.mod h1:SGnFV6hVsYE877CKEZ6tDNTjaSXYUk6QqoIK6PrAtcc=
 github.com/alicebob/miniredis/v2 v2.33.0 h1:uvTF0EDeu9RLnUEG27Db5I68ESoIxTiXbNUiji6lZrA=
