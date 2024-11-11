@@ -2,6 +2,8 @@ package reporter
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"net"
 	"os"
 	"runtime"
@@ -57,14 +59,31 @@ func (i *impl) Loop(ctx context.Context) {
 	}
 }
 
+type clientConfig struct {
+	ClientID string `json:"client_id"`
+}
+
 func (i *impl) doInit(ctx context.Context) error {
-	resp, err := i.reportClient.Init(ctx, &reportclient.InitReq{
-		NodeDescription: i.getNodeDesc(),
-	})
-	if err != nil {
-		return err
+	f := lo.Must(os.OpenFile("./client.conf", os.O_CREATE|os.O_RDWR, 0666))
+	defer func(f *os.File) {
+		err := f.Close()
+		logx.Must(err)
+	}(f)
+	c := &clientConfig{}
+	err := json.NewDecoder(f).Decode(c)
+	fmt.Printf("client config: %v\n", c)
+	if err != nil || c.ClientID == "" {
+		resp, err := i.reportClient.Init(ctx, &reportclient.InitReq{
+			NodeDescription: i.getNodeDesc(),
+		})
+		if err != nil {
+			return err
+		}
+		c.ClientID = resp.GetNodeInfo().GetClientId()
 	}
-	i.clientID = resp.GetNodeInfo().GetClientId()
+	i.clientID = c.ClientID
+	lo.Must(f.Seek(0, 0))
+	lo.Must0(json.NewEncoder(f).Encode(c))
 	return nil
 }
 
