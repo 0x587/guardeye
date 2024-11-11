@@ -1,5 +1,7 @@
 github.com/0x587/guardeye/report v0.0.0-20241111124150-6efc78ac5b3b h1:YVjk5v2oC2bcyFLQm06nZeybGVNTSXSJrbO6tjIpcmU=
 github.com/0x587/guardeye/report v0.0.0-20241111124150-6efc78ac5b3b/go.mod h1:o4jnL0hSSR3nLvd7HEEFC22gSfCPR70QR2f4mPM6qxo=
+github.com/0x587/guardeye/report v0.0.0-20241111125324-00160a40fe00 h1:ivXyWiJPu3h8RMVo6kmJ/wcsIz1ZmSo7++02QTxbF9o=
+github.com/0x587/guardeye/report v0.0.0-20241111125324-00160a40fe00/go.mod h1:o4jnL0hSSR3nLvd7HEEFC22gSfCPR70QR2f4mPM6qxo=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cenkalti/backoff/v4 v4.3.0 h1:MyRJ/UdXutAwSAT+s3wNd7MfTIcy71VQueUuFK343L8=

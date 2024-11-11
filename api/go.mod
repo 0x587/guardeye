@@ -3,7 +3,7 @@ module github.com/0x587/guardeye/api
 go 1.23.3
 
 require (
-	github.com/0x587/guardeye/report v0.0.0-20241111124150-6efc78ac5b3b // indirect
+	github.com/0x587/guardeye/report v0.0.0-20241111125324-00160a40fe00 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
