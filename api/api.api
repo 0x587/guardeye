@@ -1,0 +1,33 @@
+syntax = "v1"
+
+type NodesReq {}
+
+type NodeInfo {
+	id         string   `json:"id"`
+	alias      string   `json:"alias"`
+	macs       []string `json:"macs"`
+	ips        []string `json:"ips"`
+	lastSeenAt string   `json:"lastSeenAt"`
+}
+
+type NodesRsp {
+	nodes []NodeInfo `json:"nodes"`
+}
+
+type SetAliasReq {
+	id    string `json:"id" path:"id"`
+	alias string `json:"alias"`
+}
+
+type SetAliasRsp {
+	node NodeInfo `json:"node"`
+}
+
+service api-api {
+	@handler NodesHandler
+	get /nodes (NodesReq) returns (NodesRsp)
+
+	@handler SetAliasHandler
+	post /nodes/:id/alias (SetAliasReq) returns (SetAliasRsp)
+}
+

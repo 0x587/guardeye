@@ -21,14 +21,10 @@ type IF interface {
 	Loop(ctx context.Context)
 }
 
-func New(providers ...provider.IF) IF {
-	clientConf := zrpc.RpcClientConf{
-		Target: "localhost:8080",
-	}
-	conn := zrpc.MustNewClient(clientConf)
+func New(cli zrpc.Client, providers ...provider.IF) IF {
 	res := &impl{
 		providers:    providers,
-		reportClient: reportclient.NewReport(conn),
+		reportClient: reportclient.NewReport(cli),
 		featureDelay: featuredelay.New(),
 	}
 	logx.Must(res.doInit(context.Background()))

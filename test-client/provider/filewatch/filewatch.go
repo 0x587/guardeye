@@ -37,6 +37,13 @@ type impl struct {
 	out  chan string
 }
 
+func (i *impl) GetProvider() reportclient.Provider {
+	return reportclient.Provider{
+		Type: ProviderType,
+		Args: []string{i.path},
+	}
+}
+
 const (
 	ProviderType = "FileWatcher"
 )
@@ -46,11 +53,8 @@ func (i *impl) Get() <-chan *provider.Msg {
 	go func() {
 		for msg := range i.out {
 			res <- &provider.Msg{
-				Message: msg,
-				Provider: reportclient.Provider{
-					Type: ProviderType,
-					Args: []string{i.path},
-				},
+				Message:  msg,
+				Provider: i.GetProvider(),
 			}
 		}
 	}()

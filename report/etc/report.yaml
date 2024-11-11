@@ -4,20 +4,31 @@ Mode: dev
 
 DevServer:
   Enabled: true
-#Etcd:
-#  Hosts:
-#  - 10.0.4.112:2379
-#  Key: report.rpc
+
+Etcd:
+  Hosts:
+  - ws.scut.mcurobot.com:52379
+  Key: report.rpc
 
 RawLogPusherConf:
   Brokers:
-    - 10.0.4.112:9094
+    - ws.scut.mcurobot.com:59094
   Topic: raw_log
 
+LogtodbConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - ws.scut.mcurobot.com:59094
+  Group: logtodb
+  Topic: raw_log
+  Offset: first
+  Consumers: 2
+  Processors: 2
+
 ReportRedis:
-  Host: 10.0.4.112:6379
+  Host: ws.scut.mcurobot.com:56379
   Type: node
 
 MongoConf:
-  Uri: mongodb://root:example@10.0.4.112:27017
+  Uri: mongodb://root:example@ws.scut.mcurobot.com:57017
   Database: guardeye

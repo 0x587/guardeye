@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 
 	"github.com/0x587/guardeye/report/internal/config"
+	"github.com/0x587/guardeye/report/internal/mqs"
 	"github.com/0x587/guardeye/report/internal/server"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
@@ -23,17 +25,22 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c, conf.UseEnv())
-	ctx := svc.NewServiceContext(c)
+	ctx := context.Background()
+	svcCtx := svc.NewServiceContext(c)
+	sg := service.NewServiceGroup()
+	defer sg.Stop()
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		report.RegisterReportServer(grpcServer, server.NewReportServer(ctx))
-
+		report.RegisterReportServer(grpcServer, server.NewReportServer(svcCtx))
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}
 	})
-	defer s.Stop()
+	sg.Add(s)
+	for _, mq := range mqs.Consumers(c, ctx, svcCtx) {
+		sg.Add(mq)
+	}
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
-	s.Start()
+	sg.Start()
 }

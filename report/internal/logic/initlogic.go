@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	"github.com/0x587/guardeye/report/internal/models"
+	"github.com/0x587/guardeye/report/internal/model"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 
@@ -31,7 +31,7 @@ func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = l.svcCtx.NodeClient.Insert(l.ctx, &model.Node{
+	err = l.svcCtx.NodeDBClient.Insert(l.ctx, &model.Node{
 		Description: *in.GetNodeDescription(),
 		Ips:         in.GetNodeDescription().GetIps(),
 	})
