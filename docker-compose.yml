@@ -1,25 +1,25 @@
-version: '3'
+version: '3.3'
 
 services:
   report:
     hostname: report
     build:
-      context: ./report
-      dockerfile: ./Dockerfile
+      dockerfile: ./report/Dockerfile
     ports:
       - '8080:8080'
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6060/healthz"]
+      test: [ "CMD", "curl", "-f", "http://localhost:6060/healthz" ]
+      interval: 1s
 
   report-gateway:
-    hostname: report-report-gateway
+    hostname: report-gateway
     build:
-      context: ./report-gateway
-      dockerfile: ./Dockerfile
+      dockerfile: ./report-gateway/Dockerfile
     ports:
       - '8888:8888'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:6060/healthz" ]
+      interval: 1s
     environment:
       TARGET: 'report'
     depends_on:

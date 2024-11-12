@@ -1,4 +1,4 @@
-FROM golang:alpine AS builder
+FROM golang:1.22.7-alpine AS builder
 
 LABEL stage=gobuilder
 
@@ -13,8 +13,8 @@ ADD go.mod .
 ADD go.sum .
 RUN go mod download
 COPY . .
-COPY ./etc /app/etc
-RUN go build -ldflags="-s -w" -tags no_k8s -o /app/report .
+COPY report/etc /app/etc
+RUN go build -ldflags="-s -w" -tags no_k8s -o /app/report ./report
 
 
 FROM scratch

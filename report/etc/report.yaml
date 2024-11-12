@@ -5,10 +5,10 @@ Mode: dev
 DevServer:
   Enabled: true
 
-Etcd:
-  Hosts:
-  - ws.scut.mcurobot.com:52379
-  Key: report.rpc
+#Etcd:
+#  Hosts:
+#  - ws.scut.mcurobot.com:52379
+#  Key: report.rpc
 
 RawLogPusherConf:
   Brokers:

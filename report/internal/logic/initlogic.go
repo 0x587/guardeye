@@ -2,9 +2,10 @@ package logic
 
 import (
 	"context"
+	"errors"
 
+	"github.com/0x587/guardeye/common/model"
 	"github.com/0x587/guardeye/report/internal/svc"
-	"github.com/0x587/guardeye/report/model"
 	"github.com/0x587/guardeye/report/report"
 
 	"github.com/google/uuid"
@@ -27,6 +28,9 @@ func NewInitLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InitLogic {
 }
 
 func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
+	if in.GetNodeDescription() == nil {
+		return nil, errors.New("missing node description")
+	}
 	uid, err := uuid.NewUUID()
 	if err != nil {
 		return nil, err

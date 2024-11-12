@@ -3,9 +3,11 @@ package logic
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
+	"github.com/0x587/guardeye/common/rediskey"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 
@@ -27,6 +29,9 @@ func NewLogReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogRepo
 }
 
 func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRsp, error) {
+	if in.GetNodeInfo() == nil {
+		return nil, errors.New(fmt.Sprintf("missing node info"))
+	}
 	// product raw log
 	logBytes, err := json.Marshal(in)
 	if err != nil {
@@ -53,13 +58,11 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 			SendDelay:    lastReceiveTime.UnixNano() - lastSendTime.UnixNano(),
 			ReceiveDelay: serverTime.UnixNano() - clientSendTime.UnixNano(),
 		}
-		fmt.Printf("lastSendTime %v lastReceiveTime %v clientSendTime %v serverTime %v\n", lastSendTime, lastReceiveTime, clientSendTime, serverTime)
-		logx.Infof("delay: %v", d)
 		bytes, err := json.Marshal(d)
 		if err != nil {
 			return nil, err
 		}
-		if err := l.svcCtx.RedisClient.SetCtx(l.ctx, delayKey(in.GetNodeInfo()), string(bytes)); err != nil {
+		if err := l.svcCtx.RedisClient.SetCtx(l.ctx, rediskey.TransDelayKey(in.GetNodeInfo()), string(bytes)); err != nil {
 			return nil, err
 		}
 		rsp.Features = &report.FeaturesRsp{
@@ -70,8 +73,4 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 		}
 	}
 	return rsp, nil
-}
-
-func delayKey(nodeInfo *report.NodeInfo) string {
-	return fmt.Sprintf("client-id-%s", nodeInfo.GetClientId())
 }

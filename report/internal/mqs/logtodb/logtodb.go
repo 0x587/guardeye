@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/0x587/guardeye/common/model"
 	"github.com/0x587/guardeye/report/internal/svc"
-	"github.com/0x587/guardeye/report/model"
 	"github.com/0x587/guardeye/report/report"
 	"github.com/zeromicro/go-queue/kq"
 )
@@ -30,9 +30,9 @@ func (i *impl) Consume(ctx context.Context, key, val string) error {
 	}
 	fmt.Printf("consume key: %s, val: %s\n", key, val)
 	err := i.svcCtx.RawLogDBClient.Insert(ctx, &model.RawLog{
-		ClientID: d.NodeInfo.ClientId,
-		Message:  d.Message,
-		Provider: d.Provider,
+		ClientID: d.GetNodeInfo().GetClientId(),
+		Message:  d.GetMessage(),
+		Provider: d.GetProvider(),
 	})
 	if err != nil {
 		return err
