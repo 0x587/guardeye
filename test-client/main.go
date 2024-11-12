@@ -17,7 +17,7 @@ func main() {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	fileProvider := filewatch.New(ctx, "./test")
-	tickerProvider := ticker.New(ctx, 500*time.Millisecond)
+	tickerProvider := ticker.New(ctx, 2500*time.Millisecond)
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	//cli := zrpc.MustNewClient(zrpc.RpcClientConf{

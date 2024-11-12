@@ -36,7 +36,8 @@ func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
 		return nil, err
 	}
 	err = l.svcCtx.NodeDBClient.Insert(l.ctx, &model.Node{
-		Description: *in.GetNodeDescription(),
+		ClientID:    uid.String(),
+		Description: in.GetNodeDescription(),
 		Ips:         in.GetNodeDescription().GetIps(),
 	})
 	if err != nil {
