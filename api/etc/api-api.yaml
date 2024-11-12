@@ -1,3 +1,11 @@
 Name: api-api
 Host: 0.0.0.0
 Port: 8888
+
+RedisConf:
+  Host: ws.scut.mcurobot.com:56379
+  Type: node
+
+MongoConf:
+  Uri: mongodb://root:example@ws.scut.mcurobot.com:57017
+  Database: guardeye

@@ -22,6 +22,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/nodes/:id/alias",
 				Handler: SetAliasHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/ws/node/:id",
+				Handler: NodeWsHandler(serverCtx),
+			},
 		},
+		rest.WithPrefix("/api/v1"),
 	)
 }

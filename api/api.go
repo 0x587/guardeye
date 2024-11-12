@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
 
 	"github.com/0x587/guardeye/api/internal/config"
 	"github.com/0x587/guardeye/api/internal/handler"
 	"github.com/0x587/guardeye/api/internal/svc"
-
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -25,6 +25,17 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method: http.MethodGet,
+				Path:   "/ws/test-page",
+				Handler: func(w http.ResponseWriter, r *http.Request) {
+					http.ServeFile(w, r, "home.html")
+				},
+			},
+		},
+	)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

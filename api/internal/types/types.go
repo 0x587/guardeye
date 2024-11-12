@@ -9,6 +9,10 @@ type NodeInfo struct {
 	LastSeenAt string   `json:"lastSeenAt"`
 }
 
+type NodeWsReq struct {
+	Id string `path:"id" `
+}
+
 type NodesReq struct {
 }
 

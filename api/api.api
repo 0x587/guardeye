@@ -23,11 +23,21 @@ type SetAliasRsp {
 	node NodeInfo `json:"node"`
 }
 
+type NodeWsReq {
+	id string `path:"id" `
+}
+
+@server (
+	prefix: /api/v1
+)
 service api-api {
 	@handler NodesHandler
 	get /nodes (NodesReq) returns (NodesRsp)
 
 	@handler SetAliasHandler
 	post /nodes/:id/alias (SetAliasReq) returns (SetAliasRsp)
+
+	@handler NodeWsHandler
+	get /ws/node/:id (NodeWsReq)
 }
 
