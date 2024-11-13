@@ -38,11 +38,21 @@ message Provider{
   repeated string args = 2;
 }
 
+message Log {
+  string message = 1;
+  Provider provider = 2;
+}
+
 message LogReportReq {
   NodeInfo node_info = 1;
-  string message = 2;
-  Provider provider = 3;
+  repeated Log logs = 2;
   FeaturesReq features = 10;
+}
+
+message MQLog {
+  string message = 1;
+  Provider provider = 2;
+  NodeInfo node_info = 3;
 }
 
 enum ReportResultCode {

@@ -33,12 +33,19 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 		return nil, errors.New(fmt.Sprintf("missing node info"))
 	}
 	// product raw log
-	logBytes, err := json.Marshal(in)
-	if err != nil {
-		return nil, err
-	}
-	if err := l.svcCtx.RawLogPusherClient.Push(l.ctx, string(logBytes)); err != nil {
-		return nil, err
+	for _, log := range in.GetLogs() {
+		mqLog := &report.MQLog{
+			NodeInfo: in.GetNodeInfo(),
+			Message:  log.GetMessage(),
+			Provider: log.GetProvider(),
+		}
+		logBytes, err := json.Marshal(mqLog)
+		if err != nil {
+			return nil, err
+		}
+		if err := l.svcCtx.RawLogPusherClient.Push(l.ctx, string(logBytes)); err != nil {
+			return nil, err
+		}
 	}
 	rsp := &report.LogReportRsp{
 		Code: report.ReportResultCode_SUCCESS,

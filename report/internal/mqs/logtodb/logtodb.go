@@ -27,7 +27,7 @@ type impl struct {
 }
 
 func (i *impl) Consume(ctx context.Context, key, val string) error {
-	d := &report.LogReportReq{}
+	d := &report.MQLog{}
 	if err := json.Unmarshal([]byte(val), d); err != nil {
 		return err
 	}

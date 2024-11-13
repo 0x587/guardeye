@@ -20,8 +20,10 @@ type (
 	FeaturesRsp          = report.FeaturesRsp
 	InitReq              = report.InitReq
 	InitRsp              = report.InitRsp
+	Log                  = report.Log
 	LogReportReq         = report.LogReportReq
 	LogReportRsp         = report.LogReportRsp
+	MQLog                = report.MQLog
 	NodeDescription      = report.NodeDescription
 	NodeInfo             = report.NodeInfo
 	Provider             = report.Provider
