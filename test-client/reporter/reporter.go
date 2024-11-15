@@ -89,8 +89,13 @@ func (i *impl) doLogReport(ctx context.Context, msg *provider.Msg) error {
 			ClientId:        i.clientID,
 			NodeDescription: i.getNodeDesc(),
 		},
-		Message:  msg.Message,
-		Provider: &msg.Provider,
+		Logs: []*reportclient.Log{
+			{
+				Message:  msg.Message,
+				Type:     msg.Type,
+				Provider: &msg.Provider,
+			},
+		},
 		Features: &reportclient.FeaturesReq{
 			TransDelay: lo.Must(i.featureDelay.MakeReq()),
 		},
@@ -108,7 +113,6 @@ func (i *impl) getNodeDesc() *reportclient.NodeDescription {
 	return &reportclient.NodeDescription{
 		Os:        runtime.GOOS,
 		OsVersion: runtime.GOARCH,
-		Alias:     "test-client",
 		Ips: lo.Map(addr, func(item net.Addr, _ int) string {
 			return item.String()
 		}),

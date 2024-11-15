@@ -25,10 +25,18 @@ LogtodbConsumerConf:
   Consumers: 2
   Processors: 2
 
+LogDataKeyConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - ws.scut.mcurobot.com:59094
+  Group: logdatakey
+  Topic: raw_log
+  Offset: first
+  Consumers: 2
+  Processors: 2
+
 ReportRedis:
   Host: ws.scut.mcurobot.com:56379
   Type: node
 
-MongoConf:
-  Uri: mongodb://root:example@ws.scut.mcurobot.com:57017
-  Database: guardeye
+PostgresConf: postgres://postgres:example@ws.scut.mcurobot.com:55432/guardeye?sslmode=disable

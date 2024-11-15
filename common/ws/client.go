@@ -2,6 +2,8 @@ package ws
 
 import (
 	"bytes"
+	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/google/uuid"
@@ -12,6 +14,10 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		fmt.Println(r.Header.Get("Origin"))
+		return true
+	},
 }
 
 // client is a middleman between the websocket connection and the hub.

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/0x587/guardeye/common/rediskey"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 
@@ -36,8 +35,11 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 	for _, log := range in.GetLogs() {
 		mqLog := &report.MQLog{
 			NodeInfo: in.GetNodeInfo(),
-			Message:  log.GetMessage(),
-			Provider: log.GetProvider(),
+			Log: &report.Log{
+				Message:  log.GetMessage(),
+				Provider: log.GetProvider(),
+				Type:     log.GetType(),
+			},
 		}
 		logBytes, err := json.Marshal(mqLog)
 		if err != nil {
@@ -65,11 +67,7 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 			SendDelay:    lastReceiveTime.UnixNano() - lastSendTime.UnixNano(),
 			ReceiveDelay: serverTime.UnixNano() - clientSendTime.UnixNano(),
 		}
-		bytes, err := json.Marshal(d)
-		if err != nil {
-			return nil, err
-		}
-		if err := l.svcCtx.RedisClient.SetCtx(l.ctx, rediskey.TransDelayKey(in.GetNodeInfo()), string(bytes)); err != nil {
+		if err := l.svcCtx.DelayRedisClient.SetDelay(l.ctx, in.GetNodeInfo(), d); err != nil {
 			return nil, err
 		}
 		rsp.Features = &report.FeaturesRsp{

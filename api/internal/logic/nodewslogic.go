@@ -6,6 +6,7 @@ import (
 
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/0x587/guardeye/api/internal/types"
+	"github.com/0x587/guardeye/common/ws"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -24,6 +25,11 @@ func NewNodeWsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *NodeWsLogi
 }
 
 func (l *NodeWsLogic) NodeWs(req *types.NodeWsReq, w http.ResponseWriter, r *http.Request) error {
-	l.svcCtx.Ws.NodeLog.ServeWs(w, r)
+	bws := l.svcCtx.BoardCaseWs[req.Id]
+	if bws == nil {
+		bws = ws.New[string]()
+		l.svcCtx.BoardCaseWs[req.Id] = bws
+	}
+	bws.ServeWs(w, r)
 	return nil
 }

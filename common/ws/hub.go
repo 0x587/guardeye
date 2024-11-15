@@ -1,6 +1,8 @@
 package ws
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type hub struct {
 	// Registered clients.

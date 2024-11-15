@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/fsnotify/fsnotify"
@@ -37,7 +38,7 @@ type impl struct {
 	out  chan string
 }
 
-func (i *impl) GetProvider() reportclient.Provider {
+func (i *impl) getProvider() reportclient.Provider {
 	return reportclient.Provider{
 		Type: ProviderType,
 		Args: []string{i.path},
@@ -54,7 +55,8 @@ func (i *impl) Get() <-chan *provider.Msg {
 		for msg := range i.out {
 			res <- &provider.Msg{
 				Message:  msg,
-				Provider: i.GetProvider(),
+				Type:     report.LogType_TEXT,
+				Provider: i.getProvider(),
 			}
 		}
 	}()

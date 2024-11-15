@@ -13,14 +13,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/nodes",
-				Handler: NodesHandler(serverCtx),
+				Method:  http.MethodPost,
+				Path:    "/node/:id/alias",
+				Handler: SetAliasHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/nodes/:id/alias",
-				Handler: SetAliasHandler(serverCtx),
+				Path:    "/node/:id/data/keys",
+				Handler: GetDataKeysHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/nodes",
+				Handler: NodesHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,

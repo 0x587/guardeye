@@ -22,10 +22,9 @@ message FeatureTransDelayReq{
 message NodeDescription{
   string os = 1;
   string os_version = 2;
-  string alias = 3;
-  repeated string ips = 4;
-  repeated string macs = 5;
-  string hostname = 6;
+  repeated string ips = 3;
+  repeated string macs = 4;
+  string hostname = 5;
 }
 
 message NodeInfo {
@@ -38,9 +37,16 @@ message Provider{
   repeated string args = 2;
 }
 
+enum LogType {
+  TEXT = 0;
+  YAML = 1;
+  JSON = 2;
+}
+
 message Log {
   string message = 1;
   Provider provider = 2;
+  LogType type = 3;
 }
 
 message LogReportReq {
@@ -50,9 +56,13 @@ message LogReportReq {
 }
 
 message MQLog {
-  string message = 1;
-  Provider provider = 2;
-  NodeInfo node_info = 3;
+  Log log = 1;
+  NodeInfo node_info = 2;
+}
+
+message DataKey{
+  Provider provider = 1;
+  string key = 2;
 }
 
 enum ReportResultCode {

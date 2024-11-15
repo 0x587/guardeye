@@ -31,14 +31,15 @@ func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
 	if in.GetNodeDescription() == nil {
 		return nil, errors.New("missing node description")
 	}
-	uid, err := uuid.NewUUID()
-	if err != nil {
-		return nil, err
-	}
-	err = l.svcCtx.NodeDBClient.Insert(l.ctx, &model.Node{
-		ClientID:    uid.String(),
-		Description: in.GetNodeDescription(),
-		Ips:         in.GetNodeDescription().GetIps(),
+	uid := uuid.New()
+	_, err := l.svcCtx.NodeDBClient.Insert(l.ctx, &model.Node{
+		Id:        uuid.New(),
+		ClientId:  uid,
+		Ips:       in.GetNodeDescription().GetIps(),
+		Macs:      in.GetNodeDescription().GetMacs(),
+		Os:        in.GetNodeDescription().GetOs(),
+		OsVersion: in.GetNodeDescription().GetOsVersion(),
+		Hostname:  in.GetNodeDescription().GetHostname(),
 	})
 	if err != nil {
 		return nil, err

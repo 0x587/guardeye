@@ -9,3 +9,7 @@ import (
 func TransDelayKey(nodeInfo *report.NodeInfo) string {
 	return fmt.Sprintf("trans-delay-%s", nodeInfo.GetClientId())
 }
+
+func LogDataKey(nodeInfo *report.NodeInfo) string {
+	return fmt.Sprintf("log-data-key-%s", nodeInfo.GetClientId())
+}

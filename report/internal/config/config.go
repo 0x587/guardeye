@@ -8,14 +8,12 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	LogtodbConsumerConf kq.KqConf
-	ReportRedis         redis.RedisConf
-	RawLogPusherConf    struct {
+	LogtodbConsumerConf    kq.KqConf
+	LogDataKeyConsumerConf kq.KqConf
+	ReportRedis            redis.RedisConf
+	RawLogPusherConf       struct {
 		Brokers []string
 		Topic   string
 	}
-	MongoConf struct {
-		Uri      string
-		Database string
-	}
+	PostgresConf string
 }

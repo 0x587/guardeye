@@ -1,14 +1,17 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"net/http"
 
 	"github.com/0x587/guardeye/api/internal/config"
 	"github.com/0x587/guardeye/api/internal/handler"
+	"github.com/0x587/guardeye/api/internal/mqs"
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -20,12 +23,16 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
-	defer server.Stop()
+	sg := service.NewServiceGroup()
+	defer sg.Stop()
 
-	ctx := svc.NewServiceContext(c)
-	handler.RegisterHandlers(server, ctx)
-	server.AddRoutes(
+	ctx := context.Background()
+	svcCtx := svc.NewServiceContext(c)
+
+	apiServer := rest.MustNewServer(c.RestConf)
+	sg.Add(apiServer)
+	handler.RegisterHandlers(apiServer, svcCtx)
+	apiServer.AddRoutes(
 		[]rest.Route{
 			{
 				Method: http.MethodGet,
@@ -37,6 +44,10 @@ func main() {
 		},
 	)
 
+	for _, mq := range mqs.Consumers(c, ctx, svcCtx) {
+		sg.Add(mq)
+	}
+
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
-	server.Start()
+	sg.Start()
 }

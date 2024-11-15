@@ -13,6 +13,7 @@ import (
 )
 
 type (
+	DataKey              = report.DataKey
 	DelayResult          = report.DelayResult
 	FeatureTransDelayReq = report.FeatureTransDelayReq
 	FeatureTransDelayRsp = report.FeatureTransDelayRsp
