@@ -42,7 +42,7 @@ func (i *impl) Get() <-chan *provider.Msg {
 }
 
 func (i *impl) loop(ctx context.Context) {
-	cmd := exec.Command("ros2", "topic", "echo", i.topic)
+	cmd := exec.Command("ros2", "topic", "echo", i.topic, "--full-length")
 	stdout, err := cmd.StdoutPipe()
 	logc.Must(err)
 	go func() { logc.Must(cmd.Run()) }()

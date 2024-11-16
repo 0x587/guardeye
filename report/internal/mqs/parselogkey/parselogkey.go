@@ -1,15 +1,16 @@
 package parselogkey
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"reflect"
 
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 	"github.com/zeromicro/go-queue/kq"
+	"github.com/zeromicro/go-zero/core/logx"
 	"gopkg.in/yaml.v3"
 )
 
@@ -36,6 +37,8 @@ func (i *impl) Consume(ctx context.Context, key, val string) error {
 		keys = []string{"TEXT"}
 	case report.LogType_YAML:
 		keys = parseYaml(d.GetLog().GetMessage())
+	case report.LogType_JSON:
+		keys = parseJson(d.GetLog().GetMessage())
 	}
 	return i.svcCtx.DataKeyRedisClient.SetKey(
 		ctx,
@@ -49,7 +52,21 @@ func parseYaml(msg string) []string {
 	var data interface{}
 	err := yaml.Unmarshal([]byte(msg), &data)
 	if err != nil {
-		log.Fatalf("Error parsing YAML: %v", err)
+		logx.Errorf("Error parsing YAML: %v", err)
+	}
+
+	// 用于存储所有路径
+	var paths []string
+	// 从根开始递归提取路径
+	extractPaths(data, "", &paths)
+	return paths
+}
+
+func parseJson(msg string) []string {
+	var data interface{}
+	err := json.Unmarshal(bytes.TrimSpace([]byte(msg)), &data)
+	if err != nil {
+		logx.Errorf("Error parsing JSON: %v", err)
 	}
 
 	// 用于存储所有路径
@@ -94,7 +111,7 @@ func extractPaths(value interface{}, prefix string, paths *[]string) {
 			// 获取切片中的每个元素的值
 			elementVal := val.Index(i)
 			// 构建新的路径
-			newPrefix := fmt.Sprintf("%s[%d]", prefix, i)
+			newPrefix := fmt.Sprintf("%s.%d", prefix, i)
 			// 递归处理
 			extractPaths(elementVal.Interface(), newPrefix, paths)
 		}

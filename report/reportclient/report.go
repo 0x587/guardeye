@@ -13,7 +13,6 @@ import (
 )
 
 type (
-	DataKey              = report.DataKey
 	DelayResult          = report.DelayResult
 	FeatureTransDelayReq = report.FeatureTransDelayReq
 	FeatureTransDelayRsp = report.FeatureTransDelayRsp
@@ -28,6 +27,7 @@ type (
 	NodeDescription      = report.NodeDescription
 	NodeInfo             = report.NodeInfo
 	Provider             = report.Provider
+	TraceSpan            = report.TraceSpan
 
 	Report interface {
 		Init(ctx context.Context, in *InitReq, opts ...grpc.CallOption) (*InitRsp, error)

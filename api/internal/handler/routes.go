@@ -14,6 +14,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
+				Path:    "/listen",
+				Handler: SetListenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/node/:id/alias",
 				Handler: SetAliasHandler(serverCtx),
 			},
@@ -29,8 +34,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/ws/node/:id",
-				Handler: NodeWsHandler(serverCtx),
+				Path:    "/ws/listen",
+				Handler: WsListenHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

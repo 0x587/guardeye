@@ -55,14 +55,16 @@ message LogReportReq {
   FeaturesReq features = 10;
 }
 
+message TraceSpan {
+  string name = 1;
+  string action = 2;
+  uint64 time = 3;
+}
+
 message MQLog {
   Log log = 1;
   NodeInfo node_info = 2;
-}
-
-message DataKey{
-  Provider provider = 1;
-  string key = 2;
+  repeated TraceSpan trace = 10;
 }
 
 enum ReportResultCode {

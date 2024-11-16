@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -9,50 +8,46 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type IF[T any] interface {
+type WS interface {
+	Broadcast(msg []byte)
+	Send(cid uuid.UUID, msg []byte)
+}
+
+type IF interface {
+	WS
 	ServeWs(w http.ResponseWriter, r *http.Request)
 	ClientIDs() []uuid.UUID
 	ClientCount() int
 	Close()
-	Broadcast(msg T) error
 }
 
-func New[T any]() IF[T] {
-	return &impl[T]{
+func New() IF {
+	return &impl{
 		hub: newHub(),
 	}
 }
 
-type impl[T any] struct {
-	hub *hub
+type impl struct {
+	*hub
 }
 
-func (i *impl[T]) Broadcast(msg T) error {
-	bytes, err := json.Marshal(msg)
-	if err != nil {
-		return err
-	}
-	i.hub.broadcast <- bytes
-	return nil
-}
-
-func (i *impl[T]) Close() {
+func (i *impl) Close() {
 	for _, c := range i.hub.clients {
 		c.close()
 	}
 	i.hub.clients = make(map[uuid.UUID]*client)
 }
 
-func (i *impl[T]) ClientIDs() []uuid.UUID {
+func (i *impl) ClientIDs() []uuid.UUID {
 	return lo.Keys(i.hub.clients)
 }
 
-func (i *impl[T]) ClientCount() int {
+func (i *impl) ClientCount() int {
 	return len(i.hub.clients)
 }
 
 // ServeWs handles websocket requests from the peer.
-func (i *impl[T]) ServeWs(w http.ResponseWriter, r *http.Request) {
+func (i *impl) ServeWs(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		logx.Error(err)

@@ -6,7 +6,18 @@ type GetDataKeysReq struct {
 }
 
 type GetDataKeysRsp struct {
-	Keys []string `json:"keys"`
+	Keys []ProviderKeys `json:"keys"`
+}
+
+type InitRsp struct {
+	WsMsgBase
+	SessionId string `json:"sessionId"`
+}
+
+type MetricRsp struct {
+	WsMsgBase
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 type NodeInfo struct {
@@ -17,15 +28,26 @@ type NodeInfo struct {
 	LastSeenAt string   `json:"lastSeenAt"`
 }
 
-type NodeWsReq struct {
-	Id string `path:"id" `
-}
-
 type NodesReq struct {
 }
 
 type NodesRsp struct {
 	Nodes []NodeInfo `json:"nodes"`
+}
+
+type Provider struct {
+	Ptype string   `json:"type"`
+	Args  []string `json:"args"`
+}
+
+type ProviderKey struct {
+	Provider Provider `json:"provider"`
+	Key      string   `json:"key"`
+}
+
+type ProviderKeys struct {
+	Provider Provider `json:"provider"`
+	Keys     []string `json:"keys"`
 }
 
 type SetAliasReq struct {
@@ -35,4 +57,14 @@ type SetAliasReq struct {
 
 type SetAliasRsp struct {
 	Ok bool `json:"ok"`
+}
+
+type SetListenReq struct {
+	SessionId string         `json:"sessionId"`
+	NodeId    string         `json:"nodeId"`
+	Keys      []ProviderKeys `json:"keys"`
+}
+
+type WsMsgBase struct {
+	Cmd string `json:"cmd"`
 }

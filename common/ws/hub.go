@@ -1,14 +1,15 @@
 package ws
 
 import (
+	"encoding/json"
+
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type hub struct {
 	// Registered clients.
 	clients map[uuid.UUID]*client
-	// Inbound messages from the clients.
-	broadcast chan []byte
 	// Register requests from the clients.
 	register chan *client
 	// Unregister requests from clients.
@@ -17,7 +18,6 @@ type hub struct {
 
 func newHub() *hub {
 	res := &hub{
-		broadcast:  make(chan []byte),
 		register:   make(chan *client),
 		unregister: make(chan *client),
 		clients:    make(map[uuid.UUID]*client),
@@ -31,21 +31,37 @@ func (h *hub) run() {
 		select {
 		case c := <-h.register:
 			h.clients[c.id] = c
+			m := InitRsp{
+				MsgBase:   MsgBase{Cmd: "INIT"},
+				SessionId: c.id.String(),
+			}
+			bs := lo.Must(json.Marshal(m))
+			h.Send(c.id, bs)
 		case c := <-h.unregister:
 			if _, ok := h.clients[c.id]; ok {
 				delete(h.clients, c.id)
 				close(c.send)
 			}
-		case message := <-h.broadcast:
-			for cid, c := range h.clients {
-				select {
-				case c.send <- message:
-				//	发送失败 关闭client
-				default:
-					close(c.send)
-					delete(h.clients, cid)
-				}
-			}
 		}
+	}
+}
+
+func (h *hub) Send(cid uuid.UUID, msg []byte) {
+	c := h.clients[cid]
+	if c == nil {
+		return
+	}
+	select {
+	case c.send <- msg:
+	//	发送失败 关闭client
+	default:
+		close(c.send)
+		delete(h.clients, cid)
+	}
+}
+
+func (h *hub) Broadcast(msg []byte) {
+	for cid := range h.clients {
+		h.Send(cid, msg)
 	}
 }

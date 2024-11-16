@@ -6,8 +6,9 @@ import (
 
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/0x587/guardeye/report/report"
+	"github.com/google/uuid"
+	"github.com/samber/lo"
 	"github.com/zeromicro/go-queue/kq"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 func New(ctx context.Context, svcCtx *svc.ServiceContext) kq.ConsumeHandler {
@@ -27,10 +28,9 @@ func (i *impl) Consume(ctx context.Context, key, val string) error {
 	if err := json.Unmarshal([]byte(val), d); err != nil {
 		return err
 	}
-	logx.Infof("consume key: %s, val: %s\n", key, val)
-	ws := i.svcCtx.BoardCaseWs[d.GetNodeInfo().GetClientId()]
-	if ws == nil {
-		return nil
-	}
-	return ws.Broadcast(d.GetMessage())
+	i.svcCtx.LogDispatcher.Handle(
+		lo.Must(uuid.Parse(d.GetNodeInfo().GetClientId())),
+		d.GetLog(),
+	)
+	return nil
 }

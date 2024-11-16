@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"time"
@@ -60,15 +59,13 @@ func (c *client) readLoop() {
 	_ = c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	c.conn.SetPongHandler(func(string) error { _ = c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
-		_, message, err := c.conn.ReadMessage()
+		_, _, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				logx.Errorf("error: %v", err)
 			}
 			break
 		}
-		message = bytes.TrimSpace(message)
-		c.hub.broadcast <- message
 	}
 }
 

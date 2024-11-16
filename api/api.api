@@ -1,5 +1,7 @@
 syntax = "v1"
 
+import "wstype.api"
+
 type NodesReq {}
 
 type NodeInfo {
@@ -23,16 +25,33 @@ type GetDataKeysReq {
 	id string `path:"id"`
 }
 
+type Provider {
+	ptype string   `json:"type"`
+	args  []string `json:"args"`
+}
+
+type ProviderKey {
+	provider Provider `json:"provider"`
+	key      string   `json:"key"`
+}
+
+type ProviderKeys {
+	provider Provider `json:"provider"`
+	keys     []string `json:"keys"`
+}
+
 type GetDataKeysRsp {
-	keys []string `json:"keys"`
+	keys []ProviderKeys `json:"keys"`
 }
 
 type SetAliasRsp {
 	ok bool `json:"ok"`
 }
 
-type NodeWsReq {
-	id string `path:"id" `
+type SetListenReq {
+	SessionId string         `json:"sessionId"`
+	NodeId    string         `json:"nodeId"`
+	keys      []ProviderKeys `json:"keys"`
 }
 
 @server (
@@ -48,7 +67,10 @@ service api-api {
 	@handler GetDataKeysHandler
 	post /node/:id/data/keys (GetDataKeysReq) returns (GetDataKeysRsp)
 
-	@handler NodeWsHandler
-	get /ws/node/:id (NodeWsReq)
+	@handler SetListenHandler
+	post /listen (SetListenReq)
+
+	@handler WsListenHandler
+	get /ws/listen
 }
 
