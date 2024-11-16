@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -16,7 +17,7 @@ type (
 	RawlogModel interface {
 		rawlogModel
 		withSession(session sqlx.Session) RawlogModel
-		ListLastSeen(ctx context.Context) ([]*Rawlog, error)
+		GetLastSeen(ctx context.Context, clientId uuid.UUID) (*Rawlog, error)
 	}
 
 	customRawlogModel struct {
@@ -24,13 +25,13 @@ type (
 	}
 )
 
-func (m *customRawlogModel) ListLastSeen(ctx context.Context) ([]*Rawlog, error) {
-	query := fmt.Sprintf(`SELECT DISTINCT ON (client_id) * from %s order by client_id, created_at desc`, m.table)
-	var resp []*Rawlog
-	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+func (m *customRawlogModel) GetLastSeen(ctx context.Context, clientId uuid.UUID) (*Rawlog, error) {
+	query := fmt.Sprintf(`SELECT * from %s where client_id = $1 order by created_at desc limit 1`, m.table)
+	var resp Rawlog
+	err := m.conn.QueryRowCtx(ctx, &resp, query, clientId.String())
 	switch {
 	case err == nil:
-		return resp, nil
+		return &resp, nil
 	case errors.Is(err, sqlx.ErrNotFound):
 		return nil, ErrNotFound
 	default:

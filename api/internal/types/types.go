@@ -14,10 +14,14 @@ type InitRsp struct {
 	SessionId string `json:"sessionId"`
 }
 
-type MetricRsp struct {
-	WsMsgBase
+type Metric struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+}
+
+type MetricRsp struct {
+	WsMsgBase
+	Metrics []Metric `json:"metrics"`
 }
 
 type NodeInfo struct {
@@ -38,6 +42,7 @@ type NodesRsp struct {
 type Provider struct {
 	Ptype string   `json:"type"`
 	Args  []string `json:"args"`
+	Str   string   `json:"str,optional"`
 }
 
 type ProviderKey struct {

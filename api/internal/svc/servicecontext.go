@@ -3,9 +3,9 @@ package svc
 import (
 	"github.com/0x587/guardeye/api/internal/config"
 	"github.com/0x587/guardeye/api/internal/logdispatcher"
+	"github.com/0x587/guardeye/api/internal/ws"
 	"github.com/0x587/guardeye/common/datakeyredis"
 	"github.com/0x587/guardeye/common/model"
-	"github.com/0x587/guardeye/common/ws"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )

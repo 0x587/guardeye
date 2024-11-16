@@ -65,10 +65,7 @@ func (i *impl) Consume(ctx context.Context, key, val string) error {
 			if desc == nil {
 				return nil
 			}
-			if node == nil {
-				return nil
-			}
-			if proto.Equal(&report.NodeDescription{
+			if node != nil && proto.Equal(&report.NodeDescription{
 				Ips:       node.Ips,
 				Macs:      node.Macs,
 				Os:        node.Os,

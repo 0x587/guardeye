@@ -3,7 +3,9 @@ package logic
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"slices"
+	"strings"
 
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/0x587/guardeye/api/internal/types"
@@ -38,6 +40,7 @@ func (l *GetDataKeysLogic) GetDataKeys(req *types.GetDataKeysReq) (resp *types.G
 		p := &types.Provider{
 			Ptype: k.Provider.GetType(),
 			Args:  k.Provider.GetArgs(),
+			Str:   fmt.Sprintf("%s(%s)", k.Provider.GetType(), strings.Join(k.Provider.GetArgs(), ",")),
 		}
 		pb := lo.Must(json.Marshal(p))
 		ps[string(pb)] = append(ps[string(pb)], k.Key)

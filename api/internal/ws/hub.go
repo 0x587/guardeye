@@ -3,6 +3,7 @@ package ws
 import (
 	"encoding/json"
 
+	"github.com/0x587/guardeye/api/internal/types"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 )
@@ -31,8 +32,8 @@ func (h *hub) run() {
 		select {
 		case c := <-h.register:
 			h.clients[c.id] = c
-			m := InitRsp{
-				MsgBase:   MsgBase{Cmd: "INIT"},
+			m := types.InitRsp{
+				WsMsgBase: types.WsMsgBase{Cmd: "INIT"},
 				SessionId: c.id.String(),
 			}
 			bs := lo.Must(json.Marshal(m))

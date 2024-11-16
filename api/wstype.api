@@ -9,8 +9,12 @@ type InitRsp {
     SessionId string `json:"sessionId"`
 }
 
-type MetricRsp {
-    WsMsgBase
+type Metric {
     Name string `json:"name"`
     Value string `json:"value"`
+}
+
+type MetricRsp {
+    WsMsgBase
+    Metrics []Metric `json:"metrics"`
 }

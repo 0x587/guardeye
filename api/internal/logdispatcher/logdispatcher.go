@@ -4,15 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"slices"
-	"strconv"
 	"strings"
 
 	"github.com/0x587/guardeye/api/internal/types"
-	"github.com/0x587/guardeye/common/ws"
+	"github.com/0x587/guardeye/api/internal/ws"
+	"github.com/0x587/guardeye/common/tokv"
 	"github.com/0x587/guardeye/report/report"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
-	"gopkg.in/yaml.v3"
 )
 
 type IF interface {
@@ -59,6 +58,14 @@ func (i *impl) SetListen(sid, nid uuid.UUID, keys []types.ProviderKeys) {
 }
 
 func (i *impl) Handle(nid uuid.UUID, log *report.Log) {
+	var kv tokv.KV
+	if log.GetType() == report.LogType_YAML {
+		kv = tokv.YamlToKv(log.GetMessage())
+	}
+	if log.GetType() == report.LogType_JSON {
+		kv = tokv.JsonToKv(log.GetMessage())
+	}
+	ms := make(map[uuid.UUID]*types.MetricRsp)
 	for _, q := range i.query[nid] {
 		if !q.matchProvider(log.GetProvider()) {
 			continue
@@ -67,48 +74,35 @@ func (i *impl) Handle(nid uuid.UUID, log *report.Log) {
 			Provider: types.Provider{
 				Ptype: log.GetProvider().GetType(),
 				Args:  log.GetProvider().GetArgs(),
+				Str:   fmt.Sprintf("%s(%s)", log.GetProvider().GetType(), strings.Join(log.GetProvider().GetArgs(), ",")),
 			},
 			Key: q.dataKey,
 		}
-		m := ws.MetricRsp{
-			MsgBase: ws.MsgBase{Cmd: "METRIC"},
-			Name:    string(lo.Must(json.Marshal(pk))),
-			Value:   "",
+		m := types.Metric{
+			Name:  string(lo.Must(json.Marshal(pk))),
+			Value: "",
 		}
 		switch log.GetType() {
 		case report.LogType_TEXT:
 			m.Value = log.GetMessage()
 		case report.LogType_YAML:
-			var obj map[string]interface{}
-			err := yaml.Unmarshal([]byte(log.GetMessage()), &obj)
-			if err != nil {
-				continue
+			m.Value = kv[q.dataKey]
+		case report.LogType_JSON:
+			m.Value = kv[q.dataKey]
+		}
+		if m.Value == "" {
+			continue
+		}
+		if ms[q.sid] == nil {
+			ms[q.sid] = &types.MetricRsp{
+				WsMsgBase: types.WsMsgBase{Cmd: "METRIC"},
 			}
-			m.Value = getValueFromPath(obj, strings.Split(q.dataKey, "."))
 		}
-		bs := lo.Must(json.Marshal(m))
-		i.ws.Send(q.sid, bs)
+		ms[q.sid].Metrics = append(ms[q.sid].Metrics, m)
 	}
-}
-
-func getValueFromPath(obj interface{}, path []string) string {
-	if len(path) == 0 {
-		return fmt.Sprintf("%v", obj)
-	}
-	switch v := obj.(type) {
-	case map[string]interface{}:
-		return getValueFromPath(v[path[0]], path[1:])
-	case []interface{}:
-		i, err := strconv.ParseInt(path[0], 10, 64)
-		if err != nil {
-			return ""
-		}
-		if int(i) >= len(v) {
-			return ""
-		}
-		return getValueFromPath(v[i], path[1:])
-	default:
-		return ""
+	for sid, rsp := range ms {
+		bs := lo.Must(json.Marshal(rsp))
+		i.ws.Send(sid, bs)
 	}
 }
 

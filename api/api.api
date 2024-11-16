@@ -28,6 +28,7 @@ type GetDataKeysReq {
 type Provider {
 	ptype string   `json:"type"`
 	args  []string `json:"args"`
+	str   string   `json:"str,optional"`
 }
 
 type ProviderKey {

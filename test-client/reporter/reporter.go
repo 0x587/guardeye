@@ -7,7 +7,9 @@ import (
 	"net"
 	"os"
 	"runtime"
+	"time"
 
+	"github.com/0x587/guardeye/common/limiter"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
@@ -43,15 +45,19 @@ type impl struct {
 }
 
 func (i *impl) Loop(ctx context.Context) {
-	cs := lo.Map(i.providers, func(item provider.IF, _ int) <-chan *provider.Msg {
-		return item.Get()
-	})
-	for msg := range lo.FanIn(0, cs...) {
-		logx.Infof("report: %v", msg)
-		err := i.doLogReport(ctx, msg)
-		if err != nil {
-			logx.Errorf("report error: %v", err)
-		}
+	for _, p := range i.providers {
+		go func() {
+			l := limiter.New(500 * time.Millisecond)
+			for msg := range p.Get() {
+				l.Do(func() error {
+					err := i.doLogReport(ctx, msg)
+					if err != nil {
+						logx.Errorf("report error: %v", err)
+					}
+					return err
+				})
+			}
+		}()
 	}
 }
 

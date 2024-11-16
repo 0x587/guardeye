@@ -56,7 +56,7 @@ func (m *customNodeModel) ListGroupByClientID(ctx context.Context) ([]*Node, err
 }
 
 func (m *customNodeModel) FindOneWithClientID(ctx context.Context, cid uuid.UUID) (*Node, error) {
-	query := fmt.Sprintf("select %s from %s where client_id = $1 limit 1", nodeRows, m.table)
+	query := fmt.Sprintf("select %s from %s where client_id = $1 order by created_at limit 1", nodeRows, m.table)
 	var resp Node
 	err := m.conn.QueryRowCtx(ctx, &resp, query, cid)
 	switch {
