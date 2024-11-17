@@ -7,7 +7,6 @@ import (
 	"net"
 	"os"
 	"runtime"
-	"time"
 
 	"github.com/0x587/guardeye/common/limiter"
 	"github.com/0x587/guardeye/report/reportclient"
@@ -47,7 +46,7 @@ type impl struct {
 func (i *impl) Loop(ctx context.Context) {
 	for _, p := range i.providers {
 		go func() {
-			l := limiter.New(500 * time.Millisecond)
+			l := limiter.New(0)
 			for msg := range p.Get() {
 				l.Do(func() error {
 					err := i.doLogReport(ctx, msg)

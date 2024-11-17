@@ -32,7 +32,7 @@ func (h *hub) run() {
 		select {
 		case c := <-h.register:
 			h.clients[c.id] = c
-			m := types.InitRsp{
+			m := types.WsInitRsp{
 				WsMsgBase: types.WsMsgBase{Cmd: "INIT"},
 				SessionId: c.id.String(),
 			}

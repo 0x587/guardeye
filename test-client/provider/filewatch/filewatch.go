@@ -79,7 +79,7 @@ func (i *impl) getWatchFileChan(ctx context.Context, filepath string, alreadyExi
 	logx.Must(err)
 	go func() {
 		defer func(file *tail.Tail) {
-			logx.Must(file.Stop())
+			_ = file.Stop()
 			close(res)
 		}(file)
 		for {
@@ -104,6 +104,9 @@ func (i *impl) appendChanToOut(ctx context.Context, c chan string) {
 			case <-ctx.Done():
 				return
 			case line := <-c:
+				if line == "" {
+					continue
+				}
 				i.out <- line
 			}
 		}

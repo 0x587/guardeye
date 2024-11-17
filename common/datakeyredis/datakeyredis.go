@@ -69,10 +69,12 @@ func (i *impl) GetKeys(ctx context.Context, nodeInfo *report.NodeInfo) ([]*DataK
 			go func() {
 				_, _ = i.cli.HdelCtx(ctx, rediskey.LogDataKey(nodeInfo), k)
 			}()
+			return nil
 		}
 		var dk DataKey
 		_ = json.Unmarshal([]byte(k), &dk)
 		return &dk
 	})
+	dataKeys = lo.Filter(dataKeys, func(dk *DataKey, _ int) bool { return dk != nil })
 	return dataKeys, nil
 }

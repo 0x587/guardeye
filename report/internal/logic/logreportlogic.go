@@ -40,6 +40,13 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 				Provider: log.GetProvider(),
 				Type:     log.GetType(),
 			},
+			Trace: []*report.TraceSpan{
+				{
+					Name:   "report",
+					Action: "client report",
+					Time:   uint64(time.Now().UnixNano()),
+				},
+			},
 		}
 		logBytes, err := json.Marshal(mqLog)
 		if err != nil {

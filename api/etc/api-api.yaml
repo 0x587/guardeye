@@ -15,5 +15,5 @@ HotLogConsumerConf:
   Group: hotlog
   Topic: raw_log
   Offset: first
-  Consumers: 2
-  Processors: 2
+  Consumers: 4
+  Processors: 4

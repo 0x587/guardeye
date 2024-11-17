@@ -30,10 +30,6 @@ func (l *SetListenLogic) SetListen(req *types.SetListenReq) error {
 	if err != nil {
 		return err
 	}
-	nid, err := uuid.Parse(req.NodeId)
-	if err != nil {
-		return err
-	}
-	l.svcCtx.LogDispatcher.SetListen(sid, nid, req.Keys)
+	l.svcCtx.LogDispatcher.SetListen(sid, req.ListenQueries)
 	return nil
 }

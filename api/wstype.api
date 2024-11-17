@@ -4,7 +4,7 @@ type WsMsgBase {
     cmd string `json:"cmd"`
 }
 
-type InitRsp {
+type WsInitRsp {
     WsMsgBase
     SessionId string `json:"sessionId"`
 }
@@ -14,7 +14,12 @@ type Metric {
     Value string `json:"value"`
 }
 
-type MetricRsp {
+type WsMetricRsp {
     WsMsgBase
     Metrics []Metric `json:"metrics"`
+}
+
+type WsLogRsp {
+    WsMsgBase
+    Logs []string `json:"logs"`
 }

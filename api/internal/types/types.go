@@ -9,19 +9,19 @@ type GetDataKeysRsp struct {
 	Keys []ProviderKeys `json:"keys"`
 }
 
-type InitRsp struct {
-	WsMsgBase
-	SessionId string `json:"sessionId"`
+type ListenQuery struct {
+	NodeId           string           `json:"nodeId"`
+	Provider         Provider         `json:"provider"`
+	LogToMetricQuery LogToMetricQuery `json:"logToMetricQuery,optional"`
+}
+
+type LogToMetricQuery struct {
+	Keys []string `json:"keys"`
 }
 
 type Metric struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
-}
-
-type MetricRsp struct {
-	WsMsgBase
-	Metrics []Metric `json:"metrics"`
 }
 
 type NodeInfo struct {
@@ -65,9 +65,23 @@ type SetAliasRsp struct {
 }
 
 type SetListenReq struct {
-	SessionId string         `json:"sessionId"`
-	NodeId    string         `json:"nodeId"`
-	Keys      []ProviderKeys `json:"keys"`
+	SessionId     string        `json:"sessionId"`
+	ListenQueries []ListenQuery `json:"listenQueries"`
+}
+
+type WsInitRsp struct {
+	WsMsgBase
+	SessionId string `json:"sessionId"`
+}
+
+type WsLogRsp struct {
+	WsMsgBase
+	Logs []string `json:"logs"`
+}
+
+type WsMetricRsp struct {
+	WsMsgBase
+	Metrics []Metric `json:"metrics"`
 }
 
 type WsMsgBase struct {
