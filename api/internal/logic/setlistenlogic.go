@@ -30,6 +30,6 @@ func (l *SetListenLogic) SetListen(req *types.SetListenReq) error {
 	if err != nil {
 		return err
 	}
-	l.svcCtx.LogDispatcher.SetListen(sid, req.ListenQueries)
+	l.svcCtx.LogDispatcher.SetListen(sid, req.LogQueries)
 	return nil
 }

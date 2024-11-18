@@ -94,6 +94,31 @@ message InitRsp{
   NodeInfo node_info = 1;
 }
 
+enum MetricType {
+  MetricType_UNKNOWN = 0;
+  Number = 1;
+  String = 2;
+}
+
+enum MetricFilterOp {
+  MetricFilterOp_UNKNOWN = 0;
+  EQ = 1;
+  NE = 2;
+}
+
+message MetricFilter {
+  MetricQuery metric = 1;
+  MetricFilterOp op = 2;
+  string value = 3;
+}
+
+message MetricQuery {
+  MetricType type = 1;
+  string name = 2;
+  string parse_path = 3;
+  repeated MetricFilter filters = 4;
+}
+
 service Report {
   rpc Init(InitReq) returns(InitRsp);
   rpc LogReport(LogReportReq) returns(LogReportRsp);

@@ -10,6 +10,7 @@ import (
 	"github.com/0x587/guardeye/report/internal/server"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
+	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -40,6 +41,8 @@ func main() {
 	for _, mq := range mqs.Consumers(c, ctx, svcCtx) {
 		sg.Add(mq)
 	}
+
+	logx.SetLevel(logx.ErrorLevel)
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	sg.Start()

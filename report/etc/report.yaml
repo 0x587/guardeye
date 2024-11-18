@@ -35,6 +35,16 @@ LogDataKeyConsumerConf:
   Consumers: 4
   Processors: 4
 
+LogToMetricConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - ws.scut.mcurobot.com:59094
+  Group: logtometric
+  Topic: raw_log
+  Offset: first
+  Consumers: 4
+  Processors: 4
+
 ReportRedis:
   Host: ws.scut.mcurobot.com:56379
   Type: node

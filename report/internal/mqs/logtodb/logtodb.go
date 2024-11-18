@@ -4,7 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 
+	"github.com/0x587/go-cjson/cjson"
 	"github.com/0x587/guardeye/common/async"
 	"github.com/0x587/guardeye/common/model"
 	"github.com/0x587/guardeye/report/internal/svc"
@@ -12,6 +14,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/zeromicro/go-queue/kq"
 	"google.golang.org/protobuf/proto"
+	"gopkg.in/yaml.v3"
 )
 
 func New(ctx context.Context, svcCtx *svc.ServiceContext) kq.ConsumeHandler {
@@ -27,11 +30,34 @@ type impl struct {
 }
 
 func (i *impl) Consume(ctx context.Context, key, val string) error {
+	return nil
 	d := &report.MQLog{}
 	if err := json.Unmarshal([]byte(val), d); err != nil {
 		return err
 	}
 	return async.GoAndWait(ctx,
+		func() error {
+			var m interface{}
+			switch d.GetLog().GetType() {
+			case report.LogType_TEXT:
+				return nil
+			case report.LogType_JSON:
+				if err := json.Unmarshal([]byte(d.GetLog().GetMessage()), &m); err != nil {
+					return err
+				}
+			case report.LogType_YAML:
+				if err := yaml.Unmarshal([]byte(d.GetLog().GetMessage()), &m); err != nil {
+					return err
+				}
+			}
+			schema, value, err := cjson.New().MarshalObj(m)
+			if err != nil {
+				return err
+			}
+			fmt.Println(schema)
+			fmt.Println(value)
+			return nil
+		},
 		func() error {
 			// 将原始日志落库
 			cid, err := uuid.Parse(d.GetNodeInfo().GetClientId())

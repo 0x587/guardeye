@@ -14,23 +14,23 @@ import (
 
 type IF interface {
 	Handle(nid uuid.UUID, log *report.Log)
-	SetListen(sid uuid.UUID, query []types.ListenQuery)
+	SetListen(sid uuid.UUID, query []types.LogQuery)
 }
 
 func New(ws ws.IF) IF {
 	return &impl{
 		ws:    ws,
-		query: make(map[uuid.UUID][]types.ListenQuery),
+		query: make(map[uuid.UUID][]types.LogQuery),
 	}
 }
 
 type impl struct {
 	ws ws.IF
 	// sid -> []*Query
-	query map[uuid.UUID][]types.ListenQuery
+	query map[uuid.UUID][]types.LogQuery
 }
 
-func (i *impl) SetListen(sid uuid.UUID, queries []types.ListenQuery) {
+func (i *impl) SetListen(sid uuid.UUID, queries []types.LogQuery) {
 	for _, q := range queries {
 		if q.Provider.Str == "" {
 			q.Provider.Str = fmt.Sprintf("%s(%s)", q.Provider.Ptype, strings.Join(q.Provider.Args, ","))

@@ -115,6 +115,104 @@ func (ReportResultCode) EnumDescriptor() ([]byte, []int) {
 	return file_report_proto_rawDescGZIP(), []int{1}
 }
 
+type MetricType int32
+
+const (
+	MetricType_MetricType_UNKNOWN MetricType = 0
+	MetricType_Number             MetricType = 1
+	MetricType_String             MetricType = 2
+)
+
+// Enum value maps for MetricType.
+var (
+	MetricType_name = map[int32]string{
+		0: "MetricType_UNKNOWN",
+		1: "Number",
+		2: "String",
+	}
+	MetricType_value = map[string]int32{
+		"MetricType_UNKNOWN": 0,
+		"Number":             1,
+		"String":             2,
+	}
+)
+
+func (x MetricType) Enum() *MetricType {
+	p := new(MetricType)
+	*p = x
+	return p
+}
+
+func (x MetricType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MetricType) Descriptor() protoreflect.EnumDescriptor {
+	return file_report_proto_enumTypes[2].Descriptor()
+}
+
+func (MetricType) Type() protoreflect.EnumType {
+	return &file_report_proto_enumTypes[2]
+}
+
+func (x MetricType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MetricType.Descriptor instead.
+func (MetricType) EnumDescriptor() ([]byte, []int) {
+	return file_report_proto_rawDescGZIP(), []int{2}
+}
+
+type MetricFilterOp int32
+
+const (
+	MetricFilterOp_MetricFilterOp_UNKNOWN MetricFilterOp = 0
+	MetricFilterOp_EQ                     MetricFilterOp = 1
+	MetricFilterOp_NE                     MetricFilterOp = 2
+)
+
+// Enum value maps for MetricFilterOp.
+var (
+	MetricFilterOp_name = map[int32]string{
+		0: "MetricFilterOp_UNKNOWN",
+		1: "EQ",
+		2: "NE",
+	}
+	MetricFilterOp_value = map[string]int32{
+		"MetricFilterOp_UNKNOWN": 0,
+		"EQ":                     1,
+		"NE":                     2,
+	}
+)
+
+func (x MetricFilterOp) Enum() *MetricFilterOp {
+	p := new(MetricFilterOp)
+	*p = x
+	return p
+}
+
+func (x MetricFilterOp) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MetricFilterOp) Descriptor() protoreflect.EnumDescriptor {
+	return file_report_proto_enumTypes[3].Descriptor()
+}
+
+func (MetricFilterOp) Type() protoreflect.EnumType {
+	return &file_report_proto_enumTypes[3]
+}
+
+func (x MetricFilterOp) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MetricFilterOp.Descriptor instead.
+func (MetricFilterOp) EnumDescriptor() ([]byte, []int) {
+	return file_report_proto_rawDescGZIP(), []int{3}
+}
+
 type FeaturesReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -980,6 +1078,140 @@ func (x *InitRsp) GetNodeInfo() *NodeInfo {
 	return nil
 }
 
+type MetricFilter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Metric *MetricQuery   `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
+	Op     MetricFilterOp `protobuf:"varint,2,opt,name=op,proto3,enum=report.MetricFilterOp" json:"op,omitempty"`
+	Value  string         `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *MetricFilter) Reset() {
+	*x = MetricFilter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_report_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MetricFilter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MetricFilter) ProtoMessage() {}
+
+func (x *MetricFilter) ProtoReflect() protoreflect.Message {
+	mi := &file_report_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MetricFilter.ProtoReflect.Descriptor instead.
+func (*MetricFilter) Descriptor() ([]byte, []int) {
+	return file_report_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *MetricFilter) GetMetric() *MetricQuery {
+	if x != nil {
+		return x.Metric
+	}
+	return nil
+}
+
+func (x *MetricFilter) GetOp() MetricFilterOp {
+	if x != nil {
+		return x.Op
+	}
+	return MetricFilterOp_MetricFilterOp_UNKNOWN
+}
+
+func (x *MetricFilter) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type MetricQuery struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Type      MetricType      `protobuf:"varint,1,opt,name=type,proto3,enum=report.MetricType" json:"type,omitempty"`
+	Name      string          `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	ParsePath string          `protobuf:"bytes,3,opt,name=parse_path,json=parsePath,proto3" json:"parse_path,omitempty"`
+	Filters   []*MetricFilter `protobuf:"bytes,4,rep,name=filters,proto3" json:"filters,omitempty"`
+}
+
+func (x *MetricQuery) Reset() {
+	*x = MetricQuery{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_report_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MetricQuery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MetricQuery) ProtoMessage() {}
+
+func (x *MetricQuery) ProtoReflect() protoreflect.Message {
+	mi := &file_report_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MetricQuery.ProtoReflect.Descriptor instead.
+func (*MetricQuery) Descriptor() ([]byte, []int) {
+	return file_report_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *MetricQuery) GetType() MetricType {
+	if x != nil {
+		return x.Type
+	}
+	return MetricType_MetricType_UNKNOWN
+}
+
+func (x *MetricQuery) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *MetricQuery) GetParsePath() string {
+	if x != nil {
+		return x.ParsePath
+	}
+	return ""
+}
+
+func (x *MetricQuery) GetFilters() []*MetricFilter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
 var File_report_proto protoreflect.FileDescriptor
 
 var file_report_proto_rawDesc = []byte{
@@ -1080,20 +1312,45 @@ var file_report_proto_rawDesc = []byte{
 	0x74, 0x52, 0x73, 0x70, 0x12, 0x2d, 0x0a, 0x09, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x69, 0x6e, 0x66,
 	0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74,
 	0x2e, 0x4e, 0x6f, 0x64, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x08, 0x6e, 0x6f, 0x64, 0x65, 0x49,
-	0x6e, 0x66, 0x6f, 0x2a, 0x27, 0x0a, 0x07, 0x4c, 0x6f, 0x67, 0x54, 0x79, 0x70, 0x65, 0x12, 0x08,
-	0x0a, 0x04, 0x54, 0x45, 0x58, 0x54, 0x10, 0x00, 0x12, 0x08, 0x0a, 0x04, 0x59, 0x41, 0x4d, 0x4c,
-	0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x4a, 0x53, 0x4f, 0x4e, 0x10, 0x02, 0x2a, 0x2b, 0x0a, 0x10,
-	0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65,
-	0x12, 0x0b, 0x0a, 0x07, 0x53, 0x55, 0x43, 0x43, 0x45, 0x53, 0x53, 0x10, 0x00, 0x12, 0x0a, 0x0a,
-	0x06, 0x46, 0x41, 0x49, 0x4c, 0x45, 0x44, 0x10, 0x01, 0x32, 0x6b, 0x0a, 0x06, 0x52, 0x65, 0x70,
-	0x6f, 0x72, 0x74, 0x12, 0x28, 0x0a, 0x04, 0x49, 0x6e, 0x69, 0x74, 0x12, 0x0f, 0x2e, 0x72, 0x65,
-	0x70, 0x6f, 0x72, 0x74, 0x2e, 0x49, 0x6e, 0x69, 0x74, 0x52, 0x65, 0x71, 0x1a, 0x0f, 0x2e, 0x72,
-	0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x49, 0x6e, 0x69, 0x74, 0x52, 0x73, 0x70, 0x12, 0x37, 0x0a,
-	0x09, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x14, 0x2e, 0x72, 0x65, 0x70,
-	0x6f, 0x72, 0x74, 0x2e, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x71,
-	0x1a, 0x14, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x70,
-	0x6f, 0x72, 0x74, 0x52, 0x73, 0x70, 0x42, 0x0a, 0x5a, 0x08, 0x2e, 0x2f, 0x72, 0x65, 0x70, 0x6f,
-	0x72, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x66, 0x6f, 0x22, 0x79, 0x0a, 0x0c, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x12, 0x2b, 0x0a, 0x06, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x4d, 0x65, 0x74,
+	0x72, 0x69, 0x63, 0x51, 0x75, 0x65, 0x72, 0x79, 0x52, 0x06, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63,
+	0x12, 0x26, 0x0a, 0x02, 0x6f, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x16, 0x2e, 0x72,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x46, 0x69, 0x6c, 0x74,
+	0x65, 0x72, 0x4f, 0x70, 0x52, 0x02, 0x6f, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x98,
+	0x01, 0x0a, 0x0b, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x26,
+	0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x12, 0x2e, 0x72,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x54, 0x79, 0x70, 0x65,
+	0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x61,
+	0x72, 0x73, 0x65, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
+	0x70, 0x61, 0x72, 0x73, 0x65, 0x50, 0x61, 0x74, 0x68, 0x12, 0x2e, 0x0a, 0x07, 0x66, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x72, 0x65, 0x70,
+	0x6f, 0x72, 0x74, 0x2e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72,
+	0x52, 0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2a, 0x27, 0x0a, 0x07, 0x4c, 0x6f, 0x67,
+	0x54, 0x79, 0x70, 0x65, 0x12, 0x08, 0x0a, 0x04, 0x54, 0x45, 0x58, 0x54, 0x10, 0x00, 0x12, 0x08,
+	0x0a, 0x04, 0x59, 0x41, 0x4d, 0x4c, 0x10, 0x01, 0x12, 0x08, 0x0a, 0x04, 0x4a, 0x53, 0x4f, 0x4e,
+	0x10, 0x02, 0x2a, 0x2b, 0x0a, 0x10, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x53, 0x55, 0x43, 0x43, 0x45, 0x53,
+	0x53, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x46, 0x41, 0x49, 0x4c, 0x45, 0x44, 0x10, 0x01, 0x2a,
+	0x3c, 0x0a, 0x0a, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x54, 0x79, 0x70, 0x65, 0x12, 0x16, 0x0a,
+	0x12, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x54, 0x79, 0x70, 0x65, 0x5f, 0x55, 0x4e, 0x4b, 0x4e,
+	0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x10,
+	0x01, 0x12, 0x0a, 0x0a, 0x06, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x10, 0x02, 0x2a, 0x3c, 0x0a,
+	0x0e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x4f, 0x70, 0x12,
+	0x1a, 0x0a, 0x16, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x4f,
+	0x70, 0x5f, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x45,
+	0x51, 0x10, 0x01, 0x12, 0x06, 0x0a, 0x02, 0x4e, 0x45, 0x10, 0x02, 0x32, 0x6b, 0x0a, 0x06, 0x52,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x28, 0x0a, 0x04, 0x49, 0x6e, 0x69, 0x74, 0x12, 0x0f, 0x2e,
+	0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x49, 0x6e, 0x69, 0x74, 0x52, 0x65, 0x71, 0x1a, 0x0f,
+	0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x49, 0x6e, 0x69, 0x74, 0x52, 0x73, 0x70, 0x12,
+	0x37, 0x0a, 0x09, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x14, 0x2e, 0x72,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52,
+	0x65, 0x71, 0x1a, 0x14, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x4c, 0x6f, 0x67, 0x52,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x73, 0x70, 0x42, 0x0a, 0x5a, 0x08, 0x2e, 0x2f, 0x72, 0x65,
+	0x70, 0x6f, 0x72, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1108,52 +1365,60 @@ func file_report_proto_rawDescGZIP() []byte {
 	return file_report_proto_rawDescData
 }
 
-var file_report_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_report_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_report_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_report_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_report_proto_goTypes = []interface{}{
 	(LogType)(0),                 // 0: report.LogType
 	(ReportResultCode)(0),        // 1: report.ReportResultCode
-	(*FeaturesReq)(nil),          // 2: report.FeaturesReq
-	(*DelayResult)(nil),          // 3: report.DelayResult
-	(*FeatureTransDelayReq)(nil), // 4: report.FeatureTransDelayReq
-	(*NodeDescription)(nil),      // 5: report.NodeDescription
-	(*NodeInfo)(nil),             // 6: report.NodeInfo
-	(*Provider)(nil),             // 7: report.Provider
-	(*Log)(nil),                  // 8: report.Log
-	(*LogReportReq)(nil),         // 9: report.LogReportReq
-	(*TraceSpan)(nil),            // 10: report.TraceSpan
-	(*MQLog)(nil),                // 11: report.MQLog
-	(*FeaturesRsp)(nil),          // 12: report.FeaturesRsp
-	(*FeatureTransDelayRsp)(nil), // 13: report.FeatureTransDelayRsp
-	(*LogReportRsp)(nil),         // 14: report.LogReportRsp
-	(*InitReq)(nil),              // 15: report.InitReq
-	(*InitRsp)(nil),              // 16: report.InitRsp
+	(MetricType)(0),              // 2: report.MetricType
+	(MetricFilterOp)(0),          // 3: report.MetricFilterOp
+	(*FeaturesReq)(nil),          // 4: report.FeaturesReq
+	(*DelayResult)(nil),          // 5: report.DelayResult
+	(*FeatureTransDelayReq)(nil), // 6: report.FeatureTransDelayReq
+	(*NodeDescription)(nil),      // 7: report.NodeDescription
+	(*NodeInfo)(nil),             // 8: report.NodeInfo
+	(*Provider)(nil),             // 9: report.Provider
+	(*Log)(nil),                  // 10: report.Log
+	(*LogReportReq)(nil),         // 11: report.LogReportReq
+	(*TraceSpan)(nil),            // 12: report.TraceSpan
+	(*MQLog)(nil),                // 13: report.MQLog
+	(*FeaturesRsp)(nil),          // 14: report.FeaturesRsp
+	(*FeatureTransDelayRsp)(nil), // 15: report.FeatureTransDelayRsp
+	(*LogReportRsp)(nil),         // 16: report.LogReportRsp
+	(*InitReq)(nil),              // 17: report.InitReq
+	(*InitRsp)(nil),              // 18: report.InitRsp
+	(*MetricFilter)(nil),         // 19: report.MetricFilter
+	(*MetricQuery)(nil),          // 20: report.MetricQuery
 }
 var file_report_proto_depIdxs = []int32{
-	4,  // 0: report.FeaturesReq.trans_delay:type_name -> report.FeatureTransDelayReq
-	5,  // 1: report.NodeInfo.node_description:type_name -> report.NodeDescription
-	7,  // 2: report.Log.provider:type_name -> report.Provider
+	6,  // 0: report.FeaturesReq.trans_delay:type_name -> report.FeatureTransDelayReq
+	7,  // 1: report.NodeInfo.node_description:type_name -> report.NodeDescription
+	9,  // 2: report.Log.provider:type_name -> report.Provider
 	0,  // 3: report.Log.type:type_name -> report.LogType
-	6,  // 4: report.LogReportReq.node_info:type_name -> report.NodeInfo
-	8,  // 5: report.LogReportReq.logs:type_name -> report.Log
-	2,  // 6: report.LogReportReq.features:type_name -> report.FeaturesReq
-	8,  // 7: report.MQLog.log:type_name -> report.Log
-	6,  // 8: report.MQLog.node_info:type_name -> report.NodeInfo
-	10, // 9: report.MQLog.trace:type_name -> report.TraceSpan
-	13, // 10: report.FeaturesRsp.trans_delay:type_name -> report.FeatureTransDelayRsp
+	8,  // 4: report.LogReportReq.node_info:type_name -> report.NodeInfo
+	10, // 5: report.LogReportReq.logs:type_name -> report.Log
+	4,  // 6: report.LogReportReq.features:type_name -> report.FeaturesReq
+	10, // 7: report.MQLog.log:type_name -> report.Log
+	8,  // 8: report.MQLog.node_info:type_name -> report.NodeInfo
+	12, // 9: report.MQLog.trace:type_name -> report.TraceSpan
+	15, // 10: report.FeaturesRsp.trans_delay:type_name -> report.FeatureTransDelayRsp
 	1,  // 11: report.LogReportRsp.code:type_name -> report.ReportResultCode
-	12, // 12: report.LogReportRsp.features:type_name -> report.FeaturesRsp
-	5,  // 13: report.InitReq.node_description:type_name -> report.NodeDescription
-	6,  // 14: report.InitRsp.node_info:type_name -> report.NodeInfo
-	15, // 15: report.Report.Init:input_type -> report.InitReq
-	9,  // 16: report.Report.LogReport:input_type -> report.LogReportReq
-	16, // 17: report.Report.Init:output_type -> report.InitRsp
-	14, // 18: report.Report.LogReport:output_type -> report.LogReportRsp
-	17, // [17:19] is the sub-list for method output_type
-	15, // [15:17] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	14, // 12: report.LogReportRsp.features:type_name -> report.FeaturesRsp
+	7,  // 13: report.InitReq.node_description:type_name -> report.NodeDescription
+	8,  // 14: report.InitRsp.node_info:type_name -> report.NodeInfo
+	20, // 15: report.MetricFilter.metric:type_name -> report.MetricQuery
+	3,  // 16: report.MetricFilter.op:type_name -> report.MetricFilterOp
+	2,  // 17: report.MetricQuery.type:type_name -> report.MetricType
+	19, // 18: report.MetricQuery.filters:type_name -> report.MetricFilter
+	17, // 19: report.Report.Init:input_type -> report.InitReq
+	11, // 20: report.Report.LogReport:input_type -> report.LogReportReq
+	18, // 21: report.Report.Init:output_type -> report.InitRsp
+	16, // 22: report.Report.LogReport:output_type -> report.LogReportRsp
+	21, // [21:23] is the sub-list for method output_type
+	19, // [19:21] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_report_proto_init() }
@@ -1342,14 +1607,38 @@ func file_report_proto_init() {
 				return nil
 			}
 		}
+		file_report_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MetricFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_report_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MetricQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_report_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   15,
+			NumEnums:      4,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -50,18 +50,18 @@ type SetAliasRsp {
 }
 
 type LogToMetricQuery {
-	Keys []string `json:"keys"`
+	LogQuery LogQuery `json:"logQuery"`
+	Keys     []string `json:"keys"`
 }
 
-type ListenQuery {
-	NodeId           string           `json:"nodeId"`
-	Provider         Provider         `json:"provider"`
-	LogToMetricQuery LogToMetricQuery `json:"logToMetricQuery,optional"`
+type LogQuery {
+	NodeId   string   `json:"nodeId"`
+	Provider Provider `json:"provider"`
 }
 
 type SetListenReq {
-	SessionId     string        `json:"sessionId"`
-	ListenQueries []ListenQuery `json:"listenQueries"`
+	SessionId  string     `json:"sessionId"`
+	LogQueries []LogQuery `json:"logQueries"`
 }
 
 @server (

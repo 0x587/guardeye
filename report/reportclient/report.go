@@ -24,6 +24,8 @@ type (
 	LogReportReq         = report.LogReportReq
 	LogReportRsp         = report.LogReportRsp
 	MQLog                = report.MQLog
+	MetricFilter         = report.MetricFilter
+	MetricQuery          = report.MetricQuery
 	NodeDescription      = report.NodeDescription
 	NodeInfo             = report.NodeInfo
 	Provider             = report.Provider
