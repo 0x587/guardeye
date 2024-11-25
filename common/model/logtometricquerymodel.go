@@ -16,7 +16,9 @@ type (
 	LogToMetricQueryModel interface {
 		logToMetricQueryModel
 		withSession(session sqlx.Session) LogToMetricQueryModel
-		FindForLog(ctx context.Context, clientId, provider string) ([]*LogToMetricQuery, error)
+		List(ctx context.Context) ([]*LogToMetricQuery, error)
+		ListForNode(ctx context.Context, clientId string) ([]*LogToMetricQuery, error)
+		ListForLog(ctx context.Context, clientId, provider string) ([]*LogToMetricQuery, error)
 	}
 
 	customLogToMetricQueryModel struct {
@@ -24,10 +26,24 @@ type (
 	}
 )
 
-func (m *customLogToMetricQueryModel) FindForLog(ctx context.Context, clientId, provider string) ([]*LogToMetricQuery, error) {
+func (m *customLogToMetricQueryModel) List(ctx context.Context) ([]*LogToMetricQuery, error) {
+	query := fmt.Sprintf("select %s from %s", logToMetricQueryRows, m.table)
+	return m.list(ctx, query)
+}
+
+func (m *customLogToMetricQueryModel) ListForNode(ctx context.Context, clientId string) ([]*LogToMetricQuery, error) {
+	query := fmt.Sprintf("select %s from %s where client_id = $1", logToMetricQueryRows, m.table)
+	return m.list(ctx, query, clientId)
+}
+
+func (m *customLogToMetricQueryModel) ListForLog(ctx context.Context, clientId, provider string) ([]*LogToMetricQuery, error) {
 	query := fmt.Sprintf("select %s from %s where client_id = $1 and provider = $2", logToMetricQueryRows, m.table)
+	return m.list(ctx, query, clientId, provider)
+}
+
+func (m *customLogToMetricQueryModel) list(ctx context.Context, query string, args ...interface{}) ([]*LogToMetricQuery, error) {
 	var resp []*LogToMetricQuery
-	err := m.conn.QueryRowsCtx(ctx, &resp, query, clientId, provider)
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
 	switch {
 	case err == nil:
 		return resp, nil

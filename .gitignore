@@ -1,3 +1,4 @@
 .idea
 /test-client/client
 /test-client/client.conf
+/report/logs/

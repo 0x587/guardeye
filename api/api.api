@@ -84,3 +84,62 @@ service api-api {
 	get /ws/listen
 }
 
+type (
+	MetricQuery {
+		Type      string         `json:"type,options=Number|String"`
+		Name      string         `json:"name"`
+		ParsePath string         `json:"parsePath"`
+		Filters   []MetricFilter `json:"filters"`
+	}
+	MetricFilter {
+		Metric MetricQuery `json:"metric"`
+		Op     string      `json:"op,options=EQ|NE"`
+		Value  string      `json:"value"`
+	}
+	MetricQueryGroup {
+		NodeId   string        `json:"nodeId"`
+		Provider string        `json:"provider"`
+		Queries  []MetricQuery `json:"queries"`
+	}
+	GetQueriesReq {
+		NodeId string `json:"nodeId,optional"`
+	}
+	GetQueriesRsp {
+		Queries []MetricQueryGroup `json:"queries"`
+	}
+	GetMetricDetailReq {
+		NodeId string `json:"nodeId"`
+		Name   string `json:"name"`
+	}
+	GetMetricDetailRsp {
+		FirstTimestamp int64 `json:"firstTimestamp"`
+		LastTimestamp  int64 `json:"lastTimestamp"`
+		TotalSamples   int64 `json:"totalSamples"`
+	}
+	FetchMetricDataReq {
+		Metric       GetMetricDetailReq `json:"metric"`
+		From         int                `json:"from"`
+		To           int                `json:"to"`
+		WindowSecond int                `json:"windowSecond,optional"`
+		Aggregator   string             `json:"aggregator,optional,options=avg|sum|min|max|range|count"`
+	}
+	FetchMetricDataRsp {
+		Data map[int64]float64 `json:"data"`
+	}
+)
+
+@server (
+	prefix: /api/v1/logtometric
+	group:  logtometric
+)
+service api-api {
+	@handler GetQueriesHandler
+	post /queryies (GetQueriesReq) returns (GetQueriesRsp)
+
+	@handler GetMetricDetailHandler
+	post /metric/detail (GetMetricDetailReq) returns (GetMetricDetailRsp)
+
+	@handler FetchMetricDataHandler
+	post /metric/data (FetchMetricDataReq) returns (FetchMetricDataRsp)
+}
+

@@ -10,8 +10,6 @@ import (
 	"github.com/0x587/guardeye/report/internal/server"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
-	"github.com/zeromicro/go-zero/core/logx"
-
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -23,6 +21,12 @@ var configFile = flag.String("f", "etc/report.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	//var cfg logx.LogConf
+	//_ = conf.FillDefault(&cfg)
+	//cfg.Mode = "file"
+	//logc.MustSetup(cfg)
+	//defer logc.Close()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c, conf.UseEnv())
@@ -41,8 +45,6 @@ func main() {
 	for _, mq := range mqs.Consumers(c, ctx, svcCtx) {
 		sg.Add(mq)
 	}
-
-	logx.SetLevel(logx.ErrorLevel)
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	sg.Start()

@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	logtometric "github.com/0x587/guardeye/api/internal/handler/logtometric"
 	"github.com/0x587/guardeye/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -39,5 +40,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/metric/data",
+				Handler: logtometric.FetchMetricDataHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/metric/detail",
+				Handler: logtometric.GetMetricDetailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/queryies",
+				Handler: logtometric.GetQueriesHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1/logtometric"),
 	)
 }

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/0x587/guardeye/common/model"
 	"github.com/0x587/guardeye/common/tokv"
@@ -14,20 +15,22 @@ import (
 	"github.com/0x587/guardeye/report/report"
 	"github.com/samber/lo"
 	"github.com/zeromicro/go-queue/kq"
-	"github.com/zeromicro/go-zero/core/logc"
+	"github.com/zeromicro/go-zero/core/collection"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func New(ctx context.Context, svcCtx *svc.ServiceContext) kq.ConsumeHandler {
 	return &impl{
-		ctx:    ctx,
-		svcCtx: svcCtx,
+		ctx:        ctx,
+		svcCtx:     svcCtx,
+		queryCache: lo.Must(collection.NewCache(2500*time.Millisecond, collection.WithName("LogToQueryCache"))),
 	}
 }
 
 type impl struct {
-	ctx    context.Context
-	svcCtx *svc.ServiceContext
+	ctx        context.Context
+	svcCtx     *svc.ServiceContext
+	queryCache *collection.Cache
 }
 
 func (i *impl) Consume(ctx context.Context, _, val string) error {
@@ -59,7 +62,6 @@ func (i *impl) Consume(ctx context.Context, _, val string) error {
 		}
 
 		v := metricsKv[metricQuery.ParsePath]
-		logc.Errorf(ctx, "metric value: %s", v)
 		vFloat, err := strconv.ParseFloat(v, 64)
 		if err != nil {
 			return err
@@ -72,18 +74,26 @@ func (i *impl) Consume(ctx context.Context, _, val string) error {
 }
 
 func (i *impl) getQuery(ctx context.Context, log *report.MQLog) ([]*report.MetricQuery, error) {
-	ltms, err := i.svcCtx.LogToMetricDBClient.FindForLog(
-		ctx, log.GetNodeInfo().GetClientId(), utils.ProviderToStr(log.GetLog().GetProvider()))
+	cid, p := log.GetNodeInfo().GetClientId(), utils.ProviderToStr(log.GetLog().GetProvider())
+	key := fmt.Sprintf("%s-%s", cid, p)
+	res, err := i.queryCache.Take(key, func() (any, error) {
+		ltms, err := i.svcCtx.LogToMetricDBClient.ListForLog(ctx, cid, p)
+		if err != nil {
+			return nil, err
+		}
+		mqs := lo.FilterMap(ltms, func(item *model.LogToMetricQuery, index int) (*report.MetricQuery, bool) {
+			mq := &report.MetricQuery{}
+			if err := protojson.Unmarshal([]byte(item.Query), mq); err != nil {
+				return nil, false
+			}
+			return mq, true
+		})
+		return mqs, nil
+	})
 	if err != nil {
 		return nil, err
 	}
-	return lo.FilterMap(ltms, func(item *model.LogToMetricQuery, index int) (*report.MetricQuery, bool) {
-		mq := &report.MetricQuery{}
-		if err := protojson.Unmarshal([]byte(item.Query), mq); err != nil {
-			return nil, false
-		}
-		return mq, true
-	}), nil
+	return res.([]*report.MetricQuery), nil
 }
 
 // parseMetricFromLog return {parsePath: value}, any metric parse error will be returned
