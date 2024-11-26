@@ -47,6 +47,7 @@ message Log {
   string message = 1;
   Provider provider = 2;
   LogType type = 3;
+  uint64 report_at_milli = 4;
 }
 
 message LogReportReq {
@@ -64,6 +65,7 @@ message TraceSpan {
 message MQLog {
   Log log = 1;
   NodeInfo node_info = 2;
+  string timestamp = 3 [json_name="@timestamp"];
   repeated TraceSpan trace = 10;
 }
 

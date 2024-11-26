@@ -1,0 +1,11 @@
+Server:
+  Ip: localhost
+  Port: 8080
+Provider:
+  - Type: foxglove
+    Args:
+      Ip: 10.0.3.109
+      Port: 8765
+      Topics:
+        - /topic1
+        - /topic2

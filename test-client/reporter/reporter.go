@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"runtime"
+	"time"
 
 	"github.com/0x587/guardeye/common/limiter"
 	"github.com/0x587/guardeye/report/reportclient"
@@ -96,9 +97,10 @@ func (i *impl) doLogReport(ctx context.Context, msg *provider.Msg) error {
 		},
 		Logs: []*reportclient.Log{
 			{
-				Message:  msg.Message,
-				Type:     msg.Type,
-				Provider: &msg.Provider,
+				Message:       msg.Message,
+				Type:          msg.Type,
+				Provider:      &msg.Provider,
+				ReportAtMilli: uint64(time.Now().UnixMilli()),
 			},
 		},
 		Features: &reportclient.FeaturesReq{

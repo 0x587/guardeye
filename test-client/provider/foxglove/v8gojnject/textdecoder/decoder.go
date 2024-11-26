@@ -2,12 +2,12 @@ package textdecoder
 
 import (
 	"fmt"
-	"github.com/samber/lo"
-	"golang.org/x/text/encoding"
-	"golang.org/x/text/encoding/charmap"
 	"strconv"
 	"strings"
 
+	"github.com/samber/lo"
+	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/charmap"
 	"rogchap.com/v8go"
 )
 

@@ -25,10 +25,10 @@ func New(ip string, port int, topics ...string) *Impl {
 		logx.Errorf("Failed to connect to WebSocket: %v", err)
 	}
 	res := &Impl{
-		conn:       conn,
-		channelIds: map[int]*channelInfo{},
-		outputCh:   make(chan message, 100),
+		conn:     conn,
+		outputCh: make(chan message, 100),
 	}
+
 	for _, topic := range topics {
 		res.needSubscribeTopic.Store(topic, struct{}{})
 	}
@@ -38,8 +38,7 @@ func New(ip string, port int, topics ...string) *Impl {
 type Impl struct {
 	vm                 *v8.Context
 	conn               *websocket.Conn
-	channelIds         map[int]*channelInfo
-	channelMutex       sync.RWMutex
+	channels           sync.Map
 	outputCh           chan message
 	needSubscribeTopic sync.Map
 }
@@ -48,7 +47,6 @@ type channelInfo struct {
 	Topic      string
 	SchemaName string
 	Schema     string
-	reader     *foxgloveReader
 }
 
 type message struct {
@@ -110,15 +108,14 @@ func (i *Impl) handleServerAdvertise(msg []byte) {
 	if err := json.Unmarshal(msg, &advertiseMsg); err != nil {
 		return
 	}
-	i.channelMutex.Lock()
-	defer i.channelMutex.Unlock()
 	var needSubscribeIds []int
 	for _, channel := range advertiseMsg.Channels {
-		i.channelIds[channel.Id] = &channelInfo{
+		logx.Infof("setting channel %d", channel.Id)
+		i.channels.Store(channel.Id, &channelInfo{
 			Topic:      channel.Topic,
 			SchemaName: channel.SchemaName,
 			Schema:     channel.Schema,
-		}
+		})
 		_, exist := i.needSubscribeTopic.Load(channel.Topic)
 		if !exist {
 			continue
@@ -142,75 +139,36 @@ func (i *Impl) handleServerUnAdvertise(msg []byte) {
 	if err := json.Unmarshal(msg, &unAdvertiseMsg); err != nil {
 		return
 	}
-	i.channelMutex.Lock()
-	defer i.channelMutex.Unlock()
 	for _, id := range unAdvertiseMsg.ChannelIds {
-		delete(i.channelIds, id)
+		i.channels.Delete(id)
 	}
 }
 
 func (i *Impl) handleServerMessageData(msg []byte) {
 	channelIdBuf := msg[1:5]
 	channelId := binary.LittleEndian.Uint32(channelIdBuf)
-	reader, err := i.getReader(int(channelId))
-	if err != nil {
-		logx.Errorf("foxglove: error getting reader: %v", err)
+	c, ok := i.channels.Load(int(channelId))
+	if !ok {
+		logx.Errorf("foxglove: channel not found, %d", channelId)
 		return
 	}
-	res, err := reader.read(msg[13:])
+	schema := c.(*channelInfo).Schema
+	res, err := parse(schema, msg[13:])
 	if err != nil {
 		logx.Errorf("foxglove: error reading message data: %v", err)
 		return
 	}
-	go func() {
-		i.channelMutex.RLock()
-		defer i.channelMutex.RUnlock()
-		select {
-		case i.outputCh <- message{
-			Topic:      i.channelIds[int(channelId)].Topic,
-			SchemaName: i.channelIds[int(channelId)].SchemaName,
-			Data:       res,
-		}:
-		default:
-			logx.Errorf("foxglove: output channel full")
-			return
-		}
-	}()
-}
 
-func (i *Impl) getReader(channelId int) (*foxgloveReader, error) {
-	i.channelMutex.RLock()
-	c := i.channelIds[channelId]
-	if c == nil {
-		i.channelMutex.RUnlock()
-		return nil, errors.New("foxglove: channel not found")
+	select {
+	case i.outputCh <- message{
+		Topic:      c.(*channelInfo).Topic,
+		SchemaName: c.(*channelInfo).SchemaName,
+		Data:       res,
+	}:
+	default:
+		logx.Errorf("foxglove: output channel full")
+		return
 	}
-	reader := c.reader
-	if reader == nil {
-		i.channelMutex.RUnlock()
-		return i.createReader(channelId)
-	}
-	defer i.channelMutex.RUnlock()
-	return reader, nil
-}
-
-func (i *Impl) createReader(channelId int) (*foxgloveReader, error) {
-	i.channelMutex.Lock()
-	defer i.channelMutex.Unlock()
-	c := i.channelIds[channelId]
-	if c == nil {
-		return nil, errors.New("foxglove: channel not found")
-	}
-	vm, err := newJsVm()
-	if err != nil {
-		return nil, errors.Wrap(err, "foxglove: error creating new js vm")
-	}
-	reader, err := newFoxgloveReader(vm, c.Schema)
-	if err != nil {
-		return nil, errors.Wrap(err, "foxglove: error creating new foxglove reader")
-	}
-	c.reader = reader
-	return reader, nil
 }
 
 func (i *Impl) subscribe(ids ...int) error {
@@ -225,10 +183,6 @@ func (i *Impl) subscribe(ids ...int) error {
 	msg := ClientSubscribeMsg{
 		Op: "subscribe",
 		Subscriptions: lo.FilterMap(ids, func(id int, _ int) (Subscription, bool) {
-			if i.channelIds[id] == nil {
-				logx.Errorf("foxglove :Channel %d not found", id)
-				return Subscription{}, false
-			}
 			return Subscription{
 				Id:        id,
 				ChannelId: id,

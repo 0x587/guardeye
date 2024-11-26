@@ -2,9 +2,9 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/golang/protobuf/jsonpb"
 	"time"
 
 	"github.com/0x587/guardeye/report/internal/svc"
@@ -33,8 +33,10 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 	}
 	// product raw log
 	for _, log := range in.GetLogs() {
+		t := time.UnixMilli(int64(log.ReportAtMilli))
 		mqLog := &report.MQLog{
-			NodeInfo: in.GetNodeInfo(),
+			Timestamp: t.Format(time.RFC3339),
+			NodeInfo:  in.GetNodeInfo(),
 			Log: &report.Log{
 				Message:  log.GetMessage(),
 				Provider: log.GetProvider(),
@@ -48,11 +50,12 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 				},
 			},
 		}
-		logBytes, err := json.Marshal(mqLog)
+		m := jsonpb.Marshaler{}
+		losStr, err := m.MarshalToString(mqLog)
 		if err != nil {
 			return nil, err
 		}
-		if err := l.svcCtx.RawLogPusherClient.Push(l.ctx, string(logBytes)); err != nil {
+		if err := l.svcCtx.RawLogPusherClient.Push(l.ctx, losStr); err != nil {
 			return nil, err
 		}
 	}

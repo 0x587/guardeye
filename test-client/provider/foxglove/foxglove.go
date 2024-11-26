@@ -1,6 +1,8 @@
 package foxglove
 
 import (
+	"fmt"
+
 	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/0x587/guardeye/test-client/provider/foxglove/wsclient"
@@ -9,16 +11,18 @@ import (
 
 func New(ip string, port int, topics ...string) provider.IF {
 	res := &impl{
-		ws:  wsclient.New(ip, port, topics...),
-		out: make(chan *provider.Msg),
+		ipPort: fmt.Sprintf("%s:%d", ip, port),
+		ws:     wsclient.New(ip, port, topics...),
+		out:    make(chan *provider.Msg),
 	}
 	go res.loop()
 	return res
 }
 
 type impl struct {
-	ws  *wsclient.Impl
-	out chan *provider.Msg
+	ipPort string
+	ws     *wsclient.Impl
+	out    chan *provider.Msg
 }
 
 func (i *impl) Get() <-chan *provider.Msg {
@@ -39,7 +43,7 @@ func (i *impl) loop() {
 				Type:    report.LogType_JSON,
 				Provider: report.Provider{
 					Type: "RostopicFoxglove",
-					Args: []string{msg.Topic, msg.SchemaName},
+					Args: []string{i.ipPort, msg.Topic, msg.SchemaName},
 				},
 			}
 		}
