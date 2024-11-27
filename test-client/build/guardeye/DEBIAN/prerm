@@ -1,0 +1,4 @@
+#!/bin/bash
+# Stop and disable the service
+systemctl stop guardeye-agent.service
+systemctl disable guardeye-agent.service

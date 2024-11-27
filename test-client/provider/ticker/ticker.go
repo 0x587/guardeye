@@ -4,58 +4,48 @@ import (
 	"context"
 	"time"
 
-	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/provider"
 )
 
 func New(ctx context.Context, d time.Duration) provider.IF {
 	res := &impl{
-		out:    make(chan string),
+		out:    make(chan *provider.Msg),
 		d:      d,
 		ticker: time.NewTicker(d),
 	}
-	go func() {
-		defer res.ticker.Stop()
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			case t := <-res.ticker.C:
-				res.out <- t.Format(time.RFC3339Nano)
-			}
-		}
-	}()
+	go res.loop(ctx)
 	return res
 }
 
 type impl struct {
 	d      time.Duration
 	ticker *time.Ticker
-	out    chan string
+	out    chan *provider.Msg
+}
+
+func (i *impl) loop(ctx context.Context) {
+	defer i.ticker.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case t := <-i.ticker.C:
+			i.out <- &provider.Msg{
+				Message:  "ticket in " + t.Format(time.RFC3339Nano),
+				Provider: i.getProvider(),
+			}
+		}
+	}
 }
 
 func (i *impl) getProvider() reportclient.Provider {
 	return reportclient.Provider{
-		Type: ProviderType,
+		Type: provider.Ticker,
 		Args: []string{i.d.String()},
 	}
 }
 
-const (
-	ProviderType = "Ticker"
-)
-
 func (i *impl) Get() <-chan *provider.Msg {
-	res := make(chan *provider.Msg)
-	go func() {
-		for msg := range i.out {
-			res <- &provider.Msg{
-				Message:  msg,
-				Type:     report.LogType_TEXT,
-				Provider: i.getProvider(),
-			}
-		}
-	}()
-	return res
+	return i.out
 }

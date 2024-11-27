@@ -1,0 +1,6 @@
+Package: guardeye-agent
+Version: 1.0.0
+Section: custom
+Priority: optional
+Architecture: amd64
+Maintainer: ShawnSIU <shawnsiu@outlook.com>

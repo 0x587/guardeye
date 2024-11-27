@@ -2,3 +2,5 @@
 /test-client/client
 /test-client/client.conf
 /report/logs/
+**/dist
+test-client/**/bin/**

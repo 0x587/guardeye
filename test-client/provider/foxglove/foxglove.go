@@ -1,6 +1,7 @@
 package foxglove
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/0x587/guardeye/report/report"
@@ -9,13 +10,13 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-func New(ip string, port int, topics ...string) provider.IF {
+func New(ctx context.Context, ip string, port int, topics ...string) provider.IF {
 	res := &impl{
 		ipPort: fmt.Sprintf("%s:%d", ip, port),
 		ws:     wsclient.New(ip, port, topics...),
 		out:    make(chan *provider.Msg),
 	}
-	go res.loop()
+	go res.loop(ctx)
 	return res
 }
 
@@ -29,9 +30,9 @@ func (i *impl) Get() <-chan *provider.Msg {
 	return i.out
 }
 
-func (i *impl) loop() {
+func (i *impl) loop(ctx context.Context) {
 	go func() {
-		err := i.ws.Handle()
+		err := i.ws.Handle(ctx)
 		if err != nil {
 			logx.Error(err)
 		}
@@ -40,9 +41,8 @@ func (i *impl) loop() {
 		for msg := range i.ws.GetOutputChan() {
 			i.out <- &provider.Msg{
 				Message: msg.Data,
-				Type:    report.LogType_JSON,
 				Provider: report.Provider{
-					Type: "RostopicFoxglove",
+					Type: provider.Foxglove,
 					Args: []string{i.ipPort, msg.Topic, msg.SchemaName},
 				},
 			}

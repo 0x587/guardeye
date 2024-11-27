@@ -2,42 +2,83 @@ package main
 
 import (
 	"context"
-	"os"
-	"os/signal"
-	"syscall"
+	"flag"
+	"fmt"
+	"log"
 
-	"github.com/0x587/guardeye/test-client/provider/foxglove"
-	"github.com/0x587/guardeye/test-client/provider/mqttjson"
+	"github.com/kardianos/service"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/0x587/guardeye/test-client/reporter"
-	"github.com/zeromicro/go-zero/zrpc"
 )
 
-func main() {
-	//fmt.Printf("%#v", LoadConfig())
-	//return
-
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
-	cli := zrpc.MustNewClient(zrpc.RpcClientConf{
-		Target: "ws.scut.mcurobot.com:56680",
-	})
-	//cli := zrpc.MustNewClient(zrpc.RpcClientConf{
-	//  Target: "localhost:8080",
-	//})
-	r := reporter.New(cli,
-		//filewatch.New(ctx, "/home/pi/.ros/log/"),
-		//ticker.New(ctx, 2500*time.Millisecond),
-		//rostopic.New(ctx, "/educar_base_controller/odom"),
-		//rostopic.New(ctx, "/camera/camera/image_raw"),
-		//rostopic.New(ctx, "/scan"),
-		mqttjson.New("b3351", "scutb3351-mqtt", "ws.scut.mcurobot.com:51883"),
-		foxglove.New("10.0.1.109", 8765, "/educar_base_controller/odom"),
-	)
-	go r.Loop(ctx)
-	<-sigChan
-	cancel()
+type program struct {
+	cancel context.CancelFunc
 }
 
-type program struct{}
+func (p *program) Start(s service.Service) error {
+	logx.SetWriter(logger)
+
+	ctx := context.Background()
+	ctx, p.cancel = context.WithCancel(ctx)
+	c := LoadConfig(ctx)
+	r := reporter.New(fmt.Sprintf("%s:%d", c.Server.Host, c.Server.Port), c.Providers...)
+	go r.Loop(ctx)
+	return nil
+}
+
+func (p *program) Stop(s service.Service) error {
+	p.cancel()
+	return nil
+}
+
+func main() {
+	svcFlag := flag.String("service", "", "Control the system service.")
+	flag.Parse()
+
+	options := make(service.KeyValue)
+	options["Restart"] = "always"
+	options["SuccessExitStatus"] = "1 2 8 SIGKILL"
+	svcConfig := &service.Config{
+		Name:        "GuardEYE",
+		DisplayName: "GuardEYE",
+		Dependencies: []string{
+			"Requires=network.target",
+			"After=network-online.target syslog.target"},
+		Option: options,
+	}
+
+	prg := &program{}
+	s, err := service.New(prg, svcConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
+	errs := make(chan error, 10)
+	l, err := s.Logger(errs)
+	logger = &LogWriter{Logger: l}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	go func() {
+		for {
+			err := <-errs
+			if err != nil {
+				log.Print(err)
+			}
+		}
+	}()
+
+	if len(*svcFlag) != 0 {
+		err := service.Control(s, *svcFlag)
+		if err != nil {
+			log.Printf("Valid actions: %q\n", service.ControlAction)
+			log.Fatal(err)
+		}
+		return
+	}
+	err = s.Run()
+	if err != nil {
+		logx.Error(err)
+	}
+}

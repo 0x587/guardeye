@@ -1,6 +1,7 @@
 package wsclient
 
 import (
+	"context"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
@@ -59,7 +60,7 @@ func (i *Impl) GetOutputChan() chan message {
 	return i.outputCh
 }
 
-func (i *Impl) Handle() error {
+func (i *Impl) Handle(ctx context.Context) error {
 	type ServerSendMsg struct {
 		Op string `json:"op"`
 	}
@@ -72,23 +73,29 @@ func (i *Impl) Handle() error {
 		1: i.handleServerMessageData,
 	}
 	for {
-		_, message, err := i.conn.ReadMessage()
-		if err != nil {
-			return errors.Wrap(err, "foxglove: error reading websocket message")
-		}
+		select {
+		case <-ctx.Done():
+			close(i.outputCh)
+			return nil
+		default:
+			_, message, err := i.conn.ReadMessage()
+			if err != nil {
+				return errors.Wrap(err, "foxglove: error reading websocket message")
+			}
 
-		if err := json.Unmarshal(message, &msg); err != nil {
-			opCode := message[0]
-			handleFunc := binaryMsgHandlers[opCode]
+			if err := json.Unmarshal(message, &msg); err != nil {
+				opCode := message[0]
+				handleFunc := binaryMsgHandlers[opCode]
+				if handleFunc != nil {
+					handleFunc(message)
+				}
+				continue
+			}
+
+			handleFunc := jsonMsgHandlers[msg.Op]
 			if handleFunc != nil {
 				handleFunc(message)
 			}
-			continue
-		}
-
-		handleFunc := jsonMsgHandlers[msg.Op]
-		if handleFunc != nil {
-			handleFunc(message)
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package rostopic
+package rosecho
 
 import (
 	"bufio"
@@ -7,7 +7,6 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/zeromicro/go-zero/core/logc"
@@ -33,7 +32,6 @@ func (i *impl) Get() <-chan *provider.Msg {
 		for msg := range i.out {
 			res <- &provider.Msg{
 				Message:  msg,
-				Type:     report.LogType_YAML,
 				Provider: i.getProvider(),
 			}
 		}
@@ -73,11 +71,9 @@ func (i *impl) loop(ctx context.Context) {
 	}
 }
 
-const ProviderType = "RosTopic"
-
 func (i *impl) getProvider() reportclient.Provider {
 	return reportclient.Provider{
-		Type: ProviderType,
+		Type: provider.RosEcho,
 		Args: []string{i.topic},
 	}
 }

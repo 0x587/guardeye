@@ -1,0 +1,4 @@
+#!/bin/bash
+# Enable and start the service
+systemctl enable guardeye-agent.service
+systemctl start guardeye-agent.service

@@ -8,5 +8,8 @@ Upstreams:
       - etc/report.pb
     Mappings:
       - Method: post
+        Path: /init
+        RpcPath: report.Report/Init
+      - Method: post
         Path: /log_report
         RpcPath: report.Report/LogReport

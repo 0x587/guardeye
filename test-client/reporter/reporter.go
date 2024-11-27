@@ -1,61 +1,98 @@
 package reporter
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
+	"io"
 	"net"
+	"net/http"
 	"os"
 	"runtime"
+	"sync"
 	"time"
 
-	"github.com/0x587/guardeye/common/limiter"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/golang/protobuf/proto"
+	"github.com/pkg/errors"
+	"github.com/samber/lo"
+	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
 	"github.com/0x587/guardeye/test-client/provider"
-	"github.com/samber/lo"
-	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type IF interface {
 	Loop(ctx context.Context)
 }
 
-func New(cli zrpc.Client, providers ...provider.IF) IF {
+func New(reportBaseurl string, providers ...provider.IF) IF {
 	res := &impl{
-		providers:    providers,
-		reportClient: reportclient.NewReport(cli),
-		featureDelay: featuredelay.New(),
+		providers: providers,
+		//reportClient: reportclient.NewReport(cli),
+		reportBaseurl: reportBaseurl,
+		featureDelay:  featuredelay.New(),
+		logCh:         make(chan *reportclient.Log, 100),
 	}
-	logx.Must(res.doInit(context.Background()))
 	return res
 }
 
 type impl struct {
-	clientID     string
-	desc         *reportclient.NodeDescription
-	reportClient reportclient.Report
-	featureDelay feature.IF[
+	clientID string
+	desc     *reportclient.NodeDescription
+	//reportClient reportclient.Report
+	reportBaseurl string
+	featureDelay  feature.IF[
 		*reportclient.FeatureTransDelayReq,
 		*reportclient.FeatureTransDelayRsp,
 	]
 	providers []provider.IF
+	onceInit  sync.Once
+	logCh     chan *reportclient.Log
 }
 
 func (i *impl) Loop(ctx context.Context) {
+	i.onceInit.Do(func() { logx.Must(i.init(ctx)) })
+	go i.reportLoop(ctx)
 	for _, p := range i.providers {
 		go func() {
-			l := limiter.New(0)
-			for msg := range p.Get() {
-				l.Do(func() error {
-					err := i.doLogReport(ctx, msg)
-					if err != nil {
-						logx.Errorf("report error: %v", err)
+			for {
+				select {
+				case <-ctx.Done():
+					return
+				case msg := <-p.Get():
+					i.logCh <- &reportclient.Log{
+						Message:       msg.Message,
+						Type:          report.LogType_TEXT,
+						Provider:      &msg.Provider,
+						ReportAtMilli: uint64(time.Now().UnixMilli()),
 					}
-					return err
-				})
+				}
+			}
+		}()
+	}
+}
+
+func (i *impl) reportLoop(ctx context.Context) {
+	for {
+		logs, _, _, ok := lo.BufferWithTimeout(i.logCh, 10, time.Second)
+		if !ok {
+			continue
+		}
+		func() {
+			err := i.doLogReport(ctx, logs)
+			if err != nil {
+				logx.Errorf("report error: %v", err)
+				if errors.Is(err, context.DeadlineExceeded) {
+					go func() {
+						for _, log := range logs {
+							i.logCh <- log
+						}
+					}()
+				}
 			}
 		}()
 	}
@@ -65,52 +102,54 @@ type clientConfig struct {
 	ClientID string `json:"client_id"`
 }
 
-func (i *impl) doInit(ctx context.Context) error {
-	f := lo.Must(os.OpenFile("./client.conf", os.O_CREATE|os.O_RDWR, 0666))
-	defer func(f *os.File) {
-		err := f.Close()
-		logx.Must(err)
-	}(f)
+func (i *impl) init(ctx context.Context) error {
+	f, err := os.OpenFile("/etc/guardeye-agent/client.storage", os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		return errors.Wrap(err, "init open file fail")
+	}
 	c := &clientConfig{}
-	err := json.NewDecoder(f).Decode(c)
-	fmt.Printf("client config: %v\n", c)
+	err = json.NewDecoder(f).Decode(c)
+	logx.Infof("client config: %v", c)
 	if err != nil || c.ClientID == "" {
-		resp, err := i.reportClient.Init(ctx, &reportclient.InitReq{
+		req := &reportclient.InitReq{
 			NodeDescription: i.getNodeDesc(),
-		})
-		if err != nil {
-			return err
 		}
-		c.ClientID = resp.GetNodeInfo().GetClientId()
+		rsp := &reportclient.InitRsp{}
+		if err := post(i, ctx, "/init", req, rsp); err != nil {
+			return errors.Wrap(err, "init post error")
+		}
+		c.ClientID = rsp.GetNodeInfo().GetClientId()
 	}
 	i.clientID = c.ClientID
-	lo.Must(f.Seek(0, 0))
-	lo.Must0(json.NewEncoder(f).Encode(c))
+	if _, err := f.Seek(0, 0); err != nil {
+		return errors.Wrap(err, "init seek fail")
+	}
+	if err := json.NewEncoder(f).Encode(c); err != nil {
+		return errors.Wrap(err, "init json encode fail")
+	}
+	if err := f.Close(); err != nil {
+		return errors.Wrap(err, "init close file fail")
+	}
 	return nil
 }
 
-func (i *impl) doLogReport(ctx context.Context, msg *provider.Msg) error {
-	resp, err := i.reportClient.LogReport(ctx, &reportclient.LogReportReq{
+func (i *impl) doLogReport(ctx context.Context, logs []*reportclient.Log) error {
+	req := &reportclient.LogReportReq{
 		NodeInfo: &reportclient.NodeInfo{
 			ClientId:        i.clientID,
 			NodeDescription: i.getNodeDesc(),
 		},
-		Logs: []*reportclient.Log{
-			{
-				Message:       msg.Message,
-				Type:          msg.Type,
-				Provider:      &msg.Provider,
-				ReportAtMilli: uint64(time.Now().UnixMilli()),
-			},
-		},
+		Logs: logs,
 		Features: &reportclient.FeaturesReq{
 			TransDelay: lo.Must(i.featureDelay.MakeReq()),
 		},
-	})
+	}
+	rsp := &reportclient.LogReportRsp{}
+	err := post(i, ctx, "/log_report", req, rsp)
 	if err != nil {
 		return err
 	}
-	lo.Must0(i.featureDelay.HandleRsp(resp.GetFeatures().GetTransDelay()))
+	lo.Must0(i.featureDelay.HandleRsp(rsp.GetFeatures().GetTransDelay()))
 	return nil
 }
 
@@ -128,4 +167,43 @@ func (i *impl) getNodeDesc() *reportclient.NodeDescription {
 		}),
 		Hostname: lo.Must(os.Hostname()),
 	}
+}
+
+func post[ReqT, RspT proto.Message](i *impl, ctx context.Context, url string, req ReqT, rsp RspT) error {
+	m := jsonpb.Marshaler{}
+	s, err := m.MarshalToString(req)
+	if err != nil {
+		return err
+	}
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+	request, err := http.NewRequestWithContext(
+		ctx,
+		"POST",
+		i.reportBaseurl+url,
+		bytes.NewBuffer([]byte(s)),
+	)
+	if err != nil {
+		return err
+	}
+	request.Header.Add("Content-Type", "application/json")
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return err
+	}
+	if response.StatusCode != 200 {
+		return errors.Errorf("report http error: %v", response.Status)
+	}
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(response.Body)
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		return err
+	}
+	err = jsonpb.UnmarshalString(string(body), rsp)
+	if err != nil {
+		return err
+	}
+	return nil
 }

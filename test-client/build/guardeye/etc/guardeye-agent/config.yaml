@@ -1,0 +1,7 @@
+Server:
+  Host: http://ws.scut.mcurobot.com
+  Port: 56688
+Provider:
+  - Type: ticker
+    Args:
+      Interval: 1000

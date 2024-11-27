@@ -1,0 +1,10 @@
+[Unit]
+Description=GuardEYE Agent
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/guardeye-agent
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
