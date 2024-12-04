@@ -4,10 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/0x587/guardeye/test-client/provider/foxglove/wsclient"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 func New(ctx context.Context, ip string, port int, topics ...string) provider.IF {

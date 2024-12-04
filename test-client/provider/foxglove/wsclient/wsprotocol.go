@@ -7,12 +7,13 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/0x587/guardeye/common/pool"
-	"github.com/0x587/guardeye/test-client/provider/foxglove/v8gojnject/textdecoder"
-	"github.com/0x587/guardeye/test-client/provider/foxglove/v8gojnject/textencoder"
 	"github.com/samber/lo"
 	"github.com/zeromicro/go-zero/core/logx"
 	v8 "rogchap.com/v8go"
+
+	"github.com/0x587/guardeye/common/pool"
+	"github.com/0x587/guardeye/test-client/provider/foxglove/v8gojnject/textdecoder"
+	"github.com/0x587/guardeye/test-client/provider/foxglove/v8gojnject/textencoder"
 )
 
 //go:embed out.js

@@ -3,7 +3,6 @@ package reporter
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"io"
 	"net"
 	"net/http"
@@ -23,6 +22,7 @@ import (
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
 	"github.com/0x587/guardeye/test-client/provider"
+	"github.com/0x587/guardeye/test-client/storage"
 )
 
 type IF interface {
@@ -32,6 +32,7 @@ type IF interface {
 func New(reportBaseurl string, providers ...provider.IF) IF {
 	res := &impl{
 		providers: providers,
+		storage:   storage.New(),
 		//reportClient: reportclient.NewReport(cli),
 		reportBaseurl: reportBaseurl,
 		featureDelay:  featuredelay.New(),
@@ -42,6 +43,7 @@ func New(reportBaseurl string, providers ...provider.IF) IF {
 
 type impl struct {
 	clientID string
+	storage  storage.IF
 	desc     *reportclient.NodeDescription
 	//reportClient reportclient.Report
 	reportBaseurl string
@@ -98,38 +100,22 @@ func (i *impl) reportLoop(ctx context.Context) {
 	}
 }
 
-type clientConfig struct {
-	ClientID string `json:"client_id"`
-}
-
 func (i *impl) init(ctx context.Context) error {
-	f, err := os.OpenFile("/etc/guardeye-agent/client.storage", os.O_CREATE|os.O_RDWR, 0666)
-	if err != nil {
-		return errors.Wrap(err, "init open file fail")
-	}
-	c := &clientConfig{}
-	err = json.NewDecoder(f).Decode(c)
-	logx.Infof("client config: %v", c)
-	if err != nil || c.ClientID == "" {
+	cid, err := i.storage.FetchOrSet("clientId", func() []byte {
 		req := &reportclient.InitReq{
 			NodeDescription: i.getNodeDesc(),
 		}
 		rsp := &reportclient.InitRsp{}
-		if err := post(i, ctx, "/init", req, rsp); err != nil {
-			return errors.Wrap(err, "init post error")
-		}
-		c.ClientID = rsp.GetNodeInfo().GetClientId()
+		err := post(i, ctx, "/init", req, rsp)
+		logx.Must(err)
+		clientID := rsp.GetNodeInfo().GetClientId()
+		return []byte(clientID)
+	})
+	if err != nil {
+		return err
 	}
-	i.clientID = c.ClientID
-	if _, err := f.Seek(0, 0); err != nil {
-		return errors.Wrap(err, "init seek fail")
-	}
-	if err := json.NewEncoder(f).Encode(c); err != nil {
-		return errors.Wrap(err, "init json encode fail")
-	}
-	if err := f.Close(); err != nil {
-		return errors.Wrap(err, "init close file fail")
-	}
+	i.clientID = string(cid)
+	logx.Infof("client id: %v", i.clientID)
 	return nil
 }
 
