@@ -66,6 +66,7 @@ message MQLog {
   Log log = 1;
   NodeInfo node_info = 2;
   string timestamp = 3 [json_name="@timestamp"];
+  map<string,string> parsed = 4;
   repeated TraceSpan trace = 10;
 }
 

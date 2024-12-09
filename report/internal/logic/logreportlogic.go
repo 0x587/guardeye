@@ -2,15 +2,18 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/golang/protobuf/jsonpb"
 	"time"
 
+	"github.com/0x587/guardeye/common/tokv"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 
+	"github.com/golang/protobuf/jsonpb"
 	"github.com/zeromicro/go-zero/core/logx"
+	"gopkg.in/yaml.v3"
 )
 
 type LogReportLogic struct {
@@ -33,15 +36,15 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 	}
 	// product raw log
 	for _, log := range in.GetLogs() {
-		t := time.UnixMilli(int64(log.ReportAtMilli))
 		mqLog := &report.MQLog{
-			Timestamp: t.Format(time.RFC3339),
+			Timestamp: time.UnixMilli(int64(log.ReportAtMilli)).Format(time.RFC3339),
 			NodeInfo:  in.GetNodeInfo(),
 			Log: &report.Log{
 				Message:  log.GetMessage(),
 				Provider: log.GetProvider(),
 				Type:     log.GetType(),
 			},
+			Parsed: parse(log.GetMessage()),
 			Trace: []*report.TraceSpan{
 				{
 					Name:   "report",
@@ -88,4 +91,16 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 		}
 	}
 	return rsp, nil
+}
+
+func parse(v string) map[string]string {
+	var obj interface{}
+	if err := json.Unmarshal([]byte(v), &obj); err == nil {
+		return tokv.ObjToKv(obj)
+	}
+	obj = struct{}{}
+	if err := yaml.Unmarshal([]byte(v), &obj); err == nil {
+		return tokv.ObjToKv(obj)
+	}
+	return make(map[string]string)
 }

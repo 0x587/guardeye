@@ -17,7 +17,7 @@ func JsonToKv(v string) (res KV) {
 	if err != nil {
 		return
 	}
-	return objToKv(obj)
+	return ObjToKv(obj)
 }
 
 func YamlToKv(v string) (res KV) {
@@ -27,16 +27,19 @@ func YamlToKv(v string) (res KV) {
 	if err != nil {
 		return
 	}
-	return objToKv(obj)
+	return ObjToKv(obj)
 }
 
-func objToKv(obj interface{}) KV {
+func ObjToKv(obj interface{}) KV {
 	kv := make(KV)
 	extractPaths(obj, "", &kv)
 	return kv
 }
 
 func extractPaths(value interface{}, prefix string, kv *KV) {
+	if value == nil {
+		return
+	}
 	// 获取值的类型
 	val := reflect.ValueOf(value)
 
@@ -78,6 +81,9 @@ func extractPaths(value interface{}, prefix string, kv *KV) {
 	default:
 		// 如果值是一个基本类型并且不是空值，则添加路径
 		if val.IsValid() && !isEmpty(val) {
+			if len(prefix) <= 0 {
+				return
+			}
 			(*kv)[prefix[1:]] = fmt.Sprintf("%v", val)
 		}
 	}

@@ -5,28 +5,23 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/0x587/guardeye/report/internal/config"
-	"github.com/0x587/guardeye/report/internal/mqs"
-	"github.com/0x587/guardeye/report/internal/server"
-	"github.com/0x587/guardeye/report/internal/svc"
-	"github.com/0x587/guardeye/report/report"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/0x587/guardeye/report/internal/config"
+	"github.com/0x587/guardeye/report/internal/mqs"
+	"github.com/0x587/guardeye/report/internal/server"
+	"github.com/0x587/guardeye/report/internal/svc"
+	"github.com/0x587/guardeye/report/report"
 )
 
 var configFile = flag.String("f", "etc/report.yaml", "the config file")
 
 func main() {
 	flag.Parse()
-
-	//var cfg logx.LogConf
-	//_ = conf.FillDefault(&cfg)
-	//cfg.Mode = "file"
-	//logc.MustSetup(cfg)
-	//defer logc.Close()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c, conf.UseEnv())

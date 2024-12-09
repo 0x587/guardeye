@@ -11,6 +11,7 @@ type Config struct {
 	LogtodbConsumerConf     kq.KqConf
 	LogDataKeyConsumerConf  kq.KqConf
 	LogToMetricConsumerConf kq.KqConf
+	LogParseConsumerConf    kq.KqConf
 	ReportRedis             redis.RedisConf
 	RawLogPusherConf        struct {
 		Brokers []string
