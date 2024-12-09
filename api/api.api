@@ -143,3 +143,21 @@ service api-api {
 	post /metric/data (FetchMetricDataReq) returns (FetchMetricDataRsp)
 }
 
+type (
+	EsQueryReq {
+		query   string `json:"query"`
+		startAt int    `json:"startAt"`
+		endAt   int    `json:"endAt"`
+	}
+	EsQueryRsp  {}
+)
+
+@server (
+	prefix: /api/v1/es
+	group:  es
+)
+service api-api {
+	@handler QueryHandler
+	post /query (EsQueryReq) returns (EsQueryRsp)
+}
+
