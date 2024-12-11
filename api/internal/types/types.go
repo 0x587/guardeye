@@ -3,13 +3,20 @@
 
 package types
 
+type EsQueryProfile struct {
+}
+
 type EsQueryReq struct {
-	Query   string `json:"query"`
-	StartAt int    `json:"startAt"`
-	EndAt   int    `json:"endAt"`
+	Query      string `json:"query"`
+	Hours      int    `json:"hours"`
+	TraceError bool   `json:"traceError,optional"`
 }
 
 type EsQueryRsp struct {
+	QueryErrors []string            `json:"queryErrors"`
+	Data        map[string][]string `json:"data"`
+	EvalErrors  []string            `json:"evalErrors"`
+	Profile     EsQueryProfile      `json:"profile"`
 }
 
 type FetchMetricDataReq struct {

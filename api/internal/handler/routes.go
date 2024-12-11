@@ -5,6 +5,7 @@ package handler
 
 import (
 	"net/http"
+	"time"
 
 	es "github.com/0x587/guardeye/api/internal/handler/es"
 	logtometric "github.com/0x587/guardeye/api/internal/handler/logtometric"
@@ -54,6 +55,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/v1/es"),
+		rest.WithTimeout(100000*time.Millisecond),
 	)
 
 	server.AddRoutes(

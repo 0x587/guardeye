@@ -144,17 +144,26 @@ service api-api {
 }
 
 type (
+	EsQueryProfile  {}
 	EsQueryReq {
-		query   string `json:"query"`
-		startAt int    `json:"startAt"`
-		endAt   int    `json:"endAt"`
+		query      string `json:"query"`
+		hours      int    `json:"hours"`
+		traceError bool   `json:"traceError,optional"`
 	}
-	EsQueryRsp  {}
+	EsQueryRsp {
+		queryErrors []string            `json:"queryErrors"`
+		data        map[string][]string `json:"data"`
+		evalErrors  []string            `json:"evalErrors"`
+		//                              count       int                 `json:"count"`
+		//                              rawQuery    string              `json:"rawQuery"`
+		profile     EsQueryProfile      `json:"profile"`
+	}
 )
 
 @server (
-	prefix: /api/v1/es
-	group:  es
+	prefix:  /api/v1/es
+	group:   es
+	timeout: 100s
 )
 service api-api {
 	@handler QueryHandler
