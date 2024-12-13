@@ -4,6 +4,10 @@
 package types
 
 type EsQueryProfile struct {
+	FetchCount  int   `json:"fetchCount"`
+	ResultCount int   `json:"resultCount"`
+	FetchTime   []int `json:"fetchTime"`
+	EvalTime    []int `json:"evalTime"`
 }
 
 type EsQueryReq struct {
@@ -13,10 +17,11 @@ type EsQueryReq struct {
 }
 
 type EsQueryRsp struct {
-	QueryErrors []string            `json:"queryErrors"`
-	Data        map[string][]string `json:"data"`
-	EvalErrors  []string            `json:"evalErrors"`
-	Profile     EsQueryProfile      `json:"profile"`
+	Profile     EsQueryProfile   `json:"profile"`
+	QueryErrors []string         `json:"queryErrors"`
+	EvalErrors  []string         `json:"evalErrors"`
+	ColumnNames []string         `json:"columnNames"`
+	Data        map[int][]string `json:"data"`
 }
 
 type FetchMetricDataReq struct {

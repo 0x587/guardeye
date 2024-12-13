@@ -36,6 +36,7 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 	}
 	// product raw log
 	for _, log := range in.GetLogs() {
+		parsed, parsedType := parse(log.GetMessage())
 		mqLog := &report.MQLog{
 			Timestamp: time.UnixMilli(int64(log.ReportAtMilli)).Format(time.RFC3339),
 			NodeInfo:  in.GetNodeInfo(),
@@ -44,7 +45,11 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 				Provider: log.GetProvider(),
 				Type:     log.GetType(),
 			},
-			Parsed: parse(log.GetMessage()),
+			Parsed: parsed,
+			Flag: &report.MQLogFlag{
+				JsonAble: parsedType == JsonAble,
+				YamlAble: parsedType == YamlAble,
+			},
 			Trace: []*report.TraceSpan{
 				{
 					Name:   "report",
@@ -93,14 +98,19 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 	return rsp, nil
 }
 
-func parse(v string) map[string]string {
+const (
+	JsonAble = "json"
+	YamlAble = "yaml"
+)
+
+func parse(v string) (map[string]string, string) {
 	var obj interface{}
 	if err := json.Unmarshal([]byte(v), &obj); err == nil {
-		return tokv.ObjToKv(obj)
+		return tokv.ObjToKv(obj), JsonAble
 	}
 	obj = struct{}{}
 	if err := yaml.Unmarshal([]byte(v), &obj); err == nil {
-		return tokv.ObjToKv(obj)
+		return tokv.ObjToKv(obj), YamlAble
 	}
-	return make(map[string]string)
+	return make(map[string]string), ""
 }

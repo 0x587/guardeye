@@ -41,6 +41,7 @@ type SourceEntry struct {
 		PType string
 		PArgs []string
 	}
+	NeedKeys []string
 }
 
 func (l *ResListener) EnterSource(ctx *parser.SourceContext) {
@@ -73,8 +74,14 @@ func (l *ResListener) EnterSource(ctx *parser.SourceContext) {
 	l.qe.ses = append(l.qe.ses, s)
 }
 
+type SourceDependEntry struct {
+	NeedKeys []string
+}
+
 type ValueEntry struct {
-	Vf func(EnvInjector) (any, error)
+	Vf           func(EnvInjector) (any, error)
+	SourceDepend SourceDependEntry
+	IsLiteral    bool
 }
 
 type ResultEntry struct {
@@ -84,7 +91,7 @@ type ResultEntry struct {
 
 func (l *ResListener) EnterResultColumn(ctx *parser.ResultColumnContext) {
 	re := &ResultEntry{}
-	re.Value = &ValueEntry{Vf: l.makeValueEntryFunc(ctx.ValueExpr())}
+	re.Value = l.makeValueEntry(ctx.ValueExpr())
 	alias := ctx.ResultAlias()
 	if alias != nil {
 		re.Alias = alias.GetText()
@@ -92,97 +99,136 @@ func (l *ResListener) EnterResultColumn(ctx *parser.ResultColumnContext) {
 	l.qe.res = append(l.qe.res, re)
 }
 
-func (l *ResListener) makeValueEntryFunc(ctx parser.IValueExprContext) func(EnvInjector) (any, error) {
+func (l *ResListener) makeValueEntry(ctx parser.IValueExprContext) *ValueEntry {
 	switch {
 	case ctx.NUMERIC_LITERAL() != nil:
-		return func(_ EnvInjector) (any, error) {
-			return strconv.ParseInt(ctx.NUMERIC_LITERAL().GetText(), 10, 64)
+		return &ValueEntry{
+			Vf: func(_ EnvInjector) (any, error) {
+				return strconv.ParseInt(ctx.NUMERIC_LITERAL().GetText(), 10, 64)
+			},
+			IsLiteral: true,
 		}
 	case ctx.STRING_LITERAL() != nil:
-		return func(_ EnvInjector) (any, error) {
-			s := ctx.STRING_LITERAL().GetText()
-			s = s[1 : len(s)-1]
-			return s, nil
+		return &ValueEntry{
+			Vf: func(_ EnvInjector) (any, error) {
+				s := ctx.STRING_LITERAL().GetText()
+				s = s[1 : len(s)-1]
+				return s, nil
+			},
+			IsLiteral: true,
 		}
 	case ctx.IDENTIFIER() != nil:
-		return func(_ EnvInjector) (any, error) {
-			return ctx.IDENTIFIER().GetText(), nil
+		return &ValueEntry{
+			Vf: func(_ EnvInjector) (any, error) {
+				return ctx.IDENTIFIER().GetText(), nil
+			},
+			IsLiteral: true,
 		}
 	case ctx.BuildinSource() != nil:
-		return func(mi EnvInjector) (any, error) {
-			switch ctx.BuildinSource().GetText() {
-			case "$msg":
-				return mi.GetMsg(), nil
-			default:
-				// TODO
-				return ctx.BuildinSource().GetText(), nil
-			}
+		return &ValueEntry{
+			Vf: func(mi EnvInjector) (any, error) {
+				switch ctx.BuildinSource().GetText() {
+				case "$msg":
+					return mi.GetMsg(), nil
+				default:
+					// TODO
+					panic("implement me")
+				}
+			},
 		}
 	case ctx.DOT() != nil:
-		return func(mi EnvInjector) (any, error) {
-			express := ctx.AllValueExpr()
-			if len(express) != 2 {
-				return nil, errors.Errorf("len(exprs) %d != 2", len(express))
-			}
-			leftValue, err := l.makeValueEntryFunc(express[0])(mi)
-			if err != nil {
-				return nil, err
-			}
-			leftValueAsMap, ok := leftValue.(map[string]any)
-			if !ok {
-				return nil, errors.Errorf("want got a map, but got %T", leftValue)
-			}
-			rightValue, err := l.makeValueEntryFunc(express[1])(mi)
-			if err != nil {
-				return nil, err
-			}
-			rightValueAsString, ok := rightValue.(string)
-			if !ok {
-				return nil, errors.Errorf("want got a string, but got %T", rightValue)
-			}
-			v, ok := leftValueAsMap[rightValueAsString]
-			if !ok {
-				return nil, errors.Errorf("key %s not found", rightValueAsString)
-			}
-			return v, nil
+		var errInParse error
+		express := ctx.AllValueExpr()
+		if len(express) != 2 {
+			errInParse = errors.Errorf("len(exprs) %d != 2", len(express))
 		}
-	case ctx.OPEN_BRA() != nil:
-		return func(mi EnvInjector) (any, error) {
-			express := ctx.AllValueExpr()
-			if len(express) != 2 {
-				return nil, errors.Errorf("len(exprs) %d != 2", len(express))
-			}
-			leftValue, err := l.makeValueEntryFunc(express[0])(mi)
+		leftValueEntry := l.makeValueEntry(express[0])
+		rightValueEntry := l.makeValueEntry(express[1])
+		var rightValueAsString string
+		var ok bool
+		// 字面量可直接求值
+		if rightValueEntry.IsLiteral {
+			rightValue, err := l.makeValueEntry(express[1]).Vf(nil)
 			if err != nil {
-				return nil, err
+				errInParse = err
 			}
-			leftValueAsArr, ok := leftValue.([]any)
+			rightValueAsString, ok = rightValue.(string)
 			if !ok {
-				return nil, errors.Errorf("want got a array, but got %T", leftValue)
+				errInParse = errors.Errorf("want got a string, but got %T", rightValue)
 			}
-			rightValue, err := l.makeValueEntryFunc(express[1])(mi)
-			if err != nil {
-				return nil, err
-			}
-			var index int64
-			rightValueAsInt, ok1 := rightValue.(int64)
-			if ok1 {
-				index = rightValueAsInt
-			}
-			rightValueAsDouble, ok2 := rightValue.(float64)
-			if ok2 {
-				index = int64(rightValueAsDouble)
-			}
-			if !(ok1 && ok2) {
-				return nil, errors.Errorf("want got a int64, but got %T", rightValue)
-			}
-			if index >= int64(len(leftValueAsArr)) {
-				return nil, errors.Errorf("index out of range")
-			}
-			if index < 0 {
-				return nil, errors.Errorf("index must be positive")
-			}
-			return leftValueAsArr[index], nil
+		}
+		res := &ValueEntry{
+			Vf: func(mi EnvInjector) (any, error) {
+				if errInParse != nil {
+					return nil, errInParse
+				}
+				leftValue, err := leftValueEntry.Vf(mi)
+				if err != nil {
+					return nil, err
+				}
+				leftValueAsMap, ok := leftValue.(map[string]any)
+				if !ok {
+					return nil, errors.Errorf("want got a map, but got %T", leftValue)
+				}
+				rightValue, err := l.makeValueEntry(express[1]).Vf(mi)
+				if err != nil {
+					return nil, err
+				}
+				if rightValueAsString == "" {
+					rightValueAsString, ok = rightValue.(string)
+					if !ok {
+						return nil, errors.Errorf("want got a string, but got %T", rightValue)
+					}
+				}
+				v, ok := leftValueAsMap[rightValueAsString]
+				if !ok {
+					return nil, errors.Errorf("key %s not found", rightValueAsString)
+				}
+				return v, nil
+			},
+		}
+		res.SourceDepend.NeedKeys = append(res.SourceDepend.NeedKeys, leftValueEntry.SourceDepend.NeedKeys...)
+		res.SourceDepend.NeedKeys = append(res.SourceDepend.NeedKeys, rightValueAsString)
+		return res
+	case ctx.OPEN_BRA() != nil:
+		return &ValueEntry{
+			Vf: func(mi EnvInjector) (any, error) {
+				express := ctx.AllValueExpr()
+				if len(express) != 2 {
+					return nil, errors.Errorf("len(exprs) %d != 2", len(express))
+				}
+				leftValue, err := l.makeValueEntry(express[0]).Vf(mi)
+				if err != nil {
+					return nil, err
+				}
+				leftValueAsArr, ok := leftValue.([]any)
+				if !ok {
+					return nil, errors.Errorf("want got a array, but got %T", leftValue)
+				}
+				rightValue, err := l.makeValueEntry(express[1]).Vf(mi)
+				if err != nil {
+					return nil, err
+				}
+				var index int64
+				rightValueAsInt, ok1 := rightValue.(int64)
+				if ok1 {
+					index = rightValueAsInt
+				}
+				rightValueAsDouble, ok2 := rightValue.(float64)
+				if ok2 {
+					index = int64(rightValueAsDouble)
+				}
+				if !(ok1 && ok2) {
+					return nil, errors.Errorf("want got a int64, but got %T", rightValue)
+				}
+				if index >= int64(len(leftValueAsArr)) {
+					return nil, errors.Errorf("index out of range")
+				}
+				if index < 0 {
+					return nil, errors.Errorf("index must be positive")
+				}
+				return leftValueAsArr[index], nil
+			},
 		}
 	case ctx.BuildinFunction() != nil:
 		args := ctx.AllValueExpr()
@@ -193,26 +239,28 @@ func (l *ResListener) makeValueEntryFunc(ctx parser.IValueExprContext) func(EnvI
 		case "yaml":
 			unmarshalFun = yaml.Unmarshal
 		}
-		return func(mi EnvInjector) (any, error) {
-			if len(args) != 1 {
-				return nil, errors.Errorf("len(args) %d != 1", len(args))
-			}
-			var obj any
-			value, err := l.makeValueEntryFunc(args[0])(mi)
-			if err != nil {
-				return nil, err
-			}
-			valueAsString, ok := value.(string)
-			if !ok {
-				return nil, errors.Errorf("want got a string, but got %T", value)
-			}
-			if err = unmarshalFun([]byte(valueAsString), &obj); err != nil {
-				return nil, errors.Wrapf(err, "fail in func %s", ctx.BuildinFunction().GetText())
-			}
-			return obj, nil
+		return &ValueEntry{
+			Vf: func(mi EnvInjector) (any, error) {
+				if len(args) != 1 {
+					return nil, errors.Errorf("len(args) %d != 1", len(args))
+				}
+				var obj any
+				value, err := l.makeValueEntry(args[0]).Vf(mi)
+				if err != nil {
+					return nil, err
+				}
+				valueAsString, ok := value.(string)
+				if !ok {
+					return nil, errors.Errorf("want got a string, but got %T", value)
+				}
+				if err = unmarshalFun([]byte(valueAsString), &obj); err != nil {
+					return nil, errors.Wrapf(err, "fail in func %s", ctx.BuildinFunction().GetText())
+				}
+				return obj, nil
+			},
 		}
 	case ctx.OPEN_PAR() != nil:
-		return l.makeValueEntryFunc(ctx.ValueExpr(0))
+		return l.makeValueEntry(ctx.ValueExpr(0))
 	}
 	return nil
 }

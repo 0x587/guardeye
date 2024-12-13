@@ -144,19 +144,23 @@ service api-api {
 }
 
 type (
-	EsQueryProfile  {}
+	EsQueryProfile {
+		fetchCount  int   `json:"fetchCount"`
+		resultCount int   `json:"resultCount"`
+		fetchTime   []int `json:"fetchTime"`
+		evalTime    []int `json:"evalTime"`
+	}
 	EsQueryReq {
 		query      string `json:"query"`
 		hours      int    `json:"hours"`
 		traceError bool   `json:"traceError,optional"`
 	}
 	EsQueryRsp {
-		queryErrors []string            `json:"queryErrors"`
-		data        map[string][]string `json:"data"`
-		evalErrors  []string            `json:"evalErrors"`
-		//                              count       int                 `json:"count"`
-		//                              rawQuery    string              `json:"rawQuery"`
-		profile     EsQueryProfile      `json:"profile"`
+		profile     EsQueryProfile   `json:"profile"`
+		queryErrors []string         `json:"queryErrors"`
+		evalErrors  []string         `json:"evalErrors"`
+		columnNames []string         `json:"columnNames"`
+		data        map[int][]string `json:"data"`
 	}
 )
 

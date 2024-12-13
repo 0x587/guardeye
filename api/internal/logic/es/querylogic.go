@@ -2,6 +2,7 @@ package es
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -15,6 +16,7 @@ import (
 	"github.com/0x587/guardeye/api/internal/logic/es/parser"
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/0x587/guardeye/api/internal/types"
+	"github.com/0x587/guardeye/common/profile"
 )
 
 type QueryLogic struct {
@@ -102,21 +104,24 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 	for _, source := range s.SourceWhere {
 		var qs MS = nil
 		if !source.Node.Any {
-			qs = append(qs, makeEq("nodeInfo.clientId", source.Node.Nid))
+			qs = append(qs, makeHas("nodeInfo.clientId", source.Node.Nid))
 		}
 		for _, p := range source.Providers {
 			if p.Any {
 				continue
 			}
 			if p.PType != "" {
-				qs = append(qs, makeEq("log.provider.type", p.PType))
+				qs = append(qs, makeHas("log.provider.type", p.PType))
 			}
+		}
+		for _, key := range source.NeedKeys {
+			qs = append(qs, makeHas("log.message", key))
 		}
 		if qs != nil {
 			sourceQuery = append(sourceQuery, makeAnd(qs...))
 		}
 	}
-	n := time.Now()
+	n := time.Now().In(lo.Must(time.LoadLocation("UTC")))
 	filter := MS{
 		{
 			"range": M{
@@ -129,49 +134,68 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		},
 		makeOr(sourceQuery...),
 	}
+	{
+		//	TODO: Just for debug
+		b := lo.Must(json.MarshalIndent(filter, "", "  "))
+		fmt.Println(string(b))
+	}
 
-	records, err := l.fetchEs(filter)
+	records, err, fetchSpend := profile.Measure(func() ([]record, error) {
+		recordsCh, err := l.fetchEs(filter)
+		return lo.Flatten(lo.ChannelToSlice(recordsCh)), err
+	})
+
 	if err != nil {
 		return nil, err
 	}
-	ijs := lo.Map(records, func(r record, _ int) *injector {
-		return &injector{msg: r.Fields.Message[0]}
-	})
-	data := make(map[string][]string)
-	errs = nil
-	for _, result := range s.Result {
-		data[result.Alias] = lo.FilterMap(ijs, func(ij *injector, _ int) (string, bool) {
-			v, err := result.Value.Vf(ij)
-			if err != nil {
-				if req.TraceError {
-					errs = append(errs, err.Error())
+
+	data, _, evalSpend := profile.Measure(func() (map[int][]string, error) {
+		data := lo.FilterMap(records, func(r record, _ int) (lo.Tuple2[int, []string], bool) {
+			ij := &injector{msg: r.Fields.Message[0]}
+			row := lo.Map(s.Result, func(result *listener.ResultEntry, _ int) string {
+				v, err := result.Value.Vf(ij)
+				if err != nil {
+					if req.TraceError {
+						errs = append(errs, err.Error())
+					}
+					return ""
 				}
-				return "", false
+				return fmt.Sprintf("%v", v)
+			})
+			flag := false
+			for _, i := range row {
+				if i != "" {
+					flag = true
+					break
+				}
 			}
-			return fmt.Sprintf("%v", v), true
+			return lo.Tuple2[int, []string]{A: int(r.Fields.Timestamp[0].In(lo.Must(time.LoadLocation("Asia/Shanghai"))).Unix()), B: row}, flag
 		})
-	}
+		return lo.SliceToMap(data, func(i lo.Tuple2[int, []string]) (int, []string) { return i.A, i.B }), nil
+	})
 	resp = &types.EsQueryRsp{
-		Data:       data,
-		EvalErrors: errs,
+		Data:        data,
+		EvalErrors:  errs,
+		ColumnNames: lo.Map(s.Result, func(r *listener.ResultEntry, _ int) string { return r.Alias }),
+		Profile: types.EsQueryProfile{
+			FetchTime:   []int{int(fetchSpend / time.Millisecond)},
+			EvalTime:    []int{int(evalSpend / time.Millisecond)},
+			FetchCount:  len(records),
+			ResultCount: len(data),
+		},
 		//Count:    len(data),
 		//RawQuery: string(lo.Must(json.Marshal(query))),
 	}
 	return
 }
 
-func (l *QueryLogic) fetchEs(filters MS) ([]record, error) {
+func (l *QueryLogic) fetchEs(filters MS) (chan []record, error) {
 	es := l.svcCtx.Es
 
 	pit, err := openPit(l.ctx, es)
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		if err := closePit(l.ctx, es, pit); err != nil {
-			logc.Error(l.ctx, err)
-		}
-	}()
 
 	// 构建搜索查询
 	sort := MS{
@@ -215,24 +239,35 @@ func (l *QueryLogic) fetchEs(filters MS) ([]record, error) {
 		},
 	}
 	var searchResult *esSearchRes
-	var res []record
-	for {
-		searchResult, err = search(l.ctx, es, query)
-		if err != nil {
-			return nil, err
-		}
-		res = append(res, searchResult.Hits.Hits...)
-		if isAll(searchResult.Hits.Total) {
-			break
-		} else {
-			if len(searchResult.Hits.Hits) == 0 {
+	var resCh = make(chan []record)
+
+	go func() {
+		defer func() {
+			logc.Infof(l.ctx, "close")
+			if err := closePit(l.ctx, es, pit); err != nil {
+				logc.Error(l.ctx, err)
+			}
+			close(resCh)
+		}()
+		for {
+			searchResult, err = search(l.ctx, es, query)
+			if err != nil {
+				logc.Error(l.ctx, errors.Wrap(err, "fail in es search"))
 				break
 			}
-			lastRecord := searchResult.Hits.Hits[len(searchResult.Hits.Hits)-1]
-			query["search_after"] = lastRecord.Sort
+			resCh <- searchResult.Hits.Hits
+			if isAll(searchResult.Hits.Total) {
+				break
+			} else {
+				if len(searchResult.Hits.Hits) == 0 {
+					break
+				}
+				lastRecord := searchResult.Hits.Hits[len(searchResult.Hits.Hits)-1]
+				query["search_after"] = lastRecord.Sort
+			}
 		}
-	}
-	return res, nil
+	}()
+	return resCh, nil
 }
 
 func isAll(t total) bool {
@@ -256,7 +291,7 @@ func (i *injector) GetMsg() string {
 	return i.msg
 }
 
-func makeEq(key, value string) M {
+func makeHas(key, value string) M {
 	return M{
 		"bool": M{
 			"should": MS{
@@ -271,7 +306,26 @@ func makeEq(key, value string) M {
 	}
 }
 
+//func makeLike(key, value string) M {
+//	return M{
+//		"bool": M{
+//			"should": MS{
+//				{
+//					"query_string": M{
+//						"fields": []string{key},
+//						"query":  fmt.Sprintf("* %s", value),
+//					},
+//				},
+//			},
+//			"minimum_should_match": 1,
+//		},
+//	}
+//}
+
 func makeAnd(items ...M) M {
+	if len(items) == 1 {
+		return items[0]
+	}
 	return M{
 		"bool": M{
 			"filter": items,
@@ -280,6 +334,9 @@ func makeAnd(items ...M) M {
 }
 
 func makeOr(items ...M) M {
+	if len(items) == 1 {
+		return items[0]
+	}
 	return M{
 		"bool": M{
 			"should": items,

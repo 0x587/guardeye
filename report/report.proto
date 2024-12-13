@@ -62,11 +62,17 @@ message TraceSpan {
   uint64 time = 3;
 }
 
+message MQLogFlag {
+  bool json_able = 1;
+  bool yaml_able = 2;
+}
+
 message MQLog {
   Log log = 1;
   NodeInfo node_info = 2;
   string timestamp = 3 [json_name="@timestamp"];
   map<string,string> parsed = 4;
+  MQLogFlag flag = 5;
   repeated TraceSpan trace = 10;
 }
 

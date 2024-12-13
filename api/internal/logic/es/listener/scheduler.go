@@ -1,6 +1,10 @@
 package listener
 
-import "time"
+import (
+	"time"
+
+	"github.com/samber/lo"
+)
 
 func NewScheduler() *Scheduler {
 	return &Scheduler{
@@ -22,8 +26,15 @@ type Schedule struct {
 }
 
 func (s *Scheduler) GetSchedule() *Schedule {
-	return &Schedule{
+	res := &Schedule{
 		SourceWhere: s.Listener.qe.ses,
 		Result:      s.Listener.qe.res,
 	}
+	for _, r := range res.Result {
+		for _, s := range res.SourceWhere {
+			s.NeedKeys = append(s.NeedKeys, r.Value.SourceDepend.NeedKeys...)
+			s.NeedKeys = lo.Uniq(s.NeedKeys)
+		}
+	}
+	return res
 }
