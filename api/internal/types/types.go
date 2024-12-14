@@ -4,10 +4,10 @@
 package types
 
 type EsQueryProfile struct {
-	FetchCount  int   `json:"fetchCount"`
-	ResultCount int   `json:"resultCount"`
-	FetchTime   []int `json:"fetchTime"`
-	EvalTime    []int `json:"evalTime"`
+	FetchCount  int `json:"fetchCount"`
+	ResultCount int `json:"resultCount"`
+	FetchTime   int `json:"fetchTime"`
+	EvalTime    int `json:"evalTime"`
 }
 
 type EsQueryReq struct {

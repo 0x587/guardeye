@@ -145,10 +145,10 @@ service api-api {
 
 type (
 	EsQueryProfile {
-		fetchCount  int   `json:"fetchCount"`
-		resultCount int   `json:"resultCount"`
-		fetchTime   []int `json:"fetchTime"`
-		evalTime    []int `json:"evalTime"`
+		fetchCount  int `json:"fetchCount"`
+		resultCount int `json:"resultCount"`
+		fetchTime   int `json:"fetchTime"`
+		evalTime    int `json:"evalTime"`
 	}
 	EsQueryReq {
 		query      string `json:"query"`

@@ -1,8 +1,6 @@
 package listener
 
 import (
-	"time"
-
 	"github.com/samber/lo"
 )
 
@@ -17,16 +15,14 @@ type Scheduler struct {
 }
 
 type Schedule struct {
-	TimeWhere *struct {
-		StartAt time.Time
-		EndAt   time.Time
-	}
+	TimeWhere   *TimeEntry
 	SourceWhere []*SourceEntry
 	Result      []*ResultEntry
 }
 
 func (s *Scheduler) GetSchedule() *Schedule {
 	res := &Schedule{
+		TimeWhere:   s.Listener.qe.te,
 		SourceWhere: s.Listener.qe.ses,
 		Result:      s.Listener.qe.res,
 	}

@@ -12,9 +12,30 @@ select
     : (
         SELECT_ resultColumn (COMMA resultColumn)*
         FROM_ sourceOrSubquery (COMMA sourceOrSubquery)*
+        IN_ timeStmt
         (WHERE_ whereStmt)?
     )
 //    | values_clause
+;
+
+timeStmt
+    : absTimeStmt
+    | relatTimeStmt
+;
+
+// yyyy-MM-dd HH:mm:ss to yyyy-MM-dd HH:mm:ss
+absTimeStmt
+    : STRING_LITERAL (TO_ STRING_LITERAL)?
+;
+
+relatTimeStmt
+    : '-' NUMERIC_LITERAL timeUnit (TO_ '-' NUMERIC_LITERAL timeUnit)?
+;
+
+timeUnit
+    : 'm'
+    | 'h'
+    | 'd'
 ;
 
 whereStmt
@@ -186,7 +207,8 @@ PROVIDER_          : 'PROVIDER';
 AND_               : 'AND';
 OR_                : 'OR';
 NOT_               : 'NOT';
-//IN_                : 'IN';
+IN_                : 'IN';
+TO_                : 'TO';
 
 SELECT_            : 'SELECT';
 FROM_              : 'FROM';

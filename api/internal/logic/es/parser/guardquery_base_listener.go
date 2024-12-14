@@ -32,6 +32,30 @@ func (s *BaseGuardQueryListener) EnterSelect(ctx *SelectContext) {}
 // ExitSelect is called when production select is exited.
 func (s *BaseGuardQueryListener) ExitSelect(ctx *SelectContext) {}
 
+// EnterTimeStmt is called when production timeStmt is entered.
+func (s *BaseGuardQueryListener) EnterTimeStmt(ctx *TimeStmtContext) {}
+
+// ExitTimeStmt is called when production timeStmt is exited.
+func (s *BaseGuardQueryListener) ExitTimeStmt(ctx *TimeStmtContext) {}
+
+// EnterAbsTimeStmt is called when production absTimeStmt is entered.
+func (s *BaseGuardQueryListener) EnterAbsTimeStmt(ctx *AbsTimeStmtContext) {}
+
+// ExitAbsTimeStmt is called when production absTimeStmt is exited.
+func (s *BaseGuardQueryListener) ExitAbsTimeStmt(ctx *AbsTimeStmtContext) {}
+
+// EnterRelatTimeStmt is called when production relatTimeStmt is entered.
+func (s *BaseGuardQueryListener) EnterRelatTimeStmt(ctx *RelatTimeStmtContext) {}
+
+// ExitRelatTimeStmt is called when production relatTimeStmt is exited.
+func (s *BaseGuardQueryListener) ExitRelatTimeStmt(ctx *RelatTimeStmtContext) {}
+
+// EnterTimeUnit is called when production timeUnit is entered.
+func (s *BaseGuardQueryListener) EnterTimeUnit(ctx *TimeUnitContext) {}
+
+// ExitTimeUnit is called when production timeUnit is exited.
+func (s *BaseGuardQueryListener) ExitTimeUnit(ctx *TimeUnitContext) {}
+
 // EnterWhereStmt is called when production whereStmt is entered.
 func (s *BaseGuardQueryListener) EnterWhereStmt(ctx *WhereStmtContext) {}
 

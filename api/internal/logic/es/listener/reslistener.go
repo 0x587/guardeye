@@ -3,12 +3,16 @@ package listener
 import (
 	"encoding/json"
 	"strconv"
+	"strings"
+	"time"
 
+	"github.com/antlr4-go/antlr/v4"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
 	"gopkg.in/yaml.v3"
 
 	"github.com/0x587/guardeye/api/internal/logic/es/parser"
+	"github.com/0x587/guardeye/common/utils"
 )
 
 func NewResListener() *ResListener {
@@ -26,22 +30,90 @@ type ResListener struct {
 	qe *QueryEntry
 }
 
-type QueryEntry struct {
-	ses []*SourceEntry
-	res []*ResultEntry
+type (
+	QueryEntry struct {
+		ses []*SourceEntry
+		res []*ResultEntry
+		te  *TimeEntry
+	}
+	TimeEntry struct {
+		From utils.ErrOr[time.Time]
+		To   utils.ErrOr[time.Time]
+	}
+	SourceEntry struct {
+		Node struct {
+			Any bool
+			Nid string
+		}
+		Providers []struct {
+			Any   bool
+			PType string
+			PArgs []string
+		}
+		NeedKeys []string
+	}
+	SourceDependEntry struct {
+		NeedKeys []string
+	}
+	ValueEntry struct {
+		Vf           func(EnvInjector) (any, error)
+		SourceDepend SourceDependEntry
+		IsLiteral    bool
+	}
+	ResultEntry struct {
+		Value *ValueEntry
+		Alias string
+	}
+)
+
+func (l *ResListener) EnterTimeStmt(ctx *parser.TimeStmtContext) {
+	aCtx := ctx.AbsTimeStmt()
+	if aCtx != nil {
+		t1Str := aCtx.STRING_LITERAL(0).GetText()
+		t1Str = strings.Replace(t1Str, "'", "", -1)
+		t1, err := time.Parse("2006-01-02 15:04:05-07", t1Str)
+		l.qe.te = &TimeEntry{
+			From: utils.NewErrOr(t1, err),
+		}
+		if aCtx.TO_() != nil {
+			t2Str := aCtx.STRING_LITERAL(1).GetText()
+			t2Str = strings.Replace(t2Str, "'", "", -1)
+			t2, err := time.Parse("2006-01-02 15:04:05-07", t2Str)
+			l.qe.te.To = utils.NewErrOr(t2, errors.Wrap(err, "parse time fail"))
+		} else {
+			l.qe.te.To = utils.NewErrOr(time.Now(), nil)
+		}
+		return
+	}
+	rCtx := ctx.RelatTimeStmt()
+	n := time.Now().In(lo.Must(time.LoadLocation("UTC")))
+	t1, err := parseRelatTime(n, rCtx.NUMERIC_LITERAL(0), rCtx.TimeUnit(0))
+	l.qe.te = &TimeEntry{
+		From: utils.NewErrOr(t1, err),
+	}
+	if rCtx.TO_() != nil {
+		t2, err := parseRelatTime(n, rCtx.NUMERIC_LITERAL(0), rCtx.TimeUnit(0))
+		l.qe.te.To = utils.NewErrOr(t2, err)
+	} else {
+		l.qe.te.To = utils.NewErrOr(time.Now(), nil)
+	}
 }
 
-type SourceEntry struct {
-	Node struct {
-		Any bool
-		Nid string
+func parseRelatTime(now time.Time, n antlr.TerminalNode, u parser.ITimeUnitContext) (time.Time, error) {
+	parseInt, err := strconv.ParseInt(n.GetText(), 10, 64)
+	if err != nil {
+		return time.Time{}, err
 	}
-	Providers []struct {
-		Any   bool
-		PType string
-		PArgs []string
+	switch u.GetText() {
+	default:
+		return time.Time{}, errors.Errorf("unknown time unit %s", u.GetText())
+	case "m":
+		return now.Add(time.Duration(-parseInt) * time.Minute), nil
+	case "h":
+		return now.Add(time.Duration(-parseInt) * time.Hour), nil
+	case "d":
+		return now.Add(time.Duration(-parseInt) * 24 * time.Hour), nil
 	}
-	NeedKeys []string
 }
 
 func (l *ResListener) EnterSource(ctx *parser.SourceContext) {
@@ -72,21 +144,6 @@ func (l *ResListener) EnterSource(ctx *parser.SourceContext) {
 		s.Providers = append(s.Providers, pl)
 	}
 	l.qe.ses = append(l.qe.ses, s)
-}
-
-type SourceDependEntry struct {
-	NeedKeys []string
-}
-
-type ValueEntry struct {
-	Vf           func(EnvInjector) (any, error)
-	SourceDepend SourceDependEntry
-	IsLiteral    bool
-}
-
-type ResultEntry struct {
-	Value *ValueEntry
-	Alias string
 }
 
 func (l *ResListener) EnterResultColumn(ctx *parser.ResultColumnContext) {

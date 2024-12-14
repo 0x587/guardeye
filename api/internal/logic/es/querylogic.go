@@ -121,13 +121,20 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 			sourceQuery = append(sourceQuery, makeAnd(qs...))
 		}
 	}
-	n := time.Now().In(lo.Must(time.LoadLocation("UTC")))
+	from, err := s.TimeWhere.From.Get()
+	if err != nil {
+		return nil, err
+	}
+	to, err := s.TimeWhere.To.Get()
+	if err != nil {
+		return nil, err
+	}
 	filter := MS{
 		{
 			"range": M{
 				"@timestamp": M{
-					"gte":    n.Add(time.Hour * time.Duration(-1*req.Hours)).Format("2006-01-02T15:04:05Z"),
-					"lte":    n.Format("2006-01-02T15:04:05Z"),
+					"gte":    from.Format("2006-01-02T15:04:05Z07"),
+					"lte":    to.Format("2006-01-02T15:04:05Z07"),
 					"format": "strict_date_optional_time",
 				},
 			},
@@ -178,8 +185,8 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		EvalErrors:  errs,
 		ColumnNames: lo.Map(s.Result, func(r *listener.ResultEntry, _ int) string { return r.Alias }),
 		Profile: types.EsQueryProfile{
-			FetchTime:   []int{int(fetchSpend / time.Millisecond)},
-			EvalTime:    []int{int(evalSpend / time.Millisecond)},
+			FetchTime:   int(fetchSpend / time.Millisecond),
+			EvalTime:    int(evalSpend / time.Millisecond),
 			FetchCount:  len(records),
 			ResultCount: len(data),
 		},
