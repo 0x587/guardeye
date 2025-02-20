@@ -1,10 +1,12 @@
 module github.com/0x587/guardeye
 
-go 1.22.7
+go 1.23.0
+
+toolchain go1.23.3
 
 require (
+	entgo.io/ent v0.14.1
 	github.com/0x587/go-cjson v0.0.0-20241117051049-f40bf93d1f62
-	github.com/antlr4-go/antlr v0.0.0-20230518091524-98b52378c522
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/boltdb/bolt v1.3.1
 	github.com/eclipse/paho.mqtt.golang v1.5.0
@@ -31,7 +33,10 @@ require (
 )
 
 require (
+	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/agext/levenshtein v1.2.1 // indirect
+	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bufbuild/protocompile v0.14.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
@@ -48,6 +53,7 @@ require (
 	github.com/fullstorydev/grpcurl v1.9.1 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
+	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.6 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
@@ -59,6 +65,7 @@ require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0 // indirect
+	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/jhump/protoreflect v1.17.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -66,6 +73,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
@@ -79,6 +87,7 @@ require (
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/segmentio/kafka-go v0.4.47 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
+	github.com/zclconf/go-cty v1.8.0 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.15 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.15 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.15 // indirect
@@ -98,6 +107,7 @@ require (
 	go.uber.org/multierr v1.9.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
+	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect

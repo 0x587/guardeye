@@ -1,0 +1,22 @@
+syntax = "v1"
+
+type WsMsgBase {
+	cmd string `json:"cmd"`
+}
+
+type WsInitRsp {
+	WsMsgBase
+	SessionId string `json:"sessionId"`
+}
+
+type WsSubReq {
+	WsMsgBase
+	SubKey string `json:"subKey"`
+	Action string `json:"action"`
+}
+
+service wsapi-api {
+	@handler WsapiHandler
+	get /listen
+}
+

@@ -6,10 +6,11 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/google/uuid"
+
 	"github.com/0x587/guardeye/api/internal/types"
 	"github.com/0x587/guardeye/api/internal/ws"
 	"github.com/0x587/guardeye/report/report"
-	"github.com/google/uuid"
 )
 
 type IF interface {

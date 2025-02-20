@@ -3,6 +3,12 @@
 
 package types
 
+type AdminStatusReq struct {
+}
+
+type AdminStatusRsp struct {
+}
+
 type EsQueryProfile struct {
 	FetchCount  int `json:"fetchCount"`
 	ResultCount int `json:"resultCount"`
@@ -12,7 +18,6 @@ type EsQueryProfile struct {
 
 type EsQueryReq struct {
 	Query      string `json:"query"`
-	Hours      int    `json:"hours"`
 	TraceError bool   `json:"traceError,optional"`
 }
 

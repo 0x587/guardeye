@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/0x587/guardeye/common/model"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
 
@@ -32,18 +31,18 @@ func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
 		return nil, errors.New("missing node description")
 	}
 	uid := uuid.New()
-	_, err := l.svcCtx.NodeDBClient.Insert(l.ctx, &model.Node{
-		Id:        uuid.New(),
-		ClientId:  uid,
-		Ips:       in.GetNodeDescription().GetIps(),
-		Macs:      in.GetNodeDescription().GetMacs(),
-		Os:        in.GetNodeDescription().GetOs(),
-		OsVersion: in.GetNodeDescription().GetOsVersion(),
-		Hostname:  in.GetNodeDescription().GetHostname(),
-	})
+	a, err := l.svcCtx.Db.Agent.Create().
+		SetClientID(uid).
+		SetIps(in.GetNodeDescription().GetIps()).
+		SetMacs(in.GetNodeDescription().GetMacs()).
+		SetOs(in.GetNodeDescription().GetOs()).
+		SetOsVersion(in.GetNodeDescription().GetOsVersion()).
+		SetHostname(in.GetNodeDescription().GetHostname()).
+		Save(l.ctx)
 	if err != nil {
 		return nil, err
 	}
+	logx.Info(a)
 	return &report.InitRsp{
 		NodeInfo: &report.NodeInfo{
 			ClientId:        uid.String(),

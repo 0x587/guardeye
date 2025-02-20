@@ -152,7 +152,6 @@ type (
 	}
 	EsQueryReq {
 		query      string `json:"query"`
-		hours      int    `json:"hours"`
 		traceError bool   `json:"traceError,optional"`
 	}
 	EsQueryRsp {
@@ -172,5 +171,19 @@ type (
 service api-api {
 	@handler QueryHandler
 	post /query (EsQueryReq) returns (EsQueryRsp)
+}
+
+type (
+	AdminStatusReq  {}
+	AdminStatusRsp  {}
+)
+
+@server (
+	prefix: /api/v1/admin
+	group:  admin
+)
+service api-api {
+	@handler StatusHandler
+	post /status (AdminStatusReq) returns (AdminStatusRsp)
 }
 

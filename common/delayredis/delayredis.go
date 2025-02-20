@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/zeromicro/go-zero/core/stores/redis"
+
 	"github.com/0x587/guardeye/common/rediskey"
 	"github.com/0x587/guardeye/report/report"
-	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
 type IF interface {

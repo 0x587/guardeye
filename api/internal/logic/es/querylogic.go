@@ -4,18 +4,18 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
-	"github.com/antlr4-go/antlr/v4"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
 	"github.com/zeromicro/go-zero/core/logc"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/0x587/guardeye/api/internal/logic/es/listener"
-	"github.com/0x587/guardeye/api/internal/logic/es/parser"
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/0x587/guardeye/api/internal/types"
+	"github.com/0x587/guardeye/common/gql"
+	"github.com/0x587/guardeye/common/gql/listener"
 	"github.com/0x587/guardeye/common/profile"
 )
 
@@ -73,33 +73,14 @@ type (
 	}
 )
 
-func parseQuery(query string) (parser.IParseContext, []string) {
-	input := antlr.NewInputStream(query)
-	lexer := parser.NewGuardQueryLexer(input)
-	stream := antlr.NewCommonTokenStream(lexer, 0)
-	p := parser.NewGuardQueryParser(stream)
-	el := listener.NewErrListener()
-	p.AddErrorListener(antlr.NewProxyErrorListener([]antlr.ErrorListener{
-		el,
-		antlr.NewDiagnosticErrorListener(false),
-	}))
-	return p.Parse(), el.GetErrs()
-}
-
-func scheduleQuery(tree parser.IParseContext) *listener.Schedule {
-	s := listener.NewScheduler()
-	antlr.NewParseTreeWalker().Walk(s.Listener, tree)
-	return s.GetSchedule()
-}
-
 func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err error) {
-	tree, errs := parseQuery(req.Query)
+	tree, errs := gql.ParseQuery(req.Query)
 	if len(errs) > 0 {
 		return &types.EsQueryRsp{
 			QueryErrors: errs,
 		}, nil
 	}
-	s := scheduleQuery(tree)
+	s := gql.ScheduleQuery(tree)
 	var sourceQuery MS
 	for _, source := range s.SourceWhere {
 		var qs MS = nil
@@ -151,15 +132,19 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		recordsCh, err := l.fetchEs(filter)
 		return lo.Flatten(lo.ChannelToSlice(recordsCh)), err
 	})
-
 	if err != nil {
 		return nil, err
 	}
 
-	data, _, evalSpend := profile.Measure(func() (map[int][]string, error) {
-		data := lo.FilterMap(records, func(r record, _ int) (lo.Tuple2[int, []string], bool) {
-			ij := &injector{msg: r.Fields.Message[0]}
-			row := lo.Map(s.Result, func(result *listener.ResultEntry, _ int) string {
+	type timestamp int
+	type row lo.Tuple2[timestamp, []string] // 一行数据
+	colNames := lo.Map(s.Result, func(r *listener.ResultEntry, _ int) string { return r.Alias })
+	wFunc := lo.Map(s.Result, func(r *listener.ResultEntry, _ int) string { return r.WindowFunc })
+	data, err, evalSpend := profile.Measure(func() (map[int][]string, error) {
+		// 计算每列的数据
+		data := lo.FilterMap(records, func(r record, _ int) (row, bool) {
+			ij := gql.NewInjector(r.Fields.Message[0])
+			rs := lo.Map(s.Result, func(result *listener.ResultEntry, _ int) string {
 				v, err := result.Value.Vf(ij)
 				if err != nil {
 					if req.TraceError {
@@ -170,20 +155,80 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 				return fmt.Sprintf("%v", v)
 			})
 			flag := false
-			for _, i := range row {
+			for _, i := range rs {
 				if i != "" {
 					flag = true
 					break
 				}
 			}
-			return lo.Tuple2[int, []string]{A: int(r.Fields.Timestamp[0].In(lo.Must(time.LoadLocation("Asia/Shanghai"))).Unix()), B: row}, flag
+			return row{
+				A: timestamp(r.Fields.Timestamp[0].In(lo.Must(time.LoadLocation("Asia/Shanghai"))).Unix()),
+				B: rs,
+			}, flag
 		})
-		return lo.SliceToMap(data, func(i lo.Tuple2[int, []string]) (int, []string) { return i.A, i.B }), nil
+		startAt := lo.MinBy(data, func(a row, b row) bool { return a.A < b.A }).A
+		groupRes := lo.GroupBy(data, func(r row) int {
+			return int(r.A-startAt) / int(s.WindowSize.Seconds())
+		})
+		// time [v1,v2,v3...]
+		// time [v1,v2,v3...]
+		// time [v1,v2,v3...]
+		// time [v1,v2,v3...]
+		fs := lo.Map(wFunc, func(wf string, _ int) func([]string) []string {
+			switch wf {
+			case "avg":
+				return func(vs []string) []string {
+					vsAsFloat := lo.Map(vs, func(v string, _ int) float64 {
+						f, _ := strconv.ParseFloat(v, 64)
+						return f
+					})
+					avg := lo.Sum(vsAsFloat) / float64(len(vs))
+					s := fmt.Sprintf("%f", avg)
+					res := make([]string, len(vs))
+					res[0] = s
+					for i := 1; i < len(vs); i++ {
+						res[i] = "inf"
+					}
+					return res
+				}
+			}
+			return nil
+		})
+		groupRes = lo.MapValues(groupRes, func(rows []row, k int) []row {
+			for colIdx, f := range fs {
+				if f == nil {
+					continue
+				}
+				vs := lo.Map(rows, func(r row, _ int) string { return r.B[colIdx] })
+				vs = f(vs)
+				for rowIdx, r := range rows {
+					r.B[colIdx] = vs[rowIdx]
+				}
+			}
+			return lo.Filter(rows, func(r row, _ int) bool {
+				for _, s := range r.B {
+					if s != "inf" {
+						return true
+					}
+				}
+				return false
+			})
+		})
+		res := make(map[int][]string, lo.SumBy(lo.Values(groupRes), func(v []row) int { return len(v) }))
+		for _, rows := range groupRes {
+			for _, r := range rows {
+				res[int(r.A)] = r.B
+			}
+		}
+		return res, nil
 	})
+	if err != nil {
+		return nil, err
+	}
 	resp = &types.EsQueryRsp{
 		Data:        data,
 		EvalErrors:  errs,
-		ColumnNames: lo.Map(s.Result, func(r *listener.ResultEntry, _ int) string { return r.Alias }),
+		ColumnNames: colNames,
 		Profile: types.EsQueryProfile{
 			FetchTime:   int(fetchSpend / time.Millisecond),
 			EvalTime:    int(evalSpend / time.Millisecond),
@@ -288,14 +333,6 @@ func isAll(t total) bool {
 	default:
 		panic(errors.Errorf("unknow relation %s", t.Relation))
 	}
-}
-
-type injector struct {
-	msg string
-}
-
-func (i *injector) GetMsg() string {
-	return i.msg
 }
 
 func makeHas(key, value string) M {

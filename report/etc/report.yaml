@@ -1,5 +1,5 @@
 Name: report.rpc
-ListenOn: 0.0.0.0:8080
+ListenOn: 0.0.0.0:38080
 Mode: dev
 
 DevServer:
@@ -14,6 +14,21 @@ RawLogPusherConf:
   Brokers:
     - ws.scut.mcurobot.com:59094
   Topic: raw_log
+
+WsSubscribePusherConf:
+  Brokers:
+    - ws.scut.mcurobot.com:59094
+  Topic: ws_subscribe
+
+LogSubscribeConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - ws.scut.mcurobot.com:59094
+  Group: logsubscribe
+  Topic: raw_log
+  Offset: last
+  Consumers: 4
+  Processors: 4
 
 LogtodbConsumerConf:
   Name: kqConsumer
@@ -49,4 +64,12 @@ ReportRedis:
   Host: ws.scut.mcurobot.com:56379
   Type: node
 
-PostgresConf: postgres://postgres:example@ws.scut.mcurobot.com:55432/guardeye?sslmode=disable
+#PostgresConf: postgres://postgres:example@ws.scut.mcurobot.com:55432/guardeye?sslmode=disable
+
+PostgresConf:
+  Driver: postgres
+  Dsn: host=ws.scut.mcurobot.com port=55432 user=postgres dbname=guardeye password=example sslmode=disable
+
+MysqlConf:
+  Driver: mysql
+  Dsn: root:123456@tcp(ws.scut.mcurobot.com:53306)/guardeye

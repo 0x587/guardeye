@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	admin "github.com/0x587/guardeye/api/internal/handler/admin"
 	es "github.com/0x587/guardeye/api/internal/handler/es"
 	logtometric "github.com/0x587/guardeye/api/internal/handler/logtometric"
 	"github.com/0x587/guardeye/api/internal/svc"
@@ -44,6 +45,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/status",
+				Handler: admin.StatusHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1/admin"),
 	)
 
 	server.AddRoutes(

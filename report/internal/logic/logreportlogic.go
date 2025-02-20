@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/0x587/guardeye/common/rediskey"
 	"github.com/0x587/guardeye/common/tokv"
 	"github.com/0x587/guardeye/report/internal/svc"
 	"github.com/0x587/guardeye/report/report"
@@ -75,6 +76,7 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 		return rsp, nil
 	}
 	feats := in.GetFeatures()
+
 	// calc delay
 	if feats.GetTransDelay().GetEnable() {
 		lastSendTime := time.Unix(0, feats.GetTransDelay().GetLastSendTimestamp())
@@ -95,6 +97,16 @@ func (l *LogReportLogic) LogReport(in *report.LogReportReq) (*report.LogReportRs
 			},
 		}
 	}
+
+	// set see at
+	if err := l.svcCtx.RedisClient.SetCtx(l.ctx, rediskey.SeeAtKey(in.GetNodeInfo()),
+		fmt.Sprintf("%d", time.Now().UnixNano())); err != nil {
+		return nil, err
+	}
+
+	//update node description
+	//desc := in.GetNodeInfo().GetNodeDescription()
+
 	return rsp, nil
 }
 

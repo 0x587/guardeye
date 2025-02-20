@@ -1,0 +1,17 @@
+Name: wsapi-api
+Host: 0.0.0.0
+Port: 38888
+
+WsSubscribeConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - ws.scut.mcurobot.com:59094
+  Group: ws_subscribe
+  Topic: ws_subscribe
+  Offset: last
+  Consumers: 4
+  Processors: 4
+
+Redis:
+  Host: ws.scut.mcurobot.com:56379
+  Type: node
