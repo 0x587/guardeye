@@ -32,3 +32,8 @@ func (s *ReportServer) LogReport(ctx context.Context, in *report.LogReportReq) (
 	l := logic.NewLogReportLogic(ctx, s.svcCtx)
 	return l.LogReport(in)
 }
+
+func (s *ReportServer) Link(stream report.Report_LinkServer) error {
+	l := logic.NewLinkLogic(stream.Context(), s.svcCtx)
+	return l.Link(stream)
+}

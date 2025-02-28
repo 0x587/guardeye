@@ -15,6 +15,7 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"github.com/0x587/guardeye/common/ent/agent"
+	"github.com/0x587/guardeye/common/ent/report"
 	"github.com/0x587/guardeye/common/ent/subscribe"
 )
 
@@ -25,6 +26,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// Agent is the client for interacting with the Agent builders.
 	Agent *AgentClient
+	// Report is the client for interacting with the Report builders.
+	Report *ReportClient
 	// Subscribe is the client for interacting with the Subscribe builders.
 	Subscribe *SubscribeClient
 }
@@ -39,6 +42,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Agent = NewAgentClient(c.config)
+	c.Report = NewReportClient(c.config)
 	c.Subscribe = NewSubscribeClient(c.config)
 }
 
@@ -133,6 +137,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:       ctx,
 		config:    cfg,
 		Agent:     NewAgentClient(cfg),
+		Report:    NewReportClient(cfg),
 		Subscribe: NewSubscribeClient(cfg),
 	}, nil
 }
@@ -154,6 +159,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:       ctx,
 		config:    cfg,
 		Agent:     NewAgentClient(cfg),
+		Report:    NewReportClient(cfg),
 		Subscribe: NewSubscribeClient(cfg),
 	}, nil
 }
@@ -184,6 +190,7 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.Agent.Use(hooks...)
+	c.Report.Use(hooks...)
 	c.Subscribe.Use(hooks...)
 }
 
@@ -191,6 +198,7 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.Agent.Intercept(interceptors...)
+	c.Report.Intercept(interceptors...)
 	c.Subscribe.Intercept(interceptors...)
 }
 
@@ -199,6 +207,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *AgentMutation:
 		return c.Agent.mutate(ctx, m)
+	case *ReportMutation:
+		return c.Report.mutate(ctx, m)
 	case *SubscribeMutation:
 		return c.Subscribe.mutate(ctx, m)
 	default:
@@ -339,6 +349,139 @@ func (c *AgentClient) mutate(ctx context.Context, m *AgentMutation) (Value, erro
 	}
 }
 
+// ReportClient is a client for the Report schema.
+type ReportClient struct {
+	config
+}
+
+// NewReportClient returns a client for the Report from the given config.
+func NewReportClient(c config) *ReportClient {
+	return &ReportClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `report.Hooks(f(g(h())))`.
+func (c *ReportClient) Use(hooks ...Hook) {
+	c.hooks.Report = append(c.hooks.Report, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `report.Intercept(f(g(h())))`.
+func (c *ReportClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Report = append(c.inters.Report, interceptors...)
+}
+
+// Create returns a builder for creating a Report entity.
+func (c *ReportClient) Create() *ReportCreate {
+	mutation := newReportMutation(c.config, OpCreate)
+	return &ReportCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Report entities.
+func (c *ReportClient) CreateBulk(builders ...*ReportCreate) *ReportCreateBulk {
+	return &ReportCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *ReportClient) MapCreateBulk(slice any, setFunc func(*ReportCreate, int)) *ReportCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &ReportCreateBulk{err: fmt.Errorf("calling to ReportClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*ReportCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &ReportCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Report.
+func (c *ReportClient) Update() *ReportUpdate {
+	mutation := newReportMutation(c.config, OpUpdate)
+	return &ReportUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ReportClient) UpdateOne(r *Report) *ReportUpdateOne {
+	mutation := newReportMutation(c.config, OpUpdateOne, withReport(r))
+	return &ReportUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ReportClient) UpdateOneID(id int) *ReportUpdateOne {
+	mutation := newReportMutation(c.config, OpUpdateOne, withReportID(id))
+	return &ReportUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Report.
+func (c *ReportClient) Delete() *ReportDelete {
+	mutation := newReportMutation(c.config, OpDelete)
+	return &ReportDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *ReportClient) DeleteOne(r *Report) *ReportDeleteOne {
+	return c.DeleteOneID(r.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *ReportClient) DeleteOneID(id int) *ReportDeleteOne {
+	builder := c.Delete().Where(report.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ReportDeleteOne{builder}
+}
+
+// Query returns a query builder for Report.
+func (c *ReportClient) Query() *ReportQuery {
+	return &ReportQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeReport},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Report entity by its id.
+func (c *ReportClient) Get(ctx context.Context, id int) (*Report, error) {
+	return c.Query().Where(report.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ReportClient) GetX(ctx context.Context, id int) *Report {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *ReportClient) Hooks() []Hook {
+	return c.hooks.Report
+}
+
+// Interceptors returns the client interceptors.
+func (c *ReportClient) Interceptors() []Interceptor {
+	return c.inters.Report
+}
+
+func (c *ReportClient) mutate(ctx context.Context, m *ReportMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&ReportCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&ReportUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&ReportUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&ReportDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Report mutation op: %q", m.Op())
+	}
+}
+
 // SubscribeClient is a client for the Subscribe schema.
 type SubscribeClient struct {
 	config
@@ -475,9 +618,9 @@ func (c *SubscribeClient) mutate(ctx context.Context, m *SubscribeMutation) (Val
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Agent, Subscribe []ent.Hook
+		Agent, Report, Subscribe []ent.Hook
 	}
 	inters struct {
-		Agent, Subscribe []ent.Interceptor
+		Agent, Report, Subscribe []ent.Interceptor
 	}
 )

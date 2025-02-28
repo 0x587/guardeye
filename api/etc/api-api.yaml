@@ -2,6 +2,9 @@ Name: api-api
 Host: 0.0.0.0
 Port: 8888
 
+DevServer:
+  Enabled: true
+
 RedisConf:
   Host: ws.scut.mcurobot.com:56379
   Type: node

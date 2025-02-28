@@ -1,6 +1,10 @@
 Name: report-report-gateway
 Host: 0.0.0.0
 Port: 8888
+
+DevServer:
+  Enabled: true
+
 Upstreams:
   - Grpc:
       Target: ${TARGET}:8080

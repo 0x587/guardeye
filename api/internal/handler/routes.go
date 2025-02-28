@@ -62,8 +62,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
+				Path:    "/export",
+				Handler: es.ExportHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/query",
 				Handler: es.QueryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/taskstatus",
+				Handler: es.TaskStatusHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1/es"),

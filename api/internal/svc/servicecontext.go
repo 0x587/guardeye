@@ -2,6 +2,8 @@ package svc
 
 import (
 	"github.com/elastic/go-elasticsearch/v7"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	goredis "github.com/redis/go-redis/v9"
 	"github.com/samber/lo"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -23,6 +25,8 @@ type ServiceContext struct {
 	MetricRedisClient  metricredis.IF
 	LogDispatcher      logdispatcher.IF
 	Es                 *elasticsearch.Client
+	Minio              *minio.Client
+	Redis              *redis.Redis
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -32,6 +36,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	es := lo.Must(elasticsearch.NewClient(elasticsearch.Config{
 		Addresses: []string{"http://ws.scut.mcurobot.com:59200"},
 	}))
+	minioCli := lo.Must(minio.New("minioapi.guardeye.shawnsiu.site:5080", &minio.Options{
+		Creds: credentials.NewStaticV4("fJGShizzQOmRu44EVfgv", "47kDXUYY8dusuqMZCCsHCQQANB3l5WpXTMczh580", ""),
+	}))
 	return &ServiceContext{
 		Config:             c,
 		DataKeyRedisClient: datakeyredis.New(redisCli),
@@ -40,5 +47,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		MetricRedisClient:  metricredis.New(goredis.NewClient(&goredis.Options{Addr: c.RedisConf.Host})),
 		ServiceContext:     *svcctx.NewServiceContext(dbConn),
 		Es:                 es,
+		Minio:              minioCli,
+		Redis:              redisCli,
 	}
 }

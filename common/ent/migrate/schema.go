@@ -27,6 +27,38 @@ var (
 		Columns:    AgentsColumns,
 		PrimaryKey: []*schema.Column{AgentsColumns[0]},
 	}
+	// ReportsColumns holds the columns for the "reports" table.
+	ReportsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "client_id", Type: field.TypeUUID},
+		{Name: "message", Type: field.TypeString},
+		{Name: "provider_type", Type: field.TypeString},
+		{Name: "provider_args", Type: field.TypeJSON},
+		{Name: "report_at", Type: field.TypeTime},
+	}
+	// ReportsTable holds the schema information for the "reports" table.
+	ReportsTable = &schema.Table{
+		Name:       "reports",
+		Columns:    ReportsColumns,
+		PrimaryKey: []*schema.Column{ReportsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "index_client_id",
+				Unique:  false,
+				Columns: []*schema.Column{ReportsColumns[1]},
+			},
+			{
+				Name:    "index_report_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReportsColumns[5]},
+			},
+			{
+				Name:    "index_client_id_report_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReportsColumns[1], ReportsColumns[5]},
+			},
+		},
+	}
 	// SubscribesColumns holds the columns for the "subscribes" table.
 	SubscribesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -47,6 +79,7 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AgentsTable,
+		ReportsTable,
 		SubscribesTable,
 	}
 )

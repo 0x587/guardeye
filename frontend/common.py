@@ -5,13 +5,15 @@ import pandas as pd
 
 def fetch_query(q, container=st, show_debug=False, title=None):
     if title: container.title(title)
+    print('f')
     res = requests.post(
-        url='http://localhost:8888/api/v1/es/query',
+        url='http://api.guardeye.shawnsiu.site:5080/api/v1/es/query',
         json={
             "query": q,
             "traceError": False
         }
     )
+    print(res)
     if res.status_code != 200:
         container.error(res.content)
     rsp = res.json()
@@ -24,7 +26,8 @@ def fetch_query(q, container=st, show_debug=False, title=None):
         profile['hitRate'] = f"{profile['resultCount'] / profile['fetchCount'] * 100:.2f}%"
         for c, (k, v) in zip(container.columns(len(profile)), profile.items()):
             c.metric(label=str(k), value=v)
-    df = pd.DataFrame.from_dict(rsp["data"], orient="index", columns=rsp['columnNames'])
+    data = {i['timestamp']: i['value'] for i in rsp["data"]}
+    df = pd.DataFrame.from_dict(data, orient="index", columns=rsp['columnNames'])
     df = df.astype(float)
     df.index = pd.to_datetime(df.index.astype(int), unit='s', utc=True).map(lambda x: x.tz_convert('Asia/Shanghai'))
     l, t = container.tabs(['line', 'table'])

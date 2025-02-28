@@ -9,5 +9,8 @@ import (
 // Agent is the predicate function for agent builders.
 type Agent func(*sql.Selector)
 
+// Report is the predicate function for report builders.
+type Report func(*sql.Selector)
+
 // Subscribe is the predicate function for subscribe builders.
 type Subscribe func(*sql.Selector)

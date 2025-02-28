@@ -123,8 +123,12 @@ type (
 		WindowSecond int                `json:"windowSecond,optional"`
 		Aggregator   string             `json:"aggregator,optional,options=avg|sum|min|max|range|count"`
 	}
+	FetchMetricDataRspData {
+		timestamp int64   `json:"timestamp"`
+		value     float64 `json:"value"`
+	}
 	FetchMetricDataRsp {
-		Data map[int64]float64 `json:"data"`
+		Data []FetchMetricDataRspData `json:"data"`
 	}
 )
 
@@ -144,12 +148,6 @@ service api-api {
 }
 
 type (
-	EsQueryProfile {
-		fetchCount  int `json:"fetchCount"`
-		resultCount int `json:"resultCount"`
-		fetchTime   int `json:"fetchTime"`
-		evalTime    int `json:"evalTime"`
-	}
 	EsQueryReq {
 		query      string `json:"query"`
 		traceError bool   `json:"traceError,optional"`
@@ -159,7 +157,35 @@ type (
 		queryErrors []string         `json:"queryErrors"`
 		evalErrors  []string         `json:"evalErrors"`
 		columnNames []string         `json:"columnNames"`
-		data        map[int][]string `json:"data"`
+		data        []EsQueryRspData `json:"data"`
+	}
+	EsQueryProfile {
+		fetchCount  int `json:"fetchCount"`
+		resultCount int `json:"resultCount"`
+		fetchTime   int `json:"fetchTime"`
+		evalTime    int `json:"evalTime"`
+	}
+	EsQueryRspData {
+		timestamp int      `json:"timestamp"`
+		value     []string `json:"value"`
+	}
+	EsExportReq {
+		query      string `json:"query"`
+		traceError bool   `json:"traceError,optional"`
+	}
+	EsExportRsp {
+		queryErrors []string `json:"queryErrors"`
+		taskId      string   `json:"taskId"`
+	}
+	EsTaskStatusReq {
+		taskId string `json:"taskId"`
+	}
+	EsTaskStatusRsp {
+		state   string `json:"state"`
+		process int    `json:"process"`
+		total   int    `json:"total"`
+		done    bool   `json:"done"`
+		link    string `json:"link"`
 	}
 )
 
@@ -171,6 +197,12 @@ type (
 service api-api {
 	@handler QueryHandler
 	post /query (EsQueryReq) returns (EsQueryRsp)
+
+	@handler ExportHandler
+	post /export (EsExportReq) returns (EsExportRsp)
+
+	@handler TaskStatusHandler
+	post /taskstatus (EsTaskStatusReq) returns (EsTaskStatusRsp)
 }
 
 type (

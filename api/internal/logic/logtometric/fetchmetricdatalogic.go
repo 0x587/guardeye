@@ -4,12 +4,13 @@ import (
 	"context"
 	"time"
 
+	"github.com/redis/go-redis/v9"
+	"github.com/samber/lo"
+
 	"github.com/0x587/guardeye/api/internal/svc"
 	"github.com/0x587/guardeye/api/internal/types"
 	"github.com/0x587/guardeye/common/metricredis"
 	"github.com/0x587/guardeye/report/report"
-	"github.com/redis/go-redis/v9"
-	"github.com/samber/lo"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -53,13 +54,21 @@ func (l *FetchMetricDataLogic) FetchMetricData(req *types.FetchMetricDataReq) (r
 	res := lo.SliceToMap(data, func(item redis.TSTimestampValue) (int64, float64) {
 		return item.Timestamp, item.Value
 	})
+	//res := lo.Map(data, func(item redis.TSTimestampValue, _ int) types.FetchMetricDataRspData {
+	//
+	//})
 	for i := req.From; i < req.To; i += req.WindowSecond * int(time.Second/time.Millisecond) {
 		if _, ok := res[int64(i)]; !ok {
 			res[int64(i)] = 0
 		}
 	}
 	resp = &types.FetchMetricDataRsp{
-		Data: res,
+		Data: lo.MapToSlice(res, func(key int64, value float64) types.FetchMetricDataRspData {
+			return types.FetchMetricDataRspData{
+				Timestamp: key,
+				Value:     value,
+			}
+		}),
 	}
 	return
 }

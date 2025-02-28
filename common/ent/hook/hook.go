@@ -21,6 +21,18 @@ func (f AgentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AgentMutation", m)
 }
 
+// The ReportFunc type is an adapter to allow the use of ordinary
+// function as Report mutator.
+type ReportFunc func(context.Context, *ent.ReportMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ReportFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ReportMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ReportMutation", m)
+}
+
 // The SubscribeFunc type is an adapter to allow the use of ordinary
 // function as Subscribe mutator.
 type SubscribeFunc func(context.Context, *ent.SubscribeMutation) (ent.Value, error)

@@ -21,6 +21,8 @@ type (
 	FeaturesRsp          = report.FeaturesRsp
 	InitReq              = report.InitReq
 	InitRsp              = report.InitRsp
+	LinkReq              = report.LinkReq
+	LinkRsp              = report.LinkRsp
 	Log                  = report.Log
 	LogReportReq         = report.LogReportReq
 	LogReportRsp         = report.LogReportRsp
@@ -36,6 +38,7 @@ type (
 	Report interface {
 		Init(ctx context.Context, in *InitReq, opts ...grpc.CallOption) (*InitRsp, error)
 		LogReport(ctx context.Context, in *LogReportReq, opts ...grpc.CallOption) (*LogReportRsp, error)
+		Link(ctx context.Context, opts ...grpc.CallOption) (report.Report_LinkClient, error)
 	}
 
 	defaultReport struct {
@@ -57,4 +60,9 @@ func (m *defaultReport) Init(ctx context.Context, in *InitReq, opts ...grpc.Call
 func (m *defaultReport) LogReport(ctx context.Context, in *LogReportReq, opts ...grpc.CallOption) (*LogReportRsp, error) {
 	client := report.NewReportClient(m.cli.Conn())
 	return client.LogReport(ctx, in, opts...)
+}
+
+func (m *defaultReport) Link(ctx context.Context, opts ...grpc.CallOption) (report.Report_LinkClient, error) {
+	client := report.NewReportClient(m.cli.Conn())
+	return client.Link(ctx, opts...)
 }

@@ -9,6 +9,16 @@ type AdminStatusReq struct {
 type AdminStatusRsp struct {
 }
 
+type EsExportReq struct {
+	Query      string `json:"query"`
+	TraceError bool   `json:"traceError,optional"`
+}
+
+type EsExportRsp struct {
+	QueryErrors []string `json:"queryErrors"`
+	TaskId      string   `json:"taskId"`
+}
+
 type EsQueryProfile struct {
 	FetchCount  int `json:"fetchCount"`
 	ResultCount int `json:"resultCount"`
@@ -26,7 +36,24 @@ type EsQueryRsp struct {
 	QueryErrors []string         `json:"queryErrors"`
 	EvalErrors  []string         `json:"evalErrors"`
 	ColumnNames []string         `json:"columnNames"`
-	Data        map[int][]string `json:"data"`
+	Data        []EsQueryRspData `json:"data"`
+}
+
+type EsQueryRspData struct {
+	Timestamp int      `json:"timestamp"`
+	Value     []string `json:"value"`
+}
+
+type EsTaskStatusReq struct {
+	TaskId string `json:"taskId"`
+}
+
+type EsTaskStatusRsp struct {
+	State   string `json:"state"`
+	Process int    `json:"process"`
+	Total   int    `json:"total"`
+	Done    bool   `json:"done"`
+	Link    string `json:"link"`
 }
 
 type FetchMetricDataReq struct {
@@ -38,7 +65,12 @@ type FetchMetricDataReq struct {
 }
 
 type FetchMetricDataRsp struct {
-	Data map[int64]float64 `json:"data"`
+	Data []FetchMetricDataRspData `json:"data"`
+}
+
+type FetchMetricDataRspData struct {
+	Timestamp int64   `json:"timestamp"`
+	Value     float64 `json:"value"`
 }
 
 type GetDataKeysReq struct {

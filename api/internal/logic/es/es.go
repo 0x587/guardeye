@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	EachFetchCount = 10000
+	EachFetchCount = 1000
 	PitKeepAlive   = "10m"
 )
 

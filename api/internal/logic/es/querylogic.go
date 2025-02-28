@@ -2,14 +2,11 @@ package es
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/samber/lo"
-	"github.com/zeromicro/go-zero/core/logc"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/0x587/guardeye/api/internal/svc"
@@ -81,56 +78,17 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		}, nil
 	}
 	s := gql.ScheduleQuery(tree)
-	var sourceQuery MS
-	for _, source := range s.SourceWhere {
-		var qs MS = nil
-		if !source.Node.Any {
-			qs = append(qs, makeHas("nodeInfo.clientId", source.Node.Nid))
-		}
-		for _, p := range source.Providers {
-			if p.Any {
-				continue
-			}
-			if p.PType != "" {
-				qs = append(qs, makeHas("log.provider.type", p.PType))
-			}
-		}
-		for _, key := range source.NeedKeys {
-			qs = append(qs, makeHas("log.message", key))
-		}
-		if qs != nil {
-			sourceQuery = append(sourceQuery, makeAnd(qs...))
-		}
-	}
-	from, err := s.TimeWhere.From.Get()
+	filter, err := makeFilter(s)
 	if err != nil {
 		return nil, err
-	}
-	to, err := s.TimeWhere.To.Get()
-	if err != nil {
-		return nil, err
-	}
-	filter := MS{
-		{
-			"range": M{
-				"@timestamp": M{
-					"gte":    from.Format("2006-01-02T15:04:05Z07"),
-					"lte":    to.Format("2006-01-02T15:04:05Z07"),
-					"format": "strict_date_optional_time",
-				},
-			},
-		},
-		makeOr(sourceQuery...),
-	}
-	{
-		//	TODO: Just for debug
-		b := lo.Must(json.MarshalIndent(filter, "", "  "))
-		fmt.Println(string(b))
 	}
 
 	records, err, fetchSpend := profile.Measure(func() ([]record, error) {
-		recordsCh, err := l.fetchEs(filter)
-		return lo.Flatten(lo.ChannelToSlice(recordsCh)), err
+		recordsCh, err := fetchEs(l.ctx, l.svcCtx.Es, filter)
+		res := lo.Map(lo.ChannelToSlice(recordsCh), func(item resInfo, _ int) []record {
+			return item.records
+		})
+		return lo.Flatten(res), err
 	})
 	if err != nil {
 		return nil, err
@@ -170,10 +128,6 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		groupRes := lo.GroupBy(data, func(r row) int {
 			return int(r.A-startAt) / int(s.WindowSize.Seconds())
 		})
-		// time [v1,v2,v3...]
-		// time [v1,v2,v3...]
-		// time [v1,v2,v3...]
-		// time [v1,v2,v3...]
 		fs := lo.Map(wFunc, func(wf string, _ int) func([]string) []string {
 			switch wf {
 			case "avg":
@@ -226,7 +180,12 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		return nil, err
 	}
 	resp = &types.EsQueryRsp{
-		Data:        data,
+		Data: lo.MapToSlice(data, func(key int, value []string) types.EsQueryRspData {
+			return types.EsQueryRspData{
+				Timestamp: key,
+				Value:     value,
+			}
+		}),
 		EvalErrors:  errs,
 		ColumnNames: colNames,
 		Profile: types.EsQueryProfile{
@@ -239,151 +198,4 @@ func (l *QueryLogic) Query(req *types.EsQueryReq) (resp *types.EsQueryRsp, err e
 		//RawQuery: string(lo.Must(json.Marshal(query))),
 	}
 	return
-}
-
-func (l *QueryLogic) fetchEs(filters MS) (chan []record, error) {
-	es := l.svcCtx.Es
-
-	pit, err := openPit(l.ctx, es)
-	if err != nil {
-		return nil, err
-	}
-
-	// 构建搜索查询
-	sort := MS{
-		{
-			"@timestamp": M{
-				"order":         "desc",
-				"unmapped_type": "boolean",
-			},
-		},
-	}
-	query := M{
-		"size": EachFetchCount,
-		"sort": sort,
-		"query": M{
-			"bool": M{
-				"filter": filters,
-			},
-		},
-		"aggs": M{
-			"time_agg": M{
-				"date_histogram": M{
-					"field":          "@timestamp",
-					"fixed_interval": "3h",
-					"time_zone":      "Asia/Shanghai",
-					"min_doc_count":  1,
-				},
-			},
-		},
-		"fields": MS{
-			{
-				"field": "log.message",
-			},
-			{
-				"field":  "@timestamp",
-				"format": "strict_date_optional_time",
-			},
-		},
-		"pit": M{
-			"id":         pit,
-			"keep_alive": PitKeepAlive,
-		},
-	}
-	var searchResult *esSearchRes
-	var resCh = make(chan []record)
-
-	go func() {
-		defer func() {
-			logc.Infof(l.ctx, "close")
-			if err := closePit(l.ctx, es, pit); err != nil {
-				logc.Error(l.ctx, err)
-			}
-			close(resCh)
-		}()
-		for {
-			searchResult, err = search(l.ctx, es, query)
-			if err != nil {
-				logc.Error(l.ctx, errors.Wrap(err, "fail in es search"))
-				break
-			}
-			resCh <- searchResult.Hits.Hits
-			if isAll(searchResult.Hits.Total) {
-				break
-			} else {
-				if len(searchResult.Hits.Hits) == 0 {
-					break
-				}
-				lastRecord := searchResult.Hits.Hits[len(searchResult.Hits.Hits)-1]
-				query["search_after"] = lastRecord.Sort
-			}
-		}
-	}()
-	return resCh, nil
-}
-
-func isAll(t total) bool {
-	switch t.Relation {
-	case "eq":
-		return t.Value <= EachFetchCount
-	case "lt":
-		return true
-	case "gt":
-		return false
-	default:
-		panic(errors.Errorf("unknow relation %s", t.Relation))
-	}
-}
-
-func makeHas(key, value string) M {
-	return M{
-		"bool": M{
-			"should": MS{
-				{
-					"match": M{
-						key: value,
-					},
-				},
-			},
-			"minimum_should_match": 1,
-		},
-	}
-}
-
-//func makeLike(key, value string) M {
-//	return M{
-//		"bool": M{
-//			"should": MS{
-//				{
-//					"query_string": M{
-//						"fields": []string{key},
-//						"query":  fmt.Sprintf("* %s", value),
-//					},
-//				},
-//			},
-//			"minimum_should_match": 1,
-//		},
-//	}
-//}
-
-func makeAnd(items ...M) M {
-	if len(items) == 1 {
-		return items[0]
-	}
-	return M{
-		"bool": M{
-			"filter": items,
-		},
-	}
-}
-
-func makeOr(items ...M) M {
-	if len(items) == 1 {
-		return items[0]
-	}
-	return M{
-		"bool": M{
-			"should": items,
-		},
-	}
 }

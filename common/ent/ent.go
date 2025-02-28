@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/0x587/guardeye/common/ent/agent"
+	"github.com/0x587/guardeye/common/ent/report"
 	"github.com/0x587/guardeye/common/ent/subscribe"
 )
 
@@ -75,6 +76,7 @@ func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			agent.Table:     agent.ValidColumn,
+			report.Table:    report.ValidColumn,
 			subscribe.Table: subscribe.ValidColumn,
 		})
 	})

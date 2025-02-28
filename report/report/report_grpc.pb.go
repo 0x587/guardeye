@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Report_Init_FullMethodName      = "/report.Report/Init"
 	Report_LogReport_FullMethodName = "/report.Report/LogReport"
+	Report_Link_FullMethodName      = "/report.Report/Link"
 )
 
 // ReportClient is the client API for Report service.
@@ -29,6 +30,7 @@ const (
 type ReportClient interface {
 	Init(ctx context.Context, in *InitReq, opts ...grpc.CallOption) (*InitRsp, error)
 	LogReport(ctx context.Context, in *LogReportReq, opts ...grpc.CallOption) (*LogReportRsp, error)
+	Link(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[LinkReq, LinkRsp], error)
 }
 
 type reportClient struct {
@@ -59,12 +61,26 @@ func (c *reportClient) LogReport(ctx context.Context, in *LogReportReq, opts ...
 	return out, nil
 }
 
+func (c *reportClient) Link(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[LinkReq, LinkRsp], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Report_ServiceDesc.Streams[0], Report_Link_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[LinkReq, LinkRsp]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Report_LinkClient = grpc.BidiStreamingClient[LinkReq, LinkRsp]
+
 // ReportServer is the server API for Report service.
 // All implementations must embed UnimplementedReportServer
 // for forward compatibility.
 type ReportServer interface {
 	Init(context.Context, *InitReq) (*InitRsp, error)
 	LogReport(context.Context, *LogReportReq) (*LogReportRsp, error)
+	Link(grpc.BidiStreamingServer[LinkReq, LinkRsp]) error
 	mustEmbedUnimplementedReportServer()
 }
 
@@ -80,6 +96,9 @@ func (UnimplementedReportServer) Init(context.Context, *InitReq) (*InitRsp, erro
 }
 func (UnimplementedReportServer) LogReport(context.Context, *LogReportReq) (*LogReportRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LogReport not implemented")
+}
+func (UnimplementedReportServer) Link(grpc.BidiStreamingServer[LinkReq, LinkRsp]) error {
+	return status.Errorf(codes.Unimplemented, "method Link not implemented")
 }
 func (UnimplementedReportServer) mustEmbedUnimplementedReportServer() {}
 func (UnimplementedReportServer) testEmbeddedByValue()                {}
@@ -138,6 +157,13 @@ func _Report_LogReport_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Report_Link_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ReportServer).Link(&grpc.GenericServerStream[LinkReq, LinkRsp]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Report_LinkServer = grpc.BidiStreamingServer[LinkReq, LinkRsp]
+
 // Report_ServiceDesc is the grpc.ServiceDesc for Report service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +180,13 @@ var Report_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Report_LogReport_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Link",
+			Handler:       _Report_Link_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "report.proto",
 }
