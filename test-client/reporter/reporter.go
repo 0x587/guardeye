@@ -13,6 +13,7 @@ import (
 
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -22,6 +23,7 @@ import (
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
 	"github.com/0x587/guardeye/test-client/provider"
+	"github.com/0x587/guardeye/test-client/reporter/downstream"
 	"github.com/0x587/guardeye/test-client/storage"
 )
 
@@ -54,6 +56,7 @@ type impl struct {
 	providers []provider.IF
 	onceInit  sync.Once
 	logCh     chan *reportclient.Log
+	mqttCli   downstream.MqttCli
 }
 
 func (i *impl) Loop(ctx context.Context) {
@@ -115,6 +118,10 @@ func (i *impl) init(ctx context.Context) error {
 		return err
 	}
 	i.clientID = string(cid)
+	i.mqttCli, err = downstream.NewMqtt(lo.Must(uuid.ParseBytes(cid)))
+	if err != nil {
+		return err
+	}
 	logx.Infof("client id: %v", i.clientID)
 	return nil
 }
