@@ -12,7 +12,6 @@ import (
 
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/0x587/guardeye/test-client/provider/filewatch"
-	"github.com/0x587/guardeye/test-client/provider/foxglove"
 	"github.com/0x587/guardeye/test-client/provider/mqtt"
 	"github.com/0x587/guardeye/test-client/provider/rosecho"
 	"github.com/0x587/guardeye/test-client/provider/ticker"
@@ -70,15 +69,6 @@ func LoadConfig(ctx context.Context) Config {
 			logx.Must(mapstructure.Decode(p.Args, &args))
 			logx.Infof("Provider %s (%s)", p.Type, args.Topic)
 			res = rosecho.New(ctx, args.Topic)
-		case provider.Foxglove:
-			var args struct {
-				Host   string
-				Port   int
-				Topics []string
-			}
-			logx.Must(mapstructure.Decode(p.Args, &args))
-			logx.Infof("Provider %s (%s, %d, %q)", p.Type, args.Host, args.Port, args.Topics)
-			res = foxglove.New(ctx, args.Host, args.Port, args.Topics...)
 		case provider.Mqtt:
 			var args struct {
 				Username string
