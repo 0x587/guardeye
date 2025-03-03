@@ -30,11 +30,12 @@ func NewMqtt(cid uuid.UUID) (MqttCli, error) {
 	}
 
 	res := &mqttImpl{
-		c: c,
+		c:   c,
+		cid: cid.String(),
 	}
 
 	// 订阅主题
-	if token := c.Subscribe(fmt.Sprintf("command/%s", cid.String()), 2, res.callback); token.Wait() && token.Error() != nil {
+	if token := c.Subscribe(fmt.Sprintf("command/req/%s", cid.String()), 2, res.callback); token.Wait() && token.Error() != nil {
 		return nil, token.Error()
 	}
 
@@ -42,27 +43,46 @@ func NewMqtt(cid uuid.UUID) (MqttCli, error) {
 }
 
 type mqttImpl struct {
-	c mqtt.Client
+	c   mqtt.Client
+	cid string
 }
 
 func (i *mqttImpl) Close() {
 	i.c.Disconnect(250)
 }
 
-type msgPayload struct {
+type commandReq struct {
 	Action  string         `json:"action"`
 	Id      string         `json:"id"`
 	Payload map[string]any `json:"payload"`
 }
 
+type commandRsp struct {
+	Id string `json:"id"`
+	Ok bool   `json:"ok"`
+}
+
 func (i *mqttImpl) callback(client mqtt.Client, msg mqtt.Message) {
-	p := &msgPayload{}
-	if err := json.Unmarshal(msg.Payload(), p); err != nil {
+	req := &commandReq{}
+	if err := json.Unmarshal(msg.Payload(), req); err != nil {
 		logx.Error(err)
 		return
 	}
-	if err := ros.Do(p.Action, p.Payload); err != nil {
+	if _, err := ros.Do(req.Action, req.Payload); err != nil {
 		logx.Error(err)
 		return
+	}
+	rsp := &commandRsp{
+		Id: req.Id,
+		Ok: true,
+	}
+	rspBuf, err := json.Marshal(rsp)
+	if err != nil {
+		logx.Error(err)
+		return
+	}
+	token := client.Publish(fmt.Sprintf("command/rsp/%s", i.cid), 2, false, rspBuf)
+	if token.Wait(); token.Error() != nil {
+		logx.Error(token.Error())
 	}
 }

@@ -1,12 +1,12 @@
 package es
 
 import (
+	"github.com/0x587/guardeye/common/gql"
+	"github.com/0x587/guardeye/common/gql/listener"
 	"reflect"
 	"testing"
 
 	"github.com/antlr4-go/antlr/v4"
-
-	"github.com/0x587/guardeye/api/internal/logic/es/listener"
 )
 
 func Test_parseQuery(t *testing.T) {
@@ -45,7 +45,7 @@ where
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if _, gotErrs := parseQuery(tt.args.query); !reflect.DeepEqual(gotErrs, tt.wantErrs) {
+			if _, gotErrs := gql.ParseQuery(tt.args.query); !reflect.DeepEqual(gotErrs, tt.wantErrs) {
 				t.Errorf("parseQuery() = %v, want %v", gotErrs, tt.wantErrs)
 			}
 		})
@@ -89,12 +89,12 @@ from
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			l := listener.NewResListener()
-			tree, errs := parseQuery(tt.args.query)
+			tree, errs := gql.ParseQuery(tt.args.query)
 			if len(errs) != 0 {
 				t.Errorf("parseQuery() = %v", errs)
 			}
 			antlr.NewParseTreeWalker().Walk(l, tree)
-			scheduleQuery(tree)
+			gql.ScheduleQuery(tree)
 			//for index, re := range l.qe.res {
 			//	v, err := re.value.vf()
 			//	if err != nil {
