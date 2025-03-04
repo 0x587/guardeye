@@ -206,6 +206,28 @@ service api-api {
 }
 
 type (
+	DownstreamCallReq {
+		cid    string `json:"cid"`
+		action string `json:"action"`
+		method string `json:"method"`
+		data   string `json:"data"`
+	}
+	DownstreamCallRsp {
+		data string `json:"data"`
+	}
+)
+
+@server (
+	prefix:  /api/v1/downstream
+	group:   downstream
+	timeout: 60s
+)
+service api-api {
+	@handler CallHandler
+	post /call (DownstreamCallReq) returns (DownstreamCallRsp)
+}
+
+type (
 	AdminStatusReq  {}
 	AdminStatusRsp  {}
 )

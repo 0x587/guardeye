@@ -66,7 +66,6 @@ func TestParseMsg(t *testing.T) {
 					return
 				}
 			}
-
 		})
 	}
 }

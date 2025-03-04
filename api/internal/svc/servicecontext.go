@@ -1,11 +1,15 @@
 package svc
 
 import (
+	"time"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	goredis "github.com/redis/go-redis/v9"
 	"github.com/samber/lo"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
@@ -27,6 +31,7 @@ type ServiceContext struct {
 	Es                 *elasticsearch.Client
 	Minio              *minio.Client
 	Redis              *redis.Redis
+	Mqtt               mqtt.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -36,9 +41,18 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	es := lo.Must(elasticsearch.NewClient(elasticsearch.Config{
 		Addresses: []string{"http://ws.scut.mcurobot.com:59200"},
 	}))
-	minioCli := lo.Must(minio.New("minioapi.guardeye.shawnsiu.site:5080", &minio.Options{
-		Creds: credentials.NewStaticV4("fJGShizzQOmRu44EVfgv", "47kDXUYY8dusuqMZCCsHCQQANB3l5WpXTMczh580", ""),
+	minioCli := lo.Must(minio.New(c.Minio.Endpoint, &minio.Options{
+		Creds: credentials.NewStaticV4(c.Minio.AccessKey, c.Minio.AccessSecret, ""),
 	}))
+
+	opts := mqtt.NewClientOptions().AddBroker(c.Mqtt.Endpoint).
+		SetKeepAlive(60 * time.Second).
+		SetPingTimeout(1 * time.Second)
+	mqttCli := mqtt.NewClient(opts)
+	if token := mqttCli.Connect(); token.Wait() && token.Error() != nil {
+		logx.Must(token.Error())
+	}
+
 	return &ServiceContext{
 		Config:             c,
 		DataKeyRedisClient: datakeyredis.New(redisCli),
@@ -49,5 +63,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Es:                 es,
 		Minio:              minioCli,
 		Redis:              redisCli,
+		Mqtt:               mqttCli,
 	}
 }

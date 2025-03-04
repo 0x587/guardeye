@@ -44,46 +44,47 @@ func rosmsgParserInit() {
 		"NUMERIC_LITERAL", "SINGLE_LINE_COMMENT", "SPACES", "UNEXPECTED_CHAR",
 	}
 	staticData.RuleNames = []string{
-		"parse", "msg_stat", "srv_stat", "field", "field_type", "type", "customed_type",
-		"field_name", "buildin_type",
+		"parse", "msgStat", "srvStat", "field", "fieldType", "type", "arrayType",
+		"customType", "fieldName", "buildinType",
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 26, 88, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
-		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 1, 0, 1, 0, 3, 0, 21,
-		8, 0, 1, 1, 5, 1, 24, 8, 1, 10, 1, 12, 1, 27, 9, 1, 1, 2, 1, 2, 1, 2, 1,
-		3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
-		4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
-		4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
-		4, 1, 4, 1, 4, 1, 4, 3, 4, 72, 8, 4, 1, 5, 1, 5, 3, 5, 76, 8, 5, 1, 6,
-		1, 6, 1, 6, 1, 6, 3, 6, 82, 8, 6, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 0, 0, 9,
-		0, 2, 4, 6, 8, 10, 12, 14, 16, 0, 1, 1, 0, 7, 21, 90, 0, 20, 1, 0, 0, 0,
-		2, 25, 1, 0, 0, 0, 4, 28, 1, 0, 0, 0, 6, 31, 1, 0, 0, 0, 8, 71, 1, 0, 0,
-		0, 10, 75, 1, 0, 0, 0, 12, 81, 1, 0, 0, 0, 14, 83, 1, 0, 0, 0, 16, 85,
-		1, 0, 0, 0, 18, 21, 3, 2, 1, 0, 19, 21, 3, 4, 2, 0, 20, 18, 1, 0, 0, 0,
-		20, 19, 1, 0, 0, 0, 21, 1, 1, 0, 0, 0, 22, 24, 3, 6, 3, 0, 23, 22, 1, 0,
-		0, 0, 24, 27, 1, 0, 0, 0, 25, 23, 1, 0, 0, 0, 25, 26, 1, 0, 0, 0, 26, 3,
-		1, 0, 0, 0, 27, 25, 1, 0, 0, 0, 28, 29, 3, 2, 1, 0, 29, 30, 5, 6, 0, 0,
-		30, 5, 1, 0, 0, 0, 31, 32, 3, 8, 4, 0, 32, 33, 3, 14, 7, 0, 33, 7, 1, 0,
-		0, 0, 34, 72, 3, 10, 5, 0, 35, 36, 3, 10, 5, 0, 36, 37, 5, 2, 0, 0, 37,
-		38, 5, 3, 0, 0, 38, 72, 1, 0, 0, 0, 39, 40, 3, 10, 5, 0, 40, 41, 5, 2,
-		0, 0, 41, 42, 5, 23, 0, 0, 42, 43, 5, 3, 0, 0, 43, 72, 1, 0, 0, 0, 44,
-		45, 3, 10, 5, 0, 45, 46, 5, 2, 0, 0, 46, 47, 5, 5, 0, 0, 47, 48, 5, 23,
-		0, 0, 48, 49, 5, 3, 0, 0, 49, 72, 1, 0, 0, 0, 50, 72, 5, 20, 0, 0, 51,
-		52, 5, 20, 0, 0, 52, 53, 5, 5, 0, 0, 53, 72, 5, 23, 0, 0, 54, 55, 5, 20,
-		0, 0, 55, 56, 5, 2, 0, 0, 56, 57, 5, 5, 0, 0, 57, 58, 5, 23, 0, 0, 58,
-		72, 5, 3, 0, 0, 59, 60, 5, 20, 0, 0, 60, 61, 5, 5, 0, 0, 61, 62, 5, 23,
-		0, 0, 62, 63, 5, 2, 0, 0, 63, 72, 5, 3, 0, 0, 64, 65, 5, 20, 0, 0, 65,
-		66, 5, 5, 0, 0, 66, 67, 5, 23, 0, 0, 67, 68, 5, 2, 0, 0, 68, 69, 5, 5,
-		0, 0, 69, 70, 5, 23, 0, 0, 70, 72, 5, 3, 0, 0, 71, 34, 1, 0, 0, 0, 71,
-		35, 1, 0, 0, 0, 71, 39, 1, 0, 0, 0, 71, 44, 1, 0, 0, 0, 71, 50, 1, 0, 0,
-		0, 71, 51, 1, 0, 0, 0, 71, 54, 1, 0, 0, 0, 71, 59, 1, 0, 0, 0, 71, 64,
-		1, 0, 0, 0, 72, 9, 1, 0, 0, 0, 73, 76, 3, 16, 8, 0, 74, 76, 3, 12, 6, 0,
-		75, 73, 1, 0, 0, 0, 75, 74, 1, 0, 0, 0, 76, 11, 1, 0, 0, 0, 77, 82, 5,
-		22, 0, 0, 78, 79, 5, 22, 0, 0, 79, 80, 5, 1, 0, 0, 80, 82, 3, 12, 6, 0,
-		81, 77, 1, 0, 0, 0, 81, 78, 1, 0, 0, 0, 82, 13, 1, 0, 0, 0, 83, 84, 5,
-		22, 0, 0, 84, 15, 1, 0, 0, 0, 85, 86, 7, 0, 0, 0, 86, 17, 1, 0, 0, 0, 5,
-		20, 25, 71, 75, 81,
+		4, 1, 26, 93, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 1, 0, 1,
+		0, 3, 0, 23, 8, 0, 1, 1, 5, 1, 26, 8, 1, 10, 1, 12, 1, 29, 9, 1, 1, 2,
+		1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 3, 4, 40, 8, 4, 1, 5, 1,
+		5, 3, 5, 44, 8, 5, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6,
+		1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6,
+		1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6,
+		1, 6, 1, 6, 3, 6, 81, 8, 6, 1, 7, 1, 7, 1, 7, 1, 7, 3, 7, 87, 8, 7, 1,
+		8, 1, 8, 1, 9, 1, 9, 1, 9, 0, 0, 10, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18,
+		0, 1, 1, 0, 7, 21, 93, 0, 22, 1, 0, 0, 0, 2, 27, 1, 0, 0, 0, 4, 30, 1,
+		0, 0, 0, 6, 34, 1, 0, 0, 0, 8, 39, 1, 0, 0, 0, 10, 43, 1, 0, 0, 0, 12,
+		80, 1, 0, 0, 0, 14, 86, 1, 0, 0, 0, 16, 88, 1, 0, 0, 0, 18, 90, 1, 0, 0,
+		0, 20, 23, 3, 2, 1, 0, 21, 23, 3, 4, 2, 0, 22, 20, 1, 0, 0, 0, 22, 21,
+		1, 0, 0, 0, 23, 1, 1, 0, 0, 0, 24, 26, 3, 6, 3, 0, 25, 24, 1, 0, 0, 0,
+		26, 29, 1, 0, 0, 0, 27, 25, 1, 0, 0, 0, 27, 28, 1, 0, 0, 0, 28, 3, 1, 0,
+		0, 0, 29, 27, 1, 0, 0, 0, 30, 31, 3, 2, 1, 0, 31, 32, 5, 6, 0, 0, 32, 33,
+		3, 2, 1, 0, 33, 5, 1, 0, 0, 0, 34, 35, 3, 8, 4, 0, 35, 36, 3, 16, 8, 0,
+		36, 7, 1, 0, 0, 0, 37, 40, 3, 10, 5, 0, 38, 40, 3, 12, 6, 0, 39, 37, 1,
+		0, 0, 0, 39, 38, 1, 0, 0, 0, 40, 9, 1, 0, 0, 0, 41, 44, 3, 18, 9, 0, 42,
+		44, 3, 14, 7, 0, 43, 41, 1, 0, 0, 0, 43, 42, 1, 0, 0, 0, 44, 11, 1, 0,
+		0, 0, 45, 46, 3, 10, 5, 0, 46, 47, 5, 2, 0, 0, 47, 48, 5, 3, 0, 0, 48,
+		81, 1, 0, 0, 0, 49, 50, 3, 10, 5, 0, 50, 51, 5, 2, 0, 0, 51, 52, 5, 23,
+		0, 0, 52, 53, 5, 3, 0, 0, 53, 81, 1, 0, 0, 0, 54, 55, 3, 10, 5, 0, 55,
+		56, 5, 2, 0, 0, 56, 57, 5, 5, 0, 0, 57, 58, 5, 23, 0, 0, 58, 59, 5, 3,
+		0, 0, 59, 81, 1, 0, 0, 0, 60, 61, 5, 20, 0, 0, 61, 62, 5, 5, 0, 0, 62,
+		81, 5, 23, 0, 0, 63, 64, 5, 20, 0, 0, 64, 65, 5, 2, 0, 0, 65, 66, 5, 5,
+		0, 0, 66, 67, 5, 23, 0, 0, 67, 81, 5, 3, 0, 0, 68, 69, 5, 20, 0, 0, 69,
+		70, 5, 5, 0, 0, 70, 71, 5, 23, 0, 0, 71, 72, 5, 2, 0, 0, 72, 81, 5, 3,
+		0, 0, 73, 74, 5, 20, 0, 0, 74, 75, 5, 5, 0, 0, 75, 76, 5, 23, 0, 0, 76,
+		77, 5, 2, 0, 0, 77, 78, 5, 5, 0, 0, 78, 79, 5, 23, 0, 0, 79, 81, 5, 3,
+		0, 0, 80, 45, 1, 0, 0, 0, 80, 49, 1, 0, 0, 0, 80, 54, 1, 0, 0, 0, 80, 60,
+		1, 0, 0, 0, 80, 63, 1, 0, 0, 0, 80, 68, 1, 0, 0, 0, 80, 73, 1, 0, 0, 0,
+		81, 13, 1, 0, 0, 0, 82, 87, 5, 22, 0, 0, 83, 84, 5, 22, 0, 0, 84, 85, 5,
+		1, 0, 0, 85, 87, 3, 14, 7, 0, 86, 82, 1, 0, 0, 0, 86, 83, 1, 0, 0, 0, 87,
+		15, 1, 0, 0, 0, 88, 89, 5, 22, 0, 0, 89, 17, 1, 0, 0, 0, 90, 91, 7, 0,
+		0, 0, 91, 19, 1, 0, 0, 0, 6, 22, 27, 39, 43, 80, 86,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -152,15 +153,16 @@ const (
 
 // RosmsgParser rules.
 const (
-	RosmsgParserRULE_parse         = 0
-	RosmsgParserRULE_msg_stat      = 1
-	RosmsgParserRULE_srv_stat      = 2
-	RosmsgParserRULE_field         = 3
-	RosmsgParserRULE_field_type    = 4
-	RosmsgParserRULE_type          = 5
-	RosmsgParserRULE_customed_type = 6
-	RosmsgParserRULE_field_name    = 7
-	RosmsgParserRULE_buildin_type  = 8
+	RosmsgParserRULE_parse       = 0
+	RosmsgParserRULE_msgStat     = 1
+	RosmsgParserRULE_srvStat     = 2
+	RosmsgParserRULE_field       = 3
+	RosmsgParserRULE_fieldType   = 4
+	RosmsgParserRULE_type        = 5
+	RosmsgParserRULE_arrayType   = 6
+	RosmsgParserRULE_customType  = 7
+	RosmsgParserRULE_fieldName   = 8
+	RosmsgParserRULE_buildinType = 9
 )
 
 // IParseContext is an interface to support dynamic dispatch.
@@ -171,8 +173,8 @@ type IParseContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	Msg_stat() IMsg_statContext
-	Srv_stat() ISrv_statContext
+	MsgStat() IMsgStatContext
+	SrvStat() ISrvStatContext
 
 	// IsParseContext differentiates from other interfaces.
 	IsParseContext()
@@ -210,10 +212,10 @@ func NewParseContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoki
 
 func (s *ParseContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ParseContext) Msg_stat() IMsg_statContext {
+func (s *ParseContext) MsgStat() IMsgStatContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IMsg_statContext); ok {
+		if _, ok := ctx.(IMsgStatContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -223,13 +225,13 @@ func (s *ParseContext) Msg_stat() IMsg_statContext {
 		return nil
 	}
 
-	return t.(IMsg_statContext)
+	return t.(IMsgStatContext)
 }
 
-func (s *ParseContext) Srv_stat() ISrv_statContext {
+func (s *ParseContext) SrvStat() ISrvStatContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ISrv_statContext); ok {
+		if _, ok := ctx.(ISrvStatContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -239,7 +241,7 @@ func (s *ParseContext) Srv_stat() ISrv_statContext {
 		return nil
 	}
 
-	return t.(ISrv_statContext)
+	return t.(ISrvStatContext)
 }
 
 func (s *ParseContext) GetRuleContext() antlr.RuleContext {
@@ -265,7 +267,7 @@ func (s *ParseContext) ExitRule(listener antlr.ParseTreeListener) {
 func (p *RosmsgParser) Parse() (localctx IParseContext) {
 	localctx = NewParseContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, RosmsgParserRULE_parse)
-	p.SetState(20)
+	p.SetState(22)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -275,15 +277,15 @@ func (p *RosmsgParser) Parse() (localctx IParseContext) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(18)
-			p.Msg_stat()
+			p.SetState(20)
+			p.MsgStat()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(19)
-			p.Srv_stat()
+			p.SetState(21)
+			p.SrvStat()
 		}
 
 	case antlr.ATNInvalidAltNumber:
@@ -303,8 +305,8 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// IMsg_statContext is an interface to support dynamic dispatch.
-type IMsg_statContext interface {
+// IMsgStatContext is an interface to support dynamic dispatch.
+type IMsgStatContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -314,43 +316,43 @@ type IMsg_statContext interface {
 	AllField() []IFieldContext
 	Field(i int) IFieldContext
 
-	// IsMsg_statContext differentiates from other interfaces.
-	IsMsg_statContext()
+	// IsMsgStatContext differentiates from other interfaces.
+	IsMsgStatContext()
 }
 
-type Msg_statContext struct {
+type MsgStatContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyMsg_statContext() *Msg_statContext {
-	var p = new(Msg_statContext)
+func NewEmptyMsgStatContext() *MsgStatContext {
+	var p = new(MsgStatContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_msg_stat
+	p.RuleIndex = RosmsgParserRULE_msgStat
 	return p
 }
 
-func InitEmptyMsg_statContext(p *Msg_statContext) {
+func InitEmptyMsgStatContext(p *MsgStatContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_msg_stat
+	p.RuleIndex = RosmsgParserRULE_msgStat
 }
 
-func (*Msg_statContext) IsMsg_statContext() {}
+func (*MsgStatContext) IsMsgStatContext() {}
 
-func NewMsg_statContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Msg_statContext {
-	var p = new(Msg_statContext)
+func NewMsgStatContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *MsgStatContext {
+	var p = new(MsgStatContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = RosmsgParserRULE_msg_stat
+	p.RuleIndex = RosmsgParserRULE_msgStat
 
 	return p
 }
 
-func (s *Msg_statContext) GetParser() antlr.Parser { return s.parser }
+func (s *MsgStatContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Msg_statContext) AllField() []IFieldContext {
+func (s *MsgStatContext) AllField() []IFieldContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -371,7 +373,7 @@ func (s *Msg_statContext) AllField() []IFieldContext {
 	return tst
 }
 
-func (s *Msg_statContext) Field(i int) IFieldContext {
+func (s *MsgStatContext) Field(i int) IFieldContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -391,33 +393,33 @@ func (s *Msg_statContext) Field(i int) IFieldContext {
 	return t.(IFieldContext)
 }
 
-func (s *Msg_statContext) GetRuleContext() antlr.RuleContext {
+func (s *MsgStatContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Msg_statContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *MsgStatContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Msg_statContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *MsgStatContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.EnterMsg_stat(s)
+		listenerT.EnterMsgStat(s)
 	}
 }
 
-func (s *Msg_statContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *MsgStatContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.ExitMsg_stat(s)
+		listenerT.ExitMsgStat(s)
 	}
 }
 
-func (p *RosmsgParser) Msg_stat() (localctx IMsg_statContext) {
-	localctx = NewMsg_statContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, RosmsgParserRULE_msg_stat)
+func (p *RosmsgParser) MsgStat() (localctx IMsgStatContext) {
+	localctx = NewMsgStatContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 2, RosmsgParserRULE_msgStat)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(25)
+	p.SetState(27)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -426,11 +428,11 @@ func (p *RosmsgParser) Msg_stat() (localctx IMsg_statContext) {
 
 	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&8388480) != 0 {
 		{
-			p.SetState(22)
+			p.SetState(24)
 			p.Field()
 		}
 
-		p.SetState(27)
+		p.SetState(29)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -451,59 +453,85 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// ISrv_statContext is an interface to support dynamic dispatch.
-type ISrv_statContext interface {
+// ISrvStatContext is an interface to support dynamic dispatch.
+type ISrvStatContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	Msg_stat() IMsg_statContext
+	AllMsgStat() []IMsgStatContext
+	MsgStat(i int) IMsgStatContext
 	MSG_SPLIT() antlr.TerminalNode
 
-	// IsSrv_statContext differentiates from other interfaces.
-	IsSrv_statContext()
+	// IsSrvStatContext differentiates from other interfaces.
+	IsSrvStatContext()
 }
 
-type Srv_statContext struct {
+type SrvStatContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptySrv_statContext() *Srv_statContext {
-	var p = new(Srv_statContext)
+func NewEmptySrvStatContext() *SrvStatContext {
+	var p = new(SrvStatContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_srv_stat
+	p.RuleIndex = RosmsgParserRULE_srvStat
 	return p
 }
 
-func InitEmptySrv_statContext(p *Srv_statContext) {
+func InitEmptySrvStatContext(p *SrvStatContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_srv_stat
+	p.RuleIndex = RosmsgParserRULE_srvStat
 }
 
-func (*Srv_statContext) IsSrv_statContext() {}
+func (*SrvStatContext) IsSrvStatContext() {}
 
-func NewSrv_statContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Srv_statContext {
-	var p = new(Srv_statContext)
+func NewSrvStatContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *SrvStatContext {
+	var p = new(SrvStatContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = RosmsgParserRULE_srv_stat
+	p.RuleIndex = RosmsgParserRULE_srvStat
 
 	return p
 }
 
-func (s *Srv_statContext) GetParser() antlr.Parser { return s.parser }
+func (s *SrvStatContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Srv_statContext) Msg_stat() IMsg_statContext {
+func (s *SrvStatContext) AllMsgStat() []IMsgStatContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IMsgStatContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IMsgStatContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IMsgStatContext); ok {
+			tst[i] = t.(IMsgStatContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *SrvStatContext) MsgStat(i int) IMsgStatContext {
 	var t antlr.RuleContext
+	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IMsg_statContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
+		if _, ok := ctx.(IMsgStatContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
 		}
 	}
 
@@ -511,48 +539,52 @@ func (s *Srv_statContext) Msg_stat() IMsg_statContext {
 		return nil
 	}
 
-	return t.(IMsg_statContext)
+	return t.(IMsgStatContext)
 }
 
-func (s *Srv_statContext) MSG_SPLIT() antlr.TerminalNode {
+func (s *SrvStatContext) MSG_SPLIT() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserMSG_SPLIT, 0)
 }
 
-func (s *Srv_statContext) GetRuleContext() antlr.RuleContext {
+func (s *SrvStatContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Srv_statContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *SrvStatContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Srv_statContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *SrvStatContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.EnterSrv_stat(s)
+		listenerT.EnterSrvStat(s)
 	}
 }
 
-func (s *Srv_statContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *SrvStatContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.ExitSrv_stat(s)
+		listenerT.ExitSrvStat(s)
 	}
 }
 
-func (p *RosmsgParser) Srv_stat() (localctx ISrv_statContext) {
-	localctx = NewSrv_statContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, RosmsgParserRULE_srv_stat)
+func (p *RosmsgParser) SrvStat() (localctx ISrvStatContext) {
+	localctx = NewSrvStatContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, RosmsgParserRULE_srvStat)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(28)
-		p.Msg_stat()
+		p.SetState(30)
+		p.MsgStat()
 	}
 	{
-		p.SetState(29)
+		p.SetState(31)
 		p.Match(RosmsgParserMSG_SPLIT)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
+	}
+	{
+		p.SetState(32)
+		p.MsgStat()
 	}
 
 errorExit:
@@ -576,8 +608,8 @@ type IFieldContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	Field_type() IField_typeContext
-	Field_name() IField_nameContext
+	FieldType() IFieldTypeContext
+	FieldName() IFieldNameContext
 
 	// IsFieldContext differentiates from other interfaces.
 	IsFieldContext()
@@ -615,10 +647,10 @@ func NewFieldContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoki
 
 func (s *FieldContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *FieldContext) Field_type() IField_typeContext {
+func (s *FieldContext) FieldType() IFieldTypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IField_typeContext); ok {
+		if _, ok := ctx.(IFieldTypeContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -628,13 +660,13 @@ func (s *FieldContext) Field_type() IField_typeContext {
 		return nil
 	}
 
-	return t.(IField_typeContext)
+	return t.(IFieldTypeContext)
 }
 
-func (s *FieldContext) Field_name() IField_nameContext {
+func (s *FieldContext) FieldName() IFieldNameContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IField_nameContext); ok {
+		if _, ok := ctx.(IFieldNameContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -644,7 +676,7 @@ func (s *FieldContext) Field_name() IField_nameContext {
 		return nil
 	}
 
-	return t.(IField_nameContext)
+	return t.(IFieldNameContext)
 }
 
 func (s *FieldContext) GetRuleContext() antlr.RuleContext {
@@ -672,12 +704,12 @@ func (p *RosmsgParser) Field() (localctx IFieldContext) {
 	p.EnterRule(localctx, 6, RosmsgParserRULE_field)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(31)
-		p.Field_type()
+		p.SetState(34)
+		p.FieldType()
 	}
 	{
-		p.SetState(32)
-		p.Field_name()
+		p.SetState(35)
+		p.FieldName()
 	}
 
 errorExit:
@@ -693,8 +725,8 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// IField_typeContext is an interface to support dynamic dispatch.
-type IField_typeContext interface {
+// IFieldTypeContext is an interface to support dynamic dispatch.
+type IFieldTypeContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -702,51 +734,45 @@ type IField_typeContext interface {
 
 	// Getter signatures
 	Type_() ITypeContext
-	OPEN_BRA() antlr.TerminalNode
-	CLOSE_BRA() antlr.TerminalNode
-	AllNUMERIC_LITERAL() []antlr.TerminalNode
-	NUMERIC_LITERAL(i int) antlr.TerminalNode
-	AllLT_EQ() []antlr.TerminalNode
-	LT_EQ(i int) antlr.TerminalNode
-	STRING() antlr.TerminalNode
+	ArrayType() IArrayTypeContext
 
-	// IsField_typeContext differentiates from other interfaces.
-	IsField_typeContext()
+	// IsFieldTypeContext differentiates from other interfaces.
+	IsFieldTypeContext()
 }
 
-type Field_typeContext struct {
+type FieldTypeContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyField_typeContext() *Field_typeContext {
-	var p = new(Field_typeContext)
+func NewEmptyFieldTypeContext() *FieldTypeContext {
+	var p = new(FieldTypeContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_field_type
+	p.RuleIndex = RosmsgParserRULE_fieldType
 	return p
 }
 
-func InitEmptyField_typeContext(p *Field_typeContext) {
+func InitEmptyFieldTypeContext(p *FieldTypeContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_field_type
+	p.RuleIndex = RosmsgParserRULE_fieldType
 }
 
-func (*Field_typeContext) IsField_typeContext() {}
+func (*FieldTypeContext) IsFieldTypeContext() {}
 
-func NewField_typeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Field_typeContext {
-	var p = new(Field_typeContext)
+func NewFieldTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FieldTypeContext {
+	var p = new(FieldTypeContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = RosmsgParserRULE_field_type
+	p.RuleIndex = RosmsgParserRULE_fieldType
 
 	return p
 }
 
-func (s *Field_typeContext) GetParser() antlr.Parser { return s.parser }
+func (s *FieldTypeContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Field_typeContext) Type_() ITypeContext {
+func (s *FieldTypeContext) Type_() ITypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ITypeContext); ok {
@@ -762,58 +788,46 @@ func (s *Field_typeContext) Type_() ITypeContext {
 	return t.(ITypeContext)
 }
 
-func (s *Field_typeContext) OPEN_BRA() antlr.TerminalNode {
-	return s.GetToken(RosmsgParserOPEN_BRA, 0)
+func (s *FieldTypeContext) ArrayType() IArrayTypeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IArrayTypeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IArrayTypeContext)
 }
 
-func (s *Field_typeContext) CLOSE_BRA() antlr.TerminalNode {
-	return s.GetToken(RosmsgParserCLOSE_BRA, 0)
-}
-
-func (s *Field_typeContext) AllNUMERIC_LITERAL() []antlr.TerminalNode {
-	return s.GetTokens(RosmsgParserNUMERIC_LITERAL)
-}
-
-func (s *Field_typeContext) NUMERIC_LITERAL(i int) antlr.TerminalNode {
-	return s.GetToken(RosmsgParserNUMERIC_LITERAL, i)
-}
-
-func (s *Field_typeContext) AllLT_EQ() []antlr.TerminalNode {
-	return s.GetTokens(RosmsgParserLT_EQ)
-}
-
-func (s *Field_typeContext) LT_EQ(i int) antlr.TerminalNode {
-	return s.GetToken(RosmsgParserLT_EQ, i)
-}
-
-func (s *Field_typeContext) STRING() antlr.TerminalNode {
-	return s.GetToken(RosmsgParserSTRING, 0)
-}
-
-func (s *Field_typeContext) GetRuleContext() antlr.RuleContext {
+func (s *FieldTypeContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Field_typeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FieldTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Field_typeContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FieldTypeContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.EnterField_type(s)
+		listenerT.EnterFieldType(s)
 	}
 }
 
-func (s *Field_typeContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FieldTypeContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.ExitField_type(s)
+		listenerT.ExitFieldType(s)
 	}
 }
 
-func (p *RosmsgParser) Field_type() (localctx IField_typeContext) {
-	localctx = NewField_typeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 8, RosmsgParserRULE_field_type)
-	p.SetState(71)
+func (p *RosmsgParser) FieldType() (localctx IFieldTypeContext) {
+	localctx = NewFieldTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 8, RosmsgParserRULE_fieldType)
+	p.SetState(39)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -823,284 +837,15 @@ func (p *RosmsgParser) Field_type() (localctx IField_typeContext) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(34)
+			p.SetState(37)
 			p.Type_()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(35)
-			p.Type_()
-		}
-		{
-			p.SetState(36)
-			p.Match(RosmsgParserOPEN_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(37)
-			p.Match(RosmsgParserCLOSE_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 3:
-		p.EnterOuterAlt(localctx, 3)
-		{
-			p.SetState(39)
-			p.Type_()
-		}
-		{
-			p.SetState(40)
-			p.Match(RosmsgParserOPEN_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(41)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(42)
-			p.Match(RosmsgParserCLOSE_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 4:
-		p.EnterOuterAlt(localctx, 4)
-		{
-			p.SetState(44)
-			p.Type_()
-		}
-		{
-			p.SetState(45)
-			p.Match(RosmsgParserOPEN_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(46)
-			p.Match(RosmsgParserLT_EQ)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(47)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(48)
-			p.Match(RosmsgParserCLOSE_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 5:
-		p.EnterOuterAlt(localctx, 5)
-		{
-			p.SetState(50)
-			p.Match(RosmsgParserSTRING)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 6:
-		p.EnterOuterAlt(localctx, 6)
-		{
-			p.SetState(51)
-			p.Match(RosmsgParserSTRING)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(52)
-			p.Match(RosmsgParserLT_EQ)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(53)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 7:
-		p.EnterOuterAlt(localctx, 7)
-		{
-			p.SetState(54)
-			p.Match(RosmsgParserSTRING)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(55)
-			p.Match(RosmsgParserOPEN_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(56)
-			p.Match(RosmsgParserLT_EQ)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(57)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(58)
-			p.Match(RosmsgParserCLOSE_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 8:
-		p.EnterOuterAlt(localctx, 8)
-		{
-			p.SetState(59)
-			p.Match(RosmsgParserSTRING)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(60)
-			p.Match(RosmsgParserLT_EQ)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(61)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(62)
-			p.Match(RosmsgParserOPEN_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(63)
-			p.Match(RosmsgParserCLOSE_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 9:
-		p.EnterOuterAlt(localctx, 9)
-		{
-			p.SetState(64)
-			p.Match(RosmsgParserSTRING)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(65)
-			p.Match(RosmsgParserLT_EQ)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(66)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(67)
-			p.Match(RosmsgParserOPEN_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(68)
-			p.Match(RosmsgParserLT_EQ)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(69)
-			p.Match(RosmsgParserNUMERIC_LITERAL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(70)
-			p.Match(RosmsgParserCLOSE_BRA)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
+			p.SetState(38)
+			p.ArrayType()
 		}
 
 	case antlr.ATNInvalidAltNumber:
@@ -1128,8 +873,8 @@ type ITypeContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	Buildin_type() IBuildin_typeContext
-	Customed_type() ICustomed_typeContext
+	BuildinType() IBuildinTypeContext
+	CustomType() ICustomTypeContext
 
 	// IsTypeContext differentiates from other interfaces.
 	IsTypeContext()
@@ -1167,10 +912,10 @@ func NewTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokin
 
 func (s *TypeContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *TypeContext) Buildin_type() IBuildin_typeContext {
+func (s *TypeContext) BuildinType() IBuildinTypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IBuildin_typeContext); ok {
+		if _, ok := ctx.(IBuildinTypeContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1180,13 +925,13 @@ func (s *TypeContext) Buildin_type() IBuildin_typeContext {
 		return nil
 	}
 
-	return t.(IBuildin_typeContext)
+	return t.(IBuildinTypeContext)
 }
 
-func (s *TypeContext) Customed_type() ICustomed_typeContext {
+func (s *TypeContext) CustomType() ICustomTypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ICustomed_typeContext); ok {
+		if _, ok := ctx.(ICustomTypeContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1196,7 +941,7 @@ func (s *TypeContext) Customed_type() ICustomed_typeContext {
 		return nil
 	}
 
-	return t.(ICustomed_typeContext)
+	return t.(ICustomTypeContext)
 }
 
 func (s *TypeContext) GetRuleContext() antlr.RuleContext {
@@ -1222,7 +967,7 @@ func (s *TypeContext) ExitRule(listener antlr.ParseTreeListener) {
 func (p *RosmsgParser) Type_() (localctx ITypeContext) {
 	localctx = NewTypeContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 10, RosmsgParserRULE_type)
-	p.SetState(75)
+	p.SetState(43)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1232,15 +977,15 @@ func (p *RosmsgParser) Type_() (localctx ITypeContext) {
 	case RosmsgParserBOOL, RosmsgParserBYTES, RosmsgParserCHAR, RosmsgParserFLOAT32, RosmsgParserFLOAT64, RosmsgParserINT8, RosmsgParserUINT8, RosmsgParserINT16, RosmsgParserUINT16, RosmsgParserINT32, RosmsgParserUINT32, RosmsgParserINT64, RosmsgParserUINT64, RosmsgParserSTRING, RosmsgParserWSTRING:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(73)
-			p.Buildin_type()
+			p.SetState(41)
+			p.BuildinType()
 		}
 
 	case RosmsgParserIDENTIFIER:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(74)
-			p.Customed_type()
+			p.SetState(42)
+			p.CustomType()
 		}
 
 	default:
@@ -1261,61 +1006,63 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// ICustomed_typeContext is an interface to support dynamic dispatch.
-type ICustomed_typeContext interface {
+// IArrayTypeContext is an interface to support dynamic dispatch.
+type IArrayTypeContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	IDENTIFIER() antlr.TerminalNode
-	Customed_type() ICustomed_typeContext
+	Type_() ITypeContext
+	OPEN_BRA() antlr.TerminalNode
+	CLOSE_BRA() antlr.TerminalNode
+	AllNUMERIC_LITERAL() []antlr.TerminalNode
+	NUMERIC_LITERAL(i int) antlr.TerminalNode
+	AllLT_EQ() []antlr.TerminalNode
+	LT_EQ(i int) antlr.TerminalNode
+	STRING() antlr.TerminalNode
 
-	// IsCustomed_typeContext differentiates from other interfaces.
-	IsCustomed_typeContext()
+	// IsArrayTypeContext differentiates from other interfaces.
+	IsArrayTypeContext()
 }
 
-type Customed_typeContext struct {
+type ArrayTypeContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyCustomed_typeContext() *Customed_typeContext {
-	var p = new(Customed_typeContext)
+func NewEmptyArrayTypeContext() *ArrayTypeContext {
+	var p = new(ArrayTypeContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_customed_type
+	p.RuleIndex = RosmsgParserRULE_arrayType
 	return p
 }
 
-func InitEmptyCustomed_typeContext(p *Customed_typeContext) {
+func InitEmptyArrayTypeContext(p *ArrayTypeContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_customed_type
+	p.RuleIndex = RosmsgParserRULE_arrayType
 }
 
-func (*Customed_typeContext) IsCustomed_typeContext() {}
+func (*ArrayTypeContext) IsArrayTypeContext() {}
 
-func NewCustomed_typeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Customed_typeContext {
-	var p = new(Customed_typeContext)
+func NewArrayTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArrayTypeContext {
+	var p = new(ArrayTypeContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = RosmsgParserRULE_customed_type
+	p.RuleIndex = RosmsgParserRULE_arrayType
 
 	return p
 }
 
-func (s *Customed_typeContext) GetParser() antlr.Parser { return s.parser }
+func (s *ArrayTypeContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Customed_typeContext) IDENTIFIER() antlr.TerminalNode {
-	return s.GetToken(RosmsgParserIDENTIFIER, 0)
-}
-
-func (s *Customed_typeContext) Customed_type() ICustomed_typeContext {
+func (s *ArrayTypeContext) Type_() ITypeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ICustomed_typeContext); ok {
+		if _, ok := ctx.(ITypeContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1325,33 +1072,61 @@ func (s *Customed_typeContext) Customed_type() ICustomed_typeContext {
 		return nil
 	}
 
-	return t.(ICustomed_typeContext)
+	return t.(ITypeContext)
 }
 
-func (s *Customed_typeContext) GetRuleContext() antlr.RuleContext {
+func (s *ArrayTypeContext) OPEN_BRA() antlr.TerminalNode {
+	return s.GetToken(RosmsgParserOPEN_BRA, 0)
+}
+
+func (s *ArrayTypeContext) CLOSE_BRA() antlr.TerminalNode {
+	return s.GetToken(RosmsgParserCLOSE_BRA, 0)
+}
+
+func (s *ArrayTypeContext) AllNUMERIC_LITERAL() []antlr.TerminalNode {
+	return s.GetTokens(RosmsgParserNUMERIC_LITERAL)
+}
+
+func (s *ArrayTypeContext) NUMERIC_LITERAL(i int) antlr.TerminalNode {
+	return s.GetToken(RosmsgParserNUMERIC_LITERAL, i)
+}
+
+func (s *ArrayTypeContext) AllLT_EQ() []antlr.TerminalNode {
+	return s.GetTokens(RosmsgParserLT_EQ)
+}
+
+func (s *ArrayTypeContext) LT_EQ(i int) antlr.TerminalNode {
+	return s.GetToken(RosmsgParserLT_EQ, i)
+}
+
+func (s *ArrayTypeContext) STRING() antlr.TerminalNode {
+	return s.GetToken(RosmsgParserSTRING, 0)
+}
+
+func (s *ArrayTypeContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Customed_typeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ArrayTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Customed_typeContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ArrayTypeContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.EnterCustomed_type(s)
+		listenerT.EnterArrayType(s)
 	}
 }
 
-func (s *Customed_typeContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ArrayTypeContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.ExitCustomed_type(s)
+		listenerT.ExitArrayType(s)
 	}
 }
 
-func (p *RosmsgParser) Customed_type() (localctx ICustomed_typeContext) {
-	localctx = NewCustomed_typeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, RosmsgParserRULE_customed_type)
-	p.SetState(81)
+func (p *RosmsgParser) ArrayType() (localctx IArrayTypeContext) {
+	localctx = NewArrayTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 12, RosmsgParserRULE_arrayType)
+	p.SetState(80)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1361,8 +1136,20 @@ func (p *RosmsgParser) Customed_type() (localctx ICustomed_typeContext) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(77)
-			p.Match(RosmsgParserIDENTIFIER)
+			p.SetState(45)
+			p.Type_()
+		}
+		{
+			p.SetState(46)
+			p.Match(RosmsgParserOPEN_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(47)
+			p.Match(RosmsgParserCLOSE_BRA)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
@@ -1372,8 +1159,231 @@ func (p *RosmsgParser) Customed_type() (localctx ICustomed_typeContext) {
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
+			p.SetState(49)
+			p.Type_()
+		}
+		{
+			p.SetState(50)
+			p.Match(RosmsgParserOPEN_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(51)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(52)
+			p.Match(RosmsgParserCLOSE_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 3:
+		p.EnterOuterAlt(localctx, 3)
+		{
+			p.SetState(54)
+			p.Type_()
+		}
+		{
+			p.SetState(55)
+			p.Match(RosmsgParserOPEN_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(56)
+			p.Match(RosmsgParserLT_EQ)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(57)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(58)
+			p.Match(RosmsgParserCLOSE_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 4:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(60)
+			p.Match(RosmsgParserSTRING)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(61)
+			p.Match(RosmsgParserLT_EQ)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(62)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 5:
+		p.EnterOuterAlt(localctx, 5)
+		{
+			p.SetState(63)
+			p.Match(RosmsgParserSTRING)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(64)
+			p.Match(RosmsgParserOPEN_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(65)
+			p.Match(RosmsgParserLT_EQ)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(66)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(67)
+			p.Match(RosmsgParserCLOSE_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 6:
+		p.EnterOuterAlt(localctx, 6)
+		{
+			p.SetState(68)
+			p.Match(RosmsgParserSTRING)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(69)
+			p.Match(RosmsgParserLT_EQ)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(70)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(71)
+			p.Match(RosmsgParserOPEN_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(72)
+			p.Match(RosmsgParserCLOSE_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 7:
+		p.EnterOuterAlt(localctx, 7)
+		{
+			p.SetState(73)
+			p.Match(RosmsgParserSTRING)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(74)
+			p.Match(RosmsgParserLT_EQ)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(75)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(76)
+			p.Match(RosmsgParserOPEN_BRA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(77)
+			p.Match(RosmsgParserLT_EQ)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
 			p.SetState(78)
-			p.Match(RosmsgParserIDENTIFIER)
+			p.Match(RosmsgParserNUMERIC_LITERAL)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
@@ -1381,15 +1391,11 @@ func (p *RosmsgParser) Customed_type() (localctx ICustomed_typeContext) {
 		}
 		{
 			p.SetState(79)
-			p.Match(RosmsgParserT__0)
+			p.Match(RosmsgParserCLOSE_BRA)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
-		}
-		{
-			p.SetState(80)
-			p.Customed_type()
 		}
 
 	case antlr.ATNInvalidAltNumber:
@@ -1409,8 +1415,156 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// IField_nameContext is an interface to support dynamic dispatch.
-type IField_nameContext interface {
+// ICustomTypeContext is an interface to support dynamic dispatch.
+type ICustomTypeContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	IDENTIFIER() antlr.TerminalNode
+	CustomType() ICustomTypeContext
+
+	// IsCustomTypeContext differentiates from other interfaces.
+	IsCustomTypeContext()
+}
+
+type CustomTypeContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyCustomTypeContext() *CustomTypeContext {
+	var p = new(CustomTypeContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = RosmsgParserRULE_customType
+	return p
+}
+
+func InitEmptyCustomTypeContext(p *CustomTypeContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = RosmsgParserRULE_customType
+}
+
+func (*CustomTypeContext) IsCustomTypeContext() {}
+
+func NewCustomTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CustomTypeContext {
+	var p = new(CustomTypeContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = RosmsgParserRULE_customType
+
+	return p
+}
+
+func (s *CustomTypeContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *CustomTypeContext) IDENTIFIER() antlr.TerminalNode {
+	return s.GetToken(RosmsgParserIDENTIFIER, 0)
+}
+
+func (s *CustomTypeContext) CustomType() ICustomTypeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ICustomTypeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ICustomTypeContext)
+}
+
+func (s *CustomTypeContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *CustomTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *CustomTypeContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(RosmsgListener); ok {
+		listenerT.EnterCustomType(s)
+	}
+}
+
+func (s *CustomTypeContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(RosmsgListener); ok {
+		listenerT.ExitCustomType(s)
+	}
+}
+
+func (p *RosmsgParser) CustomType() (localctx ICustomTypeContext) {
+	localctx = NewCustomTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 14, RosmsgParserRULE_customType)
+	p.SetState(86)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 5, p.GetParserRuleContext()) {
+	case 1:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(82)
+			p.Match(RosmsgParserIDENTIFIER)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 2:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(83)
+			p.Match(RosmsgParserIDENTIFIER)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(84)
+			p.Match(RosmsgParserT__0)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(85)
+			p.CustomType()
+		}
+
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IFieldNameContext is an interface to support dynamic dispatch.
+type IFieldNameContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -1419,72 +1573,72 @@ type IField_nameContext interface {
 	// Getter signatures
 	IDENTIFIER() antlr.TerminalNode
 
-	// IsField_nameContext differentiates from other interfaces.
-	IsField_nameContext()
+	// IsFieldNameContext differentiates from other interfaces.
+	IsFieldNameContext()
 }
 
-type Field_nameContext struct {
+type FieldNameContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyField_nameContext() *Field_nameContext {
-	var p = new(Field_nameContext)
+func NewEmptyFieldNameContext() *FieldNameContext {
+	var p = new(FieldNameContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_field_name
+	p.RuleIndex = RosmsgParserRULE_fieldName
 	return p
 }
 
-func InitEmptyField_nameContext(p *Field_nameContext) {
+func InitEmptyFieldNameContext(p *FieldNameContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_field_name
+	p.RuleIndex = RosmsgParserRULE_fieldName
 }
 
-func (*Field_nameContext) IsField_nameContext() {}
+func (*FieldNameContext) IsFieldNameContext() {}
 
-func NewField_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Field_nameContext {
-	var p = new(Field_nameContext)
+func NewFieldNameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FieldNameContext {
+	var p = new(FieldNameContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = RosmsgParserRULE_field_name
+	p.RuleIndex = RosmsgParserRULE_fieldName
 
 	return p
 }
 
-func (s *Field_nameContext) GetParser() antlr.Parser { return s.parser }
+func (s *FieldNameContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Field_nameContext) IDENTIFIER() antlr.TerminalNode {
+func (s *FieldNameContext) IDENTIFIER() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserIDENTIFIER, 0)
 }
 
-func (s *Field_nameContext) GetRuleContext() antlr.RuleContext {
+func (s *FieldNameContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Field_nameContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FieldNameContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Field_nameContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FieldNameContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.EnterField_name(s)
+		listenerT.EnterFieldName(s)
 	}
 }
 
-func (s *Field_nameContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FieldNameContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.ExitField_name(s)
+		listenerT.ExitFieldName(s)
 	}
 }
 
-func (p *RosmsgParser) Field_name() (localctx IField_nameContext) {
-	localctx = NewField_nameContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 14, RosmsgParserRULE_field_name)
+func (p *RosmsgParser) FieldName() (localctx IFieldNameContext) {
+	localctx = NewFieldNameContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 16, RosmsgParserRULE_fieldName)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(83)
+		p.SetState(88)
 		p.Match(RosmsgParserIDENTIFIER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1505,8 +1659,8 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// IBuildin_typeContext is an interface to support dynamic dispatch.
-type IBuildin_typeContext interface {
+// IBuildinTypeContext is an interface to support dynamic dispatch.
+type IBuildinTypeContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -1529,130 +1683,130 @@ type IBuildin_typeContext interface {
 	STRING() antlr.TerminalNode
 	WSTRING() antlr.TerminalNode
 
-	// IsBuildin_typeContext differentiates from other interfaces.
-	IsBuildin_typeContext()
+	// IsBuildinTypeContext differentiates from other interfaces.
+	IsBuildinTypeContext()
 }
 
-type Buildin_typeContext struct {
+type BuildinTypeContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyBuildin_typeContext() *Buildin_typeContext {
-	var p = new(Buildin_typeContext)
+func NewEmptyBuildinTypeContext() *BuildinTypeContext {
+	var p = new(BuildinTypeContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_buildin_type
+	p.RuleIndex = RosmsgParserRULE_buildinType
 	return p
 }
 
-func InitEmptyBuildin_typeContext(p *Buildin_typeContext) {
+func InitEmptyBuildinTypeContext(p *BuildinTypeContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = RosmsgParserRULE_buildin_type
+	p.RuleIndex = RosmsgParserRULE_buildinType
 }
 
-func (*Buildin_typeContext) IsBuildin_typeContext() {}
+func (*BuildinTypeContext) IsBuildinTypeContext() {}
 
-func NewBuildin_typeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Buildin_typeContext {
-	var p = new(Buildin_typeContext)
+func NewBuildinTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *BuildinTypeContext {
+	var p = new(BuildinTypeContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = RosmsgParserRULE_buildin_type
+	p.RuleIndex = RosmsgParserRULE_buildinType
 
 	return p
 }
 
-func (s *Buildin_typeContext) GetParser() antlr.Parser { return s.parser }
+func (s *BuildinTypeContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Buildin_typeContext) BOOL() antlr.TerminalNode {
+func (s *BuildinTypeContext) BOOL() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserBOOL, 0)
 }
 
-func (s *Buildin_typeContext) BYTES() antlr.TerminalNode {
+func (s *BuildinTypeContext) BYTES() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserBYTES, 0)
 }
 
-func (s *Buildin_typeContext) CHAR() antlr.TerminalNode {
+func (s *BuildinTypeContext) CHAR() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserCHAR, 0)
 }
 
-func (s *Buildin_typeContext) FLOAT32() antlr.TerminalNode {
+func (s *BuildinTypeContext) FLOAT32() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserFLOAT32, 0)
 }
 
-func (s *Buildin_typeContext) FLOAT64() antlr.TerminalNode {
+func (s *BuildinTypeContext) FLOAT64() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserFLOAT64, 0)
 }
 
-func (s *Buildin_typeContext) INT8() antlr.TerminalNode {
+func (s *BuildinTypeContext) INT8() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserINT8, 0)
 }
 
-func (s *Buildin_typeContext) UINT8() antlr.TerminalNode {
+func (s *BuildinTypeContext) UINT8() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserUINT8, 0)
 }
 
-func (s *Buildin_typeContext) INT16() antlr.TerminalNode {
+func (s *BuildinTypeContext) INT16() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserINT16, 0)
 }
 
-func (s *Buildin_typeContext) UINT16() antlr.TerminalNode {
+func (s *BuildinTypeContext) UINT16() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserUINT16, 0)
 }
 
-func (s *Buildin_typeContext) INT32() antlr.TerminalNode {
+func (s *BuildinTypeContext) INT32() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserINT32, 0)
 }
 
-func (s *Buildin_typeContext) UINT32() antlr.TerminalNode {
+func (s *BuildinTypeContext) UINT32() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserUINT32, 0)
 }
 
-func (s *Buildin_typeContext) INT64() antlr.TerminalNode {
+func (s *BuildinTypeContext) INT64() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserINT64, 0)
 }
 
-func (s *Buildin_typeContext) UINT64() antlr.TerminalNode {
+func (s *BuildinTypeContext) UINT64() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserUINT64, 0)
 }
 
-func (s *Buildin_typeContext) STRING() antlr.TerminalNode {
+func (s *BuildinTypeContext) STRING() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserSTRING, 0)
 }
 
-func (s *Buildin_typeContext) WSTRING() antlr.TerminalNode {
+func (s *BuildinTypeContext) WSTRING() antlr.TerminalNode {
 	return s.GetToken(RosmsgParserWSTRING, 0)
 }
 
-func (s *Buildin_typeContext) GetRuleContext() antlr.RuleContext {
+func (s *BuildinTypeContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Buildin_typeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *BuildinTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Buildin_typeContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *BuildinTypeContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.EnterBuildin_type(s)
+		listenerT.EnterBuildinType(s)
 	}
 }
 
-func (s *Buildin_typeContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *BuildinTypeContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(RosmsgListener); ok {
-		listenerT.ExitBuildin_type(s)
+		listenerT.ExitBuildinType(s)
 	}
 }
 
-func (p *RosmsgParser) Buildin_type() (localctx IBuildin_typeContext) {
-	localctx = NewBuildin_typeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, RosmsgParserRULE_buildin_type)
+func (p *RosmsgParser) BuildinType() (localctx IBuildinTypeContext) {
+	localctx = NewBuildinTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 18, RosmsgParserRULE_buildinType)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(85)
+		p.SetState(90)
 		_la = p.GetTokenStream().LA(1)
 
 		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4194176) != 0) {

@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/0x587/guardeye/common/downstream"
 	"github.com/0x587/guardeye/test-client/reporter/ros"
 )
 
@@ -35,7 +36,7 @@ func NewMqtt(cid uuid.UUID) (MqttCli, error) {
 	}
 
 	// 订阅主题
-	if token := c.Subscribe(fmt.Sprintf("command/req/%s", cid.String()), 2, res.callback); token.Wait() && token.Error() != nil {
+	if token := c.Subscribe(fmt.Sprintf("command/req/%s", cid.String()), 0, res.callback); token.Wait() && token.Error() != nil {
 		return nil, token.Error()
 	}
 
@@ -51,38 +52,33 @@ func (i *mqttImpl) Close() {
 	i.c.Disconnect(250)
 }
 
-type commandReq struct {
-	Action  string         `json:"action"`
-	Id      string         `json:"id"`
-	Payload map[string]any `json:"payload"`
-}
-
-type commandRsp struct {
-	Id string `json:"id"`
-	Ok bool   `json:"ok"`
-}
-
 func (i *mqttImpl) callback(client mqtt.Client, msg mqtt.Message) {
-	req := &commandReq{}
+	req := &downstream.CommandReq{}
 	if err := json.Unmarshal(msg.Payload(), req); err != nil {
 		logx.Error(err)
 		return
 	}
-	if _, err := ros.Do(req.Action, req.Payload); err != nil {
-		logx.Error(err)
-		return
-	}
-	rsp := &commandRsp{
-		Id: req.Id,
-		Ok: true,
-	}
-	rspBuf, err := json.Marshal(rsp)
-	if err != nil {
-		logx.Error(err)
-		return
-	}
-	token := client.Publish(fmt.Sprintf("command/rsp/%s", i.cid), 2, false, rspBuf)
-	if token.Wait(); token.Error() != nil {
-		logx.Error(token.Error())
-	}
+	go func() {
+		rsp := &downstream.CommandRsp{
+			Id: req.Id,
+		}
+		res, err := ros.Do(req.Action, req.Data)
+		if err != nil {
+			logx.Error(err)
+			rsp.Ok = false
+			rsp.Data = err.Error()
+		} else {
+			rsp.Ok = true
+			rsp.Data = res
+		}
+		rspBuf, err := json.Marshal(rsp)
+		if err != nil {
+			logx.Error(err)
+			return
+		}
+		token := client.Publish(fmt.Sprintf("command/rsp/%s", i.cid), 0, false, rspBuf)
+		if token.Wait(); token.Error() != nil {
+			logx.Error(token.Error())
+		}
+	}()
 }

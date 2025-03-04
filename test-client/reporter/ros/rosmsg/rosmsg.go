@@ -5,10 +5,10 @@ import (
 
 	"github.com/antlr4-go/antlr/v4"
 
-	"github.com/0x587/guardeye/common/rosmsg/parser"
+	"github.com/0x587/guardeye/test-client/reporter/ros/rosmsg/parser"
 )
 
-func ParseMsg(s string) (parser.IMsg_statContext, error) {
+func ParseMsg(s string) (parser.IMsgStatContext, error) {
 	input := antlr.NewInputStream(s)
 	lexer := parser.NewRosmsgLexer(input)
 	stream := antlr.NewCommonTokenStream(lexer, 0)
@@ -17,14 +17,14 @@ func ParseMsg(s string) (parser.IMsg_statContext, error) {
 	p.AddErrorListener(antlr.NewProxyErrorListener([]antlr.ErrorListener{
 		el,
 	}))
-	res := p.Msg_stat()
+	res := p.MsgStat()
 	if el.GetErrs() == nil {
 		return res, nil
 	}
 	return nil, errors.Join(el.GetErrs()...)
 }
 
-func ParseSrv(s string) (parser.ISrv_statContext, error) {
+func ParseSrv(s string) (parser.ISrvStatContext, error) {
 	input := antlr.NewInputStream(s)
 	lexer := parser.NewRosmsgLexer(input)
 	stream := antlr.NewCommonTokenStream(lexer, 0)
@@ -33,7 +33,7 @@ func ParseSrv(s string) (parser.ISrv_statContext, error) {
 	p.AddErrorListener(antlr.NewProxyErrorListener([]antlr.ErrorListener{
 		el,
 	}))
-	res := p.Srv_stat()
+	res := p.SrvStat()
 	if el.GetErrs() == nil {
 		return res, nil
 	}

@@ -20,3 +20,11 @@ HotLogConsumerConf:
   Offset: first
   Consumers: 4
   Processors: 4
+
+Minio:
+  Endpoint: minioapi.guardeye.shawnsiu.site:5080
+  AccessKey: fJGShizzQOmRu44EVfgv
+  AccessSecret: 47kDXUYY8dusuqMZCCsHCQQANB3l5WpXTMczh580
+
+Mqtt:
+  Endpoint: tcp://emqxtcp.guardeye.shawnsiu.site:58701
