@@ -6,7 +6,6 @@ toolchain go1.23.3
 
 require (
 	entgo.io/ent v0.14.1
-	github.com/0x587/go-cjson v0.0.0-20241117051049-f40bf93d1f62
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/boltdb/bolt v1.3.1
 	github.com/eclipse/paho.mqtt.golang v1.5.0
@@ -18,6 +17,7 @@ require (
 	github.com/hpcloud/tail v1.0.0
 	github.com/kardianos/service v1.2.2
 	github.com/lib/pq v1.10.9
+	github.com/minio/minio-go/v7 v7.0.87
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.7.0
@@ -79,7 +79,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/minio/crc64nvme v1.0.1 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
-	github.com/minio/minio-go/v7 v7.0.87 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
