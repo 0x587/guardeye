@@ -1,18 +1,13 @@
 package reporter
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net"
-	"net/http"
 	"os"
 	"runtime"
 	"sync"
 	"time"
 
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
@@ -22,6 +17,7 @@ import (
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
+	"github.com/0x587/guardeye/test-client/http"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/0x587/guardeye/test-client/reporter/downstream"
 	"github.com/0x587/guardeye/test-client/storage"
@@ -109,7 +105,7 @@ func (i *impl) init(ctx context.Context) error {
 			NodeDescription: i.getNodeDesc(),
 		}
 		rsp := &reportclient.InitRsp{}
-		err := post(i, ctx, "/init", req, rsp)
+		err := http.Post(ctx, i.reportBaseurl+"/init", req, rsp)
 		logx.Must(err)
 		clientID := rsp.GetNodeInfo().GetClientId()
 		return []byte(clientID)
@@ -138,7 +134,7 @@ func (i *impl) doLogReport(ctx context.Context, logs []*reportclient.Log) error 
 		},
 	}
 	rsp := &reportclient.LogReportRsp{}
-	err := post(i, ctx, "/log_report", req, rsp)
+	err := http.Post(ctx, i.reportBaseurl+"/log_report", req, rsp)
 	if err != nil {
 		return err
 	}
@@ -160,43 +156,4 @@ func (i *impl) getNodeDesc() *reportclient.NodeDescription {
 		}),
 		Hostname: lo.Must(os.Hostname()),
 	}
-}
-
-func post[ReqT, RspT proto.Message](i *impl, ctx context.Context, url string, req ReqT, rsp RspT) error {
-	m := jsonpb.Marshaler{}
-	s, err := m.MarshalToString(req)
-	if err != nil {
-		return err
-	}
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-	request, err := http.NewRequestWithContext(
-		ctx,
-		"POST",
-		i.reportBaseurl+url,
-		bytes.NewBuffer([]byte(s)),
-	)
-	if err != nil {
-		return err
-	}
-	request.Header.Add("Content-Type", "application/json")
-	response, err := http.DefaultClient.Do(request)
-	if err != nil {
-		return err
-	}
-	if response.StatusCode != 200 {
-		return errors.Errorf("report http error: %v", response.Status)
-	}
-	defer func(Body io.ReadCloser) {
-		_ = Body.Close()
-	}(response.Body)
-	body, err := io.ReadAll(response.Body)
-	if err != nil {
-		return err
-	}
-	err = jsonpb.UnmarshalString(string(body), rsp)
-	if err != nil {
-		return err
-	}
-	return nil
 }

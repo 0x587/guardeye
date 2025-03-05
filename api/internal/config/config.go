@@ -11,4 +11,12 @@ type Config struct {
 	RedisConf          redis.RedisConf
 	PostgresConf       string
 	HotLogConsumerConf kq.KqConf
+	Minio              struct {
+		Endpoint     string
+		AccessKey    string
+		AccessSecret string
+	}
+	Mqtt struct {
+		Endpoint string
+	}
 }

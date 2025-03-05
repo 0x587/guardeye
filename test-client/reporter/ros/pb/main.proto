@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package = "./pb";
+import "tutorial_interfaces.proto";
+import "geometry_msgs.proto";
+import "std_msgs.proto";
+import "shawn_define.proto";
+
+service Api {
+	// topic: /msg
+	rpc PublishTopicMsg(tutorial_interfaces.Msg1) returns (tutorial_interfaces.Msg1);
+	// topic: /chatter
+	rpc PublishTopicChatter(std_msgs.String) returns (std_msgs.String);
+	// service: /add_two_ints_srv
+	rpc CallServiceAdd_two_ints_srv(shawn_define.AddReq) returns (shawn_define.AddRsp);
+}

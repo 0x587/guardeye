@@ -147,5 +147,5 @@ message LinkRsp{
 service Report {
   rpc Init(InitReq) returns(InitRsp);
   rpc LogReport(LogReportReq) returns(LogReportRsp);
-  rpc Link(stream LinkReq) returns(stream LinkRsp){};
+  rpc Link(stream LinkReq) returns(stream LinkRsp);
 }

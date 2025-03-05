@@ -5,11 +5,11 @@ app = FastAPI()
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    print(f"Received request: {request.method} {request.url}")
-    print(f"Headers: {request.headers}")
-    print(f"Query: {request.query_params}")
+    print(fCtx"Received request: {request.method} {request.url}")
+    print(fCtx"Headers: {request.headers}")
+    print(fCtx"Query: {request.query_params}")
     body = await request.body()
-    print(f"Body: {body}")
+    print(fCtx"Body: {body}")
     response = await call_next(request)
     return response
 
