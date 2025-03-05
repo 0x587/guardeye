@@ -62,7 +62,9 @@ func (i *mqttImpl) callback(client mqtt.Client, msg mqtt.Message) {
 		rsp := &downstream.CommandRsp{
 			Id: req.Id,
 		}
+		s := time.Now()
 		res, err := ros.Do(req.Action, req.Data)
+		logx.Infof("done %v", time.Now().Sub(s))
 		if err != nil {
 			logx.Error(err)
 			rsp.Ok = false
@@ -80,5 +82,6 @@ func (i *mqttImpl) callback(client mqtt.Client, msg mqtt.Message) {
 		if token.Wait(); token.Error() != nil {
 			logx.Error(token.Error())
 		}
+		logx.Infof("reply %v", time.Now().Sub(s))
 	}()
 }

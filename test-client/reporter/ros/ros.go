@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/0x587/guardeye/common/downstream"
 	"github.com/0x587/guardeye/test-client/reporter/ros/rossrv"
@@ -42,7 +43,7 @@ func (i *impl) sendTopic(p downstream.CommandReqData) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = i.rosExec(fmt.Sprintf("ros2 topic pub %s %s %s -1", p.RosTopic, topicType, string(jsonData)))
+	_, err = i.rosExec(fmt.Sprintf("ros2 topic pub %s %s '%s' -1", p.RosTopic, topicType, string(jsonData)))
 	if err != nil {
 		return nil, err
 	}
@@ -78,20 +79,34 @@ func (i *impl) callService(p downstream.CommandReqData) (any, error) {
 	return walk.Walk(tree), nil
 }
 
+var topicTypeCache sync.Map
+
 func (i *impl) getTopicType(topic string) (string, error) {
+	c, ok := topicTypeCache.Load(topic)
+	if ok {
+		return c.(string), nil
+	}
 	s, err := i.rosExec(fmt.Sprintf("ros2 topic type %s ", topic))
 	if err != nil {
 		return "", err
 	}
 	s = strings.Replace(s, "\n", "", -1)
+	topicTypeCache.Store(topic, s)
 	return s, nil
 }
 
+var serviceTypeCache sync.Map
+
 func (i *impl) getServiceType(topic string) (string, error) {
+	c, ok := serviceTypeCache.Load(topic)
+	if ok {
+		return c.(string), nil
+	}
 	s, err := i.rosExec(fmt.Sprintf("ros2 service type %s ", topic))
 	if err != nil {
 		return "", err
 	}
 	s = strings.Replace(s, "\n", "", -1)
+	serviceTypeCache.Store(topic, s)
 	return s, nil
 }
