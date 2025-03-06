@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package FoxgloveService;
+option go_package="/foxgloveService";
+
+message CdrReadReq {
+  string ros_schema = 1;
+  bytes buf = 2;
+}
+
+message CdrReadRsp {
+  string trans_data = 1;
+}
+
+message CdrWriteReq {
+  string ros_schema = 1;
+  string trans_data = 2;
+}
+
+message CdrWriteRsp {
+  bytes buf = 1;
+}
+
+service FoxgloveService {
+  rpc CdrRead (CdrReadReq) returns (CdrReadRsp);
+  rpc CdrWrite (CdrWriteReq) returns (CdrWriteRsp);
+}
+

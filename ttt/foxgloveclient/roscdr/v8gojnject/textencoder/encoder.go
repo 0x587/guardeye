@@ -72,7 +72,7 @@ func (c *Encoder) TextEncoderFunctionCallback() v8go.FunctionCallback {
 				return iso.ThrowException(strErr)
 			}
 			s := args[0].String()
-			if !args[1].IsArrayBuffer() {
+			if !args[1].IsUint8Array() {
 				strErr, _ := v8go.NewValue(iso, "Expected second argument format as ArrayBuffer\n")
 
 				return iso.ThrowException(strErr)

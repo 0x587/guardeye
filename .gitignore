@@ -4,3 +4,4 @@
 /report/logs/
 **/dist
 test-client/**/bin/**
+**/node_modules/**

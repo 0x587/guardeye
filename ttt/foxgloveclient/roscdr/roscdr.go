@@ -2,6 +2,7 @@ package roscdr
 
 import (
 	_ "embed"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
@@ -12,8 +13,8 @@ import (
 	v8 "rogchap.com/v8go"
 
 	"github.com/0x587/guardeye/common/pool"
-	"github.com/0x587/guardeye/ttt/foxglove/foxgloveclient/roscdr/v8gojnject/textdecoder"
-	"github.com/0x587/guardeye/ttt/foxglove/foxgloveclient/roscdr/v8gojnject/textencoder"
+	"github.com/0x587/guardeye/ttt/foxgloveclient/roscdr/v8gojnject/textdecoder"
+	"github.com/0x587/guardeye/ttt/foxgloveclient/roscdr/v8gojnject/textencoder"
 )
 
 //go:embed out.js
@@ -68,7 +69,51 @@ func ctxCleaner(ctx *v8.Context) {
 	ctx.Isolate().Dispose()
 }
 
-func Parse(schema string, buf []byte) (string, error) {
+// Read
+// schema: string ros msg定义 buf: []byte msg二进制数据
+// return: string 解析后的json格式数据
+func Read(schema string, buf []byte) (string, error) {
+	reader := getReader(schema)
+	var res string
+	reader.pool.Use(func(ctx *v8.Context) *pool.UseOption {
+		data := strings.Join(lo.Map(buf, func(i byte, _ int) string {
+			return fmt.Sprintf("0x%02x", i)
+		}), ",")
+		source := fmt.Sprintf("JSON.stringify(read(def, [%s]));", data)
+		v, err := ctx.RunScript(source, "")
+		if err != nil {
+			logx.Errorf("foxglove: Failed to read data: %v", err)
+			return nil
+		}
+		res = v.String()
+		return nil
+	})
+	return res, nil
+}
+
+func Write(schema string, jsonData string) ([]byte, error) {
+	reader := getReader(schema)
+	var res []byte
+	reader.pool.Use(func(ctx *v8.Context) *pool.UseOption {
+		//source := fmt.Sprintf("JSON.stringify(write(def, JSON.parse(`%s`)));", jsonData)
+		source := fmt.Sprintf("writeRos(def, JSON.parse(`%s`));", jsonData)
+		v, err := ctx.RunScript(source, "")
+		if err != nil {
+			logx.Errorf("foxglove: Failed to write data: %v", err)
+			return nil
+		}
+		bufJsonStr := v.String()
+		var buf []byte
+		if err := json.Unmarshal([]byte(bufJsonStr), &buf); err != nil {
+			return nil
+		}
+		res = buf
+		return nil
+	})
+	return res, nil
+}
+
+func getReader(schema string) *readerInfo {
 	r, exist := readers.Load(schema)
 	var reader *readerInfo
 	if exist {
@@ -85,19 +130,5 @@ func Parse(schema string, buf []byte) (string, error) {
 		reader.pool = pool.New(10, 10, func() *v8.Context { return ctxMaker(schema) }, ctxCleaner)
 		makeFoxgloveSchemaCache(schema)
 	})
-	var res string
-	reader.pool.Use(func(ctx *v8.Context) *pool.UseOption {
-		data := strings.Join(lo.Map(buf, func(i byte, _ int) string {
-			return fmt.Sprintf("0x%02x", i)
-		}), ",")
-		source := fmt.Sprintf("JSON.stringify(read(def, [%s]));", data)
-		v, err := ctx.RunScript(source, "")
-		if err != nil {
-			logx.Errorf("foxglove: Failed to read data: %v", err)
-			return nil
-		}
-		res = v.String()
-		return nil
-	})
-	return res, nil
+	return reader
 }
