@@ -9,17 +9,6 @@ type AdminStatusReq struct {
 type AdminStatusRsp struct {
 }
 
-type DownstreamCallReq struct {
-	Cid    string `json:"cid"`
-	Action string `json:"action"`
-	Method string `json:"method"`
-	Data   string `json:"data"`
-}
-
-type DownstreamCallRsp struct {
-	Data string `json:"data"`
-}
-
 type EsExportReq struct {
 	Query      string `json:"query"`
 	TraceError bool   `json:"traceError,optional"`

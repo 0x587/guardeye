@@ -9,7 +9,9 @@ import (
 	"github.com/kardianos/service"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/0x587/guardeye/test-client/reporter"
+	"github.com/0x587/guardeye/test-client/config"
+	"github.com/0x587/guardeye/test-client/conn"
+	"github.com/0x587/guardeye/test-client/provider/provider"
 )
 
 type program struct {
@@ -21,9 +23,11 @@ func (p *program) Start(s service.Service) error {
 
 	ctx := context.Background()
 	ctx, p.cancel = context.WithCancel(ctx)
-	c := LoadConfig(ctx)
-	r := reporter.New(fmt.Sprintf("%s:%d", c.Server.Host, c.Server.Port), c.Providers...)
-	go r.Loop(ctx)
+
+	cfg := config.LoadConfig()
+	ps := provider.New(ctx, cfg.Provider)
+	c := conn.New(fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port), ps...)
+	go c.Loop(ctx)
 	return nil
 }
 

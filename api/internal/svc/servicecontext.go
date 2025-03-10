@@ -1,17 +1,15 @@
 package svc
 
 import (
-	"time"
-
-	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	goredis "github.com/redis/go-redis/v9"
 	"github.com/samber/lo"
-	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/0x587/guardeye/api/internal/config"
 	"github.com/0x587/guardeye/api/internal/logdispatcher"
@@ -19,6 +17,7 @@ import (
 	"github.com/0x587/guardeye/common/datakeyredis"
 	"github.com/0x587/guardeye/common/metricredis"
 	"github.com/0x587/guardeye/common/svcctx"
+	"github.com/0x587/guardeye/foxglove_cdrservice/proto/foxgloveService"
 )
 
 type ServiceContext struct {
@@ -31,7 +30,8 @@ type ServiceContext struct {
 	Es                 *elasticsearch.Client
 	Minio              *minio.Client
 	Redis              *redis.Redis
-	Mqtt               mqtt.Client
+	//Mqtt               mqtt.Client
+	CdrCli foxgloveService.FoxgloveServiceClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -45,13 +45,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Creds: credentials.NewStaticV4(c.Minio.AccessKey, c.Minio.AccessSecret, ""),
 	}))
 
-	opts := mqtt.NewClientOptions().AddBroker(c.Mqtt.Endpoint).
-		SetKeepAlive(60 * time.Second).
-		SetPingTimeout(1 * time.Second)
-	mqttCli := mqtt.NewClient(opts)
-	if token := mqttCli.Connect(); token.Wait() && token.Error() != nil {
-		logx.Must(token.Error())
-	}
+	cdrClient := lo.Must(grpc.NewClient("127.0.0.1:50051",
+		grpc.WithTransportCredentials(insecure.NewCredentials())))
+	cdrCli := foxgloveService.NewFoxgloveServiceClient(cdrClient)
 
 	return &ServiceContext{
 		Config:             c,
@@ -63,6 +59,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Es:                 es,
 		Minio:              minioCli,
 		Redis:              redisCli,
-		Mqtt:               mqttCli,
+		//Mqtt:               mqttCli,
+		CdrCli: cdrCli,
 	}
 }

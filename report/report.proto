@@ -128,24 +128,7 @@ message MetricQuery {
   repeated MetricFilter filters = 4;
 }
 
-enum LinkAction {
-  LinkActionUnknown = 0;
-  LinkActionPing = 1;
-  LinkActionPong = 2;
-}
-
-message LinkReq{
-  //流请求参数
-  string question = 1;
-}
-
-message LinkRsp{
-  //流响应数据
-  string answer = 1;
-}
-
 service Report {
   rpc Init(InitReq) returns(InitRsp);
   rpc LogReport(LogReportReq) returns(LogReportRsp);
-  rpc Link(stream LinkReq) returns(stream LinkRsp);
 }

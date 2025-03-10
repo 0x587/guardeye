@@ -7,7 +7,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/0x587/guardeye/ttt/foxgloveclient"
+	"github.com/0x587/guardeye/common/foxgloveclient"
 )
 
 type (

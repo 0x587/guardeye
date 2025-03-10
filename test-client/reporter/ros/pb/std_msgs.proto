@@ -1,8 +1,0 @@
-syntax = "proto3";
-package std_msgs;
-option go_package = "./pb";
-
-message String {
-	string data = 1;
-}
-

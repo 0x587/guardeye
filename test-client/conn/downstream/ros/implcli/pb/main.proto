@@ -1,0 +1,8 @@
+syntax = "proto3";
+option go_package = "./pb";
+import "shawn_define.proto";
+
+service Api {
+	// service: /add_two_ints_srv
+	rpc CallServiceAdd_two_ints_srv(shawn_define.AddReq) returns (shawn_define.AddRsp);
+}

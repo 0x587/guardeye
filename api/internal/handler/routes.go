@@ -8,7 +8,6 @@ import (
 	"time"
 
 	admin "github.com/0x587/guardeye/api/internal/handler/admin"
-	downstream "github.com/0x587/guardeye/api/internal/handler/downstream"
 	es "github.com/0x587/guardeye/api/internal/handler/es"
 	logtometric "github.com/0x587/guardeye/api/internal/handler/logtometric"
 	"github.com/0x587/guardeye/api/internal/svc"
@@ -57,18 +56,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/v1/admin"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/call",
-				Handler: downstream.CallHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/v1/downstream"),
-		rest.WithTimeout(60000*time.Millisecond),
 	)
 
 	server.AddRoutes(

@@ -1,0 +1,6 @@
+Name: link.rpc
+ListenOn: 0.0.0.0:8080
+Mode: dev
+
+DevServer:
+  Enabled: true

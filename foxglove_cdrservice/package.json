@@ -16,8 +16,11 @@
     "@msgpack/msgpack": "^3.1.0",
     "@ygoe/msgpack": "^1.0.3",
     "json-bigint": "^1.0.0",
+    "long": "^5.3.1",
     "msgpack-lite": "^0.1.26",
-    "msgpackr": "^1.11.2"
+    "msgpackr": "^1.11.2",
+    "protobufjs": "^7.4.0",
+    "temp-fs": "^0.9.9"
   },
   "keywords": [],
   "description": ""

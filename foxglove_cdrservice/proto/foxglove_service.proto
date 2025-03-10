@@ -5,20 +5,26 @@ option go_package="/foxgloveService";
 
 message CdrReadReq {
   string ros_schema = 1;
-  bytes buf = 2;
+  string pb_schema = 2;
+  string pb_type_name = 3;
+  bytes cdr_data = 4;
 }
 
 message CdrReadRsp {
-  string trans_data = 1;
+  bytes trans_data = 1;
+  string json_data = 2;
 }
 
 message CdrWriteReq {
   string ros_schema = 1;
-  string trans_data = 2;
+  string pb_schema = 2;
+  string pb_type_name = 3;
+  bytes trans_data = 4;
 }
 
 message CdrWriteRsp {
-  bytes buf = 1;
+  bytes cdr_data = 1;
+  string json_data = 2;
 }
 
 service FoxgloveService {

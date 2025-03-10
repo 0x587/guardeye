@@ -4,4 +4,4 @@ Server:
 Provider:
   - Type: ticker
     Args:
-      Interval: 1000
+      Interval: 100000000000
