@@ -1,11 +1,13 @@
 package foxgloveclient
 
 type ServiceSchema struct {
+	Name           string
 	RequestSchema  string
 	ResponseSchema string
 }
 
 type MessageSchema struct {
+	Name   string
 	Schema string
 }
 

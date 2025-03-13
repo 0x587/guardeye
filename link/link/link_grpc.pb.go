@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Link_Link_FullMethodName     = "/link.Link/Link"
 	Link_LinkCall_FullMethodName = "/link.Link/LinkCall"
+	Link_TypeList_FullMethodName = "/link.Link/TypeList"
+	Link_TypeGen_FullMethodName  = "/link.Link/TypeGen"
 )
 
 // LinkClient is the client API for Link service.
@@ -29,6 +31,8 @@ const (
 type LinkClient interface {
 	Link(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[LinkCommandUpstream, LinkCommandDownstream], error)
 	LinkCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (*LinkCallRsp, error)
+	TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error)
+	TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.CallOption) (*TypeGenRsp, error)
 }
 
 type linkClient struct {
@@ -62,12 +66,34 @@ func (c *linkClient) LinkCall(ctx context.Context, in *LinkCallReq, opts ...grpc
 	return out, nil
 }
 
+func (c *linkClient) TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TypeListRsp)
+	err := c.cc.Invoke(ctx, Link_TypeList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *linkClient) TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.CallOption) (*TypeGenRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TypeGenRsp)
+	err := c.cc.Invoke(ctx, Link_TypeGen_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LinkServer is the server API for Link service.
 // All implementations must embed UnimplementedLinkServer
 // for forward compatibility.
 type LinkServer interface {
 	Link(grpc.BidiStreamingServer[LinkCommandUpstream, LinkCommandDownstream]) error
 	LinkCall(context.Context, *LinkCallReq) (*LinkCallRsp, error)
+	TypeList(context.Context, *TypeListReq) (*TypeListRsp, error)
+	TypeGen(context.Context, *TypeGenReq) (*TypeGenRsp, error)
 	mustEmbedUnimplementedLinkServer()
 }
 
@@ -83,6 +109,12 @@ func (UnimplementedLinkServer) Link(grpc.BidiStreamingServer[LinkCommandUpstream
 }
 func (UnimplementedLinkServer) LinkCall(context.Context, *LinkCallReq) (*LinkCallRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LinkCall not implemented")
+}
+func (UnimplementedLinkServer) TypeList(context.Context, *TypeListReq) (*TypeListRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TypeList not implemented")
+}
+func (UnimplementedLinkServer) TypeGen(context.Context, *TypeGenReq) (*TypeGenRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TypeGen not implemented")
 }
 func (UnimplementedLinkServer) mustEmbedUnimplementedLinkServer() {}
 func (UnimplementedLinkServer) testEmbeddedByValue()              {}
@@ -130,6 +162,42 @@ func _Link_LinkCall_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Link_TypeList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TypeListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LinkServer).TypeList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Link_TypeList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LinkServer).TypeList(ctx, req.(*TypeListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Link_TypeGen_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TypeGenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LinkServer).TypeGen(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Link_TypeGen_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LinkServer).TypeGen(ctx, req.(*TypeGenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Link_ServiceDesc is the grpc.ServiceDesc for Link service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -140,6 +208,14 @@ var Link_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LinkCall",
 			Handler:    _Link_LinkCall_Handler,
+		},
+		{
+			MethodName: "TypeList",
+			Handler:    _Link_TypeList_Handler,
+		},
+		{
+			MethodName: "TypeGen",
+			Handler:    _Link_TypeGen_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

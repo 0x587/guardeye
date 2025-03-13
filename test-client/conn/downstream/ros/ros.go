@@ -11,5 +11,6 @@ const (
 
 type IF interface {
 	Exec(payload *linkclient.LinkCommandPayloadRosExec) ([]byte, error)
-	Type(payload *linkclient.LinkCommandPayloadRosType) (string, string, error)
+	List(payload *linkclient.LinkCommandPayloadRosList) (*linkclient.TypeListRsp, error)
+	Type(payload *linkclient.LinkCommandPayloadRosType) (*linkclient.LinkTypeGenResult, error)
 }

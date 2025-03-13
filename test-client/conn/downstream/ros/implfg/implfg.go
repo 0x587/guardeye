@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"errors"
+	"strings"
 
 	"github.com/0x587/guardeye/common/foxgloveclient"
 	"github.com/0x587/guardeye/link/link"
@@ -55,20 +56,31 @@ func (i *impl) callService(p *linkclient.LinkCommandPayloadRosExec) ([]byte, err
 	return rspCdr, nil
 }
 
-func (i *impl) Type(payload *linkclient.LinkCommandPayloadRosType) (string, string, error) {
+func (i *impl) Type(payload *linkclient.LinkCommandPayloadRosType) (*linkclient.LinkTypeGenResult, error) {
 	if payload.GetType() == link.RosTypeGenType_MESSAGE {
 		messageSchema, err := i.cli.GetMessageType(payload.GetRosTopic())
 		if err != nil {
-			return "", "", err
+			return nil, err
 		}
-		return messageSchema.Schema, "", nil
+		return &linkclient.LinkTypeGenResult{
+			Name: strings.ReplaceAll(messageSchema.Name, "/msg", ""),
+			Req:  messageSchema.Schema,
+		}, nil
 	}
 	if payload.GetType() == link.RosTypeGenType_SERVICE {
 		serviceSchema, err := i.cli.GetServiceType(payload.GetRosTopic())
 		if err != nil {
-			return "", "", err
+			return nil, err
 		}
-		return serviceSchema.RequestSchema, serviceSchema.ResponseSchema, nil
+		return &linkclient.LinkTypeGenResult{
+			Name: strings.ReplaceAll(serviceSchema.Name, "/srv", ""),
+			Req:  serviceSchema.RequestSchema,
+			Rsp:  serviceSchema.ResponseSchema,
+		}, nil
 	}
-	return "", "", errors.New("unknown ros type gen type")
+	return nil, errors.New("unknown ros type gen type")
+}
+
+func (i *impl) List(payload *linkclient.LinkCommandPayloadRosList) (*linkclient.TypeListRsp, error) {
+	return i.cli.List(), nil
 }

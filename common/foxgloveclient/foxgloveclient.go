@@ -18,6 +18,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/0x587/guardeye/common/eventpool"
+	"github.com/0x587/guardeye/link/linkclient"
 )
 
 type IF interface {
@@ -27,6 +28,7 @@ type IF interface {
 	Call(topic string, reqTrans []byte) (rspTrans []byte, err error)
 	GetServiceType(topic string) (*ServiceSchema, error)
 	GetMessageType(topic string) (*MessageSchema, error)
+	List() *linkclient.TypeListRsp
 }
 
 func New(ip string, port int) IF {
@@ -215,6 +217,7 @@ func (i *impl) GetServiceType(topic string) (*ServiceSchema, error) {
 		return nil, errors.New(fmt.Sprintf("foxglove: fail unknown service %s", topic))
 	}
 	res := &ServiceSchema{
+		Name:           srv.Type,
 		RequestSchema:  srv.RequestSchema,
 		ResponseSchema: srv.ResponseSchema,
 	}
@@ -240,7 +243,25 @@ func (i *impl) GetMessageType(topic string) (*MessageSchema, error) {
 	if ch == nil {
 		return nil, errors.New(fmt.Sprintf("foxglove: topic %s not found", topic))
 	}
-	return &MessageSchema{Schema: ch.Schema}, nil
+	return &MessageSchema{
+		Schema: ch.Schema,
+		Name:   ch.SchemaName,
+	}, nil
+}
+
+func (i *impl) List() *linkclient.TypeListRsp {
+	res := &linkclient.TypeListRsp{}
+	i.serverSendChs.Range(func(key, value any) bool {
+		channel := value.(*channelInfo)
+		res.Messages = append(res.Messages, channel.Topic)
+		return true
+	})
+	i.srvChs.Range(func(key, value any) bool {
+		service := value.(*serviceInfo)
+		res.Services = append(res.Services, service.Name)
+		return true
+	})
+	return res
 }
 
 func (i *impl) handleServerAdvertise(msg []byte) {

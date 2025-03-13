@@ -9,6 +9,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logc"
 
+	"github.com/0x587/guardeye/common/foxglovetopb"
 	"github.com/0x587/guardeye/foxglove_cdrservice/proto/foxgloveService"
 	"github.com/0x587/guardeye/link/internal/svc"
 	"github.com/0x587/guardeye/link/link"
@@ -44,41 +45,33 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("%s\n", schema)
+	pbEnv := foxglovetopb.New()
+	var pbReqTypeName, pbReqSchema string
+	var pbRspTypeName, pbRspSchema string
+	if action == ros.ActionCallService {
+		if err := pbEnv.ParseSrv(topic, schema.GetName(), schema.GetReq(), schema.GetRsp()); err != nil {
+			return nil, err
+		}
+		pbReqTypeName, pbReqSchema = pbEnv.OutputForType(schema.GetName() + "Req")
+		pbRspTypeName, pbRspSchema = pbEnv.OutputForType(schema.GetName() + "Rsp")
+	}
+	if action == ros.ActionSendTopic {
+		if err := pbEnv.ParseMsg(topic, schema.GetName(), schema.GetReq()); err != nil {
+			return nil, err
+		}
+		pbReqTypeName, pbReqSchema = pbEnv.OutputForType(schema.GetName())
+		pbRspTypeName, pbRspSchema = pbEnv.OutputForType(schema.GetName())
+	}
 
 	pbDataBytes, err := base64.StdEncoding.DecodeString(req.Data)
 	if err != nil {
 		return nil, err
 	}
+
 	cdrWriteRsp, err := l.svcCtx.CdrCli.CdrWrite(l.ctx, &foxgloveService.CdrWriteReq{
-		RosSchema: `
-V2 a
-V2 b
-int64[] c
-float64 d
-float64[] e
-================================================================================
-MSG: shawn_define/V2
-int64 a
-int64 b`,
-		PbSchema: `
-syntax = "proto3";
-package shawn_define;
-
-message AddReq {
-	V2 a = 1;
-	V2 b = 2;
-	repeated int64 c = 3;
-	double d = 4;
-	repeated double e = 5;
-}
-
-message V2 {
-	int64 a = 1;
-	int64 b = 2;
-}
-`, // TODO
-		PbTypeName: "shawn_define.AddReq", // TODO
+		RosSchema:  schema.GetReq(),
+		PbSchema:   pbReqSchema,
+		PbTypeName: pbReqTypeName,
 		TransData:  pbDataBytes,
 	})
 	if err != nil {
@@ -111,33 +104,9 @@ message V2 {
 		return nil, err
 	}
 	cdrReadRsp, err := l.svcCtx.CdrCli.CdrRead(l.ctx, &foxgloveService.CdrReadReq{
-		RosSchema: `
-V2 res
-int64[] c
-float64 d
-float64[] e
-================================================================================
-MSG: shawn_define/V2
-int64 a
-int64 b
-`, // TODO
-		PbSchema: `
-syntax = "proto3";
-package shawn_define;
-
-message V2 {
-	int64 a = 1;
-	int64 b = 2;
-}
-
-message AddRsp {
-	V2 res = 1;
-	repeated int64 c = 2;
-	double d = 3;
-	repeated double e = 4;
-}
-`, // TODO
-		PbTypeName: "shawn_define.AddRsp", // TODO
+		RosSchema:  schema.GetRsp(),
+		PbSchema:   pbRspSchema,
+		PbTypeName: pbRspTypeName,
 		CdrData:    cdrDataBytes,
 	})
 	if err != nil {

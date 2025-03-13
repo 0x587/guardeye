@@ -32,3 +32,13 @@ func (s *LinkServer) LinkCall(ctx context.Context, in *link.LinkCallReq) (*link.
 	l := logic.NewLinkCallLogic(ctx, s.svcCtx)
 	return l.LinkCall(in)
 }
+
+func (s *LinkServer) TypeList(ctx context.Context, in *link.TypeListReq) (*link.TypeListRsp, error) {
+	l := logic.NewTypeListLogic(ctx, s.svcCtx)
+	return l.TypeList(in)
+}
+
+func (s *LinkServer) TypeGen(ctx context.Context, in *link.TypeGenReq) (*link.TypeGenRsp, error) {
+	l := logic.NewTypeGenLogic(ctx, s.svcCtx)
+	return l.TypeGen(in)
+}

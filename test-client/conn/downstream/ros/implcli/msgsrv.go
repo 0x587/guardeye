@@ -7,12 +7,12 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/0x587/guardeye/report/reportclient"
+	"github.com/0x587/guardeye/link/linkclient"
 	"github.com/0x587/guardeye/test-client/conn/downstream/ros/implcli/rossrv"
 	"github.com/0x587/guardeye/test-client/conn/downstream/ros/implcli/rossrv/walk"
 )
 
-func (i *impl) sendTopic(p *reportclient.LinkCommandPayloadRosExec) (any, error) {
+func (i *impl) sendTopic(p *linkclient.LinkCommandPayloadRosExec) (any, error) {
 	jsonData, err := json.Marshal(p.Data)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (i *impl) sendTopic(p *reportclient.LinkCommandPayloadRosExec) (any, error)
 	return p.Data, nil
 }
 
-func (i *impl) callService(p *reportclient.LinkCommandPayloadRosExec) (any, error) {
+func (i *impl) callService(p *linkclient.LinkCommandPayloadRosExec) (any, error) {
 	jsonData, err := json.Marshal(p.Data)
 	if err != nil {
 		return nil, err

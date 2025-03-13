@@ -11,8 +11,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 
+	"github.com/0x587/guardeye/cli/pb/pb"
 	"github.com/0x587/guardeye/link/linkclient"
-	"github.com/0x587/guardeye/test-client/conn/downstream/ros/implcli/pb/pb"
 )
 
 type cc struct {
@@ -66,22 +66,30 @@ func main() {
 
 	cli := pb.NewApiClient(newCC())
 
-	rsp, err := cli.CallServiceAddTwoIntsSrv(ctx, &pb.AddReq{
-		A: &pb.V2{
-			A: 123,
-			B: 456,
+	rsp, err := cli.CallServiceGetPerson(ctx, &pb.GetPersonReq{
+		Req: &pb.Person{
+			V: &pb.V3{X: 1, Y: 2, Z: 3},
+			Pos: &pb.Pos{
+				Type: "123",
+				V:    &pb.V3{X: 1, Y: 2, Z: 3},
+			},
+			State: &pb.State{
+				Count: 213,
+				V:     &pb.V3{X: 1, Y: 2, Z: 3},
+			},
 		},
-		B: &pb.V2{
-			A: 123,
-			B: 456,
-		},
-		C: []int64{1, 2, 3, 4},
-		D: 587,
 	})
 	if err != nil {
 		logx.Error(err)
 		return
 	}
 	r, _ := json.Marshal(rsp)
+	logx.Infof("%s", r)
+	chatter, err := cli.PublishTopicChatter(ctx, &pb.String{Data: "123587"})
+	if err != nil {
+		logx.Error(err)
+		return
+	}
+	r, _ = json.Marshal(chatter)
 	logx.Infof("%s", r)
 }

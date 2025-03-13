@@ -120,25 +120,20 @@ function CdrRead(call, callback) {
                 if (err) {
                     throw err;
                 }
-                file.unlink();
-
                 const Msg = root.lookupType(pb_type_name);
-
                 const d = parse(ros_schema)
                 const v = cdr_data
                 let res = read(d, v)
-
                 res = convertTypedArrays(res)
                 res = convertBigIntToLong(res)
-
                 const pbRes = Msg.encode(res).finish()
                 const jsonRes = JSONbig.stringify(res)
-
                 console.log('------------READ----------------')
                 console.log(res)
                 console.log(jsonRes)
                 console.log(pbRes)
                 callback(null, {trans_data: pbRes, json_data: jsonRes})
+                file.unlink();
             });
         });
     } catch (e) {
@@ -153,6 +148,8 @@ function CdrWrite(call, callback) {
         pb_type_name,
         trans_data
     } = call.request;
+    console.log(pb_type_name)
+    console.log(pb_schema)
     try {
         tempfs.open(function (err, file) {
             if (err)
@@ -162,7 +159,6 @@ function CdrWrite(call, callback) {
                 if (err) {
                     throw err;
                 }
-                file.unlink();
                 var Msg = root.lookupType(pb_type_name);
                 const d = parse(ros_schema)
                 let v = Msg.decode(trans_data)
@@ -173,6 +169,7 @@ function CdrWrite(call, callback) {
                 const res = write(d, v)
                 const jsonRes = JSONbig.stringify(res)
                 callback(null, {cdr_data: res, json_data: jsonRes})
+                file.unlink();
             });
         });
     } catch (e) {

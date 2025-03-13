@@ -64,18 +64,26 @@ func (i *mqttImpl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.
 			rsp.CdrData = base64.StdEncoding.EncodeToString(res)
 		}
 	}
-	if req.GetPayloadRosType() != nil {
-		reqSchema, rspSchema, err := i.rosImpl.Type(req.GetPayloadRosType())
+	if req.GetPayloadRosList() != nil {
+		res, err := i.rosImpl.List(req.GetPayloadRosList())
 		if err != nil {
 			logx.Error(err)
 			rsp.Ok = false
 			rsp.ErrMsg = err.Error()
 		} else {
 			rsp.Ok = true
-			rsp.TypeGenResult = &linkclient.LinkTypeGenResult{
-				Req: reqSchema,
-				Rsp: rspSchema,
-			}
+			rsp.TypeListResult = res
+		}
+	}
+	if req.GetPayloadRosType() != nil {
+		typeResult, err := i.rosImpl.Type(req.GetPayloadRosType())
+		if err != nil {
+			logx.Error(err)
+			rsp.Ok = false
+			rsp.ErrMsg = err.Error()
+		} else {
+			rsp.Ok = true
+			rsp.TypeGenResult = typeResult
 		}
 	}
 	logx.Info("reply ", rsp)
