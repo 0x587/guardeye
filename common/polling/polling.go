@@ -3,11 +3,7 @@ package polling
 
 import (
 	"fmt"
-	"io"
 	"sync"
-
-	"github.com/samber/lo"
-	"github.com/samber/lo/parallel"
 )
 
 type IF[Req, Rsp any] interface {
@@ -66,8 +62,9 @@ func (p *connPool[Req, Rsp]) add(s stream[Req, Rsp], killFunc func()) {
 	go func() {
 		for {
 			rsp, err := s.Recv()
-			if err == io.EOF {
+			if err != nil {
 				killFunc()
+				delete(p.streams, s)
 				return
 			}
 			if err == nil {
@@ -81,14 +78,15 @@ func (p *connPool[Req, Rsp]) send(v Req) error {
 	p.Lock()
 	defer p.Unlock()
 	var err error
-	parallel.Map(lo.Keys(p.streams), func(s stream[Req, Rsp], _ int) any {
+	for s, killFunc := range p.streams {
 		err = s.Send(v)
 		if err == nil {
 			return nil
 		}
 		delete(p.streams, s)
+		killFunc()
 		return err
-	})
+	}
 	return nil
 }
 

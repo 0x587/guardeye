@@ -84,7 +84,7 @@ type rpcServerLink struct {
 
 func newRpcServerLink(cid uuid.UUID) (serverLink, error) {
 	client, err := zrpc.NewClient(zrpc.RpcClientConf{
-		Endpoints: []string{"localhost:8080"},
+		Target: "linkgrpc.guardeye.shawnsiu.site:5080",
 	})
 	if err != nil {
 		return nil, err

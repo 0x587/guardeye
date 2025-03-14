@@ -15,7 +15,7 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	cdrClient := lo.Must(grpc.NewClient("127.0.0.1:50051",
+	cdrClient := lo.Must(grpc.NewClient(c.CdrServiceTarget,
 		grpc.WithTransportCredentials(insecure.NewCredentials())))
 	cdrCli := foxgloveService.NewFoxgloveServiceClient(cdrClient)
 	return &ServiceContext{

@@ -15,6 +15,7 @@ import (
 
 var cid = flag.String("id", "", "agent id")
 var outPath = flag.String("o", "", "output path")
+var endpoint = flag.String("e", "linkgrpc.guardeye.shawnsiu.site:5080", "endpoint")
 
 func main() {
 	flag.Parse()
@@ -22,7 +23,7 @@ func main() {
 		Encoding: "plain",
 	})
 	client := lo.Must(zrpc.NewClient(zrpc.RpcClientConf{
-		Target: "localhost:8080",
+		Target: *endpoint,
 	}))
 	cli := linkclient.NewLink(client)
 	ctx := context.Background()
