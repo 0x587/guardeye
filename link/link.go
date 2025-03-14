@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/0x587/guardeye/link/internal/config"
 	"github.com/0x587/guardeye/link/internal/server"
 	"github.com/0x587/guardeye/link/internal/svc"
@@ -19,6 +21,8 @@ import (
 var configFile = flag.String("f", "etc/link.yaml", "the config file")
 
 func main() {
+	logx.MustSetup(logx.LogConf{Encoding: "plain"})
+
 	flag.Parse()
 
 	var c config.Config

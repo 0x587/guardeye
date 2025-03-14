@@ -3,6 +3,8 @@ package logic
 import (
 	"context"
 
+	"github.com/google/uuid"
+
 	"github.com/0x587/guardeye/link/internal/svc"
 	"github.com/0x587/guardeye/link/link"
 
@@ -37,15 +39,10 @@ func (l *LinkLogic) Link(stream link.Link_LinkServer) error {
 		break
 	}
 
-	done := make(chan any)
-	linkRpcPoll.Accept(cid, stream, func() {
-		done <- nil
-	})
+	linkId := uuid.New()
+	logx.Infof("accept link %s %s", cid, linkId.String())
+	linkRpcPoll.Accept(cid, stream)
+	logx.Infof("kill link %s %s", cid, linkId.String())
 
-	select {
-	case <-done:
-		return nil
-	case <-stream.Context().Done():
-		return nil
-	}
+	return nil
 }

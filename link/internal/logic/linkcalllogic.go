@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/zeromicro/go-zero/core/logc"
-
 	"github.com/0x587/guardeye/common/foxglovetopb"
 	"github.com/0x587/guardeye/foxglove_cdrservice/proto/foxgloveService"
 	"github.com/0x587/guardeye/link/internal/svc"
@@ -89,7 +87,6 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 		},
 	}
 
-	logc.Infof(l.ctx, "send to %s", req.Cid)
 	agentDoRsp, err := agentConn.Call(l.ctx, req.Cid, p)
 	if err != nil {
 		return nil, err
@@ -98,7 +95,6 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 	if !agentDoRsp.Ok {
 		return nil, errors.New(agentDoRsp.ErrMsg)
 	}
-	logc.Infof(l.ctx, "revice from %s", req.Cid)
 	cdrDataBytes, err = base64.StdEncoding.DecodeString(agentDoRsp.CdrData)
 	if err != nil {
 		return nil, err

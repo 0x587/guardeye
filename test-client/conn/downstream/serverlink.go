@@ -3,6 +3,7 @@ package downstream
 import (
 	"context"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"time"
 
@@ -22,6 +23,8 @@ type serverLink interface {
 	Close()
 }
 type callback func(req *linkclient.LinkCommandDownstream) (*linkclient.LinkCommandUpstream, error)
+
+var linkEndpoint = flag.String("le", "linkgrpc.guardeye.shawnsiu.site:5080", "link endpoint")
 
 type mqttServerLink struct {
 	cid uuid.UUID
@@ -83,8 +86,9 @@ type rpcServerLink struct {
 }
 
 func newRpcServerLink(cid uuid.UUID) (serverLink, error) {
+	flag.Parse()
 	client, err := zrpc.NewClient(zrpc.RpcClientConf{
-		Target: "linkgrpc.guardeye.shawnsiu.site:5080",
+		Target: *linkEndpoint,
 	})
 	if err != nil {
 		return nil, err
