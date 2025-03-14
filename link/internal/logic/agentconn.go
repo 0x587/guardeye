@@ -18,6 +18,7 @@ import (
 
 type AgentConn interface {
 	Call(ctx context.Context, cid string, req *link.LinkCommandDownstream) (rsp *link.LinkCommandUpstream, err error)
+	List(ctx context.Context) (*link.AgentListRsp, error)
 }
 
 type mqttAgentConn struct {
@@ -95,6 +96,11 @@ func (c *mqttAgentConn) Call(ctx context.Context, cid string, req *link.LinkComm
 	return rsp, nil
 }
 
+func (c *mqttAgentConn) List(ctx context.Context) (*link.AgentListRsp, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 var linkRpcEvent = eventpool.New[string, *link.LinkCommandUpstream]()
 var linkRpcPoll = polling.New[*link.LinkCommandDownstream, *link.LinkCommandUpstream](
 	func(key string, rsp *link.LinkCommandUpstream) {
@@ -123,4 +129,15 @@ func (c *rpcAgentConn) Call(ctx context.Context, cid string, req *link.LinkComma
 		return nil, err
 	}
 	return rsp, nil
+}
+
+func (c *rpcAgentConn) List(ctx context.Context) (*link.AgentListRsp, error) {
+	res := &link.AgentListRsp{Agents: make(map[string]string)}
+	now := time.Now()
+	for key, seeAt := range c.poll.List() {
+		if seeAt.Add(time.Minute).After(now) {
+			res.Agents[key] = seeAt.Format(time.RFC3339)
+		}
+	}
+	return res, nil
 }

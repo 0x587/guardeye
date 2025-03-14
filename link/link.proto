@@ -3,6 +3,8 @@ syntax = "proto3";
 package link;
 option go_package = "./link";
 
+message Empty{}
+
 message LinkCallReq{
   string cid = 1;
   string method = 2;
@@ -71,7 +73,7 @@ message TypeGenReq{
 }
 
 message TypeGenRsp{
-  map<string,string> pb = 1;
+  map<string, string> pb = 1;
 }
 
 message TypeSchema{
@@ -80,10 +82,16 @@ message TypeSchema{
   string pb_type_name = 3;
 }
 
+message AgentListRsp{
+  map<string, string> agents = 1;
+}
+
 service Link {
   rpc Link(stream LinkCommandUpstream) returns(stream LinkCommandDownstream);
   rpc LinkCall(LinkCallReq) returns(LinkCallRsp);
 
   rpc TypeList(TypeListReq) returns(TypeListRsp);
   rpc TypeGen(TypeGenReq) returns(TypeGenRsp);
+
+  rpc AgentList(Empty) returns(AgentListRsp);
 }
