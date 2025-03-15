@@ -120,6 +120,19 @@ func (l *rpcServerLink) Init(cb callback) error {
 		return link_, err
 	}
 	handleLink := func(link_ link.Link_LinkClient) error {
+		go func() {
+			ticker := time.NewTicker(time.Second)
+			// 心跳
+			for {
+				select {
+				case <-ticker.C:
+					err := link_.Send(&linkclient.LinkCommandUpstream{})
+					if err != nil {
+						return
+					}
+				}
+			}
+		}()
 		for {
 			recv, err := link_.Recv()
 			if err != nil {
