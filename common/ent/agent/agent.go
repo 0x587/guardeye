@@ -31,6 +31,14 @@ const (
 	FieldMacs = "macs"
 	// FieldHostname holds the string denoting the hostname field in the database.
 	FieldHostname = "hostname"
+	// FieldCPU holds the string denoting the cpu field in the database.
+	FieldCPU = "cpu"
+	// FieldMemory holds the string denoting the memory field in the database.
+	FieldMemory = "memory"
+	// FieldDisk holds the string denoting the disk field in the database.
+	FieldDisk = "disk"
+	// FieldUptime holds the string denoting the uptime field in the database.
+	FieldUptime = "uptime"
 	// Table holds the table name of the agent in the database.
 	Table = "agents"
 )
@@ -47,6 +55,10 @@ var Columns = []string{
 	FieldIps,
 	FieldMacs,
 	FieldHostname,
+	FieldCPU,
+	FieldMemory,
+	FieldDisk,
+	FieldUptime,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -111,4 +123,24 @@ func ByOsVersion(opts ...sql.OrderTermOption) OrderOption {
 // ByHostname orders the results by the hostname field.
 func ByHostname(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldHostname, opts...).ToFunc()
+}
+
+// ByCPU orders the results by the cpu field.
+func ByCPU(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCPU, opts...).ToFunc()
+}
+
+// ByMemory orders the results by the memory field.
+func ByMemory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMemory, opts...).ToFunc()
+}
+
+// ByDisk orders the results by the disk field.
+func ByDisk(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDisk, opts...).ToFunc()
+}
+
+// ByUptime orders the results by the uptime field.
+func ByUptime(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUptime, opts...).ToFunc()
 }

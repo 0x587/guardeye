@@ -6,20 +6,22 @@ import (
 	"fmt"
 	"sync"
 	"time"
+
+	"google.golang.org/protobuf/proto"
 )
 
-type IF[Req, Rsp any] interface {
+type IF[Req, Rsp proto.Message] interface {
 	Accept(key string, stream stream[Req, Rsp])
 	Send(key string, value Req) error
 	List() map[string]time.Time
 }
 
-type stream[Req, Rsp any] interface {
+type stream[Req, Rsp proto.Message] interface {
 	Send(Req) error
 	Recv() (Rsp, error)
 }
 
-func New[Req, Rsp any](callback func(key string, rsp Rsp)) IF[Req, Rsp] {
+func New[Req, Rsp proto.Message](callback func(key string, rsp Rsp)) IF[Req, Rsp] {
 	return &impl[Req, Rsp]{
 		callback: callback,
 		streams:  make(map[string]map[stream[Req, Rsp]]bool),
@@ -27,7 +29,7 @@ func New[Req, Rsp any](callback func(key string, rsp Rsp)) IF[Req, Rsp] {
 	}
 }
 
-type impl[Req, Rsp any] struct {
+type impl[Req, Rsp proto.Message] struct {
 	sync.Mutex
 	callback func(key string, rsp Rsp)
 	streams  map[string]map[stream[Req, Rsp]]bool

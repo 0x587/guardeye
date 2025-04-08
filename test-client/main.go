@@ -8,6 +8,7 @@ import (
 
 	"github.com/kardianos/service"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/0x587/guardeye/test-client/config"
 	"github.com/0x587/guardeye/test-client/conn"
@@ -26,7 +27,13 @@ func (p *program) Start(s service.Service) error {
 
 	cfg := config.LoadConfig()
 	ps := provider.New(ctx, cfg.Provider)
-	c := conn.New(fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port), ps...)
+	reportCli, err := zrpc.NewClient(zrpc.RpcClientConf{
+		Target: fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port),
+	})
+	if err != nil {
+		return err
+	}
+	c := conn.New(reportCli, ps...)
 	go c.Loop(ctx)
 	return nil
 }

@@ -144,6 +144,62 @@ func (au *AgentUpdate) SetNillableHostname(s *string) *AgentUpdate {
 	return au
 }
 
+// SetCPU sets the "cpu" field.
+func (au *AgentUpdate) SetCPU(s string) *AgentUpdate {
+	au.mutation.SetCPU(s)
+	return au
+}
+
+// SetNillableCPU sets the "cpu" field if the given value is not nil.
+func (au *AgentUpdate) SetNillableCPU(s *string) *AgentUpdate {
+	if s != nil {
+		au.SetCPU(*s)
+	}
+	return au
+}
+
+// SetMemory sets the "memory" field.
+func (au *AgentUpdate) SetMemory(s string) *AgentUpdate {
+	au.mutation.SetMemory(s)
+	return au
+}
+
+// SetNillableMemory sets the "memory" field if the given value is not nil.
+func (au *AgentUpdate) SetNillableMemory(s *string) *AgentUpdate {
+	if s != nil {
+		au.SetMemory(*s)
+	}
+	return au
+}
+
+// SetDisk sets the "disk" field.
+func (au *AgentUpdate) SetDisk(s string) *AgentUpdate {
+	au.mutation.SetDisk(s)
+	return au
+}
+
+// SetNillableDisk sets the "disk" field if the given value is not nil.
+func (au *AgentUpdate) SetNillableDisk(s *string) *AgentUpdate {
+	if s != nil {
+		au.SetDisk(*s)
+	}
+	return au
+}
+
+// SetUptime sets the "uptime" field.
+func (au *AgentUpdate) SetUptime(s string) *AgentUpdate {
+	au.mutation.SetUptime(s)
+	return au
+}
+
+// SetNillableUptime sets the "uptime" field if the given value is not nil.
+func (au *AgentUpdate) SetNillableUptime(s *string) *AgentUpdate {
+	if s != nil {
+		au.SetUptime(*s)
+	}
+	return au
+}
+
 // Mutation returns the AgentMutation object of the builder.
 func (au *AgentUpdate) Mutation() *AgentMutation {
 	return au.mutation
@@ -230,6 +286,18 @@ func (au *AgentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := au.mutation.Hostname(); ok {
 		_spec.SetField(agent.FieldHostname, field.TypeString, value)
+	}
+	if value, ok := au.mutation.CPU(); ok {
+		_spec.SetField(agent.FieldCPU, field.TypeString, value)
+	}
+	if value, ok := au.mutation.Memory(); ok {
+		_spec.SetField(agent.FieldMemory, field.TypeString, value)
+	}
+	if value, ok := au.mutation.Disk(); ok {
+		_spec.SetField(agent.FieldDisk, field.TypeString, value)
+	}
+	if value, ok := au.mutation.Uptime(); ok {
+		_spec.SetField(agent.FieldUptime, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -365,6 +433,62 @@ func (auo *AgentUpdateOne) SetNillableHostname(s *string) *AgentUpdateOne {
 	return auo
 }
 
+// SetCPU sets the "cpu" field.
+func (auo *AgentUpdateOne) SetCPU(s string) *AgentUpdateOne {
+	auo.mutation.SetCPU(s)
+	return auo
+}
+
+// SetNillableCPU sets the "cpu" field if the given value is not nil.
+func (auo *AgentUpdateOne) SetNillableCPU(s *string) *AgentUpdateOne {
+	if s != nil {
+		auo.SetCPU(*s)
+	}
+	return auo
+}
+
+// SetMemory sets the "memory" field.
+func (auo *AgentUpdateOne) SetMemory(s string) *AgentUpdateOne {
+	auo.mutation.SetMemory(s)
+	return auo
+}
+
+// SetNillableMemory sets the "memory" field if the given value is not nil.
+func (auo *AgentUpdateOne) SetNillableMemory(s *string) *AgentUpdateOne {
+	if s != nil {
+		auo.SetMemory(*s)
+	}
+	return auo
+}
+
+// SetDisk sets the "disk" field.
+func (auo *AgentUpdateOne) SetDisk(s string) *AgentUpdateOne {
+	auo.mutation.SetDisk(s)
+	return auo
+}
+
+// SetNillableDisk sets the "disk" field if the given value is not nil.
+func (auo *AgentUpdateOne) SetNillableDisk(s *string) *AgentUpdateOne {
+	if s != nil {
+		auo.SetDisk(*s)
+	}
+	return auo
+}
+
+// SetUptime sets the "uptime" field.
+func (auo *AgentUpdateOne) SetUptime(s string) *AgentUpdateOne {
+	auo.mutation.SetUptime(s)
+	return auo
+}
+
+// SetNillableUptime sets the "uptime" field if the given value is not nil.
+func (auo *AgentUpdateOne) SetNillableUptime(s *string) *AgentUpdateOne {
+	if s != nil {
+		auo.SetUptime(*s)
+	}
+	return auo
+}
+
 // Mutation returns the AgentMutation object of the builder.
 func (auo *AgentUpdateOne) Mutation() *AgentMutation {
 	return auo.mutation
@@ -481,6 +605,18 @@ func (auo *AgentUpdateOne) sqlSave(ctx context.Context) (_node *Agent, err error
 	}
 	if value, ok := auo.mutation.Hostname(); ok {
 		_spec.SetField(agent.FieldHostname, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.CPU(); ok {
+		_spec.SetField(agent.FieldCPU, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.Memory(); ok {
+		_spec.SetField(agent.FieldMemory, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.Disk(); ok {
+		_spec.SetField(agent.FieldDisk, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.Uptime(); ok {
+		_spec.SetField(agent.FieldUptime, field.TypeString, value)
 	}
 	_node = &Agent{config: auo.config}
 	_spec.Assign = _node.assignValues

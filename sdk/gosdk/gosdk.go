@@ -33,7 +33,7 @@ func (i *impl) Invoke(ctx context.Context, method string, args any, reply any, o
 		return err
 	}
 	pbBase64 := base64.StdEncoding.EncodeToString(pbBytes)
-	callRsp, err := c.cli.LinkCall(ctx, &linkclient.LinkCallReq{
+	callRsp, err := i.cli.LinkCall(ctx, &linkclient.LinkCallReq{
 		Cid:    "106bc8ee-6048-4024-8afb-c294ec8fd559",
 		Method: method,
 		Data:   pbBase64,

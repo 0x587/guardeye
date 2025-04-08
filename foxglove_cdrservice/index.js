@@ -111,34 +111,30 @@ function CdrRead(call, callback) {
         pb_type_name,
         cdr_data
     } = call.request;
-    try {
-        tempfs.open(function (err, file) {
-            if (err)
-                throw err
-            fs.writeFileSync(file.path, pb_schema);
-            protobuf.load(file.path, function (err, root) {
-                if (err) {
-                    throw err;
-                }
-                const Msg = root.lookupType(pb_type_name);
-                const d = parse(ros_schema)
-                const v = cdr_data
-                let res = read(d, v)
-                res = convertTypedArrays(res)
-                res = convertBigIntToLong(res)
-                const pbRes = Msg.encode(res).finish()
-                const jsonRes = JSONbig.stringify(res)
-                console.log('------------READ----------------')
-                console.log(res)
-                console.log(jsonRes)
-                console.log(pbRes)
-                callback(null, {trans_data: pbRes, json_data: jsonRes})
-                file.unlink();
-            });
+    tempfs.open(function (err, file) {
+        if (err)
+            throw err
+        fs.writeFileSync(file.path, pb_schema);
+        protobuf.load(file.path, function (err, root) {
+            if (err) {
+                throw err;
+            }
+            const Msg = root.lookupType(pb_type_name);
+            const d = parse(ros_schema)
+            const v = cdr_data
+            let res = read(d, v)
+            res = convertTypedArrays(res)
+            const jsonRes = JSONbig.stringify(res)
+            res = convertBigIntToLong(res)
+            const pbRes = Msg.encode(res).finish()
+            console.log('------------READ----------------')
+            console.log(res)
+            console.log(jsonRes)
+            console.log(pbRes)
+            callback(null, {trans_data: pbRes, json_data: jsonRes})
+            file.unlink();
         });
-    } catch (e) {
-        console.log(e)
-    }
+    });
 }
 
 function CdrWrite(call, callback) {
@@ -150,32 +146,27 @@ function CdrWrite(call, callback) {
     } = call.request;
     console.log(pb_type_name)
     console.log(pb_schema)
-    try {
-        tempfs.open(function (err, file) {
-            if (err)
-                throw err
-            fs.writeFileSync(file.path, pb_schema);
-            protobuf.load(file.path, function (err, root) {
-                if (err) {
-                    throw err;
-                }
-                var Msg = root.lookupType(pb_type_name);
-                const d = parse(ros_schema)
-                let v = Msg.decode(trans_data)
-                v = convertBigNumberAndLongToBigInt(v)
-                console.log('------------WRITE----------------')
-                console.log(trans_data)
-                console.log(v)
-                const res = write(d, v)
-                const jsonRes = JSONbig.stringify(res)
-                callback(null, {cdr_data: res, json_data: jsonRes})
-                file.unlink();
-            });
+    tempfs.open(function (err, file) {
+        if (err)
+            throw err
+        fs.writeFileSync(file.path, pb_schema);
+        protobuf.load(file.path, function (err, root) {
+            if (err) {
+                throw err;
+            }
+            var Msg = root.lookupType(pb_type_name);
+            const d = parse(ros_schema)
+            let v = Msg.decode(trans_data)
+            v = convertBigNumberAndLongToBigInt(v)
+            console.log('------------WRITE----------------')
+            console.log(trans_data)
+            console.log(v)
+            const res = write(d, v)
+            const jsonRes = JSONbig.stringify(v)
+            callback(null, {cdr_data: res, json_data: jsonRes})
+            file.unlink();
         });
-    } catch (e) {
-        console.log(e)
-        // throw e
-    }
+    });
 }
 
 // 启动 gRPC 服务器

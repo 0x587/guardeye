@@ -2,13 +2,19 @@ package logic
 
 import (
 	"context"
+	"strconv"
+	"time"
 
-	"github.com/0x587/guardeye/api/internal/svc"
-	"github.com/0x587/guardeye/api/internal/types"
-	"github.com/0x587/guardeye/common/model"
+	"github.com/samber/lo"
 	"github.com/samber/lo/parallel"
 
 	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/0x587/guardeye/api/internal/svc"
+	"github.com/0x587/guardeye/api/internal/types"
+	"github.com/0x587/guardeye/common/ent"
+	"github.com/0x587/guardeye/common/rediskey"
+	"github.com/0x587/guardeye/report/report"
 )
 
 type NodesLogic struct {
@@ -26,24 +32,62 @@ func NewNodesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *NodesLogic 
 }
 
 func (l *NodesLogic) Nodes(req *types.NodesReq) (resp *types.NodesRsp, err error) {
-	nodes, err := l.svcCtx.NodeDBClient.ListGroupByClientID(l.ctx)
+	agents, err := l.svcCtx.Db.Agent.Query().All(l.ctx)
 	if err != nil {
 		return nil, err
 	}
+	nodes := parallel.Map(agents, func(n *ent.Agent, index int) types.NodeInfo {
+		res := types.NodeInfo{
+			NodeId: n.ClientID.String(),
+			Name:   n.Alias,
+			Os:     n.Os,
+			Arch:   n.OsVersion,
+			Macs:   n.Macs,
+			Ips:    n.Ips,
+			Cpu:    n.CPU,
+			Memory: n.Memory,
+			Disk:   n.Disk,
+			UpTime: n.Uptime,
+		}
+		seen, err := l.svcCtx.Redis.GetCtx(l.ctx, rediskey.SeeAtKey(&report.NodeInfo{ClientId: n.ClientID.String()}))
+		if err == nil {
+			parseInt, _ := strconv.ParseInt(seen, 10, 64)
+			lastSeen := time.Unix(0, parseInt)
+			res.LastSeenAt = lastSeen.String()
+			if lastSeen.Add(time.Duration(5) * time.Minute).Before(time.Now()) {
+				res.UpTime = ""
+				res.Status = "offline"
+			}
+			res.Status = "online"
+		} else {
+			logx.Error(err)
+		}
+		latency, err := l.svcCtx.Redis.GetCtx(l.ctx, rediskey.LatencyKey(&report.NodeInfo{ClientId: n.ClientID.String()}))
+		if err == nil {
+			lat, _ := strconv.ParseUint(latency, 10, 64)
+			res.Latency = int(lat)
+			if lat > 100*1000*1000 { // 100ms
+				res.Status = "degraded"
+			}
+		} else {
+			logx.Error(err)
+		}
+		return res
+	})
+	nodes = lo.Map(nodes, func(item types.NodeInfo, _ int) types.NodeInfo {
+		item.Ips = lo.Uniq(lo.Filter(item.Ips, func(item string, _ int) bool {
+			return len(item) > 0
+		}))
+		//item.Ips = slices.SortFunc(item.Ips, func(a, b string) int {
+		//
+		//})
+		item.Macs = lo.Uniq(lo.Filter(item.Macs, func(item string, _ int) bool {
+			return len(item) > 0
+		}))
+		return item
+	})
 	resp = &types.NodesRsp{
-		Nodes: parallel.Map(nodes, func(n *model.Node, index int) types.NodeInfo {
-			res := types.NodeInfo{
-				Id:    n.ClientId.String(),
-				Alias: n.Alias.String,
-				Macs:  n.Macs,
-				Ips:   n.Macs,
-			}
-			seen, err := l.svcCtx.RawLogDBClient.GetLastSeen(l.ctx, n.ClientId)
-			if err == nil {
-				res.LastSeenAt = seen.CreatedAt.String()
-			}
-			return res
-		}),
+		Nodes: nodes,
 	}
 	return
 }

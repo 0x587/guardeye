@@ -25,6 +25,10 @@ func (Agent) Fields() []ent.Field {
 		field.Strings("ips"),
 		field.Strings("macs"),
 		field.String("hostname"),
+		field.String("cpu"),
+		field.String("memory"),
+		field.String("disk"),
+		field.String("uptime"),
 	}
 }
 

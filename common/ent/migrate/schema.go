@@ -20,6 +20,10 @@ var (
 		{Name: "ips", Type: field.TypeJSON},
 		{Name: "macs", Type: field.TypeJSON},
 		{Name: "hostname", Type: field.TypeString},
+		{Name: "cpu", Type: field.TypeString},
+		{Name: "memory", Type: field.TypeString},
+		{Name: "disk", Type: field.TypeString},
+		{Name: "uptime", Type: field.TypeString},
 	}
 	// AgentsTable holds the schema information for the "agents" table.
 	AgentsTable = &schema.Table{

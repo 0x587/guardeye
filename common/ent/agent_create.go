@@ -99,6 +99,30 @@ func (ac *AgentCreate) SetHostname(s string) *AgentCreate {
 	return ac
 }
 
+// SetCPU sets the "cpu" field.
+func (ac *AgentCreate) SetCPU(s string) *AgentCreate {
+	ac.mutation.SetCPU(s)
+	return ac
+}
+
+// SetMemory sets the "memory" field.
+func (ac *AgentCreate) SetMemory(s string) *AgentCreate {
+	ac.mutation.SetMemory(s)
+	return ac
+}
+
+// SetDisk sets the "disk" field.
+func (ac *AgentCreate) SetDisk(s string) *AgentCreate {
+	ac.mutation.SetDisk(s)
+	return ac
+}
+
+// SetUptime sets the "uptime" field.
+func (ac *AgentCreate) SetUptime(s string) *AgentCreate {
+	ac.mutation.SetUptime(s)
+	return ac
+}
+
 // Mutation returns the AgentMutation object of the builder.
 func (ac *AgentCreate) Mutation() *AgentMutation {
 	return ac.mutation
@@ -177,6 +201,18 @@ func (ac *AgentCreate) check() error {
 	if _, ok := ac.mutation.Hostname(); !ok {
 		return &ValidationError{Name: "hostname", err: errors.New(`ent: missing required field "Agent.hostname"`)}
 	}
+	if _, ok := ac.mutation.CPU(); !ok {
+		return &ValidationError{Name: "cpu", err: errors.New(`ent: missing required field "Agent.cpu"`)}
+	}
+	if _, ok := ac.mutation.Memory(); !ok {
+		return &ValidationError{Name: "memory", err: errors.New(`ent: missing required field "Agent.memory"`)}
+	}
+	if _, ok := ac.mutation.Disk(); !ok {
+		return &ValidationError{Name: "disk", err: errors.New(`ent: missing required field "Agent.disk"`)}
+	}
+	if _, ok := ac.mutation.Uptime(); !ok {
+		return &ValidationError{Name: "uptime", err: errors.New(`ent: missing required field "Agent.uptime"`)}
+	}
 	return nil
 }
 
@@ -238,6 +274,22 @@ func (ac *AgentCreate) createSpec() (*Agent, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.Hostname(); ok {
 		_spec.SetField(agent.FieldHostname, field.TypeString, value)
 		_node.Hostname = value
+	}
+	if value, ok := ac.mutation.CPU(); ok {
+		_spec.SetField(agent.FieldCPU, field.TypeString, value)
+		_node.CPU = value
+	}
+	if value, ok := ac.mutation.Memory(); ok {
+		_spec.SetField(agent.FieldMemory, field.TypeString, value)
+		_node.Memory = value
+	}
+	if value, ok := ac.mutation.Disk(); ok {
+		_spec.SetField(agent.FieldDisk, field.TypeString, value)
+		_node.Disk = value
+	}
+	if value, ok := ac.mutation.Uptime(); ok {
+		_spec.SetField(agent.FieldUptime, field.TypeString, value)
+		_node.Uptime = value
 	}
 	return _node, _spec
 }

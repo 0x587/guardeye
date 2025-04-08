@@ -2,23 +2,27 @@ package conn
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"os"
 	"runtime"
+	"strconv"
 	"sync"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
+	"github.com/shirou/gopsutil/v3/disk"
+	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
 	"github.com/0x587/guardeye/test-client/conn/downstream"
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
-	"github.com/0x587/guardeye/test-client/http"
 	"github.com/0x587/guardeye/test-client/provider"
 	"github.com/0x587/guardeye/test-client/storage"
 )
@@ -27,23 +31,24 @@ type IF interface {
 	Loop(ctx context.Context)
 }
 
-func New(reportBaseurl string, providers ...provider.IF) IF {
+func New(reportCli zrpc.Client, providers ...provider.IF) IF {
+
 	res := &impl{
-		providers:     providers,
-		reportBaseurl: reportBaseurl,
-		storage:       storage.New(),
-		featureDelay:  featuredelay.New(),
-		logCh:         make(chan *reportclient.Log, 100),
+		providers:    providers,
+		reportCli:    reportclient.NewReport(reportCli),
+		storage:      storage.New(),
+		featureDelay: featuredelay.New(),
+		logCh:        make(chan *reportclient.Log, 100),
 	}
 	return res
 }
 
 type impl struct {
-	clientID      string
-	storage       storage.IF
-	desc          *reportclient.NodeDescription
-	reportBaseurl string
-	featureDelay  feature.IF[
+	clientID     string
+	storage      storage.IF
+	desc         *reportclient.NodeDescription
+	reportCli    reportclient.Report
+	featureDelay feature.IF[
 		*reportclient.FeatureTransDelayReq,
 		*reportclient.FeatureTransDelayRsp,
 	]
@@ -76,25 +81,37 @@ func (i *impl) Loop(ctx context.Context) {
 }
 
 func (i *impl) reportLoop(ctx context.Context) {
-	for {
-		logs, _, _, ok := lo.BufferWithTimeout(i.logCh, 10, time.Second)
-		if !ok {
-			continue
-		}
-		func() {
-			err := i.doLogReport(ctx, logs)
-			if err != nil {
-				logx.Errorf("report error: %v", err)
-				if errors.Is(err, context.DeadlineExceeded) {
-					go func() {
-						for _, log := range logs {
-							i.logCh <- log
-						}
-					}()
-				}
+	for log := range i.logCh {
+		err := i.doLogReport(ctx, []*reportclient.Log{log})
+		if err != nil {
+			logx.Errorf("report error: %v", err)
+			if errors.Is(err, context.DeadlineExceeded) {
+				go func() {
+					i.logCh <- log
+				}()
 			}
-		}()
+		}
 	}
+	//for {
+	//	logs, _, _, ok := lo.BufferWithTimeout(i.logCh, 10, time.Second)
+	//	if !ok {
+	//		continue
+	//	}
+	//	func() {
+	//		println(2)
+	//		err := i.doLogReport(ctx, logs)
+	//		if err != nil {
+	//			logx.Errorf("report error: %v", err)
+	//			if errors.Is(err, context.DeadlineExceeded) {
+	//				go func() {
+	//					for _, log := range logs {
+	//						i.logCh <- log
+	//					}
+	//				}()
+	//			}
+	//		}
+	//	}()
+	//}
 }
 
 func (i *impl) init(ctx context.Context) error {
@@ -102,8 +119,7 @@ func (i *impl) init(ctx context.Context) error {
 		req := &reportclient.InitReq{
 			NodeDescription: i.getNodeDesc(),
 		}
-		rsp := &reportclient.InitRsp{}
-		err := http.Post(ctx, i.reportBaseurl+"/init", req, rsp)
+		rsp, err := i.reportCli.Init(ctx, req)
 		logx.Must(err)
 		clientID := rsp.GetNodeInfo().GetClientId()
 		return []byte(clientID)
@@ -120,6 +136,23 @@ func (i *impl) init(ctx context.Context) error {
 	}
 
 	logx.Infof("client id: %v", i.clientID)
+	heartbeatTicker := time.NewTicker(time.Second)
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-heartbeatTicker.C:
+				_, _ = i.reportCli.Heartbeat(ctx, &reportclient.HeartbeatReq{
+					NodeInfo: &reportclient.NodeInfo{
+						ClientId:        i.clientID,
+						NodeDescription: i.getNodeDesc(),
+					},
+					SendAtNano: uint64(time.Now().UnixNano()),
+				})
+			}
+		}
+	}()
 	return nil
 }
 
@@ -134,8 +167,7 @@ func (i *impl) doLogReport(ctx context.Context, logs []*reportclient.Log) error 
 			TransDelay: lo.Must(i.featureDelay.MakeReq()),
 		},
 	}
-	rsp := &reportclient.LogReportRsp{}
-	err := http.Post(ctx, i.reportBaseurl+"/log_report", req, rsp)
+	rsp, err := i.reportCli.LogReport(ctx, req)
 	if err != nil {
 		return err
 	}
@@ -143,9 +175,15 @@ func (i *impl) doLogReport(ctx context.Context, logs []*reportclient.Log) error 
 	return nil
 }
 
+var bootAt = time.Now()
+
 func (i *impl) getNodeDesc() *reportclient.NodeDescription {
 	addr := lo.Must(net.InterfaceAddrs())
 	interfaces := lo.Must(net.Interfaces())
+	memInfo, _ := mem.VirtualMemory()
+	partitions, _ := disk.Partitions(false)
+	upTime := time.Now().Sub(bootAt)
+	upTime = upTime.Truncate(time.Second)
 	return &reportclient.NodeDescription{
 		Os:        runtime.GOOS,
 		OsVersion: runtime.GOARCH,
@@ -156,5 +194,12 @@ func (i *impl) getNodeDesc() *reportclient.NodeDescription {
 			return item.HardwareAddr.String()
 		}),
 		Hostname: lo.Must(os.Hostname()),
+		Cpu:      strconv.Itoa(runtime.NumCPU()),
+		Memory:   strconv.FormatUint(memInfo.Total, 10),
+		Disk: strconv.FormatUint(lo.SumBy(partitions, func(item disk.PartitionStat) uint64 {
+			usage, _ := disk.Usage(item.Mountpoint)
+			return usage.Total
+		}), 10),
+		Uptime: fmt.Sprintf("%s", upTime),
 	}
 }

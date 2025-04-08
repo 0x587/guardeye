@@ -90,6 +90,26 @@ func Hostname(v string) predicate.Agent {
 	return predicate.Agent(sql.FieldEQ(FieldHostname, v))
 }
 
+// CPU applies equality check predicate on the "cpu" field. It's identical to CPUEQ.
+func CPU(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldCPU, v))
+}
+
+// Memory applies equality check predicate on the "memory" field. It's identical to MemoryEQ.
+func Memory(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldMemory, v))
+}
+
+// Disk applies equality check predicate on the "disk" field. It's identical to DiskEQ.
+func Disk(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldDisk, v))
+}
+
+// Uptime applies equality check predicate on the "uptime" field. It's identical to UptimeEQ.
+func Uptime(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldUptime, v))
+}
+
 // ClientIDEQ applies the EQ predicate on the "client_id" field.
 func ClientIDEQ(v uuid.UUID) predicate.Agent {
 	return predicate.Agent(sql.FieldEQ(FieldClientID, v))
@@ -468,6 +488,266 @@ func HostnameEqualFold(v string) predicate.Agent {
 // HostnameContainsFold applies the ContainsFold predicate on the "hostname" field.
 func HostnameContainsFold(v string) predicate.Agent {
 	return predicate.Agent(sql.FieldContainsFold(FieldHostname, v))
+}
+
+// CPUEQ applies the EQ predicate on the "cpu" field.
+func CPUEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldCPU, v))
+}
+
+// CPUNEQ applies the NEQ predicate on the "cpu" field.
+func CPUNEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldNEQ(FieldCPU, v))
+}
+
+// CPUIn applies the In predicate on the "cpu" field.
+func CPUIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldIn(FieldCPU, vs...))
+}
+
+// CPUNotIn applies the NotIn predicate on the "cpu" field.
+func CPUNotIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldNotIn(FieldCPU, vs...))
+}
+
+// CPUGT applies the GT predicate on the "cpu" field.
+func CPUGT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGT(FieldCPU, v))
+}
+
+// CPUGTE applies the GTE predicate on the "cpu" field.
+func CPUGTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGTE(FieldCPU, v))
+}
+
+// CPULT applies the LT predicate on the "cpu" field.
+func CPULT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLT(FieldCPU, v))
+}
+
+// CPULTE applies the LTE predicate on the "cpu" field.
+func CPULTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLTE(FieldCPU, v))
+}
+
+// CPUContains applies the Contains predicate on the "cpu" field.
+func CPUContains(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContains(FieldCPU, v))
+}
+
+// CPUHasPrefix applies the HasPrefix predicate on the "cpu" field.
+func CPUHasPrefix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasPrefix(FieldCPU, v))
+}
+
+// CPUHasSuffix applies the HasSuffix predicate on the "cpu" field.
+func CPUHasSuffix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasSuffix(FieldCPU, v))
+}
+
+// CPUEqualFold applies the EqualFold predicate on the "cpu" field.
+func CPUEqualFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEqualFold(FieldCPU, v))
+}
+
+// CPUContainsFold applies the ContainsFold predicate on the "cpu" field.
+func CPUContainsFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContainsFold(FieldCPU, v))
+}
+
+// MemoryEQ applies the EQ predicate on the "memory" field.
+func MemoryEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldMemory, v))
+}
+
+// MemoryNEQ applies the NEQ predicate on the "memory" field.
+func MemoryNEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldNEQ(FieldMemory, v))
+}
+
+// MemoryIn applies the In predicate on the "memory" field.
+func MemoryIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldIn(FieldMemory, vs...))
+}
+
+// MemoryNotIn applies the NotIn predicate on the "memory" field.
+func MemoryNotIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldNotIn(FieldMemory, vs...))
+}
+
+// MemoryGT applies the GT predicate on the "memory" field.
+func MemoryGT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGT(FieldMemory, v))
+}
+
+// MemoryGTE applies the GTE predicate on the "memory" field.
+func MemoryGTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGTE(FieldMemory, v))
+}
+
+// MemoryLT applies the LT predicate on the "memory" field.
+func MemoryLT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLT(FieldMemory, v))
+}
+
+// MemoryLTE applies the LTE predicate on the "memory" field.
+func MemoryLTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLTE(FieldMemory, v))
+}
+
+// MemoryContains applies the Contains predicate on the "memory" field.
+func MemoryContains(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContains(FieldMemory, v))
+}
+
+// MemoryHasPrefix applies the HasPrefix predicate on the "memory" field.
+func MemoryHasPrefix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasPrefix(FieldMemory, v))
+}
+
+// MemoryHasSuffix applies the HasSuffix predicate on the "memory" field.
+func MemoryHasSuffix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasSuffix(FieldMemory, v))
+}
+
+// MemoryEqualFold applies the EqualFold predicate on the "memory" field.
+func MemoryEqualFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEqualFold(FieldMemory, v))
+}
+
+// MemoryContainsFold applies the ContainsFold predicate on the "memory" field.
+func MemoryContainsFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContainsFold(FieldMemory, v))
+}
+
+// DiskEQ applies the EQ predicate on the "disk" field.
+func DiskEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldDisk, v))
+}
+
+// DiskNEQ applies the NEQ predicate on the "disk" field.
+func DiskNEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldNEQ(FieldDisk, v))
+}
+
+// DiskIn applies the In predicate on the "disk" field.
+func DiskIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldIn(FieldDisk, vs...))
+}
+
+// DiskNotIn applies the NotIn predicate on the "disk" field.
+func DiskNotIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldNotIn(FieldDisk, vs...))
+}
+
+// DiskGT applies the GT predicate on the "disk" field.
+func DiskGT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGT(FieldDisk, v))
+}
+
+// DiskGTE applies the GTE predicate on the "disk" field.
+func DiskGTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGTE(FieldDisk, v))
+}
+
+// DiskLT applies the LT predicate on the "disk" field.
+func DiskLT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLT(FieldDisk, v))
+}
+
+// DiskLTE applies the LTE predicate on the "disk" field.
+func DiskLTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLTE(FieldDisk, v))
+}
+
+// DiskContains applies the Contains predicate on the "disk" field.
+func DiskContains(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContains(FieldDisk, v))
+}
+
+// DiskHasPrefix applies the HasPrefix predicate on the "disk" field.
+func DiskHasPrefix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasPrefix(FieldDisk, v))
+}
+
+// DiskHasSuffix applies the HasSuffix predicate on the "disk" field.
+func DiskHasSuffix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasSuffix(FieldDisk, v))
+}
+
+// DiskEqualFold applies the EqualFold predicate on the "disk" field.
+func DiskEqualFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEqualFold(FieldDisk, v))
+}
+
+// DiskContainsFold applies the ContainsFold predicate on the "disk" field.
+func DiskContainsFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContainsFold(FieldDisk, v))
+}
+
+// UptimeEQ applies the EQ predicate on the "uptime" field.
+func UptimeEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEQ(FieldUptime, v))
+}
+
+// UptimeNEQ applies the NEQ predicate on the "uptime" field.
+func UptimeNEQ(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldNEQ(FieldUptime, v))
+}
+
+// UptimeIn applies the In predicate on the "uptime" field.
+func UptimeIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldIn(FieldUptime, vs...))
+}
+
+// UptimeNotIn applies the NotIn predicate on the "uptime" field.
+func UptimeNotIn(vs ...string) predicate.Agent {
+	return predicate.Agent(sql.FieldNotIn(FieldUptime, vs...))
+}
+
+// UptimeGT applies the GT predicate on the "uptime" field.
+func UptimeGT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGT(FieldUptime, v))
+}
+
+// UptimeGTE applies the GTE predicate on the "uptime" field.
+func UptimeGTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldGTE(FieldUptime, v))
+}
+
+// UptimeLT applies the LT predicate on the "uptime" field.
+func UptimeLT(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLT(FieldUptime, v))
+}
+
+// UptimeLTE applies the LTE predicate on the "uptime" field.
+func UptimeLTE(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldLTE(FieldUptime, v))
+}
+
+// UptimeContains applies the Contains predicate on the "uptime" field.
+func UptimeContains(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContains(FieldUptime, v))
+}
+
+// UptimeHasPrefix applies the HasPrefix predicate on the "uptime" field.
+func UptimeHasPrefix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasPrefix(FieldUptime, v))
+}
+
+// UptimeHasSuffix applies the HasSuffix predicate on the "uptime" field.
+func UptimeHasSuffix(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldHasSuffix(FieldUptime, v))
+}
+
+// UptimeEqualFold applies the EqualFold predicate on the "uptime" field.
+func UptimeEqualFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldEqualFold(FieldUptime, v))
+}
+
+// UptimeContainsFold applies the ContainsFold predicate on the "uptime" field.
+func UptimeContainsFold(v string) predicate.Agent {
+	return predicate.Agent(sql.FieldContainsFold(FieldUptime, v))
 }
 
 // And groups predicates with the AND operator between them.

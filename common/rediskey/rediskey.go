@@ -21,3 +21,7 @@ func NodeDescKey(nodeInfo *report.NodeInfo) string {
 func LogDataKey(nodeInfo *report.NodeInfo) string {
 	return fmt.Sprintf("log-data-key-%s", nodeInfo.GetClientId())
 }
+
+func LatencyKey(nodeInfo *report.NodeInfo) string {
+	return fmt.Sprintf("latency-key-%s", nodeInfo.GetClientId())
+}

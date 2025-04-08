@@ -49,6 +49,10 @@ type AgentMutation struct {
 	macs          *[]string
 	appendmacs    []string
 	hostname      *string
+	cpu           *string
+	memory        *string
+	disk          *string
+	uptime        *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Agent, error)
@@ -507,6 +511,150 @@ func (m *AgentMutation) ResetHostname() {
 	m.hostname = nil
 }
 
+// SetCPU sets the "cpu" field.
+func (m *AgentMutation) SetCPU(s string) {
+	m.cpu = &s
+}
+
+// CPU returns the value of the "cpu" field in the mutation.
+func (m *AgentMutation) CPU() (r string, exists bool) {
+	v := m.cpu
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCPU returns the old "cpu" field's value of the Agent entity.
+// If the Agent object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgentMutation) OldCPU(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCPU is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCPU requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCPU: %w", err)
+	}
+	return oldValue.CPU, nil
+}
+
+// ResetCPU resets all changes to the "cpu" field.
+func (m *AgentMutation) ResetCPU() {
+	m.cpu = nil
+}
+
+// SetMemory sets the "memory" field.
+func (m *AgentMutation) SetMemory(s string) {
+	m.memory = &s
+}
+
+// Memory returns the value of the "memory" field in the mutation.
+func (m *AgentMutation) Memory() (r string, exists bool) {
+	v := m.memory
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMemory returns the old "memory" field's value of the Agent entity.
+// If the Agent object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgentMutation) OldMemory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMemory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMemory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMemory: %w", err)
+	}
+	return oldValue.Memory, nil
+}
+
+// ResetMemory resets all changes to the "memory" field.
+func (m *AgentMutation) ResetMemory() {
+	m.memory = nil
+}
+
+// SetDisk sets the "disk" field.
+func (m *AgentMutation) SetDisk(s string) {
+	m.disk = &s
+}
+
+// Disk returns the value of the "disk" field in the mutation.
+func (m *AgentMutation) Disk() (r string, exists bool) {
+	v := m.disk
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDisk returns the old "disk" field's value of the Agent entity.
+// If the Agent object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgentMutation) OldDisk(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDisk is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDisk requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDisk: %w", err)
+	}
+	return oldValue.Disk, nil
+}
+
+// ResetDisk resets all changes to the "disk" field.
+func (m *AgentMutation) ResetDisk() {
+	m.disk = nil
+}
+
+// SetUptime sets the "uptime" field.
+func (m *AgentMutation) SetUptime(s string) {
+	m.uptime = &s
+}
+
+// Uptime returns the value of the "uptime" field in the mutation.
+func (m *AgentMutation) Uptime() (r string, exists bool) {
+	v := m.uptime
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUptime returns the old "uptime" field's value of the Agent entity.
+// If the Agent object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgentMutation) OldUptime(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUptime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUptime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUptime: %w", err)
+	}
+	return oldValue.Uptime, nil
+}
+
+// ResetUptime resets all changes to the "uptime" field.
+func (m *AgentMutation) ResetUptime() {
+	m.uptime = nil
+}
+
 // Where appends a list predicates to the AgentMutation builder.
 func (m *AgentMutation) Where(ps ...predicate.Agent) {
 	m.predicates = append(m.predicates, ps...)
@@ -541,7 +689,7 @@ func (m *AgentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AgentMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 13)
 	if m.client_id != nil {
 		fields = append(fields, agent.FieldClientID)
 	}
@@ -569,6 +717,18 @@ func (m *AgentMutation) Fields() []string {
 	if m.hostname != nil {
 		fields = append(fields, agent.FieldHostname)
 	}
+	if m.cpu != nil {
+		fields = append(fields, agent.FieldCPU)
+	}
+	if m.memory != nil {
+		fields = append(fields, agent.FieldMemory)
+	}
+	if m.disk != nil {
+		fields = append(fields, agent.FieldDisk)
+	}
+	if m.uptime != nil {
+		fields = append(fields, agent.FieldUptime)
+	}
 	return fields
 }
 
@@ -595,6 +755,14 @@ func (m *AgentMutation) Field(name string) (ent.Value, bool) {
 		return m.Macs()
 	case agent.FieldHostname:
 		return m.Hostname()
+	case agent.FieldCPU:
+		return m.CPU()
+	case agent.FieldMemory:
+		return m.Memory()
+	case agent.FieldDisk:
+		return m.Disk()
+	case agent.FieldUptime:
+		return m.Uptime()
 	}
 	return nil, false
 }
@@ -622,6 +790,14 @@ func (m *AgentMutation) OldField(ctx context.Context, name string) (ent.Value, e
 		return m.OldMacs(ctx)
 	case agent.FieldHostname:
 		return m.OldHostname(ctx)
+	case agent.FieldCPU:
+		return m.OldCPU(ctx)
+	case agent.FieldMemory:
+		return m.OldMemory(ctx)
+	case agent.FieldDisk:
+		return m.OldDisk(ctx)
+	case agent.FieldUptime:
+		return m.OldUptime(ctx)
 	}
 	return nil, fmt.Errorf("unknown Agent field %s", name)
 }
@@ -693,6 +869,34 @@ func (m *AgentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetHostname(v)
+		return nil
+	case agent.FieldCPU:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCPU(v)
+		return nil
+	case agent.FieldMemory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMemory(v)
+		return nil
+	case agent.FieldDisk:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDisk(v)
+		return nil
+	case agent.FieldUptime:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUptime(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Agent field %s", name)
@@ -769,6 +973,18 @@ func (m *AgentMutation) ResetField(name string) error {
 		return nil
 	case agent.FieldHostname:
 		m.ResetHostname()
+		return nil
+	case agent.FieldCPU:
+		m.ResetCPU()
+		return nil
+	case agent.FieldMemory:
+		m.ResetMemory()
+		return nil
+	case agent.FieldDisk:
+		m.ResetDisk()
+		return nil
+	case agent.FieldUptime:
+		m.ResetUptime()
 		return nil
 	}
 	return fmt.Errorf("unknown Agent field %s", name)

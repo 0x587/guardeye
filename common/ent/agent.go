@@ -36,7 +36,15 @@ type Agent struct {
 	// Macs holds the value of the "macs" field.
 	Macs []string `json:"macs,omitempty"`
 	// Hostname holds the value of the "hostname" field.
-	Hostname     string `json:"hostname,omitempty"`
+	Hostname string `json:"hostname,omitempty"`
+	// CPU holds the value of the "cpu" field.
+	CPU string `json:"cpu,omitempty"`
+	// Memory holds the value of the "memory" field.
+	Memory string `json:"memory,omitempty"`
+	// Disk holds the value of the "disk" field.
+	Disk string `json:"disk,omitempty"`
+	// Uptime holds the value of the "uptime" field.
+	Uptime       string `json:"uptime,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -49,7 +57,7 @@ func (*Agent) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case agent.FieldID:
 			values[i] = new(sql.NullInt64)
-		case agent.FieldAlias, agent.FieldOs, agent.FieldOsVersion, agent.FieldHostname:
+		case agent.FieldAlias, agent.FieldOs, agent.FieldOsVersion, agent.FieldHostname, agent.FieldCPU, agent.FieldMemory, agent.FieldDisk, agent.FieldUptime:
 			values[i] = new(sql.NullString)
 		case agent.FieldCreateAt, agent.FieldUpdateAt:
 			values[i] = new(sql.NullTime)
@@ -134,6 +142,30 @@ func (a *Agent) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.Hostname = value.String
 			}
+		case agent.FieldCPU:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field cpu", values[i])
+			} else if value.Valid {
+				a.CPU = value.String
+			}
+		case agent.FieldMemory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field memory", values[i])
+			} else if value.Valid {
+				a.Memory = value.String
+			}
+		case agent.FieldDisk:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field disk", values[i])
+			} else if value.Valid {
+				a.Disk = value.String
+			}
+		case agent.FieldUptime:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field uptime", values[i])
+			} else if value.Valid {
+				a.Uptime = value.String
+			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
 		}
@@ -196,6 +228,18 @@ func (a *Agent) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("hostname=")
 	builder.WriteString(a.Hostname)
+	builder.WriteString(", ")
+	builder.WriteString("cpu=")
+	builder.WriteString(a.CPU)
+	builder.WriteString(", ")
+	builder.WriteString("memory=")
+	builder.WriteString(a.Memory)
+	builder.WriteString(", ")
+	builder.WriteString("disk=")
+	builder.WriteString(a.Disk)
+	builder.WriteString(", ")
+	builder.WriteString("uptime=")
+	builder.WriteString(a.Uptime)
 	builder.WriteByte(')')
 	return builder.String()
 }

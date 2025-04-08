@@ -33,7 +33,7 @@ func main() {
 	ctx := context.Background()
 	svcCtx := svc.NewServiceContext(c)
 
-	apiServer := rest.MustNewServer(c.RestConf)
+	apiServer := rest.MustNewServer(c.RestConf, rest.WithCors("*"))
 	sg.Add(apiServer)
 	handler.RegisterHandlers(apiServer, svcCtx)
 	apiServer.AddRoutes(

@@ -5,11 +5,19 @@ import "wstype.api"
 type NodesReq {}
 
 type NodeInfo {
-	id         string   `json:"id"`
-	alias      string   `json:"alias"`
+	nodeId     string   `json:"nodeId"`
+	name       string   `json:"name"`
+	os         string   `json:"os"`
+	arch       string   `json:"arch"`
 	macs       []string `json:"macs"`
 	ips        []string `json:"ips"`
 	lastSeenAt string   `json:"lastSeenAt"`
+	cpu        string   `json:"cpu"`
+	memory     string   `json:"memory"`
+	disk       string   `json:"disk"`
+	upTime     string   `json:"upTime"`
+	latency    int      `json:"latency"`
+	status     string   `json:"status"`
 }
 
 type NodesRsp {
@@ -84,69 +92,67 @@ service api-api {
 	get /ws/listen
 }
 
-type (
-	MetricQuery {
-		Type      string         `json:"type,options=Number|String"`
-		Name      string         `json:"name"`
-		ParsePath string         `json:"parsePath"`
-		Filters   []MetricFilter `json:"filters"`
-	}
-	MetricFilter {
-		Metric MetricQuery `json:"metric"`
-		Op     string      `json:"op,options=EQ|NE"`
-		Value  string      `json:"value"`
-	}
-	MetricQueryGroup {
-		NodeId   string        `json:"nodeId"`
-		Provider string        `json:"provider"`
-		Queries  []MetricQuery `json:"queries"`
-	}
-	GetQueriesReq {
-		NodeId string `json:"nodeId,optional"`
-	}
-	GetQueriesRsp {
-		Queries []MetricQueryGroup `json:"queries"`
-	}
-	GetMetricDetailReq {
-		NodeId string `json:"nodeId"`
-		Name   string `json:"name"`
-	}
-	GetMetricDetailRsp {
-		FirstTimestamp int64 `json:"firstTimestamp"`
-		LastTimestamp  int64 `json:"lastTimestamp"`
-		TotalSamples   int64 `json:"totalSamples"`
-	}
-	FetchMetricDataReq {
-		Metric       GetMetricDetailReq `json:"metric"`
-		From         int                `json:"from"`
-		To           int                `json:"to"`
-		WindowSecond int                `json:"windowSecond,optional"`
-		Aggregator   string             `json:"aggregator,optional,options=avg|sum|min|max|range|count"`
-	}
-	FetchMetricDataRspData {
-		timestamp int64   `json:"timestamp"`
-		value     float64 `json:"value"`
-	}
-	FetchMetricDataRsp {
-		Data []FetchMetricDataRspData `json:"data"`
-	}
-)
-
-@server (
-	prefix: /api/v1/logtometric
-	group:  logtometric
-)
-service api-api {
-	@handler GetQueriesHandler
-	post /queryies (GetQueriesReq) returns (GetQueriesRsp)
-
-	@handler GetMetricDetailHandler
-	post /metric/detail (GetMetricDetailReq) returns (GetMetricDetailRsp)
-
-	@handler FetchMetricDataHandler
-	post /metric/data (FetchMetricDataReq) returns (FetchMetricDataRsp)
-}
-
+//type (
+// MetricQuery {
+//  Type      string         `json:"type,options=Number|String"`
+//  Name      string         `json:"name"`
+//  ParsePath string         `json:"parsePath"`
+//  Filters   []MetricFilter `json:"filters"`
+// }
+// MetricFilter {
+//  Metric MetricQuery `json:"metric"`
+//  Op     string      `json:"op,options=EQ|NE"`
+//  Value  string      `json:"value"`
+// }
+// MetricQueryGroup {
+//  NodeId   string        `json:"nodeId"`
+//  Provider string        `json:"provider"`
+//  Queries  []MetricQuery `json:"queries"`
+// }
+// GetQueriesReq {
+//  NodeId string `json:"nodeId,optional"`
+// }
+// GetQueriesRsp {
+//  Queries []MetricQueryGroup `json:"queries"`
+// }
+// GetMetricDetailReq {
+//  NodeId string `json:"nodeId"`
+//  Name   string `json:"name"`
+// }
+// GetMetricDetailRsp {
+//  FirstTimestamp int64 `json:"firstTimestamp"`
+//  LastTimestamp  int64 `json:"lastTimestamp"`
+//  TotalSamples   int64 `json:"totalSamples"`
+// }
+// FetchMetricDataReq {
+//  Metric       GetMetricDetailReq `json:"metric"`
+//  From         int                `json:"from"`
+//  To           int                `json:"to"`
+//  WindowSecond int                `json:"windowSecond,optional"`
+//  Aggregator   string             `json:"aggregator,optional,options=avg|sum|min|max|range|count"`
+// }
+// FetchMetricDataRspData {
+//  timestamp int64   `json:"timestamp"`
+//  value     float64 `json:"value"`
+// }
+// FetchMetricDataRsp {
+//  Data []FetchMetricDataRspData `json:"data"`
+// }
+//)
+//@server (
+// prefix: /api/v1/logtometric
+// group:  logtometric
+//)
+//service api-api {
+// @handler GetQueriesHandler
+// post /queryies (GetQueriesReq) returns (GetQueriesRsp)
+//
+// @handler GetMetricDetailHandler
+// post /metric/detail (GetMetricDetailReq) returns (GetMetricDetailRsp)
+//
+// @handler FetchMetricDataHandler
+// post /metric/data (FetchMetricDataReq) returns (FetchMetricDataRsp)
+//}
 type (
 	EsQueryReq {
 		query      string `json:"query"`
