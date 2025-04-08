@@ -47,3 +47,8 @@ func (s *LinkServer) AgentList(ctx context.Context, in *link.Empty) (*link.Agent
 	l := logic.NewAgentListLogic(ctx, s.svcCtx)
 	return l.AgentList(in)
 }
+
+func (s *LinkServer) AgentListen(in *link.AgentListenReq, stream link.Link_AgentListenServer) error {
+	l := logic.NewAgentListenLogic(stream.Context(), s.svcCtx)
+	return l.AgentListen(in, stream)
+}

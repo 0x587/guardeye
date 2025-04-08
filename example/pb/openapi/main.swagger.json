@@ -1,0 +1,459 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "main.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Api"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "builtin_interfacesTime": {
+      "type": "object",
+      "properties": {
+        "sec": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nanosec": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "pkg_aV3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "string",
+          "format": "int64"
+        },
+        "y": {
+          "type": "string",
+          "format": "int64"
+        },
+        "z": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pkg_bPos": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "v": {
+          "$ref": "#/definitions/pkg_aV3"
+        }
+      }
+    },
+    "pkg_cState": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        },
+        "v": {
+          "$ref": "#/definitions/pkg_aV3"
+        }
+      }
+    },
+    "pkg_dGetPersonRsp": {
+      "type": "object",
+      "properties": {
+        "rsp": {
+          "$ref": "#/definitions/pkg_dPerson"
+        }
+      }
+    },
+    "pkg_dPerson": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "$ref": "#/definitions/pkg_aV3"
+        },
+        "pos": {
+          "$ref": "#/definitions/pkg_bPos"
+        },
+        "state": {
+          "$ref": "#/definitions/pkg_cState"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rcl_interfacesDescribeParametersRsp": {
+      "type": "object",
+      "properties": {
+        "descriptors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameterDescriptor"
+          }
+        }
+      }
+    },
+    "rcl_interfacesFloatingPointRange": {
+      "type": "object",
+      "properties": {
+        "fromValue": {
+          "type": "number",
+          "format": "double"
+        },
+        "toValue": {
+          "type": "number",
+          "format": "double"
+        },
+        "step": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "rcl_interfacesGetParameterTypesRsp": {
+      "type": "object",
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "rcl_interfacesGetParametersRsp": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameterValue"
+          }
+        }
+      }
+    },
+    "rcl_interfacesIntegerRange": {
+      "type": "object",
+      "properties": {
+        "fromValue": {
+          "type": "string",
+          "format": "int64"
+        },
+        "toValue": {
+          "type": "string",
+          "format": "int64"
+        },
+        "step": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "rcl_interfacesListParametersResult": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rcl_interfacesListParametersRsp": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/rcl_interfacesListParametersResult"
+        }
+      }
+    },
+    "rcl_interfacesLog": {
+      "type": "object",
+      "properties": {
+        "stamp": {
+          "$ref": "#/definitions/builtin_interfacesTime"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "rcl_interfacesParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/rcl_interfacesParameterValue"
+        }
+      }
+    },
+    "rcl_interfacesParameterDescriptor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string"
+        },
+        "additionalConstraints": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        },
+        "dynamicTyping": {
+          "type": "boolean"
+        },
+        "floatingPointRange": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesFloatingPointRange"
+          }
+        },
+        "integerRange": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesIntegerRange"
+          }
+        }
+      }
+    },
+    "rcl_interfacesParameterEvent": {
+      "type": "object",
+      "properties": {
+        "stamp": {
+          "$ref": "#/definitions/builtin_interfacesTime"
+        },
+        "node": {
+          "type": "string"
+        },
+        "newParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameter"
+          }
+        },
+        "changedParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameter"
+          }
+        },
+        "deletedParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameter"
+          }
+        }
+      }
+    },
+    "rcl_interfacesParameterValue": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "boolValue": {
+          "type": "boolean"
+        },
+        "integerValue": {
+          "type": "string",
+          "format": "int64"
+        },
+        "doubleValue": {
+          "type": "number",
+          "format": "double"
+        },
+        "stringValue": {
+          "type": "string"
+        },
+        "byteArrayValue": {
+          "type": "string",
+          "format": "byte"
+        },
+        "boolArrayValue": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
+        "integerArrayValue": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "doubleArrayValue": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "stringArrayValue": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rcl_interfacesSetParametersAtomicallyRsp": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/rcl_interfacesSetParametersResult"
+        }
+      }
+    },
+    "rcl_interfacesSetParametersResult": {
+      "type": "object",
+      "properties": {
+        "successful": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "rcl_interfacesSetParametersRsp": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesSetParametersResult"
+          }
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "shawn_defineAddRsp": {
+      "type": "object",
+      "properties": {
+        "res": {
+          "$ref": "#/definitions/shawn_defineV2"
+        },
+        "c": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "d": {
+          "type": "number",
+          "format": "double"
+        },
+        "e": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "shawn_defineV2": {
+      "type": "object",
+      "properties": {
+        "a": {
+          "type": "string",
+          "format": "int64"
+        },
+        "b": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "std_msgsString": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

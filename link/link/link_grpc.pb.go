@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Link_Link_FullMethodName      = "/link.Link/Link"
-	Link_LinkCall_FullMethodName  = "/link.Link/LinkCall"
-	Link_TypeList_FullMethodName  = "/link.Link/TypeList"
-	Link_TypeGen_FullMethodName   = "/link.Link/TypeGen"
-	Link_AgentList_FullMethodName = "/link.Link/AgentList"
+	Link_Link_FullMethodName        = "/link.Link/Link"
+	Link_LinkCall_FullMethodName    = "/link.Link/LinkCall"
+	Link_TypeList_FullMethodName    = "/link.Link/TypeList"
+	Link_TypeGen_FullMethodName     = "/link.Link/TypeGen"
+	Link_AgentList_FullMethodName   = "/link.Link/AgentList"
+	Link_AgentListen_FullMethodName = "/link.Link/AgentListen"
 )
 
 // LinkClient is the client API for Link service.
@@ -35,6 +36,7 @@ type LinkClient interface {
 	TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error)
 	TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.CallOption) (*TypeGenRsp, error)
 	AgentList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AgentListRsp, error)
+	AgentListen(ctx context.Context, in *AgentListenReq, opts ...grpc.CallOption) (grpc.ServerStreamingClient[AgentListenRsp], error)
 }
 
 type linkClient struct {
@@ -98,6 +100,25 @@ func (c *linkClient) AgentList(ctx context.Context, in *Empty, opts ...grpc.Call
 	return out, nil
 }
 
+func (c *linkClient) AgentListen(ctx context.Context, in *AgentListenReq, opts ...grpc.CallOption) (grpc.ServerStreamingClient[AgentListenRsp], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Link_ServiceDesc.Streams[1], Link_AgentListen_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[AgentListenReq, AgentListenRsp]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Link_AgentListenClient = grpc.ServerStreamingClient[AgentListenRsp]
+
 // LinkServer is the server API for Link service.
 // All implementations must embed UnimplementedLinkServer
 // for forward compatibility.
@@ -107,6 +128,7 @@ type LinkServer interface {
 	TypeList(context.Context, *TypeListReq) (*TypeListRsp, error)
 	TypeGen(context.Context, *TypeGenReq) (*TypeGenRsp, error)
 	AgentList(context.Context, *Empty) (*AgentListRsp, error)
+	AgentListen(*AgentListenReq, grpc.ServerStreamingServer[AgentListenRsp]) error
 	mustEmbedUnimplementedLinkServer()
 }
 
@@ -131,6 +153,9 @@ func (UnimplementedLinkServer) TypeGen(context.Context, *TypeGenReq) (*TypeGenRs
 }
 func (UnimplementedLinkServer) AgentList(context.Context, *Empty) (*AgentListRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgentList not implemented")
+}
+func (UnimplementedLinkServer) AgentListen(*AgentListenReq, grpc.ServerStreamingServer[AgentListenRsp]) error {
+	return status.Errorf(codes.Unimplemented, "method AgentListen not implemented")
 }
 func (UnimplementedLinkServer) mustEmbedUnimplementedLinkServer() {}
 func (UnimplementedLinkServer) testEmbeddedByValue()              {}
@@ -232,6 +257,17 @@ func _Link_AgentList_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Link_AgentListen_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(AgentListenReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(LinkServer).AgentListen(m, &grpc.GenericServerStream[AgentListenReq, AgentListenRsp]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Link_AgentListenServer = grpc.ServerStreamingServer[AgentListenRsp]
+
 // Link_ServiceDesc is the grpc.ServiceDesc for Link service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -262,6 +298,11 @@ var Link_ServiceDesc = grpc.ServiceDesc{
 			Handler:       _Link_Link_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
+		},
+		{
+			StreamName:    "AgentListen",
+			Handler:       _Link_AgentListen_Handler,
+			ServerStreams: true,
 		},
 	},
 	Metadata: "link.proto",

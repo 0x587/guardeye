@@ -38,6 +38,10 @@ func (l *InitLogic) Init(in *report.InitReq) (*report.InitRsp, error) {
 		SetOs(in.GetNodeDescription().GetOs()).
 		SetOsVersion(in.GetNodeDescription().GetOsVersion()).
 		SetHostname(in.GetNodeDescription().GetHostname()).
+		SetCPU(in.GetNodeDescription().GetCpu()).
+		SetMemory(in.GetNodeDescription().GetMemory()).
+		SetDisk(in.GetNodeDescription().GetDisk()).
+		SetUptime(in.GetNodeDescription().GetUptime()).
 		Save(l.ctx)
 	if err != nil {
 		return nil, err

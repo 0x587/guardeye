@@ -5,10 +5,10 @@ import (
 
 	"github.com/google/uuid"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/0x587/guardeye/link/internal/svc"
 	"github.com/0x587/guardeye/link/link"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type LinkLogic struct {

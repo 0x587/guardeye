@@ -5,7 +5,7 @@ import streamlit as st
 
 st.title('Task')
 if 'task_id' in st.session_state:
-    st.write(fCtx"Task ID: {st.session_state['task_id']}")
+    st.write(f"Task ID: {st.session_state['task_id']}")
     p = st.progress(0, '导出进度')
     while True:
         res = requests.post(
@@ -19,7 +19,7 @@ if 'task_id' in st.session_state:
         elif res.json()['done']:
             p.progress(
                 1,
-                text=fCtx"{res.json()['process']} / {res.json()['process']}"
+                text=f"{res.json()['process']} / {res.json()['process']}"
             )
             st.write(res.json())
             st.page_link(res.json()['link'], label="下载")
@@ -27,6 +27,6 @@ if 'task_id' in st.session_state:
         elif res.json()['total'] > 0:
             p.progress(
                 res.json()['process'] / res.json()['total'],
-                text=fCtx"{res.json()['process']} / {res.json()['total']}"
+                text=f"{res.json()['process']} / {res.json()['total']}"
             )
         time.sleep(0.5)

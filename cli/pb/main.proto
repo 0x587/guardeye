@@ -1,0 +1,38 @@
+syntax = "proto3";
+option go_package = "./pb";
+import "rcl_interfaces.proto";
+import "shawn_define.proto";
+import "builtin_interfaces.proto";
+
+service Api {
+	// topic: /rosout
+	rpc PublishTopicRosout(rcl_interfaces.Log) returns (rcl_interfaces.Log);
+	// topic: /parameter_events
+	rpc PublishTopicParameter_events(rcl_interfaces.ParameterEvent) returns (rcl_interfaces.ParameterEvent);
+	// service: /foxglove_bridge/list_parameters
+	rpc CallServiceFoxglove_bridgeList_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
+	// service: /service_server_02/list_parameters
+	rpc CallServiceService_server_02List_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
+	// service: /service_server_02/set_parameters_atomically
+	rpc CallServiceService_server_02Set_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
+	// service: /service_server_02/get_parameter_types
+	rpc CallServiceService_server_02Get_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
+	// service: /foxglove_bridge/get_parameter_types
+	rpc CallServiceFoxglove_bridgeGet_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
+	// service: /foxglove_bridge/get_parameters
+	rpc CallServiceFoxglove_bridgeGet_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
+	// service: /service_server_02/get_parameters
+	rpc CallServiceService_server_02Get_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
+	// service: /foxglove_bridge/set_parameters_atomically
+	rpc CallServiceFoxglove_bridgeSet_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
+	// service: /foxglove_bridge/set_parameters
+	rpc CallServiceFoxglove_bridgeSet_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
+	// service: /foxglove_bridge/describe_parameters
+	rpc CallServiceFoxglove_bridgeDescribe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
+	// service: /service_server_02/describe_parameters
+	rpc CallServiceService_server_02Describe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
+	// service: /service_server_02/set_parameters
+	rpc CallServiceService_server_02Set_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
+	// service: /add_two_ints_srv
+	rpc CallServiceAdd_two_ints_srv(shawn_define.AddReq) returns (shawn_define.AddRsp);
+}

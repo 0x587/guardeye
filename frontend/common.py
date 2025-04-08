@@ -23,7 +23,7 @@ def fetch_query(q, container=st, show_debug=False, title=None):
     if show_debug:
         container.divider()
         profile = rsp['profile']
-        profile['hitRate'] = fCtx"{profile['resultCount'] / profile['fetchCount'] * 100:.2f}%"
+        profile['hitRate'] = f"{profile['resultCount'] / profile['fetchCount'] * 100:.2f}%"
         for c, (k, v) in zip(container.columns(len(profile)), profile.items()):
             c.metric(label=str(k), value=v)
     data = {i['timestamp']: i['value'] for i in rsp["data"]}

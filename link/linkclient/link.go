@@ -15,6 +15,8 @@ import (
 
 type (
 	AgentListRsp              = link.AgentListRsp
+	AgentListenReq            = link.AgentListenReq
+	AgentListenRsp            = link.AgentListenRsp
 	Empty                     = link.Empty
 	LinkCallReq               = link.LinkCallReq
 	LinkCallRsp               = link.LinkCallRsp
@@ -36,6 +38,7 @@ type (
 		TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error)
 		TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.CallOption) (*TypeGenRsp, error)
 		AgentList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AgentListRsp, error)
+		AgentListen(ctx context.Context, in *AgentListenReq, opts ...grpc.CallOption) (link.Link_AgentListenClient, error)
 	}
 
 	defaultLink struct {
@@ -72,4 +75,9 @@ func (m *defaultLink) TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.
 func (m *defaultLink) AgentList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AgentListRsp, error) {
 	client := link.NewLinkClient(m.cli.Conn())
 	return client.AgentList(ctx, in, opts...)
+}
+
+func (m *defaultLink) AgentListen(ctx context.Context, in *AgentListenReq, opts ...grpc.CallOption) (link.Link_AgentListenClient, error) {
+	client := link.NewLinkClient(m.cli.Conn())
+	return client.AgentListen(ctx, in, opts...)
 }

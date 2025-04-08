@@ -1,0 +1,21 @@
+syntax = "proto3";
+package pkg_d;
+option go_package = "./pb";
+import "pkg_a.proto";
+import "pkg_b.proto";
+import "pkg_c.proto";
+
+message GetPersonReq {
+	Person req = 1;
+}
+
+message Person {
+	pkg_a.V3 v = 1;
+	pkg_b.Pos pos = 2;
+	pkg_c.State state = 3;
+}
+
+message GetPersonRsp {
+	Person rsp = 1;
+}
+

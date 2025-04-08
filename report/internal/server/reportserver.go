@@ -32,3 +32,8 @@ func (s *ReportServer) LogReport(ctx context.Context, in *report.LogReportReq) (
 	l := logic.NewLogReportLogic(ctx, s.svcCtx)
 	return l.LogReport(in)
 }
+
+func (s *ReportServer) Heartbeat(ctx context.Context, in *report.HeartbeatReq) (*report.Empty, error) {
+	l := logic.NewHeartbeatLogic(ctx, s.svcCtx)
+	return l.Heartbeat(in)
+}

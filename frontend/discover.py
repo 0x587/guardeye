@@ -30,7 +30,7 @@ if st.button('export'):
         }
     )
     task_id = res.json()['taskId']
-    st.write(fCtx"TaskID: {task_id}")
+    st.write(f"TaskID: {task_id}")
     st.session_state['task_id'] = task_id
     st.switch_page('task.py')
 

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/0x587/guardeye/common/eventpool"
 	"github.com/0x587/guardeye/common/foxglovetopb"
 	"github.com/0x587/guardeye/foxglove_cdrservice/proto/foxgloveService"
 	"github.com/0x587/guardeye/link/internal/svc"
@@ -24,6 +25,7 @@ type LinkCallLogic struct {
 }
 
 var agentConn = newRpcAgentConn()
+var listenPool = eventpool.New[string, *link.AgentListenRsp]()
 
 func NewLinkCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LinkCallLogic {
 	return &LinkCallLogic{
@@ -76,6 +78,12 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 		return nil, err
 	}
 
+	listenPool.Invoke(req.GetCid(), &link.AgentListenRsp{
+		IsUpstream: false,
+		Topic:      topic,
+		JsonData:   cdrWriteRsp.GetJsonData(),
+	})
+
 	cdrDataBytes := cdrWriteRsp.GetCdrData()
 	cdrDataBase64 := base64.StdEncoding.EncodeToString(cdrDataBytes)
 
@@ -108,6 +116,13 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 	if err != nil {
 		return nil, err
 	}
+
+	listenPool.Invoke(req.GetCid(), &link.AgentListenRsp{
+		IsUpstream: true,
+		Topic:      topic,
+		JsonData:   cdrReadRsp.GetJsonData(),
+	})
+
 	readRspDataStr := base64.StdEncoding.EncodeToString(cdrReadRsp.GetTransData())
 
 	return &link.LinkCallRsp{
