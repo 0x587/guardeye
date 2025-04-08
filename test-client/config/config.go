@@ -7,11 +7,9 @@ import (
 )
 
 type Config struct {
-	Server struct {
-		Host string
-		Port int
-	}
-	Provider []ProviderConfig
+	Server       string
+	LinkEndpoint string
+	Provider     []ProviderConfig
 }
 type ProviderConfig struct {
 	Type string

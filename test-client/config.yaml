@@ -1,6 +1,5 @@
-Server:
-  Host: http://ws.scut.mcurobot.com
-  Port: 56688
+Server: reportgrpc.guardeye.shawnsiu.site:5080
+LinkEndpoint: linkgrpc.guardeye.shawnsiu.site:5080
 Provider:
   - Type: ticker
     Args:

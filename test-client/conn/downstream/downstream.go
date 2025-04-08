@@ -8,6 +8,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/0x587/guardeye/link/linkclient"
+	"github.com/0x587/guardeye/test-client/config"
 	"github.com/0x587/guardeye/test-client/conn/downstream/ros"
 	"github.com/0x587/guardeye/test-client/conn/downstream/ros/implfg"
 )
@@ -16,10 +17,10 @@ type IF interface {
 	Close()
 }
 
-func New(cid uuid.UUID) (IF, error) {
+func New(cid uuid.UUID, c config.Config) (IF, error) {
 	ctx := context.Background()
 	ctx, cancelFunc := context.WithCancel(ctx)
-	sLink, err := newRpcServerLink(cid)
+	sLink, err := newRpcServerLink(cid, c.LinkEndpoint)
 	if err != nil {
 		return nil, err
 	}

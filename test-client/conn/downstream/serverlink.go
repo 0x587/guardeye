@@ -24,8 +24,6 @@ type serverLink interface {
 }
 type callback func(req *linkclient.LinkCommandDownstream) (*linkclient.LinkCommandUpstream, error)
 
-var linkEndpoint = flag.String("le", "linkgrpc.guardeye.shawnsiu.site:5080", "link endpoint")
-
 type mqttServerLink struct {
 	cid uuid.UUID
 	c   mqtt.Client
@@ -85,10 +83,10 @@ type rpcServerLink struct {
 	cid uuid.UUID
 }
 
-func newRpcServerLink(cid uuid.UUID) (serverLink, error) {
+func newRpcServerLink(cid uuid.UUID, linkEndpoint string) (serverLink, error) {
 	flag.Parse()
 	client, err := zrpc.NewClient(zrpc.RpcClientConf{
-		Target: *linkEndpoint,
+		Target: linkEndpoint,
 	})
 	if err != nil {
 		return nil, err

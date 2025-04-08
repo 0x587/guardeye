@@ -20,6 +20,7 @@ import (
 
 	"github.com/0x587/guardeye/report/report"
 	"github.com/0x587/guardeye/report/reportclient"
+	"github.com/0x587/guardeye/test-client/config"
 	"github.com/0x587/guardeye/test-client/conn/downstream"
 	"github.com/0x587/guardeye/test-client/feature"
 	"github.com/0x587/guardeye/test-client/feature/featuredelay"
@@ -31,10 +32,11 @@ type IF interface {
 	Loop(ctx context.Context)
 }
 
-func New(reportCli zrpc.Client, providers ...provider.IF) IF {
+func New(reportCli zrpc.Client, c config.Config, providers ...provider.IF) IF {
 
 	res := &impl{
 		providers:    providers,
+		c:            c,
 		reportCli:    reportclient.NewReport(reportCli),
 		storage:      storage.New(),
 		featureDelay: featuredelay.New(),
@@ -45,6 +47,7 @@ func New(reportCli zrpc.Client, providers ...provider.IF) IF {
 
 type impl struct {
 	clientID     string
+	c            config.Config
 	storage      storage.IF
 	desc         *reportclient.NodeDescription
 	reportCli    reportclient.Report
@@ -130,7 +133,7 @@ func (i *impl) init(ctx context.Context) error {
 
 	i.clientID = string(cid)
 
-	i.downstream, err = downstream.New(lo.Must(uuid.ParseBytes(cid)))
+	i.downstream, err = downstream.New(lo.Must(uuid.ParseBytes(cid)), i.c)
 	if err != nil {
 		return err
 	}

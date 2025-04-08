@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"log"
 
 	"github.com/kardianos/service"
@@ -28,12 +27,12 @@ func (p *program) Start(s service.Service) error {
 	cfg := config.LoadConfig()
 	ps := provider.New(ctx, cfg.Provider)
 	reportCli, err := zrpc.NewClient(zrpc.RpcClientConf{
-		Target: fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port),
+		Target: cfg.Server,
 	})
 	if err != nil {
 		return err
 	}
-	c := conn.New(reportCli, ps...)
+	c := conn.New(reportCli, cfg, ps...)
 	go c.Loop(ctx)
 	return nil
 }
