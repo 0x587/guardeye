@@ -164,7 +164,7 @@ func (l *rpcServerLink) Init(cb callback) error {
 				go func() {
 					err := func() error {
 						// 创建连接
-						println("make link")
+						logx.Info("make link")
 						link_, err := makeLink()
 						if err != nil {
 							return err
@@ -176,6 +176,7 @@ func (l *rpcServerLink) Init(cb callback) error {
 						return nil
 					}()
 					if err != nil {
+						logx.Error("link fail ", err)
 						_ = limit.Return()
 					}
 				}()

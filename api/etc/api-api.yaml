@@ -11,6 +11,9 @@ RedisConf:
 
 PostgresConf: postgres://postgres:example@ws.scut.mcurobot.com:55432/guardeye?sslmode=disable
 
+Link:
+  Target: linkgrpc.guardeye.shawnsiu.site:5080
+
 HotLogConsumerConf:
   Name: kqConsumer
   Brokers:

@@ -1,12 +1,16 @@
 package svc
 
 import (
+	"context"
+
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	goredis "github.com/redis/go-redis/v9"
 	"github.com/samber/lo"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
+	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -19,6 +23,7 @@ import (
 	"github.com/0x587/guardeye/common/ent"
 	"github.com/0x587/guardeye/common/metricredis"
 	"github.com/0x587/guardeye/foxglove_cdrservice/proto/foxgloveService"
+	"github.com/0x587/guardeye/link/linkclient"
 )
 
 type ServiceContext struct {
@@ -31,12 +36,13 @@ type ServiceContext struct {
 	Es                 *elasticsearch.Client
 	Minio              *minio.Client
 	Redis              *redis.Redis
-	//Mqtt               mqtt.Client
-	CdrCli foxgloveService.FoxgloveServiceClient
+	CdrCli             foxgloveService.FoxgloveServiceClient
+	LinkCli            linkclient.Link
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	db := lo.Must(ent.Open("postgres", c.PostgresConf))
+	logx.Must(db.Schema.Create(context.Background()))
 	redisCli := redis.MustNewRedis(c.RedisConf)
 	wsl := ws.New()
 	es := lo.Must(elasticsearch.NewClient(elasticsearch.Config{
@@ -49,7 +55,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	cdrClient := lo.Must(grpc.NewClient("127.0.0.1:50051",
 		grpc.WithTransportCredentials(insecure.NewCredentials())))
 	cdrCli := foxgloveService.NewFoxgloveServiceClient(cdrClient)
-
+	cli := lo.Must(zrpc.NewClient(c.Link))
 	return &ServiceContext{
 		Db:                 db,
 		Config:             c,
@@ -60,7 +66,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Es:                 es,
 		Minio:              minioCli,
 		Redis:              redisCli,
-		//Mqtt:               mqttCli,
-		CdrCli: cdrCli,
+		LinkCli:            linkclient.NewLink(cli),
+		CdrCli:             cdrCli,
 	}
 }

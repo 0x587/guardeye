@@ -5,4 +5,4 @@ Mode: dev
 DevServer:
   Enabled: true
 
-CdrServiceTarget: localhost:50051
+CdrServiceTarget: foxglove_cdrservice:50051

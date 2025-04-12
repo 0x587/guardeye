@@ -6,6 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/0x587/guardeye/common/eventpool"
 	"github.com/0x587/guardeye/common/foxglovetopb"
@@ -78,12 +81,6 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 		return nil, err
 	}
 
-	listenPool.Invoke(req.GetCid(), &link.AgentListenRsp{
-		IsUpstream: false,
-		Topic:      topic,
-		JsonData:   cdrWriteRsp.GetJsonData(),
-	})
-
 	cdrDataBytes := cdrWriteRsp.GetCdrData()
 	cdrDataBase64 := base64.StdEncoding.EncodeToString(cdrDataBytes)
 
@@ -116,12 +113,25 @@ func (l *LinkCallLogic) LinkCall(req *link.LinkCallReq) (*link.LinkCallRsp, erro
 	if err != nil {
 		return nil, err
 	}
-
-	listenPool.Invoke(req.GetCid(), &link.AgentListenRsp{
-		IsUpstream: true,
-		Topic:      topic,
-		JsonData:   cdrReadRsp.GetJsonData(),
-	})
+	if action == ros.ActionSendTopic {
+		listenPool.Invoke(req.GetCid(), &link.AgentListenRsp{
+			Id:        uuid.New().String(),
+			Timestamp: time.Now().UnixMilli(),
+			Type:      link.AgentListenType_Download,
+			Topic:     topic,
+			Req:       cdrWriteRsp.GetJsonData(),
+		})
+	}
+	if action == ros.ActionCallService {
+		listenPool.Invoke(req.GetCid(), &link.AgentListenRsp{
+			Id:        uuid.New().String(),
+			Timestamp: time.Now().UnixMilli(),
+			Type:      link.AgentListenType_Request,
+			Topic:     topic,
+			Req:       cdrWriteRsp.GetJsonData(),
+			Rsp:       cdrReadRsp.GetJsonData(),
+		})
+	}
 
 	readRspDataStr := base64.StdEncoding.EncodeToString(cdrReadRsp.GetTransData())
 

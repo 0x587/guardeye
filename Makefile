@@ -20,4 +20,6 @@ docker-push:
 	docker push registry.cn-shenzhen.aliyuncs.com/shawnsiu/guardeye:link_$(version) && \
 	docker push registry.cn-shenzhen.aliyuncs.com/shawnsiu/guardeye:foxglove_cdrservice_$(version)
 
+docker-one: docker-build-one docker-push-one
+
 docker: docker-build docker-push

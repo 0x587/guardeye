@@ -134,7 +134,7 @@ message InitRsp{
 
 message HeartbeatReq{
   NodeInfo node_info = 1;
-  uint64 send_at_nano = 2;
+  int64 latency = 2;
 }
 
 message Empty{}

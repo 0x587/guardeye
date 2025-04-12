@@ -428,7 +428,6 @@ func (i *impl) clientMessageData(channelId int, data []byte) error {
 	if _, err := buf.Write(data); err != nil {
 		return err
 	}
-	logx.Infof("send %v to channel %d", buf.Bytes(), channelId)
 	i.connWriteMutex.Lock()
 	defer i.connWriteMutex.Unlock()
 	err := i.conn.WriteMessage(websocket.BinaryMessage, buf.Bytes())
@@ -460,7 +459,6 @@ func (i *impl) clientServiceCallReq(serviceId int, data []byte) (uint32, error) 
 	if _, err := buf.Write(data); err != nil {
 		return 0, err
 	}
-	logx.Infof("send call: %d %v to service %d", callID, buf.Bytes(), serviceId)
 	i.connWriteMutex.Lock()
 	defer i.connWriteMutex.Unlock()
 	err := i.conn.WriteMessage(websocket.BinaryMessage, buf.Bytes())

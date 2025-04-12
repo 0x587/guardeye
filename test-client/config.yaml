@@ -4,3 +4,7 @@ Provider:
   - Type: ticker
     Args:
       Interval: 100000000000
+Bridge:
+  Enable: true
+  Ip: 10.0.4.114
+  Port: 8765

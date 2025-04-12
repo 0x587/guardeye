@@ -9,6 +9,7 @@ import (
 
 	admin "github.com/0x587/guardeye/api/internal/handler/admin"
 	es "github.com/0x587/guardeye/api/internal/handler/es"
+	link "github.com/0x587/guardeye/api/internal/handler/link"
 	"github.com/0x587/guardeye/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -77,5 +78,41 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithPrefix("/api/v1/es"),
 		rest.WithTimeout(100000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/agent/list",
+				Handler: link.AgentListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/get/callback",
+				Handler: link.GetCallbackHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/listen/:cid",
+				Handler: link.LinkListenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/set/callback",
+				Handler: link.SetCallbackHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/type/gen",
+				Handler: link.TypeGenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/type/list",
+				Handler: link.TypeListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1/link"),
 	)
 }

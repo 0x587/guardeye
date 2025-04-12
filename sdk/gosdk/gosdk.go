@@ -14,15 +14,17 @@ import (
 
 type impl struct {
 	cli linkclient.Link
+	cid string
 }
 
-func NewClientConn(target string) grpc.ClientConnInterface {
+func NewClientConn(target string, cid string) grpc.ClientConnInterface {
 	client := lo.Must(zrpc.NewClient(zrpc.RpcClientConf{
 		Target: target,
 	}))
 	cli := linkclient.NewLink(client)
 	return &impl{
 		cli: cli,
+		cid: cid,
 	}
 }
 
@@ -34,7 +36,7 @@ func (i *impl) Invoke(ctx context.Context, method string, args any, reply any, o
 	}
 	pbBase64 := base64.StdEncoding.EncodeToString(pbBytes)
 	callRsp, err := i.cli.LinkCall(ctx, &linkclient.LinkCallReq{
-		Cid:    "106bc8ee-6048-4024-8afb-c294ec8fd559",
+		Cid:    i.cid,
 		Method: method,
 		Data:   pbBase64,
 	})

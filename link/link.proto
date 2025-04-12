@@ -90,10 +90,19 @@ message AgentListenReq{
   string cid = 1;
 }
 
+enum AgentListenType{
+  Upload = 0;
+  Download=1;
+  Request=2;
+}
+
 message AgentListenRsp{
-  bool is_upstream = 1;
-  string topic = 2;
-  string json_data = 3;
+  string id = 1;
+  int64 timestamp = 2;
+  AgentListenType type = 3;
+  string topic = 4;
+  string req = 5;
+  string rsp = 6;
 }
 
 service Link {

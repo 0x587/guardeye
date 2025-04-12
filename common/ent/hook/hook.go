@@ -21,6 +21,18 @@ func (f AgentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AgentMutation", m)
 }
 
+// The CallbackFunc type is an adapter to allow the use of ordinary
+// function as Callback mutator.
+type CallbackFunc func(context.Context, *ent.CallbackMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CallbackFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CallbackMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CallbackMutation", m)
+}
+
 // The ReportFunc type is an adapter to allow the use of ordinary
 // function as Report mutator.
 type ReportFunc func(context.Context, *ent.ReportMutation) (ent.Value, error)

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/0x587/guardeye/common/ent/agent"
+	"github.com/0x587/guardeye/common/ent/callback"
 	"github.com/0x587/guardeye/common/ent/schema"
 	"github.com/0x587/guardeye/common/ent/subscribe"
 )
@@ -30,6 +31,22 @@ func init() {
 	agentDescAlias := agentFields[3].Descriptor()
 	// agent.DefaultAlias holds the default value on creation for the alias field.
 	agent.DefaultAlias = agentDescAlias.Default.(string)
+	callbackFields := schema.Callback{}.Fields()
+	_ = callbackFields
+	// callbackDescCreateAt is the schema descriptor for create_at field.
+	callbackDescCreateAt := callbackFields[1].Descriptor()
+	// callback.DefaultCreateAt holds the default value on creation for the create_at field.
+	callback.DefaultCreateAt = callbackDescCreateAt.Default.(func() time.Time)
+	// callbackDescUpdateAt is the schema descriptor for update_at field.
+	callbackDescUpdateAt := callbackFields[2].Descriptor()
+	// callback.DefaultUpdateAt holds the default value on creation for the update_at field.
+	callback.DefaultUpdateAt = callbackDescUpdateAt.Default.(func() time.Time)
+	// callback.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	callback.UpdateDefaultUpdateAt = callbackDescUpdateAt.UpdateDefault.(func() time.Time)
+	// callbackDescCfg is the schema descriptor for cfg field.
+	callbackDescCfg := callbackFields[3].Descriptor()
+	// callback.DefaultCfg holds the default value on creation for the cfg field.
+	callback.DefaultCfg = callbackDescCfg.Default.(string)
 	subscribeFields := schema.Subscribe{}.Fields()
 	_ = subscribeFields
 	// subscribeDescEnable is the schema descriptor for enable field.

@@ -15,6 +15,7 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"github.com/0x587/guardeye/common/ent/agent"
+	"github.com/0x587/guardeye/common/ent/callback"
 	"github.com/0x587/guardeye/common/ent/report"
 	"github.com/0x587/guardeye/common/ent/subscribe"
 )
@@ -26,6 +27,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// Agent is the client for interacting with the Agent builders.
 	Agent *AgentClient
+	// Callback is the client for interacting with the Callback builders.
+	Callback *CallbackClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// Subscribe is the client for interacting with the Subscribe builders.
@@ -42,6 +45,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Agent = NewAgentClient(c.config)
+	c.Callback = NewCallbackClient(c.config)
 	c.Report = NewReportClient(c.config)
 	c.Subscribe = NewSubscribeClient(c.config)
 }
@@ -137,6 +141,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:       ctx,
 		config:    cfg,
 		Agent:     NewAgentClient(cfg),
+		Callback:  NewCallbackClient(cfg),
 		Report:    NewReportClient(cfg),
 		Subscribe: NewSubscribeClient(cfg),
 	}, nil
@@ -159,6 +164,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:       ctx,
 		config:    cfg,
 		Agent:     NewAgentClient(cfg),
+		Callback:  NewCallbackClient(cfg),
 		Report:    NewReportClient(cfg),
 		Subscribe: NewSubscribeClient(cfg),
 	}, nil
@@ -190,6 +196,7 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.Agent.Use(hooks...)
+	c.Callback.Use(hooks...)
 	c.Report.Use(hooks...)
 	c.Subscribe.Use(hooks...)
 }
@@ -198,6 +205,7 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.Agent.Intercept(interceptors...)
+	c.Callback.Intercept(interceptors...)
 	c.Report.Intercept(interceptors...)
 	c.Subscribe.Intercept(interceptors...)
 }
@@ -207,6 +215,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *AgentMutation:
 		return c.Agent.mutate(ctx, m)
+	case *CallbackMutation:
+		return c.Callback.mutate(ctx, m)
 	case *ReportMutation:
 		return c.Report.mutate(ctx, m)
 	case *SubscribeMutation:
@@ -346,6 +356,139 @@ func (c *AgentClient) mutate(ctx context.Context, m *AgentMutation) (Value, erro
 		return (&AgentDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Agent mutation op: %q", m.Op())
+	}
+}
+
+// CallbackClient is a client for the Callback schema.
+type CallbackClient struct {
+	config
+}
+
+// NewCallbackClient returns a client for the Callback from the given config.
+func NewCallbackClient(c config) *CallbackClient {
+	return &CallbackClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `callback.Hooks(f(g(h())))`.
+func (c *CallbackClient) Use(hooks ...Hook) {
+	c.hooks.Callback = append(c.hooks.Callback, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `callback.Intercept(f(g(h())))`.
+func (c *CallbackClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Callback = append(c.inters.Callback, interceptors...)
+}
+
+// Create returns a builder for creating a Callback entity.
+func (c *CallbackClient) Create() *CallbackCreate {
+	mutation := newCallbackMutation(c.config, OpCreate)
+	return &CallbackCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Callback entities.
+func (c *CallbackClient) CreateBulk(builders ...*CallbackCreate) *CallbackCreateBulk {
+	return &CallbackCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *CallbackClient) MapCreateBulk(slice any, setFunc func(*CallbackCreate, int)) *CallbackCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &CallbackCreateBulk{err: fmt.Errorf("calling to CallbackClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*CallbackCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &CallbackCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Callback.
+func (c *CallbackClient) Update() *CallbackUpdate {
+	mutation := newCallbackMutation(c.config, OpUpdate)
+	return &CallbackUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *CallbackClient) UpdateOne(ca *Callback) *CallbackUpdateOne {
+	mutation := newCallbackMutation(c.config, OpUpdateOne, withCallback(ca))
+	return &CallbackUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *CallbackClient) UpdateOneID(id int) *CallbackUpdateOne {
+	mutation := newCallbackMutation(c.config, OpUpdateOne, withCallbackID(id))
+	return &CallbackUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Callback.
+func (c *CallbackClient) Delete() *CallbackDelete {
+	mutation := newCallbackMutation(c.config, OpDelete)
+	return &CallbackDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *CallbackClient) DeleteOne(ca *Callback) *CallbackDeleteOne {
+	return c.DeleteOneID(ca.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *CallbackClient) DeleteOneID(id int) *CallbackDeleteOne {
+	builder := c.Delete().Where(callback.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &CallbackDeleteOne{builder}
+}
+
+// Query returns a query builder for Callback.
+func (c *CallbackClient) Query() *CallbackQuery {
+	return &CallbackQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeCallback},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Callback entity by its id.
+func (c *CallbackClient) Get(ctx context.Context, id int) (*Callback, error) {
+	return c.Query().Where(callback.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *CallbackClient) GetX(ctx context.Context, id int) *Callback {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *CallbackClient) Hooks() []Hook {
+	return c.hooks.Callback
+}
+
+// Interceptors returns the client interceptors.
+func (c *CallbackClient) Interceptors() []Interceptor {
+	return c.inters.Callback
+}
+
+func (c *CallbackClient) mutate(ctx context.Context, m *CallbackMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&CallbackCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&CallbackUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&CallbackUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&CallbackDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Callback mutation op: %q", m.Op())
 	}
 }
 
@@ -618,9 +761,9 @@ func (c *SubscribeClient) mutate(ctx context.Context, m *SubscribeMutation) (Val
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Agent, Report, Subscribe []ent.Hook
+		Agent, Callback, Report, Subscribe []ent.Hook
 	}
 	inters struct {
-		Agent, Report, Subscribe []ent.Interceptor
+		Agent, Callback, Report, Subscribe []ent.Interceptor
 	}
 )

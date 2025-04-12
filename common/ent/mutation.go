@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/0x587/guardeye/common/ent/agent"
+	"github.com/0x587/guardeye/common/ent/callback"
 	"github.com/0x587/guardeye/common/ent/predicate"
 	"github.com/0x587/guardeye/common/ent/report"
 	"github.com/0x587/guardeye/common/ent/subscribe"
@@ -28,6 +29,7 @@ const (
 
 	// Node types.
 	TypeAgent     = "Agent"
+	TypeCallback  = "Callback"
 	TypeReport    = "Report"
 	TypeSubscribe = "Subscribe"
 )
@@ -1036,6 +1038,494 @@ func (m *AgentMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *AgentMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Agent edge %s", name)
+}
+
+// CallbackMutation represents an operation that mutates the Callback nodes in the graph.
+type CallbackMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	client_id     *uuid.UUID
+	create_at     *time.Time
+	update_at     *time.Time
+	cfg           *string
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Callback, error)
+	predicates    []predicate.Callback
+}
+
+var _ ent.Mutation = (*CallbackMutation)(nil)
+
+// callbackOption allows management of the mutation configuration using functional options.
+type callbackOption func(*CallbackMutation)
+
+// newCallbackMutation creates new mutation for the Callback entity.
+func newCallbackMutation(c config, op Op, opts ...callbackOption) *CallbackMutation {
+	m := &CallbackMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeCallback,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withCallbackID sets the ID field of the mutation.
+func withCallbackID(id int) callbackOption {
+	return func(m *CallbackMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Callback
+		)
+		m.oldValue = func(ctx context.Context) (*Callback, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Callback.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withCallback sets the old Callback of the mutation.
+func withCallback(node *Callback) callbackOption {
+	return func(m *CallbackMutation) {
+		m.oldValue = func(context.Context) (*Callback, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m CallbackMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m CallbackMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *CallbackMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *CallbackMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Callback.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetClientID sets the "client_id" field.
+func (m *CallbackMutation) SetClientID(u uuid.UUID) {
+	m.client_id = &u
+}
+
+// ClientID returns the value of the "client_id" field in the mutation.
+func (m *CallbackMutation) ClientID() (r uuid.UUID, exists bool) {
+	v := m.client_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClientID returns the old "client_id" field's value of the Callback entity.
+// If the Callback object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CallbackMutation) OldClientID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClientID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClientID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClientID: %w", err)
+	}
+	return oldValue.ClientID, nil
+}
+
+// ResetClientID resets all changes to the "client_id" field.
+func (m *CallbackMutation) ResetClientID() {
+	m.client_id = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *CallbackMutation) SetCreateAt(t time.Time) {
+	m.create_at = &t
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *CallbackMutation) CreateAt() (r time.Time, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the Callback entity.
+// If the Callback object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CallbackMutation) OldCreateAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *CallbackMutation) ResetCreateAt() {
+	m.create_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *CallbackMutation) SetUpdateAt(t time.Time) {
+	m.update_at = &t
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *CallbackMutation) UpdateAt() (r time.Time, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the Callback entity.
+// If the Callback object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CallbackMutation) OldUpdateAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *CallbackMutation) ResetUpdateAt() {
+	m.update_at = nil
+}
+
+// SetCfg sets the "cfg" field.
+func (m *CallbackMutation) SetCfg(s string) {
+	m.cfg = &s
+}
+
+// Cfg returns the value of the "cfg" field in the mutation.
+func (m *CallbackMutation) Cfg() (r string, exists bool) {
+	v := m.cfg
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCfg returns the old "cfg" field's value of the Callback entity.
+// If the Callback object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CallbackMutation) OldCfg(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCfg is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCfg requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCfg: %w", err)
+	}
+	return oldValue.Cfg, nil
+}
+
+// ResetCfg resets all changes to the "cfg" field.
+func (m *CallbackMutation) ResetCfg() {
+	m.cfg = nil
+}
+
+// Where appends a list predicates to the CallbackMutation builder.
+func (m *CallbackMutation) Where(ps ...predicate.Callback) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the CallbackMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *CallbackMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Callback, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *CallbackMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *CallbackMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Callback).
+func (m *CallbackMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *CallbackMutation) Fields() []string {
+	fields := make([]string, 0, 4)
+	if m.client_id != nil {
+		fields = append(fields, callback.FieldClientID)
+	}
+	if m.create_at != nil {
+		fields = append(fields, callback.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, callback.FieldUpdateAt)
+	}
+	if m.cfg != nil {
+		fields = append(fields, callback.FieldCfg)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *CallbackMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case callback.FieldClientID:
+		return m.ClientID()
+	case callback.FieldCreateAt:
+		return m.CreateAt()
+	case callback.FieldUpdateAt:
+		return m.UpdateAt()
+	case callback.FieldCfg:
+		return m.Cfg()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *CallbackMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case callback.FieldClientID:
+		return m.OldClientID(ctx)
+	case callback.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case callback.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case callback.FieldCfg:
+		return m.OldCfg(ctx)
+	}
+	return nil, fmt.Errorf("unknown Callback field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CallbackMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case callback.FieldClientID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClientID(v)
+		return nil
+	case callback.FieldCreateAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case callback.FieldUpdateAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case callback.FieldCfg:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCfg(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Callback field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *CallbackMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *CallbackMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CallbackMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown Callback numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *CallbackMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *CallbackMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *CallbackMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown Callback nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *CallbackMutation) ResetField(name string) error {
+	switch name {
+	case callback.FieldClientID:
+		m.ResetClientID()
+		return nil
+	case callback.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case callback.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case callback.FieldCfg:
+		m.ResetCfg()
+		return nil
+	}
+	return fmt.Errorf("unknown Callback field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *CallbackMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *CallbackMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *CallbackMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *CallbackMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *CallbackMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *CallbackMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *CallbackMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Callback unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *CallbackMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Callback edge %s", name)
 }
 
 // ReportMutation represents an operation that mutates the Report nodes in the graph.

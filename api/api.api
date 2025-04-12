@@ -92,6 +92,85 @@ service api-api {
 	get /ws/listen
 }
 
+type (
+	TypeListReq {
+		cid string `json:"cid"`
+	}
+	TypeListRsp {
+		messages []string `json:"messages"`
+		services []string `json:"services"`
+	}
+	TypeGenReq {
+		cid string `json:"cid"`
+	}
+	TypeGenRsp {
+		pb map[string]string `json:"pb"`
+	}
+	AgentListReq  {}
+	AgentListRsp {
+		agents map[string]string `json:"agents"`
+	}
+	LinkListenReq {
+		cid string `path:"cid"`
+	}
+)
+
+type (
+	CallbackItem {
+		url     string            `json:"url"`
+		method  string            `json:"method"`
+		headers map[string]string `json:"headers"`
+		enabled bool              `json:"enabled"`
+	}
+	DataCallbackItem {
+		id           string            `json:"id"`
+		url          string            `json:"url"`
+		method       string            `json:"method"`
+		headers      map[string]string `json:"headers"`
+		enabled      bool              `json:"enabled"`
+		topicPattern string            `json:"topicPattern"`
+	}
+	BasicCallbackConfig {
+		online  CallbackItem `json:"online"`
+		offline CallbackItem `json:"offline"`
+	}
+	CallbackConfig {
+		basic BasicCallbackConfig `json:"basic"`
+		data  []DataCallbackItem  `json:"data"`
+	}
+	GetCallbackReq {
+		cid string `json:"cid"`
+	}
+	SetCallbackReq {
+		cid    string         `json:"cid"`
+		config CallbackConfig `json:"config"`
+	}
+)
+
+@server (
+	prefix: /api/v1/link
+	group:  link
+)
+service api-api {
+	@handler TypeListHandler
+	post /type/list (TypeListReq) returns (TypeListRsp)
+
+	@handler TypeGenHandler
+	post /type/gen (TypeGenReq) returns (TypeGenRsp)
+
+	@handler AgentListHandler
+	post /agent/list (AgentListReq) returns (AgentListRsp)
+
+	@handler LinkListenHandler
+	get /listen/:cid (LinkListenReq)
+
+	@handler GetCallbackHandler
+	post /get/callback (GetCallbackReq) returns (CallbackConfig)
+
+	@handler SetCallbackHandler
+	post /set/callback (SetCallbackReq) returns (CallbackConfig)
+}
+
 //type (
 // MetricQuery {
 //  Type      string         `json:"type,options=Number|String"`

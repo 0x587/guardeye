@@ -2,7 +2,9 @@ package logic
 
 import (
 	"context"
+	"slices"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/samber/lo"
@@ -49,6 +51,9 @@ func (l *NodesLogic) Nodes(req *types.NodesReq) (resp *types.NodesRsp, err error
 			Disk:   n.Disk,
 			UpTime: n.Uptime,
 		}
+		if res.Name == "" {
+			res.Name = "Unknown Node"
+		}
 		seen, err := l.svcCtx.Redis.GetCtx(l.ctx, rediskey.SeeAtKey(&report.NodeInfo{ClientId: n.ClientID.String()}))
 		if err == nil {
 			parseInt, _ := strconv.ParseInt(seen, 10, 64)
@@ -63,6 +68,7 @@ func (l *NodesLogic) Nodes(req *types.NodesReq) (resp *types.NodesRsp, err error
 			logx.Error(err)
 		}
 		latency, err := l.svcCtx.Redis.GetCtx(l.ctx, rediskey.LatencyKey(&report.NodeInfo{ClientId: n.ClientID.String()}))
+		logx.Info(latency)
 		if err == nil {
 			lat, _ := strconv.ParseUint(latency, 10, 64)
 			res.Latency = int(lat)
@@ -85,6 +91,9 @@ func (l *NodesLogic) Nodes(req *types.NodesReq) (resp *types.NodesRsp, err error
 			return len(item) > 0
 		}))
 		return item
+	})
+	slices.SortFunc(nodes, func(a, b types.NodeInfo) int {
+		return strings.Compare(a.NodeId, b.NodeId)
 	})
 	resp = &types.NodesRsp{
 		Nodes: nodes,

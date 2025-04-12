@@ -55,7 +55,7 @@ func (l *HeartbeatLogic) Heartbeat(in *report.HeartbeatReq) (*report.Empty, erro
 		return nil, err
 	}
 	err = l.svcCtx.RedisClient.SetCtx(l.ctx, rediskey.LatencyKey(nodeInfo),
-		strconv.FormatUint(uint64(time.Now().UnixNano())-in.GetSendAtNano(), 10))
+		strconv.FormatUint(uint64(in.GetLatency()), 10))
 	if err != nil {
 		return nil, err
 	}

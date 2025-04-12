@@ -24,12 +24,15 @@ func New(cid uuid.UUID, c config.Config) (IF, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	var rosImpl ros.IF
+	if c.Bridge.Enable {
+		rosImpl = implfg.New(c.Bridge.Ip, c.Bridge.Port)
+	}
 	res := &mqttImpl{
 		ctx:        ctx,
 		cancelFunc: cancelFunc,
 		cid:        cid.String(),
-		rosImpl:    implfg.New("127.0.0.1", 8765),
+		rosImpl:    rosImpl,
 	}
 	if err := sLink.Init(res.callback); err != nil {
 		return nil, err
@@ -64,6 +67,7 @@ func (i *mqttImpl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.
 			rsp.Ok = true
 			rsp.CdrData = base64.StdEncoding.EncodeToString(res)
 		}
+		logx.Info("reply ", rsp)
 	}
 	if req.GetPayloadRosList() != nil {
 		res, err := i.rosImpl.List(req.GetPayloadRosList())
@@ -87,7 +91,7 @@ func (i *mqttImpl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.
 			rsp.TypeGenResult = typeResult
 		}
 	}
-	logx.Info("reply ", rsp)
+
 	return rsp, nil
 }
 

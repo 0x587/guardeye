@@ -9,6 +9,39 @@ type AdminStatusReq struct {
 type AdminStatusRsp struct {
 }
 
+type AgentListReq struct {
+}
+
+type AgentListRsp struct {
+	Agents map[string]string `json:"agents"`
+}
+
+type BasicCallbackConfig struct {
+	Online  CallbackItem `json:"online"`
+	Offline CallbackItem `json:"offline"`
+}
+
+type CallbackConfig struct {
+	Basic BasicCallbackConfig `json:"basic"`
+	Data  []DataCallbackItem  `json:"data"`
+}
+
+type CallbackItem struct {
+	Url     string            `json:"url"`
+	Method  string            `json:"method"`
+	Headers map[string]string `json:"headers"`
+	Enabled bool              `json:"enabled"`
+}
+
+type DataCallbackItem struct {
+	Id           string            `json:"id"`
+	Url          string            `json:"url"`
+	Method       string            `json:"method"`
+	Headers      map[string]string `json:"headers"`
+	Enabled      bool              `json:"enabled"`
+	TopicPattern string            `json:"topicPattern"`
+}
+
 type EsExportReq struct {
 	Query      string `json:"query"`
 	TraceError bool   `json:"traceError,optional"`
@@ -56,12 +89,20 @@ type EsTaskStatusRsp struct {
 	Link    string `json:"link"`
 }
 
+type GetCallbackReq struct {
+	Cid string `json:"cid"`
+}
+
 type GetDataKeysReq struct {
 	Id string `path:"id"`
 }
 
 type GetDataKeysRsp struct {
 	Keys []ProviderKeys `json:"keys"`
+}
+
+type LinkListenReq struct {
+	Cid string `path:"cid"`
 }
 
 type LogQuery struct {
@@ -127,9 +168,31 @@ type SetAliasRsp struct {
 	Ok bool `json:"ok"`
 }
 
+type SetCallbackReq struct {
+	Cid    string         `json:"cid"`
+	Config CallbackConfig `json:"config"`
+}
+
 type SetListenReq struct {
 	SessionId  string     `json:"sessionId"`
 	LogQueries []LogQuery `json:"logQueries"`
+}
+
+type TypeGenReq struct {
+	Cid string `json:"cid"`
+}
+
+type TypeGenRsp struct {
+	Pb map[string]string `json:"pb"`
+}
+
+type TypeListReq struct {
+	Cid string `json:"cid"`
+}
+
+type TypeListRsp struct {
+	Messages []string `json:"messages"`
+	Services []string `json:"services"`
 }
 
 type WsInitRsp struct {

@@ -3,9 +3,10 @@ package handler
 import (
 	"net/http"
 
+	"github.com/zeromicro/go-zero/rest/httpx"
+
 	"github.com/0x587/guardeye/api/internal/logic"
 	"github.com/0x587/guardeye/api/internal/svc"
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func WsListenHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

@@ -14,6 +14,8 @@ type Tx struct {
 	config
 	// Agent is the client for interacting with the Agent builders.
 	Agent *AgentClient
+	// Callback is the client for interacting with the Callback builders.
+	Callback *CallbackClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// Subscribe is the client for interacting with the Subscribe builders.
@@ -150,6 +152,7 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Agent = NewAgentClient(tx.config)
+	tx.Callback = NewCallbackClient(tx.config)
 	tx.Report = NewReportClient(tx.config)
 	tx.Subscribe = NewSubscribeClient(tx.config)
 }

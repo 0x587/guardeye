@@ -141,18 +141,21 @@ func (i *impl) init(ctx context.Context) error {
 	logx.Infof("client id: %v", i.clientID)
 	heartbeatTicker := time.NewTicker(time.Second)
 	go func() {
+		latency := int64(-1)
 		for {
 			select {
 			case <-ctx.Done():
 				return
 			case <-heartbeatTicker.C:
+				sendAt := time.Now().UnixNano()
 				_, _ = i.reportCli.Heartbeat(ctx, &reportclient.HeartbeatReq{
 					NodeInfo: &reportclient.NodeInfo{
 						ClientId:        i.clientID,
 						NodeDescription: i.getNodeDesc(),
 					},
-					SendAtNano: uint64(time.Now().UnixNano()),
+					Latency: latency,
 				})
+				latency = time.Now().UnixNano() - sendAt
 			}
 		}
 	}()
