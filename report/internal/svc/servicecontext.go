@@ -13,6 +13,7 @@ import (
 	"github.com/0x587/guardeye/common/datakeyredis"
 	"github.com/0x587/guardeye/common/delayredis"
 	"github.com/0x587/guardeye/common/ent"
+	"github.com/0x587/guardeye/common/httpcb"
 	"github.com/0x587/guardeye/common/metricredis"
 	"github.com/0x587/guardeye/report/internal/config"
 )
@@ -26,12 +27,14 @@ type ServiceContext struct {
 	DelayRedisClient        delayredis.IF
 	MetricRedisClient       metricredis.IF
 	Db                      *ent.Client
+	HttpCallback            httpcb.IF
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	redisCli := redis.MustNewRedis(c.ReportRedis)
 	db := lo.Must(ent.Open(c.PostgresConf.Driver, c.PostgresConf.Dsn))
 	logx.Must(db.Schema.Create(context.Background()))
+	httpCallback := httpcb.New(db)
 	return &ServiceContext{
 		Config: c,
 		RawLogPusherClient: kq.NewPusher(
@@ -47,5 +50,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		DelayRedisClient:   delayredis.New(redisCli),
 		MetricRedisClient:  metricredis.New(goredis.NewClient(&goredis.Options{Addr: c.ReportRedis.Host})),
 		Db:                 db,
+		HttpCallback:       httpCallback,
 	}
 }
