@@ -1,59 +1,71 @@
 syntax = "proto3";
 option go_package = "./pb";
-import "pkg_b.proto";
-import "pkg_c.proto";
 import "rcl_interfaces.proto";
-import "builtin_interfaces.proto";
-import "shawn_define.proto";
-import "std_msgs.proto";
-import "pkg_d.proto";
-import "pkg_a.proto";
+import "robot_bridge_interfaces.proto";
+import "geometry_msgs.proto";
 
 service Api {
-	// topic: /parameter_events
-	rpc PublishTopicParameter_events(rcl_interfaces.ParameterEvent) returns (rcl_interfaces.ParameterEvent);
-	// topic: /rosout
-	rpc PublishTopicRosout(rcl_interfaces.Log) returns (rcl_interfaces.Log);
-	// topic: /chatter
-	rpc PublishTopicChatter(std_msgs.String) returns (std_msgs.String);
-	// service: /listener/describe_parameters
-	rpc CallServiceListenerDescribe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
-	// service: /listener/get_parameters
-	rpc CallServiceListenerGet_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
-	// service: /service_server_02/set_parameters
-	rpc CallServiceService_server_02Set_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
-	// service: /service_server_02/get_parameters
-	rpc CallServiceService_server_02Get_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
-	// service: /service_server_02/get_parameter_types
-	rpc CallServiceService_server_02Get_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
-	// service: /foxglove_bridge/set_parameters_atomically
-	rpc CallServiceFoxglove_bridgeSet_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
-	// service: /service_server_02/describe_parameters
-	rpc CallServiceService_server_02Describe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
-	// service: /listener/list_parameters
-	rpc CallServiceListenerList_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
-	// service: /foxglove_bridge/get_parameter_types
-	rpc CallServiceFoxglove_bridgeGet_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
-	// service: /add_two_ints_srv
-	rpc CallServiceAdd_two_ints_srv(shawn_define.AddReq) returns (shawn_define.AddRsp);
-	// service: /get_person
-	rpc CallServiceGet_person(pkg_d.GetPersonReq) returns (pkg_d.GetPersonRsp);
-	// service: /listener/get_parameter_types
-	rpc CallServiceListenerGet_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
-	// service: /foxglove_bridge/list_parameters
-	rpc CallServiceFoxglove_bridgeList_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
-	// service: /listener/set_parameters_atomically
-	rpc CallServiceListenerSet_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
-	// service: /foxglove_bridge/set_parameters
-	rpc CallServiceFoxglove_bridgeSet_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
-	// service: /service_server_02/list_parameters
-	rpc CallServiceService_server_02List_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
-	// service: /foxglove_bridge/describe_parameters
-	rpc CallServiceFoxglove_bridgeDescribe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
-	// service: /service_server_02/set_parameters_atomically
-	rpc CallServiceService_server_02Set_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
-	// service: /foxglove_bridge/get_parameters
-	rpc CallServiceFoxglove_bridgeGet_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
-	// service: /listener/set_parameters
-	rpc CallServiceListenerSet_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
+	// topic: /arebot_unload/robot_bridge/robot_state
+	rpc PublishTopicArebot_unloadRobot_bridgeRobot_state(robot_bridge_interfaces.RobotState) returns (robot_bridge_interfaces.RobotState);
+	rpc SubscribeTopicArebot_unloadRobot_bridgeRobot_state(robot_bridge_interfaces.RobotState) returns (stream robot_bridge_interfaces.RobotState);
+	// topic: /arebot_transport/robot_bridge/robot_state
+	rpc PublishTopicArebot_transportRobot_bridgeRobot_state(robot_bridge_interfaces.RobotState) returns (robot_bridge_interfaces.RobotState);
+	rpc SubscribeTopicArebot_transportRobot_bridgeRobot_state(robot_bridge_interfaces.RobotState) returns (stream robot_bridge_interfaces.RobotState);
+	// topic: /arebot_load/robot_bridge/robot_state
+	rpc PublishTopicArebot_loadRobot_bridgeRobot_state(robot_bridge_interfaces.RobotState) returns (robot_bridge_interfaces.RobotState);
+	rpc SubscribeTopicArebot_loadRobot_bridgeRobot_state(robot_bridge_interfaces.RobotState) returns (stream robot_bridge_interfaces.RobotState);
+	// service: /arebot_load/robot_bridge/describe_parameters
+	rpc CallServiceArebot_loadRobot_bridgeDescribe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
+	// service: /arebot_load/robot_bridge/get_parameters
+	rpc CallServiceArebot_loadRobot_bridgeGet_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
+	// service: /arebot_load/robot_bridge/list_parameters
+	rpc CallServiceArebot_loadRobot_bridgeList_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
+	// service: /arebot_load/robot_bridge/start_pick_and_load
+	rpc CallServiceArebot_loadRobot_bridgeStart_pick_and_load(robot_bridge_interfaces.StartPickAndLoadReq) returns (robot_bridge_interfaces.StartPickAndLoadRsp);
+	// service: /arebot_transport/robot_bridge/get_state
+	rpc CallServiceArebot_transportRobot_bridgeGet_state(robot_bridge_interfaces.GetStateReq) returns (robot_bridge_interfaces.GetStateRsp);
+	// service: /arebot_transport/robot_bridge/set_parameters
+	rpc CallServiceArebot_transportRobot_bridgeSet_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
+	// service: /arebot_load/robot_bridge/start_nav_to_pose
+	rpc CallServiceArebot_loadRobot_bridgeStart_nav_to_pose(robot_bridge_interfaces.StartNavToPoseReq) returns (robot_bridge_interfaces.StartNavToPoseRsp);
+	// service: /arebot_unload/robot_bridge/start_unload_and_place
+	rpc CallServiceArebot_unloadRobot_bridgeStart_unload_and_place(robot_bridge_interfaces.StartUnloadAndPlaceReq) returns (robot_bridge_interfaces.StartUnloadAndPlaceRsp);
+	// service: /arebot_unload/robot_bridge/set_parameters
+	rpc CallServiceArebot_unloadRobot_bridgeSet_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
+	// service: /arebot_unload/robot_bridge/list_parameters
+	rpc CallServiceArebot_unloadRobot_bridgeList_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
+	// service: /arebot_unload/robot_bridge/get_parameter_types
+	rpc CallServiceArebot_unloadRobot_bridgeGet_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
+	// service: /arebot_transport/robot_bridge/describe_parameters
+	rpc CallServiceArebot_transportRobot_bridgeDescribe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
+	// service: /arebot_load/robot_bridge/set_parameters_atomically
+	rpc CallServiceArebot_loadRobot_bridgeSet_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
+	// service: /arebot_load/robot_bridge/get_parameter_types
+	rpc CallServiceArebot_loadRobot_bridgeGet_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
+	// service: /arebot_unload/robot_bridge/start_nav_to_pose
+	rpc CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose(robot_bridge_interfaces.StartNavToPoseReq) returns (robot_bridge_interfaces.StartNavToPoseRsp);
+	// service: /arebot_transport/robot_bridge/start_transport
+	rpc CallServiceArebot_transportRobot_bridgeStart_transport(robot_bridge_interfaces.StartTransportReq) returns (robot_bridge_interfaces.StartTransportRsp);
+	// service: /arebot_transport/robot_bridge/set_parameters_atomically
+	rpc CallServiceArebot_transportRobot_bridgeSet_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
+	// service: /arebot_load/robot_bridge/get_state
+	rpc CallServiceArebot_loadRobot_bridgeGet_state(robot_bridge_interfaces.GetStateReq) returns (robot_bridge_interfaces.GetStateRsp);
+	// service: /arebot_unload/robot_bridge/describe_parameters
+	rpc CallServiceArebot_unloadRobot_bridgeDescribe_parameters(rcl_interfaces.DescribeParametersReq) returns (rcl_interfaces.DescribeParametersRsp);
+	// service: /arebot_load/robot_bridge/set_parameters
+	rpc CallServiceArebot_loadRobot_bridgeSet_parameters(rcl_interfaces.SetParametersReq) returns (rcl_interfaces.SetParametersRsp);
+	// service: /arebot_unload/robot_bridge/get_state
+	rpc CallServiceArebot_unloadRobot_bridgeGet_state(robot_bridge_interfaces.GetStateReq) returns (robot_bridge_interfaces.GetStateRsp);
+	// service: /arebot_transport/robot_bridge/get_parameter_types
+	rpc CallServiceArebot_transportRobot_bridgeGet_parameter_types(rcl_interfaces.GetParameterTypesReq) returns (rcl_interfaces.GetParameterTypesRsp);
+	// service: /arebot_transport/robot_bridge/get_parameters
+	rpc CallServiceArebot_transportRobot_bridgeGet_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
+	// service: /arebot_unload/robot_bridge/get_parameters
+	rpc CallServiceArebot_unloadRobot_bridgeGet_parameters(rcl_interfaces.GetParametersReq) returns (rcl_interfaces.GetParametersRsp);
+	// service: /arebot_unload/robot_bridge/set_parameters_atomically
+	rpc CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically(rcl_interfaces.SetParametersAtomicallyReq) returns (rcl_interfaces.SetParametersAtomicallyRsp);
+	// service: /arebot_transport/robot_bridge/list_parameters
+	rpc CallServiceArebot_transportRobot_bridgeList_parameters(rcl_interfaces.ListParametersReq) returns (rcl_interfaces.ListParametersRsp);
+	// service: /arebot_transport/robot_bridge/start_nav_to_pose
+	rpc CallServiceArebot_transportRobot_bridgeStart_nav_to_pose(robot_bridge_interfaces.StartNavToPoseReq) returns (robot_bridge_interfaces.StartNavToPoseRsp);
 }

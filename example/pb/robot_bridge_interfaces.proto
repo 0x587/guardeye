@@ -1,0 +1,150 @@
+syntax = "proto3";
+package robot_bridge_interfaces;
+option go_package = "./pb";
+import "geometry_msgs.proto";
+
+message StartTransportReq {
+	geometry_msgs.Pose pose = 1;
+}
+
+message StartPickAndLoadRsp {
+	bool success = 1;
+	string message = 2;
+	string task_name = 3;
+}
+
+message StartUnloadAndPlaceRsp {
+	bool success = 1;
+	string message = 2;
+	string task_name = 3;
+}
+
+message StartNavToPoseReq {
+	geometry_msgs.Pose pose = 1;
+}
+
+message GetStateRsp {
+	bool success = 1;
+	string message = 2;
+	string robot_name = 3;
+	string robot_type = 4;
+	bool is_working = 5;
+	string task_name = 6;
+	bool task_success = 7;
+	string task_message = 8;
+	double position_x = 9;
+	double position_y = 10;
+	double position_z = 11;
+	double orientation_x = 12;
+	double orientation_y = 13;
+	double orientation_z = 14;
+	double orientation_w = 15;
+	double motor1_joint_angle = 16;
+	double motor2_joint_angle = 17;
+	double motor3_joint_angle = 18;
+	double end_joint_angle = 19;
+	double odom_position_x = 20;
+	double odom_position_x_uncertainty = 21;
+	double odom_position_y = 22;
+	double odom_position_y_uncertainty = 23;
+	double odom_position_z = 24;
+	double odom_position_z_uncertainty = 25;
+	double odom_orientation_x = 26;
+	double odom_orientation_x_uncertainty = 27;
+	double odom_orientation_y = 28;
+	double odom_orientation_y_uncertainty = 29;
+	double odom_orientation_z = 30;
+	double odom_orientation_z_uncertainty = 31;
+	double odom_orientation_w = 32;
+	double odom_orientation_w_uncertainty = 33;
+	double linear_velocity_x = 34;
+	double linear_velocity_x_uncertainty = 35;
+	double linear_velocity_y = 36;
+	double linear_velocity_y_uncertainty = 37;
+	double linear_velocity_z = 38;
+	double linear_velocity_z_uncertainty = 39;
+	double angular_velocity_roll = 40;
+	double angular_velocity_roll_uncertainty = 41;
+	double angular_velocity_pitch = 42;
+	double angular_velocity_pitch_uncertainty = 43;
+	double angular_velocity_yaw = 44;
+	double angular_velocity_yaw_uncertainty = 45;
+}
+
+message StartUnloadAndPlaceReq {
+	string item_name = 1;
+	double unload_position_x = 2;
+	double unload_position_y = 3;
+	double shelf_position_x = 4;
+	double shelf_position_y = 5;
+}
+
+message StartNavToPoseRsp {
+	bool success = 1;
+	string message = 2;
+	string task_name = 3;
+}
+
+message StartTransportRsp {
+	bool success = 1;
+	string message = 2;
+	string task_name = 3;
+}
+
+message RobotState {
+	string robot_name = 1;
+	string robot_type = 2;
+	bool is_working = 3;
+	string task_name = 4;
+	bool task_success = 5;
+	string task_message = 6;
+	double position_x = 7;
+	double position_y = 8;
+	double position_z = 9;
+	double orientation_x = 10;
+	double orientation_y = 11;
+	double orientation_z = 12;
+	double orientation_w = 13;
+	double motor1_joint_angle = 14;
+	double motor2_joint_angle = 15;
+	double motor3_joint_angle = 16;
+	double end_joint_angle = 17;
+	double odom_position_x = 18;
+	double odom_position_x_uncertainty = 19;
+	double odom_position_y = 20;
+	double odom_position_y_uncertainty = 21;
+	double odom_position_z = 22;
+	double odom_position_z_uncertainty = 23;
+	double odom_orientation_x = 24;
+	double odom_orientation_x_uncertainty = 25;
+	double odom_orientation_y = 26;
+	double odom_orientation_y_uncertainty = 27;
+	double odom_orientation_z = 28;
+	double odom_orientation_z_uncertainty = 29;
+	double odom_orientation_w = 30;
+	double odom_orientation_w_uncertainty = 31;
+	double linear_velocity_x = 32;
+	double linear_velocity_x_uncertainty = 33;
+	double linear_velocity_y = 34;
+	double linear_velocity_y_uncertainty = 35;
+	double linear_velocity_z = 36;
+	double linear_velocity_z_uncertainty = 37;
+	double angular_velocity_roll = 38;
+	double angular_velocity_roll_uncertainty = 39;
+	double angular_velocity_pitch = 40;
+	double angular_velocity_pitch_uncertainty = 41;
+	double angular_velocity_yaw = 42;
+	double angular_velocity_yaw_uncertainty = 43;
+}
+
+message StartPickAndLoadReq {
+	string item_name = 1;
+	double item_position_x = 2;
+	double item_position_y = 3;
+	double load_position_x = 4;
+	double load_position_y = 5;
+}
+
+message GetStateReq {
+}
+

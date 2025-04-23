@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Link_Link_FullMethodName        = "/link.Link/Link"
-	Link_LinkCall_FullMethodName    = "/link.Link/LinkCall"
-	Link_TypeList_FullMethodName    = "/link.Link/TypeList"
-	Link_TypeGen_FullMethodName     = "/link.Link/TypeGen"
-	Link_AgentList_FullMethodName   = "/link.Link/AgentList"
-	Link_AgentListen_FullMethodName = "/link.Link/AgentListen"
+	Link_Link_FullMethodName           = "/link.Link/Link"
+	Link_LinkCall_FullMethodName       = "/link.Link/LinkCall"
+	Link_LinkStreamCall_FullMethodName = "/link.Link/LinkStreamCall"
+	Link_TypeList_FullMethodName       = "/link.Link/TypeList"
+	Link_TypeGen_FullMethodName        = "/link.Link/TypeGen"
+	Link_AgentList_FullMethodName      = "/link.Link/AgentList"
+	Link_AgentListen_FullMethodName    = "/link.Link/AgentListen"
 )
 
 // LinkClient is the client API for Link service.
@@ -33,6 +34,7 @@ const (
 type LinkClient interface {
 	Link(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[LinkCommandUpstream, LinkCommandDownstream], error)
 	LinkCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (*LinkCallRsp, error)
+	LinkStreamCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LinkCallRsp], error)
 	TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error)
 	TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.CallOption) (*TypeGenRsp, error)
 	AgentList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AgentListRsp, error)
@@ -70,6 +72,25 @@ func (c *linkClient) LinkCall(ctx context.Context, in *LinkCallReq, opts ...grpc
 	return out, nil
 }
 
+func (c *linkClient) LinkStreamCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LinkCallRsp], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Link_ServiceDesc.Streams[1], Link_LinkStreamCall_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[LinkCallReq, LinkCallRsp]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Link_LinkStreamCallClient = grpc.ServerStreamingClient[LinkCallRsp]
+
 func (c *linkClient) TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TypeListRsp)
@@ -102,7 +123,7 @@ func (c *linkClient) AgentList(ctx context.Context, in *Empty, opts ...grpc.Call
 
 func (c *linkClient) AgentListen(ctx context.Context, in *AgentListenReq, opts ...grpc.CallOption) (grpc.ServerStreamingClient[AgentListenRsp], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Link_ServiceDesc.Streams[1], Link_AgentListen_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Link_ServiceDesc.Streams[2], Link_AgentListen_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,6 +146,7 @@ type Link_AgentListenClient = grpc.ServerStreamingClient[AgentListenRsp]
 type LinkServer interface {
 	Link(grpc.BidiStreamingServer[LinkCommandUpstream, LinkCommandDownstream]) error
 	LinkCall(context.Context, *LinkCallReq) (*LinkCallRsp, error)
+	LinkStreamCall(*LinkCallReq, grpc.ServerStreamingServer[LinkCallRsp]) error
 	TypeList(context.Context, *TypeListReq) (*TypeListRsp, error)
 	TypeGen(context.Context, *TypeGenReq) (*TypeGenRsp, error)
 	AgentList(context.Context, *Empty) (*AgentListRsp, error)
@@ -144,6 +166,9 @@ func (UnimplementedLinkServer) Link(grpc.BidiStreamingServer[LinkCommandUpstream
 }
 func (UnimplementedLinkServer) LinkCall(context.Context, *LinkCallReq) (*LinkCallRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LinkCall not implemented")
+}
+func (UnimplementedLinkServer) LinkStreamCall(*LinkCallReq, grpc.ServerStreamingServer[LinkCallRsp]) error {
+	return status.Errorf(codes.Unimplemented, "method LinkStreamCall not implemented")
 }
 func (UnimplementedLinkServer) TypeList(context.Context, *TypeListReq) (*TypeListRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TypeList not implemented")
@@ -202,6 +227,17 @@ func _Link_LinkCall_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	return interceptor(ctx, in, info, handler)
 }
+
+func _Link_LinkStreamCall_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(LinkCallReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(LinkServer).LinkStreamCall(m, &grpc.GenericServerStream[LinkCallReq, LinkCallRsp]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Link_LinkStreamCallServer = grpc.ServerStreamingServer[LinkCallRsp]
 
 func _Link_TypeList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TypeListReq)
@@ -298,6 +334,11 @@ var Link_ServiceDesc = grpc.ServiceDesc{
 			Handler:       _Link_Link_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
+		},
+		{
+			StreamName:    "LinkStreamCall",
+			Handler:       _Link_LinkStreamCall_Handler,
+			ServerStreams: true,
 		},
 		{
 			StreamName:    "AgentListen",

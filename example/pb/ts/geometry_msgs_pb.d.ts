@@ -1,0 +1,93 @@
+// package: geometry_msgs
+// file: geometry_msgs.proto
+
+import * as jspb from "google-protobuf";
+
+export class Quaternion extends jspb.Message {
+  getX(): number;
+  setX(value: number): void;
+
+  getY(): number;
+  setY(value: number): void;
+
+  getZ(): number;
+  setZ(value: number): void;
+
+  getW(): number;
+  setW(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Quaternion.AsObject;
+  static toObject(includeInstance: boolean, msg: Quaternion): Quaternion.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Quaternion, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Quaternion;
+  static deserializeBinaryFromReader(message: Quaternion, reader: jspb.BinaryReader): Quaternion;
+}
+
+export namespace Quaternion {
+  export type AsObject = {
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+  }
+}
+
+export class Pose extends jspb.Message {
+  hasPosition(): boolean;
+  clearPosition(): void;
+  getPosition(): Point | undefined;
+  setPosition(value?: Point): void;
+
+  hasOrientation(): boolean;
+  clearOrientation(): void;
+  getOrientation(): Quaternion | undefined;
+  setOrientation(value?: Quaternion): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Pose.AsObject;
+  static toObject(includeInstance: boolean, msg: Pose): Pose.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Pose, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Pose;
+  static deserializeBinaryFromReader(message: Pose, reader: jspb.BinaryReader): Pose;
+}
+
+export namespace Pose {
+  export type AsObject = {
+    position?: Point.AsObject,
+    orientation?: Quaternion.AsObject,
+  }
+}
+
+export class Point extends jspb.Message {
+  getX(): number;
+  setX(value: number): void;
+
+  getY(): number;
+  setY(value: number): void;
+
+  getZ(): number;
+  setZ(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Point.AsObject;
+  static toObject(includeInstance: boolean, msg: Point): Point.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Point, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Point;
+  static deserializeBinaryFromReader(message: Point, reader: jspb.BinaryReader): Point;
+}
+
+export namespace Point {
+  export type AsObject = {
+    x: number,
+    y: number,
+    z: number,
+  }
+}
+

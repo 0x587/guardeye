@@ -19,81 +19,108 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Api_PublishTopicParameterEvents_FullMethodName                        = "/Api/PublishTopicParameter_events"
-	Api_PublishTopicRosout_FullMethodName                                 = "/Api/PublishTopicRosout"
-	Api_PublishTopicChatter_FullMethodName                                = "/Api/PublishTopicChatter"
-	Api_CallServiceListenerDescribeParameters_FullMethodName              = "/Api/CallServiceListenerDescribe_parameters"
-	Api_CallServiceListenerGetParameters_FullMethodName                   = "/Api/CallServiceListenerGet_parameters"
-	Api_CallServiceServiceServer_02SetParameters_FullMethodName           = "/Api/CallServiceService_server_02Set_parameters"
-	Api_CallServiceServiceServer_02GetParameters_FullMethodName           = "/Api/CallServiceService_server_02Get_parameters"
-	Api_CallServiceServiceServer_02GetParameterTypes_FullMethodName       = "/Api/CallServiceService_server_02Get_parameter_types"
-	Api_CallServiceFoxgloveBridgeSetParametersAtomically_FullMethodName   = "/Api/CallServiceFoxglove_bridgeSet_parameters_atomically"
-	Api_CallServiceServiceServer_02DescribeParameters_FullMethodName      = "/Api/CallServiceService_server_02Describe_parameters"
-	Api_CallServiceListenerListParameters_FullMethodName                  = "/Api/CallServiceListenerList_parameters"
-	Api_CallServiceFoxgloveBridgeGetParameterTypes_FullMethodName         = "/Api/CallServiceFoxglove_bridgeGet_parameter_types"
-	Api_CallServiceAddTwoIntsSrv_FullMethodName                           = "/Api/CallServiceAdd_two_ints_srv"
-	Api_CallServiceGetPerson_FullMethodName                               = "/Api/CallServiceGet_person"
-	Api_CallServiceListenerGetParameterTypes_FullMethodName               = "/Api/CallServiceListenerGet_parameter_types"
-	Api_CallServiceFoxgloveBridgeListParameters_FullMethodName            = "/Api/CallServiceFoxglove_bridgeList_parameters"
-	Api_CallServiceListenerSetParametersAtomically_FullMethodName         = "/Api/CallServiceListenerSet_parameters_atomically"
-	Api_CallServiceFoxgloveBridgeSetParameters_FullMethodName             = "/Api/CallServiceFoxglove_bridgeSet_parameters"
-	Api_CallServiceServiceServer_02ListParameters_FullMethodName          = "/Api/CallServiceService_server_02List_parameters"
-	Api_CallServiceFoxgloveBridgeDescribeParameters_FullMethodName        = "/Api/CallServiceFoxglove_bridgeDescribe_parameters"
-	Api_CallServiceServiceServer_02SetParametersAtomically_FullMethodName = "/Api/CallServiceService_server_02Set_parameters_atomically"
-	Api_CallServiceFoxgloveBridgeGetParameters_FullMethodName             = "/Api/CallServiceFoxglove_bridgeGet_parameters"
-	Api_CallServiceListenerSetParameters_FullMethodName                   = "/Api/CallServiceListenerSet_parameters"
+	Api_PublishTopicArebotUnloadRobotBridgeRobotState_FullMethodName                = "/Api/PublishTopicArebot_unloadRobot_bridgeRobot_state"
+	Api_SubscribeTopicArebotUnloadRobotBridgeRobotState_FullMethodName              = "/Api/SubscribeTopicArebot_unloadRobot_bridgeRobot_state"
+	Api_PublishTopicArebotTransportRobotBridgeRobotState_FullMethodName             = "/Api/PublishTopicArebot_transportRobot_bridgeRobot_state"
+	Api_SubscribeTopicArebotTransportRobotBridgeRobotState_FullMethodName           = "/Api/SubscribeTopicArebot_transportRobot_bridgeRobot_state"
+	Api_PublishTopicArebotLoadRobotBridgeRobotState_FullMethodName                  = "/Api/PublishTopicArebot_loadRobot_bridgeRobot_state"
+	Api_SubscribeTopicArebotLoadRobotBridgeRobotState_FullMethodName                = "/Api/SubscribeTopicArebot_loadRobot_bridgeRobot_state"
+	Api_CallServiceArebotLoadRobotBridgeDescribeParameters_FullMethodName           = "/Api/CallServiceArebot_loadRobot_bridgeDescribe_parameters"
+	Api_CallServiceArebotLoadRobotBridgeGetParameters_FullMethodName                = "/Api/CallServiceArebot_loadRobot_bridgeGet_parameters"
+	Api_CallServiceArebotLoadRobotBridgeListParameters_FullMethodName               = "/Api/CallServiceArebot_loadRobot_bridgeList_parameters"
+	Api_CallServiceArebotLoadRobotBridgeStartPickAndLoad_FullMethodName             = "/Api/CallServiceArebot_loadRobot_bridgeStart_pick_and_load"
+	Api_CallServiceArebotTransportRobotBridgeGetState_FullMethodName                = "/Api/CallServiceArebot_transportRobot_bridgeGet_state"
+	Api_CallServiceArebotTransportRobotBridgeSetParameters_FullMethodName           = "/Api/CallServiceArebot_transportRobot_bridgeSet_parameters"
+	Api_CallServiceArebotLoadRobotBridgeStartNavToPose_FullMethodName               = "/Api/CallServiceArebot_loadRobot_bridgeStart_nav_to_pose"
+	Api_CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace_FullMethodName        = "/Api/CallServiceArebot_unloadRobot_bridgeStart_unload_and_place"
+	Api_CallServiceArebotUnloadRobotBridgeSetParameters_FullMethodName              = "/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters"
+	Api_CallServiceArebotUnloadRobotBridgeListParameters_FullMethodName             = "/Api/CallServiceArebot_unloadRobot_bridgeList_parameters"
+	Api_CallServiceArebotUnloadRobotBridgeGetParameterTypes_FullMethodName          = "/Api/CallServiceArebot_unloadRobot_bridgeGet_parameter_types"
+	Api_CallServiceArebotTransportRobotBridgeDescribeParameters_FullMethodName      = "/Api/CallServiceArebot_transportRobot_bridgeDescribe_parameters"
+	Api_CallServiceArebotLoadRobotBridgeSetParametersAtomically_FullMethodName      = "/Api/CallServiceArebot_loadRobot_bridgeSet_parameters_atomically"
+	Api_CallServiceArebotLoadRobotBridgeGetParameterTypes_FullMethodName            = "/Api/CallServiceArebot_loadRobot_bridgeGet_parameter_types"
+	Api_CallServiceArebotUnloadRobotBridgeStartNavToPose_FullMethodName             = "/Api/CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose"
+	Api_CallServiceArebotTransportRobotBridgeStartTransport_FullMethodName          = "/Api/CallServiceArebot_transportRobot_bridgeStart_transport"
+	Api_CallServiceArebotTransportRobotBridgeSetParametersAtomically_FullMethodName = "/Api/CallServiceArebot_transportRobot_bridgeSet_parameters_atomically"
+	Api_CallServiceArebotLoadRobotBridgeGetState_FullMethodName                     = "/Api/CallServiceArebot_loadRobot_bridgeGet_state"
+	Api_CallServiceArebotUnloadRobotBridgeDescribeParameters_FullMethodName         = "/Api/CallServiceArebot_unloadRobot_bridgeDescribe_parameters"
+	Api_CallServiceArebotLoadRobotBridgeSetParameters_FullMethodName                = "/Api/CallServiceArebot_loadRobot_bridgeSet_parameters"
+	Api_CallServiceArebotUnloadRobotBridgeGetState_FullMethodName                   = "/Api/CallServiceArebot_unloadRobot_bridgeGet_state"
+	Api_CallServiceArebotTransportRobotBridgeGetParameterTypes_FullMethodName       = "/Api/CallServiceArebot_transportRobot_bridgeGet_parameter_types"
+	Api_CallServiceArebotTransportRobotBridgeGetParameters_FullMethodName           = "/Api/CallServiceArebot_transportRobot_bridgeGet_parameters"
+	Api_CallServiceArebotUnloadRobotBridgeGetParameters_FullMethodName              = "/Api/CallServiceArebot_unloadRobot_bridgeGet_parameters"
+	Api_CallServiceArebotUnloadRobotBridgeSetParametersAtomically_FullMethodName    = "/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically"
+	Api_CallServiceArebotTransportRobotBridgeListParameters_FullMethodName          = "/Api/CallServiceArebot_transportRobot_bridgeList_parameters"
+	Api_CallServiceArebotTransportRobotBridgeStartNavToPose_FullMethodName          = "/Api/CallServiceArebot_transportRobot_bridgeStart_nav_to_pose"
 )
 
 // ApiClient is the client API for Api service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiClient interface {
-	// topic: /parameter_events
-	PublishTopicParameterEvents(ctx context.Context, in *ParameterEvent, opts ...grpc.CallOption) (*ParameterEvent, error)
-	// topic: /rosout
-	PublishTopicRosout(ctx context.Context, in *Log, opts ...grpc.CallOption) (*Log, error)
-	// topic: /chatter
-	PublishTopicChatter(ctx context.Context, in *String, opts ...grpc.CallOption) (*String, error)
-	// service: /listener/describe_parameters
-	CallServiceListenerDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error)
-	// service: /listener/get_parameters
-	CallServiceListenerGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error)
-	// service: /service_server_02/set_parameters
-	CallServiceServiceServer_02SetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error)
-	// service: /service_server_02/get_parameters
-	CallServiceServiceServer_02GetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error)
-	// service: /service_server_02/get_parameter_types
-	CallServiceServiceServer_02GetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error)
-	// service: /foxglove_bridge/set_parameters_atomically
-	CallServiceFoxgloveBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error)
-	// service: /service_server_02/describe_parameters
-	CallServiceServiceServer_02DescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error)
-	// service: /listener/list_parameters
-	CallServiceListenerListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error)
-	// service: /foxglove_bridge/get_parameter_types
-	CallServiceFoxgloveBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error)
-	// service: /add_two_ints_srv
-	CallServiceAddTwoIntsSrv(ctx context.Context, in *AddReq, opts ...grpc.CallOption) (*AddRsp, error)
-	// service: /get_person
-	CallServiceGetPerson(ctx context.Context, in *GetPersonReq, opts ...grpc.CallOption) (*GetPersonRsp, error)
-	// service: /listener/get_parameter_types
-	CallServiceListenerGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error)
-	// service: /foxglove_bridge/list_parameters
-	CallServiceFoxgloveBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error)
-	// service: /listener/set_parameters_atomically
-	CallServiceListenerSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error)
-	// service: /foxglove_bridge/set_parameters
-	CallServiceFoxgloveBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error)
-	// service: /service_server_02/list_parameters
-	CallServiceServiceServer_02ListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error)
-	// service: /foxglove_bridge/describe_parameters
-	CallServiceFoxgloveBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error)
-	// service: /service_server_02/set_parameters_atomically
-	CallServiceServiceServer_02SetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error)
-	// service: /foxglove_bridge/get_parameters
-	CallServiceFoxgloveBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error)
-	// service: /listener/set_parameters
-	CallServiceListenerSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error)
+	// topic: /arebot_unload/robot_bridge/robot_state
+	PublishTopicArebotUnloadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (*RobotState, error)
+	SubscribeTopicArebotUnloadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (grpc.ServerStreamingClient[RobotState], error)
+	// topic: /arebot_transport/robot_bridge/robot_state
+	PublishTopicArebotTransportRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (*RobotState, error)
+	SubscribeTopicArebotTransportRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (grpc.ServerStreamingClient[RobotState], error)
+	// topic: /arebot_load/robot_bridge/robot_state
+	PublishTopicArebotLoadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (*RobotState, error)
+	SubscribeTopicArebotLoadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (grpc.ServerStreamingClient[RobotState], error)
+	// service: /arebot_load/robot_bridge/describe_parameters
+	CallServiceArebotLoadRobotBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error)
+	// service: /arebot_load/robot_bridge/get_parameters
+	CallServiceArebotLoadRobotBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error)
+	// service: /arebot_load/robot_bridge/list_parameters
+	CallServiceArebotLoadRobotBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error)
+	// service: /arebot_load/robot_bridge/start_pick_and_load
+	CallServiceArebotLoadRobotBridgeStartPickAndLoad(ctx context.Context, in *StartPickAndLoadReq, opts ...grpc.CallOption) (*StartPickAndLoadRsp, error)
+	// service: /arebot_transport/robot_bridge/get_state
+	CallServiceArebotTransportRobotBridgeGetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRsp, error)
+	// service: /arebot_transport/robot_bridge/set_parameters
+	CallServiceArebotTransportRobotBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error)
+	// service: /arebot_load/robot_bridge/start_nav_to_pose
+	CallServiceArebotLoadRobotBridgeStartNavToPose(ctx context.Context, in *StartNavToPoseReq, opts ...grpc.CallOption) (*StartNavToPoseRsp, error)
+	// service: /arebot_unload/robot_bridge/start_unload_and_place
+	CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace(ctx context.Context, in *StartUnloadAndPlaceReq, opts ...grpc.CallOption) (*StartUnloadAndPlaceRsp, error)
+	// service: /arebot_unload/robot_bridge/set_parameters
+	CallServiceArebotUnloadRobotBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/list_parameters
+	CallServiceArebotUnloadRobotBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/get_parameter_types
+	CallServiceArebotUnloadRobotBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error)
+	// service: /arebot_transport/robot_bridge/describe_parameters
+	CallServiceArebotTransportRobotBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error)
+	// service: /arebot_load/robot_bridge/set_parameters_atomically
+	CallServiceArebotLoadRobotBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error)
+	// service: /arebot_load/robot_bridge/get_parameter_types
+	CallServiceArebotLoadRobotBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error)
+	// service: /arebot_unload/robot_bridge/start_nav_to_pose
+	CallServiceArebotUnloadRobotBridgeStartNavToPose(ctx context.Context, in *StartNavToPoseReq, opts ...grpc.CallOption) (*StartNavToPoseRsp, error)
+	// service: /arebot_transport/robot_bridge/start_transport
+	CallServiceArebotTransportRobotBridgeStartTransport(ctx context.Context, in *StartTransportReq, opts ...grpc.CallOption) (*StartTransportRsp, error)
+	// service: /arebot_transport/robot_bridge/set_parameters_atomically
+	CallServiceArebotTransportRobotBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error)
+	// service: /arebot_load/robot_bridge/get_state
+	CallServiceArebotLoadRobotBridgeGetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRsp, error)
+	// service: /arebot_unload/robot_bridge/describe_parameters
+	CallServiceArebotUnloadRobotBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error)
+	// service: /arebot_load/robot_bridge/set_parameters
+	CallServiceArebotLoadRobotBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/get_state
+	CallServiceArebotUnloadRobotBridgeGetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRsp, error)
+	// service: /arebot_transport/robot_bridge/get_parameter_types
+	CallServiceArebotTransportRobotBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error)
+	// service: /arebot_transport/robot_bridge/get_parameters
+	CallServiceArebotTransportRobotBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/get_parameters
+	CallServiceArebotUnloadRobotBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/set_parameters_atomically
+	CallServiceArebotUnloadRobotBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error)
+	// service: /arebot_transport/robot_bridge/list_parameters
+	CallServiceArebotTransportRobotBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error)
+	// service: /arebot_transport/robot_bridge/start_nav_to_pose
+	CallServiceArebotTransportRobotBridgeStartNavToPose(ctx context.Context, in *StartNavToPoseReq, opts ...grpc.CallOption) (*StartNavToPoseRsp, error)
 }
 
 type apiClient struct {
@@ -104,230 +131,357 @@ func NewApiClient(cc grpc.ClientConnInterface) ApiClient {
 	return &apiClient{cc}
 }
 
-func (c *apiClient) PublishTopicParameterEvents(ctx context.Context, in *ParameterEvent, opts ...grpc.CallOption) (*ParameterEvent, error) {
+func (c *apiClient) PublishTopicArebotUnloadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (*RobotState, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ParameterEvent)
-	err := c.cc.Invoke(ctx, Api_PublishTopicParameterEvents_FullMethodName, in, out, cOpts...)
+	out := new(RobotState)
+	err := c.cc.Invoke(ctx, Api_PublishTopicArebotUnloadRobotBridgeRobotState_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) PublishTopicRosout(ctx context.Context, in *Log, opts ...grpc.CallOption) (*Log, error) {
+func (c *apiClient) SubscribeTopicArebotUnloadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (grpc.ServerStreamingClient[RobotState], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Log)
-	err := c.cc.Invoke(ctx, Api_PublishTopicRosout_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Api_ServiceDesc.Streams[0], Api_SubscribeTopicArebotUnloadRobotBridgeRobotState_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[RobotState, RobotState]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Api_SubscribeTopicArebotUnloadRobotBridgeRobotStateClient = grpc.ServerStreamingClient[RobotState]
+
+func (c *apiClient) PublishTopicArebotTransportRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (*RobotState, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RobotState)
+	err := c.cc.Invoke(ctx, Api_PublishTopicArebotTransportRobotBridgeRobotState_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) PublishTopicChatter(ctx context.Context, in *String, opts ...grpc.CallOption) (*String, error) {
+func (c *apiClient) SubscribeTopicArebotTransportRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (grpc.ServerStreamingClient[RobotState], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(String)
-	err := c.cc.Invoke(ctx, Api_PublishTopicChatter_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Api_ServiceDesc.Streams[1], Api_SubscribeTopicArebotTransportRobotBridgeRobotState_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[RobotState, RobotState]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Api_SubscribeTopicArebotTransportRobotBridgeRobotStateClient = grpc.ServerStreamingClient[RobotState]
+
+func (c *apiClient) PublishTopicArebotLoadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (*RobotState, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RobotState)
+	err := c.cc.Invoke(ctx, Api_PublishTopicArebotLoadRobotBridgeRobotState_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceListenerDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error) {
+func (c *apiClient) SubscribeTopicArebotLoadRobotBridgeRobotState(ctx context.Context, in *RobotState, opts ...grpc.CallOption) (grpc.ServerStreamingClient[RobotState], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Api_ServiceDesc.Streams[2], Api_SubscribeTopicArebotLoadRobotBridgeRobotState_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[RobotState, RobotState]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Api_SubscribeTopicArebotLoadRobotBridgeRobotStateClient = grpc.ServerStreamingClient[RobotState]
+
+func (c *apiClient) CallServiceArebotLoadRobotBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceListenerDescribeParameters_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeDescribeParameters_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceListenerGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error) {
+func (c *apiClient) CallServiceArebotLoadRobotBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceListenerGetParameters_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeGetParameters_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceServiceServer_02SetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error) {
+func (c *apiClient) CallServiceArebotLoadRobotBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListParametersRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeListParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotLoadRobotBridgeStartPickAndLoad(ctx context.Context, in *StartPickAndLoadReq, opts ...grpc.CallOption) (*StartPickAndLoadRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartPickAndLoadRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeStartPickAndLoad_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeGetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetStateRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeGetState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceServiceServer_02SetParameters_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeSetParameters_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceServiceServer_02GetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error) {
+func (c *apiClient) CallServiceArebotLoadRobotBridgeStartNavToPose(ctx context.Context, in *StartNavToPoseReq, opts ...grpc.CallOption) (*StartNavToPoseRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceServiceServer_02GetParameters_FullMethodName, in, out, cOpts...)
+	out := new(StartNavToPoseRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeStartNavToPose_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceServiceServer_02GetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error) {
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace(ctx context.Context, in *StartUnloadAndPlaceReq, opts ...grpc.CallOption) (*StartUnloadAndPlaceRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartUnloadAndPlaceRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetParametersRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeSetParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListParametersRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeListParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetParameterTypesRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceServiceServer_02GetParameterTypes_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeGetParameterTypes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceFoxgloveBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SetParametersAtomicallyRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceFoxgloveBridgeSetParametersAtomically_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceServiceServer_02DescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error) {
+func (c *apiClient) CallServiceArebotTransportRobotBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceServiceServer_02DescribeParameters_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeDescribeParameters_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceListenerListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceListenerListParameters_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceFoxgloveBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetParameterTypesRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceFoxgloveBridgeGetParameterTypes_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceAddTwoIntsSrv(ctx context.Context, in *AddReq, opts ...grpc.CallOption) (*AddRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceAddTwoIntsSrv_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceGetPerson(ctx context.Context, in *GetPersonReq, opts ...grpc.CallOption) (*GetPersonRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetPersonRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceGetPerson_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceListenerGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetParameterTypesRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceListenerGetParameterTypes_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceFoxgloveBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceFoxgloveBridgeListParameters_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceListenerSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error) {
+func (c *apiClient) CallServiceArebotLoadRobotBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetParametersAtomicallyRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceListenerSetParametersAtomically_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeSetParametersAtomically_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceFoxgloveBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error) {
+func (c *apiClient) CallServiceArebotLoadRobotBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SetParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceFoxgloveBridgeSetParameters_FullMethodName, in, out, cOpts...)
+	out := new(GetParameterTypesRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeGetParameterTypes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceServiceServer_02ListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error) {
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeStartNavToPose(ctx context.Context, in *StartNavToPoseReq, opts ...grpc.CallOption) (*StartNavToPoseRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceServiceServer_02ListParameters_FullMethodName, in, out, cOpts...)
+	out := new(StartNavToPoseRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeStartNavToPose_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceFoxgloveBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error) {
+func (c *apiClient) CallServiceArebotTransportRobotBridgeStartTransport(ctx context.Context, in *StartTransportReq, opts ...grpc.CallOption) (*StartTransportRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartTransportRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeStartTransport_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetParametersAtomicallyRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeSetParametersAtomically_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotLoadRobotBridgeGetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetStateRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeGetState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeDescribeParameters(ctx context.Context, in *DescribeParametersReq, opts ...grpc.CallOption) (*DescribeParametersRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceFoxgloveBridgeDescribeParameters_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeDescribeParameters_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiClient) CallServiceServiceServer_02SetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SetParametersAtomicallyRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceServiceServer_02SetParametersAtomically_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceFoxgloveBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceFoxgloveBridgeGetParameters_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiClient) CallServiceListenerSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error) {
+func (c *apiClient) CallServiceArebotLoadRobotBridgeSetParameters(ctx context.Context, in *SetParametersReq, opts ...grpc.CallOption) (*SetParametersRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetParametersRsp)
-	err := c.cc.Invoke(ctx, Api_CallServiceListenerSetParameters_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotLoadRobotBridgeSetParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeGetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetStateRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeGetState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeGetParameterTypes(ctx context.Context, in *GetParameterTypesReq, opts ...grpc.CallOption) (*GetParameterTypesRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetParameterTypesRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeGetParameterTypes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetParametersRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeGetParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeGetParameters(ctx context.Context, in *GetParametersReq, opts ...grpc.CallOption) (*GetParametersRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetParametersRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeGetParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotUnloadRobotBridgeSetParametersAtomically(ctx context.Context, in *SetParametersAtomicallyReq, opts ...grpc.CallOption) (*SetParametersAtomicallyRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetParametersAtomicallyRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotUnloadRobotBridgeSetParametersAtomically_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeListParameters(ctx context.Context, in *ListParametersReq, opts ...grpc.CallOption) (*ListParametersRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListParametersRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeListParameters_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) CallServiceArebotTransportRobotBridgeStartNavToPose(ctx context.Context, in *StartNavToPoseReq, opts ...grpc.CallOption) (*StartNavToPoseRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartNavToPoseRsp)
+	err := c.cc.Invoke(ctx, Api_CallServiceArebotTransportRobotBridgeStartNavToPose_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -338,52 +492,69 @@ func (c *apiClient) CallServiceListenerSetParameters(ctx context.Context, in *Se
 // All implementations must embed UnimplementedApiServer
 // for forward compatibility.
 type ApiServer interface {
-	// topic: /parameter_events
-	PublishTopicParameterEvents(context.Context, *ParameterEvent) (*ParameterEvent, error)
-	// topic: /rosout
-	PublishTopicRosout(context.Context, *Log) (*Log, error)
-	// topic: /chatter
-	PublishTopicChatter(context.Context, *String) (*String, error)
-	// service: /listener/describe_parameters
-	CallServiceListenerDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error)
-	// service: /listener/get_parameters
-	CallServiceListenerGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error)
-	// service: /service_server_02/set_parameters
-	CallServiceServiceServer_02SetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error)
-	// service: /service_server_02/get_parameters
-	CallServiceServiceServer_02GetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error)
-	// service: /service_server_02/get_parameter_types
-	CallServiceServiceServer_02GetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error)
-	// service: /foxglove_bridge/set_parameters_atomically
-	CallServiceFoxgloveBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error)
-	// service: /service_server_02/describe_parameters
-	CallServiceServiceServer_02DescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error)
-	// service: /listener/list_parameters
-	CallServiceListenerListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error)
-	// service: /foxglove_bridge/get_parameter_types
-	CallServiceFoxgloveBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error)
-	// service: /add_two_ints_srv
-	CallServiceAddTwoIntsSrv(context.Context, *AddReq) (*AddRsp, error)
-	// service: /get_person
-	CallServiceGetPerson(context.Context, *GetPersonReq) (*GetPersonRsp, error)
-	// service: /listener/get_parameter_types
-	CallServiceListenerGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error)
-	// service: /foxglove_bridge/list_parameters
-	CallServiceFoxgloveBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error)
-	// service: /listener/set_parameters_atomically
-	CallServiceListenerSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error)
-	// service: /foxglove_bridge/set_parameters
-	CallServiceFoxgloveBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error)
-	// service: /service_server_02/list_parameters
-	CallServiceServiceServer_02ListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error)
-	// service: /foxglove_bridge/describe_parameters
-	CallServiceFoxgloveBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error)
-	// service: /service_server_02/set_parameters_atomically
-	CallServiceServiceServer_02SetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error)
-	// service: /foxglove_bridge/get_parameters
-	CallServiceFoxgloveBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error)
-	// service: /listener/set_parameters
-	CallServiceListenerSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error)
+	// topic: /arebot_unload/robot_bridge/robot_state
+	PublishTopicArebotUnloadRobotBridgeRobotState(context.Context, *RobotState) (*RobotState, error)
+	SubscribeTopicArebotUnloadRobotBridgeRobotState(*RobotState, grpc.ServerStreamingServer[RobotState]) error
+	// topic: /arebot_transport/robot_bridge/robot_state
+	PublishTopicArebotTransportRobotBridgeRobotState(context.Context, *RobotState) (*RobotState, error)
+	SubscribeTopicArebotTransportRobotBridgeRobotState(*RobotState, grpc.ServerStreamingServer[RobotState]) error
+	// topic: /arebot_load/robot_bridge/robot_state
+	PublishTopicArebotLoadRobotBridgeRobotState(context.Context, *RobotState) (*RobotState, error)
+	SubscribeTopicArebotLoadRobotBridgeRobotState(*RobotState, grpc.ServerStreamingServer[RobotState]) error
+	// service: /arebot_load/robot_bridge/describe_parameters
+	CallServiceArebotLoadRobotBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error)
+	// service: /arebot_load/robot_bridge/get_parameters
+	CallServiceArebotLoadRobotBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error)
+	// service: /arebot_load/robot_bridge/list_parameters
+	CallServiceArebotLoadRobotBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error)
+	// service: /arebot_load/robot_bridge/start_pick_and_load
+	CallServiceArebotLoadRobotBridgeStartPickAndLoad(context.Context, *StartPickAndLoadReq) (*StartPickAndLoadRsp, error)
+	// service: /arebot_transport/robot_bridge/get_state
+	CallServiceArebotTransportRobotBridgeGetState(context.Context, *GetStateReq) (*GetStateRsp, error)
+	// service: /arebot_transport/robot_bridge/set_parameters
+	CallServiceArebotTransportRobotBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error)
+	// service: /arebot_load/robot_bridge/start_nav_to_pose
+	CallServiceArebotLoadRobotBridgeStartNavToPose(context.Context, *StartNavToPoseReq) (*StartNavToPoseRsp, error)
+	// service: /arebot_unload/robot_bridge/start_unload_and_place
+	CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace(context.Context, *StartUnloadAndPlaceReq) (*StartUnloadAndPlaceRsp, error)
+	// service: /arebot_unload/robot_bridge/set_parameters
+	CallServiceArebotUnloadRobotBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/list_parameters
+	CallServiceArebotUnloadRobotBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/get_parameter_types
+	CallServiceArebotUnloadRobotBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error)
+	// service: /arebot_transport/robot_bridge/describe_parameters
+	CallServiceArebotTransportRobotBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error)
+	// service: /arebot_load/robot_bridge/set_parameters_atomically
+	CallServiceArebotLoadRobotBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error)
+	// service: /arebot_load/robot_bridge/get_parameter_types
+	CallServiceArebotLoadRobotBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error)
+	// service: /arebot_unload/robot_bridge/start_nav_to_pose
+	CallServiceArebotUnloadRobotBridgeStartNavToPose(context.Context, *StartNavToPoseReq) (*StartNavToPoseRsp, error)
+	// service: /arebot_transport/robot_bridge/start_transport
+	CallServiceArebotTransportRobotBridgeStartTransport(context.Context, *StartTransportReq) (*StartTransportRsp, error)
+	// service: /arebot_transport/robot_bridge/set_parameters_atomically
+	CallServiceArebotTransportRobotBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error)
+	// service: /arebot_load/robot_bridge/get_state
+	CallServiceArebotLoadRobotBridgeGetState(context.Context, *GetStateReq) (*GetStateRsp, error)
+	// service: /arebot_unload/robot_bridge/describe_parameters
+	CallServiceArebotUnloadRobotBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error)
+	// service: /arebot_load/robot_bridge/set_parameters
+	CallServiceArebotLoadRobotBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/get_state
+	CallServiceArebotUnloadRobotBridgeGetState(context.Context, *GetStateReq) (*GetStateRsp, error)
+	// service: /arebot_transport/robot_bridge/get_parameter_types
+	CallServiceArebotTransportRobotBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error)
+	// service: /arebot_transport/robot_bridge/get_parameters
+	CallServiceArebotTransportRobotBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/get_parameters
+	CallServiceArebotUnloadRobotBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error)
+	// service: /arebot_unload/robot_bridge/set_parameters_atomically
+	CallServiceArebotUnloadRobotBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error)
+	// service: /arebot_transport/robot_bridge/list_parameters
+	CallServiceArebotTransportRobotBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error)
+	// service: /arebot_transport/robot_bridge/start_nav_to_pose
+	CallServiceArebotTransportRobotBridgeStartNavToPose(context.Context, *StartNavToPoseReq) (*StartNavToPoseRsp, error)
 	mustEmbedUnimplementedApiServer()
 }
 
@@ -394,74 +565,104 @@ type ApiServer interface {
 // pointer dereference when methods are called.
 type UnimplementedApiServer struct{}
 
-func (UnimplementedApiServer) PublishTopicParameterEvents(context.Context, *ParameterEvent) (*ParameterEvent, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PublishTopicParameterEvents not implemented")
+func (UnimplementedApiServer) PublishTopicArebotUnloadRobotBridgeRobotState(context.Context, *RobotState) (*RobotState, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishTopicArebotUnloadRobotBridgeRobotState not implemented")
 }
-func (UnimplementedApiServer) PublishTopicRosout(context.Context, *Log) (*Log, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PublishTopicRosout not implemented")
+func (UnimplementedApiServer) SubscribeTopicArebotUnloadRobotBridgeRobotState(*RobotState, grpc.ServerStreamingServer[RobotState]) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeTopicArebotUnloadRobotBridgeRobotState not implemented")
 }
-func (UnimplementedApiServer) PublishTopicChatter(context.Context, *String) (*String, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PublishTopicChatter not implemented")
+func (UnimplementedApiServer) PublishTopicArebotTransportRobotBridgeRobotState(context.Context, *RobotState) (*RobotState, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishTopicArebotTransportRobotBridgeRobotState not implemented")
 }
-func (UnimplementedApiServer) CallServiceListenerDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceListenerDescribeParameters not implemented")
+func (UnimplementedApiServer) SubscribeTopicArebotTransportRobotBridgeRobotState(*RobotState, grpc.ServerStreamingServer[RobotState]) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeTopicArebotTransportRobotBridgeRobotState not implemented")
 }
-func (UnimplementedApiServer) CallServiceListenerGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceListenerGetParameters not implemented")
+func (UnimplementedApiServer) PublishTopicArebotLoadRobotBridgeRobotState(context.Context, *RobotState) (*RobotState, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishTopicArebotLoadRobotBridgeRobotState not implemented")
 }
-func (UnimplementedApiServer) CallServiceServiceServer_02SetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceServiceServer_02SetParameters not implemented")
+func (UnimplementedApiServer) SubscribeTopicArebotLoadRobotBridgeRobotState(*RobotState, grpc.ServerStreamingServer[RobotState]) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeTopicArebotLoadRobotBridgeRobotState not implemented")
 }
-func (UnimplementedApiServer) CallServiceServiceServer_02GetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceServiceServer_02GetParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeDescribeParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceServiceServer_02GetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceServiceServer_02GetParameterTypes not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeGetParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceFoxgloveBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceFoxgloveBridgeSetParametersAtomically not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeListParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceServiceServer_02DescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceServiceServer_02DescribeParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeStartPickAndLoad(context.Context, *StartPickAndLoadReq) (*StartPickAndLoadRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeStartPickAndLoad not implemented")
 }
-func (UnimplementedApiServer) CallServiceListenerListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceListenerListParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeGetState(context.Context, *GetStateReq) (*GetStateRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeGetState not implemented")
 }
-func (UnimplementedApiServer) CallServiceFoxgloveBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceFoxgloveBridgeGetParameterTypes not implemented")
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeSetParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceAddTwoIntsSrv(context.Context, *AddReq) (*AddRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceAddTwoIntsSrv not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeStartNavToPose(context.Context, *StartNavToPoseReq) (*StartNavToPoseRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeStartNavToPose not implemented")
 }
-func (UnimplementedApiServer) CallServiceGetPerson(context.Context, *GetPersonReq) (*GetPersonRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceGetPerson not implemented")
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace(context.Context, *StartUnloadAndPlaceReq) (*StartUnloadAndPlaceRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace not implemented")
 }
-func (UnimplementedApiServer) CallServiceListenerGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceListenerGetParameterTypes not implemented")
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeSetParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceFoxgloveBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceFoxgloveBridgeListParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeListParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceListenerSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceListenerSetParametersAtomically not implemented")
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeGetParameterTypes not implemented")
 }
-func (UnimplementedApiServer) CallServiceFoxgloveBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceFoxgloveBridgeSetParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeDescribeParameters not implemented")
 }
-func (UnimplementedApiServer) CallServiceServiceServer_02ListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceServiceServer_02ListParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeSetParametersAtomically not implemented")
 }
-func (UnimplementedApiServer) CallServiceFoxgloveBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceFoxgloveBridgeDescribeParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeGetParameterTypes not implemented")
 }
-func (UnimplementedApiServer) CallServiceServiceServer_02SetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceServiceServer_02SetParametersAtomically not implemented")
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeStartNavToPose(context.Context, *StartNavToPoseReq) (*StartNavToPoseRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeStartNavToPose not implemented")
 }
-func (UnimplementedApiServer) CallServiceFoxgloveBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceFoxgloveBridgeGetParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeStartTransport(context.Context, *StartTransportReq) (*StartTransportRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeStartTransport not implemented")
 }
-func (UnimplementedApiServer) CallServiceListenerSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallServiceListenerSetParameters not implemented")
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeSetParametersAtomically not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeGetState(context.Context, *GetStateReq) (*GetStateRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeGetState not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeDescribeParameters(context.Context, *DescribeParametersReq) (*DescribeParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeDescribeParameters not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotLoadRobotBridgeSetParameters(context.Context, *SetParametersReq) (*SetParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotLoadRobotBridgeSetParameters not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeGetState(context.Context, *GetStateReq) (*GetStateRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeGetState not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeGetParameterTypes(context.Context, *GetParameterTypesReq) (*GetParameterTypesRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeGetParameterTypes not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeGetParameters not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeGetParameters(context.Context, *GetParametersReq) (*GetParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeGetParameters not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotUnloadRobotBridgeSetParametersAtomically(context.Context, *SetParametersAtomicallyReq) (*SetParametersAtomicallyRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotUnloadRobotBridgeSetParametersAtomically not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeListParameters(context.Context, *ListParametersReq) (*ListParametersRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeListParameters not implemented")
+}
+func (UnimplementedApiServer) CallServiceArebotTransportRobotBridgeStartNavToPose(context.Context, *StartNavToPoseReq) (*StartNavToPoseRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CallServiceArebotTransportRobotBridgeStartNavToPose not implemented")
 }
 func (UnimplementedApiServer) mustEmbedUnimplementedApiServer() {}
 func (UnimplementedApiServer) testEmbeddedByValue()             {}
@@ -484,416 +685,575 @@ func RegisterApiServer(s grpc.ServiceRegistrar, srv ApiServer) {
 	s.RegisterService(&Api_ServiceDesc, srv)
 }
 
-func _Api_PublishTopicParameterEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ParameterEvent)
+func _Api_PublishTopicArebotUnloadRobotBridgeRobotState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RobotState)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).PublishTopicParameterEvents(ctx, in)
+		return srv.(ApiServer).PublishTopicArebotUnloadRobotBridgeRobotState(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_PublishTopicParameterEvents_FullMethodName,
+		FullMethod: Api_PublishTopicArebotUnloadRobotBridgeRobotState_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).PublishTopicParameterEvents(ctx, req.(*ParameterEvent))
+		return srv.(ApiServer).PublishTopicArebotUnloadRobotBridgeRobotState(ctx, req.(*RobotState))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_PublishTopicRosout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Log)
+func _Api_SubscribeTopicArebotUnloadRobotBridgeRobotState_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RobotState)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ApiServer).SubscribeTopicArebotUnloadRobotBridgeRobotState(m, &grpc.GenericServerStream[RobotState, RobotState]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Api_SubscribeTopicArebotUnloadRobotBridgeRobotStateServer = grpc.ServerStreamingServer[RobotState]
+
+func _Api_PublishTopicArebotTransportRobotBridgeRobotState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RobotState)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).PublishTopicRosout(ctx, in)
+		return srv.(ApiServer).PublishTopicArebotTransportRobotBridgeRobotState(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_PublishTopicRosout_FullMethodName,
+		FullMethod: Api_PublishTopicArebotTransportRobotBridgeRobotState_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).PublishTopicRosout(ctx, req.(*Log))
+		return srv.(ApiServer).PublishTopicArebotTransportRobotBridgeRobotState(ctx, req.(*RobotState))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_PublishTopicChatter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(String)
+func _Api_SubscribeTopicArebotTransportRobotBridgeRobotState_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RobotState)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ApiServer).SubscribeTopicArebotTransportRobotBridgeRobotState(m, &grpc.GenericServerStream[RobotState, RobotState]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Api_SubscribeTopicArebotTransportRobotBridgeRobotStateServer = grpc.ServerStreamingServer[RobotState]
+
+func _Api_PublishTopicArebotLoadRobotBridgeRobotState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RobotState)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).PublishTopicChatter(ctx, in)
+		return srv.(ApiServer).PublishTopicArebotLoadRobotBridgeRobotState(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_PublishTopicChatter_FullMethodName,
+		FullMethod: Api_PublishTopicArebotLoadRobotBridgeRobotState_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).PublishTopicChatter(ctx, req.(*String))
+		return srv.(ApiServer).PublishTopicArebotLoadRobotBridgeRobotState(ctx, req.(*RobotState))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceListenerDescribeParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_SubscribeTopicArebotLoadRobotBridgeRobotState_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RobotState)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ApiServer).SubscribeTopicArebotLoadRobotBridgeRobotState(m, &grpc.GenericServerStream[RobotState, RobotState]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Api_SubscribeTopicArebotLoadRobotBridgeRobotStateServer = grpc.ServerStreamingServer[RobotState]
+
+func _Api_CallServiceArebotLoadRobotBridgeDescribeParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeParametersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceListenerDescribeParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeDescribeParameters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceListenerDescribeParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeDescribeParameters_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceListenerDescribeParameters(ctx, req.(*DescribeParametersReq))
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeDescribeParameters(ctx, req.(*DescribeParametersReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceListenerGetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotLoadRobotBridgeGetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetParametersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceListenerGetParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeGetParameters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceListenerGetParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeGetParameters_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceListenerGetParameters(ctx, req.(*GetParametersReq))
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeGetParameters(ctx, req.(*GetParametersReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceServiceServer_02SetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotLoadRobotBridgeListParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListParametersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeListParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeListParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeListParameters(ctx, req.(*ListParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotLoadRobotBridgeStartPickAndLoad_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartPickAndLoadReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeStartPickAndLoad(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeStartPickAndLoad_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeStartPickAndLoad(ctx, req.(*StartPickAndLoadReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeGetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeGetState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeGetState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeGetState(ctx, req.(*GetStateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeSetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetParametersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceServiceServer_02SetParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeSetParameters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceServiceServer_02SetParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeSetParameters_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceServiceServer_02SetParameters(ctx, req.(*SetParametersReq))
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeSetParameters(ctx, req.(*SetParametersReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceServiceServer_02GetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetParametersReq)
+func _Api_CallServiceArebotLoadRobotBridgeStartNavToPose_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartNavToPoseReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceServiceServer_02GetParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeStartNavToPose(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceServiceServer_02GetParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeStartNavToPose_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceServiceServer_02GetParameters(ctx, req.(*GetParametersReq))
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeStartNavToPose(ctx, req.(*StartNavToPoseReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceServiceServer_02GetParameterTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartUnloadAndPlaceReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace(ctx, req.(*StartUnloadAndPlaceReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeSetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetParametersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeSetParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeSetParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeSetParameters(ctx, req.(*SetParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeListParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListParametersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeListParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeListParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeListParameters(ctx, req.(*ListParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeGetParameterTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetParameterTypesReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceServiceServer_02GetParameterTypes(ctx, in)
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeGetParameterTypes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceServiceServer_02GetParameterTypes_FullMethodName,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeGetParameterTypes_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceServiceServer_02GetParameterTypes(ctx, req.(*GetParameterTypesReq))
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeGetParameterTypes(ctx, req.(*GetParameterTypesReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceFoxgloveBridgeSetParametersAtomically_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetParametersAtomicallyReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeSetParametersAtomically(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceFoxgloveBridgeSetParametersAtomically_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeSetParametersAtomically(ctx, req.(*SetParametersAtomicallyReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceServiceServer_02DescribeParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotTransportRobotBridgeDescribeParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeParametersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceServiceServer_02DescribeParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeDescribeParameters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceServiceServer_02DescribeParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeDescribeParameters_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceServiceServer_02DescribeParameters(ctx, req.(*DescribeParametersReq))
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeDescribeParameters(ctx, req.(*DescribeParametersReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceListenerListParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListParametersReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceListenerListParameters(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceListenerListParameters_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceListenerListParameters(ctx, req.(*ListParametersReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceFoxgloveBridgeGetParameterTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetParameterTypesReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeGetParameterTypes(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceFoxgloveBridgeGetParameterTypes_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeGetParameterTypes(ctx, req.(*GetParameterTypesReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceAddTwoIntsSrv_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceAddTwoIntsSrv(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceAddTwoIntsSrv_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceAddTwoIntsSrv(ctx, req.(*AddReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceGetPerson_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPersonReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceGetPerson(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceGetPerson_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceGetPerson(ctx, req.(*GetPersonReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceListenerGetParameterTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetParameterTypesReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceListenerGetParameterTypes(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceListenerGetParameterTypes_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceListenerGetParameterTypes(ctx, req.(*GetParameterTypesReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceFoxgloveBridgeListParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListParametersReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeListParameters(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceFoxgloveBridgeListParameters_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeListParameters(ctx, req.(*ListParametersReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceListenerSetParametersAtomically_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotLoadRobotBridgeSetParametersAtomically_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetParametersAtomicallyReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceListenerSetParametersAtomically(ctx, in)
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeSetParametersAtomically(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceListenerSetParametersAtomically_FullMethodName,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeSetParametersAtomically_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceListenerSetParametersAtomically(ctx, req.(*SetParametersAtomicallyReq))
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeSetParametersAtomically(ctx, req.(*SetParametersAtomicallyReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceFoxgloveBridgeSetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetParametersReq)
+func _Api_CallServiceArebotLoadRobotBridgeGetParameterTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetParameterTypesReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeSetParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeGetParameterTypes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceFoxgloveBridgeSetParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeGetParameterTypes_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeSetParameters(ctx, req.(*SetParametersReq))
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeGetParameterTypes(ctx, req.(*GetParameterTypesReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceServiceServer_02ListParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListParametersReq)
+func _Api_CallServiceArebotUnloadRobotBridgeStartNavToPose_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartNavToPoseReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceServiceServer_02ListParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeStartNavToPose(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceServiceServer_02ListParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeStartNavToPose_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceServiceServer_02ListParameters(ctx, req.(*ListParametersReq))
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeStartNavToPose(ctx, req.(*StartNavToPoseReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceFoxgloveBridgeDescribeParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotTransportRobotBridgeStartTransport_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartTransportReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeStartTransport(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeStartTransport_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeStartTransport(ctx, req.(*StartTransportReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeSetParametersAtomically_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetParametersAtomicallyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeSetParametersAtomically(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeSetParametersAtomically_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeSetParametersAtomically(ctx, req.(*SetParametersAtomicallyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotLoadRobotBridgeGetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeGetState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeGetState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeGetState(ctx, req.(*GetStateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeDescribeParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeParametersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeDescribeParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeDescribeParameters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceFoxgloveBridgeDescribeParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeDescribeParameters_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeDescribeParameters(ctx, req.(*DescribeParametersReq))
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeDescribeParameters(ctx, req.(*DescribeParametersReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Api_CallServiceServiceServer_02SetParametersAtomically_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetParametersAtomicallyReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceServiceServer_02SetParametersAtomically(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceServiceServer_02SetParametersAtomically_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceServiceServer_02SetParametersAtomically(ctx, req.(*SetParametersAtomicallyReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceFoxgloveBridgeGetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetParametersReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeGetParameters(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Api_CallServiceFoxgloveBridgeGetParameters_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceFoxgloveBridgeGetParameters(ctx, req.(*GetParametersReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Api_CallServiceListenerSetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_CallServiceArebotLoadRobotBridgeSetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetParametersReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServer).CallServiceListenerSetParameters(ctx, in)
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeSetParameters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Api_CallServiceListenerSetParameters_FullMethodName,
+		FullMethod: Api_CallServiceArebotLoadRobotBridgeSetParameters_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServer).CallServiceListenerSetParameters(ctx, req.(*SetParametersReq))
+		return srv.(ApiServer).CallServiceArebotLoadRobotBridgeSetParameters(ctx, req.(*SetParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeGetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeGetState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeGetState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeGetState(ctx, req.(*GetStateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeGetParameterTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetParameterTypesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeGetParameterTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeGetParameterTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeGetParameterTypes(ctx, req.(*GetParameterTypesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeGetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetParametersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeGetParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeGetParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeGetParameters(ctx, req.(*GetParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeGetParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetParametersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeGetParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeGetParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeGetParameters(ctx, req.(*GetParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotUnloadRobotBridgeSetParametersAtomically_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetParametersAtomicallyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeSetParametersAtomically(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotUnloadRobotBridgeSetParametersAtomically_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotUnloadRobotBridgeSetParametersAtomically(ctx, req.(*SetParametersAtomicallyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeListParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListParametersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeListParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeListParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeListParameters(ctx, req.(*ListParametersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_CallServiceArebotTransportRobotBridgeStartNavToPose_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartNavToPoseReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeStartNavToPose(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_CallServiceArebotTransportRobotBridgeStartNavToPose_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).CallServiceArebotTransportRobotBridgeStartNavToPose(ctx, req.(*StartNavToPoseReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -906,98 +1266,142 @@ var Api_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "PublishTopicParameter_events",
-			Handler:    _Api_PublishTopicParameterEvents_Handler,
+			MethodName: "PublishTopicArebot_unloadRobot_bridgeRobot_state",
+			Handler:    _Api_PublishTopicArebotUnloadRobotBridgeRobotState_Handler,
 		},
 		{
-			MethodName: "PublishTopicRosout",
-			Handler:    _Api_PublishTopicRosout_Handler,
+			MethodName: "PublishTopicArebot_transportRobot_bridgeRobot_state",
+			Handler:    _Api_PublishTopicArebotTransportRobotBridgeRobotState_Handler,
 		},
 		{
-			MethodName: "PublishTopicChatter",
-			Handler:    _Api_PublishTopicChatter_Handler,
+			MethodName: "PublishTopicArebot_loadRobot_bridgeRobot_state",
+			Handler:    _Api_PublishTopicArebotLoadRobotBridgeRobotState_Handler,
 		},
 		{
-			MethodName: "CallServiceListenerDescribe_parameters",
-			Handler:    _Api_CallServiceListenerDescribeParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeDescribe_parameters",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeDescribeParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceListenerGet_parameters",
-			Handler:    _Api_CallServiceListenerGetParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeGet_parameters",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeGetParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceService_server_02Set_parameters",
-			Handler:    _Api_CallServiceServiceServer_02SetParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeList_parameters",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeListParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceService_server_02Get_parameters",
-			Handler:    _Api_CallServiceServiceServer_02GetParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeStart_pick_and_load",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeStartPickAndLoad_Handler,
 		},
 		{
-			MethodName: "CallServiceService_server_02Get_parameter_types",
-			Handler:    _Api_CallServiceServiceServer_02GetParameterTypes_Handler,
+			MethodName: "CallServiceArebot_transportRobot_bridgeGet_state",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeGetState_Handler,
 		},
 		{
-			MethodName: "CallServiceFoxglove_bridgeSet_parameters_atomically",
-			Handler:    _Api_CallServiceFoxgloveBridgeSetParametersAtomically_Handler,
+			MethodName: "CallServiceArebot_transportRobot_bridgeSet_parameters",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeSetParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceService_server_02Describe_parameters",
-			Handler:    _Api_CallServiceServiceServer_02DescribeParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeStart_nav_to_pose",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeStartNavToPose_Handler,
 		},
 		{
-			MethodName: "CallServiceListenerList_parameters",
-			Handler:    _Api_CallServiceListenerListParameters_Handler,
+			MethodName: "CallServiceArebot_unloadRobot_bridgeStart_unload_and_place",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeStartUnloadAndPlace_Handler,
 		},
 		{
-			MethodName: "CallServiceFoxglove_bridgeGet_parameter_types",
-			Handler:    _Api_CallServiceFoxgloveBridgeGetParameterTypes_Handler,
+			MethodName: "CallServiceArebot_unloadRobot_bridgeSet_parameters",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeSetParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceAdd_two_ints_srv",
-			Handler:    _Api_CallServiceAddTwoIntsSrv_Handler,
+			MethodName: "CallServiceArebot_unloadRobot_bridgeList_parameters",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeListParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceGet_person",
-			Handler:    _Api_CallServiceGetPerson_Handler,
+			MethodName: "CallServiceArebot_unloadRobot_bridgeGet_parameter_types",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeGetParameterTypes_Handler,
 		},
 		{
-			MethodName: "CallServiceListenerGet_parameter_types",
-			Handler:    _Api_CallServiceListenerGetParameterTypes_Handler,
+			MethodName: "CallServiceArebot_transportRobot_bridgeDescribe_parameters",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeDescribeParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceFoxglove_bridgeList_parameters",
-			Handler:    _Api_CallServiceFoxgloveBridgeListParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeSet_parameters_atomically",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeSetParametersAtomically_Handler,
 		},
 		{
-			MethodName: "CallServiceListenerSet_parameters_atomically",
-			Handler:    _Api_CallServiceListenerSetParametersAtomically_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeGet_parameter_types",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeGetParameterTypes_Handler,
 		},
 		{
-			MethodName: "CallServiceFoxglove_bridgeSet_parameters",
-			Handler:    _Api_CallServiceFoxgloveBridgeSetParameters_Handler,
+			MethodName: "CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeStartNavToPose_Handler,
 		},
 		{
-			MethodName: "CallServiceService_server_02List_parameters",
-			Handler:    _Api_CallServiceServiceServer_02ListParameters_Handler,
+			MethodName: "CallServiceArebot_transportRobot_bridgeStart_transport",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeStartTransport_Handler,
 		},
 		{
-			MethodName: "CallServiceFoxglove_bridgeDescribe_parameters",
-			Handler:    _Api_CallServiceFoxgloveBridgeDescribeParameters_Handler,
+			MethodName: "CallServiceArebot_transportRobot_bridgeSet_parameters_atomically",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeSetParametersAtomically_Handler,
 		},
 		{
-			MethodName: "CallServiceService_server_02Set_parameters_atomically",
-			Handler:    _Api_CallServiceServiceServer_02SetParametersAtomically_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeGet_state",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeGetState_Handler,
 		},
 		{
-			MethodName: "CallServiceFoxglove_bridgeGet_parameters",
-			Handler:    _Api_CallServiceFoxgloveBridgeGetParameters_Handler,
+			MethodName: "CallServiceArebot_unloadRobot_bridgeDescribe_parameters",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeDescribeParameters_Handler,
 		},
 		{
-			MethodName: "CallServiceListenerSet_parameters",
-			Handler:    _Api_CallServiceListenerSetParameters_Handler,
+			MethodName: "CallServiceArebot_loadRobot_bridgeSet_parameters",
+			Handler:    _Api_CallServiceArebotLoadRobotBridgeSetParameters_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_unloadRobot_bridgeGet_state",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeGetState_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_transportRobot_bridgeGet_parameter_types",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeGetParameterTypes_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_transportRobot_bridgeGet_parameters",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeGetParameters_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_unloadRobot_bridgeGet_parameters",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeGetParameters_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically",
+			Handler:    _Api_CallServiceArebotUnloadRobotBridgeSetParametersAtomically_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_transportRobot_bridgeList_parameters",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeListParameters_Handler,
+		},
+		{
+			MethodName: "CallServiceArebot_transportRobot_bridgeStart_nav_to_pose",
+			Handler:    _Api_CallServiceArebotTransportRobotBridgeStartNavToPose_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "SubscribeTopicArebot_unloadRobot_bridgeRobot_state",
+			Handler:       _Api_SubscribeTopicArebotUnloadRobotBridgeRobotState_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SubscribeTopicArebot_transportRobot_bridgeRobot_state",
+			Handler:       _Api_SubscribeTopicArebotTransportRobotBridgeRobotState_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SubscribeTopicArebot_loadRobot_bridgeRobot_state",
+			Handler:       _Api_SubscribeTopicArebotLoadRobotBridgeRobotState_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "main.proto",
 }

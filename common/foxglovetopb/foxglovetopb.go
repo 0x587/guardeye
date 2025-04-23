@@ -204,6 +204,7 @@ func (i *impl) Output() map[string]string {
 	for topic, msg := range i.messageApi {
 		mainContent += fmt.Sprintf("\t// topic: %s\n", topic)
 		mainContent += fmt.Sprintf("\trpc PublishTopic%s(%s) returns (%s);\n", Topic2Name(topic), msg.Package+"."+msg.Name, msg.Package+"."+msg.Name)
+		mainContent += fmt.Sprintf("\trpc SubscribeTopic%s(%s) returns (stream %s);\n", Topic2Name(topic), msg.Package+"."+msg.Name, msg.Package+"."+msg.Name)
 	}
 
 	for topic, srv := range i.serviceApi {

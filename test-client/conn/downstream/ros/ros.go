@@ -5,8 +5,9 @@ import (
 )
 
 const (
-	ActionSendTopic   = "send_topic"
-	ActionCallService = "call_service"
+	ActionSendTopic      = "send_topic"
+	ActionSubscribeTopic = "subscribe_topic"
+	ActionCallService    = "call_service"
 )
 
 type IF interface {

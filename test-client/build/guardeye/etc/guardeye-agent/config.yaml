@@ -1,7 +1,9 @@
-Server:
-  Host: http://ws.scut.mcurobot.com
-  Port: 56688
-Provider:
-  - Type: ticker
-    Args:
-      Interval: 1000
+Server: reportgrpc.guardeye.shawnsiu.site:5080
+LinkEndpoint: linkgrpc.guardeye.shawnsiu.site:5080
+Provider: []
+Bridge:
+  Enable: true
+  Ip: 127.0.0.1
+  Port: 8765
+  Patterns:
+    - "#"

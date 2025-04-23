@@ -1,10 +1,11 @@
 Server: reportgrpc.guardeye.shawnsiu.site:5080
+#Server: localhost:8080
 LinkEndpoint: linkgrpc.guardeye.shawnsiu.site:5080
-Provider:
-  - Type: ticker
-    Args:
-      Interval: 100000000000
+#LinkEndpoint: localhost:8080
+Provider: []
 Bridge:
   Enable: true
   Ip: 10.0.4.114
   Port: 8765
+  Patterns:
+    - "#"

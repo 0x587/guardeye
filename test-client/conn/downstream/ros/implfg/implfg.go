@@ -6,26 +6,32 @@ import (
 	"errors"
 	"strings"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/0x587/guardeye/common/foxgloveclient"
 	"github.com/0x587/guardeye/link/link"
 	"github.com/0x587/guardeye/link/linkclient"
 	"github.com/0x587/guardeye/test-client/conn/downstream/ros"
 )
 
-func New(ip string, port int) ros.IF {
+func New(ip string, port int, patterns []string, callback func(string, []byte)) ros.IF {
 	return &impl{
-		cli: foxgloveclient.New(ip, port).Run(context.Background()),
+		cli:      foxgloveclient.New(ip, port, patterns).Run(context.Background()),
+		callback: callback,
 	}
 }
 
 type impl struct {
-	cli foxgloveclient.IF
+	cli      foxgloveclient.IF
+	callback func(string, []byte)
 }
 
 func (i *impl) Exec(payload *linkclient.LinkCommandPayloadRosExec) ([]byte, error) {
 	switch payload.GetAction() {
 	case ros.ActionSendTopic:
 		return i.sendTopic(payload)
+	case ros.ActionSubscribeTopic:
+		return i.subscribeTopic(payload)
 	case ros.ActionCallService:
 		return i.callService(payload)
 	}
@@ -42,6 +48,18 @@ func (i *impl) sendTopic(p *linkclient.LinkCommandPayloadRosExec) ([]byte, error
 		return nil, err
 	}
 	return cdrData, nil
+}
+
+func (i *impl) subscribeTopic(p *linkclient.LinkCommandPayloadRosExec) ([]byte, error) {
+	logx.Errorf("订阅 %v", p)
+	err := i.cli.Subscribe(p.GetRosTopic(), func(transData []byte) {
+		id := p.GetData() // 请求的轮询ID
+		i.callback(id, transData)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
 }
 
 func (i *impl) callService(p *linkclient.LinkCommandPayloadRosExec) ([]byte, error) {

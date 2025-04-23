@@ -114,5 +114,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/v1/link"),
+		rest.WithTimeout(5000*time.Millisecond),
 	)
 }

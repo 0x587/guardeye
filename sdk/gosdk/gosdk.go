@@ -55,6 +55,37 @@ func (i *impl) Invoke(ctx context.Context, method string, args any, reply any, o
 }
 
 func (i *impl) NewStream(ctx context.Context, desc *grpc.StreamDesc, method string, opts ...grpc.CallOption) (grpc.ClientStream, error) {
-	//TODO implement me
-	panic("implement me")
+	stream, err := i.cli.LinkStreamCall(ctx, &linkclient.LinkCallReq{
+		Cid:    i.cid,
+		Method: method,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &streamWrapper{
+		ServerStreamingClient: stream,
+	}, nil
+}
+
+type streamWrapper struct {
+	grpc.ServerStreamingClient[linkclient.LinkCallRsp]
+}
+
+func (s *streamWrapper) SendMsg(m any) error {
+	return nil
+}
+
+func (s *streamWrapper) RecvMsg(m any) error {
+	recv, err := s.ServerStreamingClient.Recv()
+	if err != nil {
+		return err
+	}
+	bytes, err := base64.StdEncoding.DecodeString(recv.GetData())
+	if err != nil {
+		return err
+	}
+	if err := proto.Unmarshal(bytes, m.(proto.Message)); err != nil {
+		return err
+	}
+	return nil
 }

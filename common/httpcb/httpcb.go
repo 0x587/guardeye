@@ -55,6 +55,7 @@ func (i *impl) Online(ctx context.Context, cid uuid.UUID) {
 		URL:    u,
 		Method: cfgItem.Method,
 		Header: toHeader(cfgItem.Headers),
+		Body:   io.NopCloser(strings.NewReader("{}")),
 	}
 	if _, err := http.DefaultClient.Do(req); err != nil {
 		logx.Error(err)
@@ -81,6 +82,7 @@ func (i *impl) Offline(ctx context.Context, cid uuid.UUID) {
 		URL:    u,
 		Method: cfgItem.Method,
 		Header: toHeader(cfgItem.Headers),
+		Body:   io.NopCloser(strings.NewReader("{}")),
 	}
 	if _, err := http.DefaultClient.Do(req); err != nil {
 		logx.Error(err)
@@ -96,7 +98,7 @@ func (i *impl) Data(ctx context.Context, cid uuid.UUID, topic string, payload st
 	}
 	for _, cfgItem := range cfg.Data {
 		if !topicMatch(cfgItem.TopicPattern, topic) {
-
+			continue
 		}
 		if !cfgItem.Enabled {
 			continue
@@ -112,6 +114,7 @@ func (i *impl) Data(ctx context.Context, cid uuid.UUID, topic string, payload st
 			Header: toHeader(cfgItem.Headers),
 			Body:   io.NopCloser(strings.NewReader(mixedTopicPayload(topic, payload))),
 		}
+		logx.Infof("http callbck %v", req)
 		if _, err := http.DefaultClient.Do(req); err != nil {
 			logx.Error(err)
 			continue

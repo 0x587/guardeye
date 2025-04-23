@@ -24,23 +24,23 @@ func New(cid uuid.UUID, c config.Config) (IF, error) {
 	if err != nil {
 		return nil, err
 	}
-	var rosImpl ros.IF
-	if c.Bridge.Enable {
-		rosImpl = implfg.New(c.Bridge.Ip, c.Bridge.Port)
-	}
-	res := &mqttImpl{
+
+	res := &impl{
 		ctx:        ctx,
 		cancelFunc: cancelFunc,
 		cid:        cid.String(),
-		rosImpl:    rosImpl,
+	}
+	if c.Bridge.Enable {
+		res.rosImpl = implfg.New(c.Bridge.Ip, c.Bridge.Port, c.Bridge.Patterns, res.subscribeTopicCallback)
 	}
 	if err := sLink.Init(res.callback); err != nil {
 		return nil, err
 	}
+	res.sLink = sLink
 	return res, nil
 }
 
-type mqttImpl struct {
+type impl struct {
 	ctx        context.Context
 	cancelFunc context.CancelFunc
 
@@ -49,7 +49,7 @@ type mqttImpl struct {
 	rosImpl ros.IF
 }
 
-func (i *mqttImpl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.LinkCommandUpstream, error) {
+func (i *impl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.LinkCommandUpstream, error) {
 	rsp := &linkclient.LinkCommandUpstream{
 		Id:     req.Id,
 		Ok:     false,
@@ -57,6 +57,10 @@ func (i *mqttImpl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.
 	}
 
 	if req.GetPayloadRosExec() != nil {
+		// 当为订阅请求时 data字段填充轮训id
+		if req.GetPayloadRosExec().GetAction() == ros.ActionSubscribeTopic {
+			req.GetPayloadRosExec().Data = req.GetId()
+		}
 		res, err := i.rosImpl.Exec(req.GetPayloadRosExec())
 
 		if err != nil {
@@ -95,7 +99,16 @@ func (i *mqttImpl) callback(req *linkclient.LinkCommandDownstream) (*linkclient.
 	return rsp, nil
 }
 
-func (i *mqttImpl) Close() {
+func (i *impl) subscribeTopicCallback(id string, transData []byte) {
+	_ = i.sLink.Send(&linkclient.LinkCommandUpstream{
+		Id: id,
+		TopicSubscribeResult: &linkclient.TopicSubscribeRsp{
+			CdrData: base64.StdEncoding.EncodeToString(transData),
+		},
+	})
+}
+
+func (i *impl) Close() {
 	i.cancelFunc()
 	i.sLink.Close()
 }

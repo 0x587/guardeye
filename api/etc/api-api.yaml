@@ -13,6 +13,7 @@ PostgresConf: postgres://postgres:example@ws.scut.mcurobot.com:55432/guardeye?ss
 
 Link:
   Target: linkgrpc.guardeye.shawnsiu.site:5080
+#  Target: localhost:8080
 
 HotLogConsumerConf:
   Name: kqConsumer

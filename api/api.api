@@ -148,8 +148,9 @@ type (
 )
 
 @server (
-	prefix: /api/v1/link
-	group:  link
+	prefix:  /api/v1/link
+	group:   link
+	timeout: 5s
 )
 service api-api {
 	@handler TypeListHandler

@@ -9,6 +9,7 @@ import (
 	"io"
 	"math/rand"
 	"net/url"
+	"strings"
 	"sync"
 
 	"github.com/gorilla/websocket"
@@ -31,7 +32,7 @@ type IF interface {
 	List() *linkclient.TypeListRsp
 }
 
-func New(ip string, port int) IF {
+func New(ip string, port int, topicPatterns []string) IF {
 	u := url.URL{Scheme: "ws", Host: fmt.Sprintf("%s:%d", ip, port)}
 	logx.Infof("foxglove connecting to %s", u.String())
 	dialer := websocket.Dialer{
@@ -48,6 +49,7 @@ func New(ip string, port int) IF {
 		subscribers:   make(map[string][]func([]byte)),
 		clientSendChs: make(map[string]*channelInfo),
 		srvRspPool:    eventpool.New[uint32, []byte](),
+		topicPatterns: topicPatterns,
 	}
 	return res
 }
@@ -66,6 +68,8 @@ type impl struct {
 	srvChs sync.Map // serviceId: int -> *serviceInfo
 
 	srvRspPool eventpool.IF[uint32, []byte]
+
+	topicPatterns []string
 }
 
 func (i *impl) Run(ctx context.Context) IF {
@@ -275,6 +279,9 @@ func (i *impl) handleServerAdvertise(msg []byte) {
 		return
 	}
 	for _, channel := range advertiseMsg.Channels {
+		if !i.topicMatch(channel.Topic) {
+			continue
+		}
 		logx.Infof("get channel %d %s", channel.Id, channel.Topic)
 		i.serverSendChs.Store(channel.Id, &channelInfo{
 			Id:         channel.Id,
@@ -312,6 +319,9 @@ func (i *impl) handleServerAdvertiseService(msg []byte) {
 		return
 	}
 	for _, service := range advertiseServiceMsg.Services {
+		if !i.topicMatch(service.Name) {
+			continue
+		}
 		logx.Infof("get service %d %s", service.Id, service.Name)
 		i.srvChs.Store(service.Id, &service)
 	}
@@ -489,4 +499,42 @@ func (i *impl) subscribe(ids ...int) error {
 	i.connWriteMutex.Lock()
 	defer i.connWriteMutex.Unlock()
 	return errors.Wrap(i.conn.WriteJSON(msg), "foxglove: error writing subscribe json message")
+}
+
+func (i *impl) topicMatch(topic string) bool {
+	for _, pattern := range i.topicPatterns {
+		if _topicMatch(pattern, topic) {
+			return true
+		}
+	}
+	return false
+}
+
+func _topicMatch(pattern, topic string) bool {
+	pParts := strings.Split(pattern, "/")
+	tParts := strings.Split(topic, "/")
+
+	for i := 0; i < len(pParts); i++ {
+		if i >= len(tParts) {
+			// 只有 # 可以匹配多余部分
+			return pParts[i] == "#"
+		}
+
+		switch pParts[i] {
+		case "#":
+			// # 必须是最后一段
+			return i == len(pParts)-1
+		case "+":
+			// + 匹配当前层级，继续匹配下一层
+			continue
+		default:
+			// 精确匹配
+			if pParts[i] != tParts[i] {
+				return false
+			}
+		}
+	}
+
+	// 如果 topic 还有多余部分，且 pattern 没有 #，则不匹配
+	return len(tParts) == len(pParts)
 }

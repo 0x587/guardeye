@@ -2,9 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -13,21 +10,26 @@ import (
 )
 
 func main() {
-	client := gosdk.NewClientConn("linkgrpc.guardeye.shawnsiu.site:5080", "73cf612b-5bff-41f5-bf79-9c2f6698f61d")
+	client := gosdk.NewClientConn("linkgrpc.guardeye.shawnsiu.site:5080", "59af85f5-244b-4f77-93a9-2d11e86af19b")
 	cli := pb.NewApiClient(client)
-	for {
-		ctx := context.Background()
-		n := time.Now()
-		person, err := cli.CallServiceAddTwoIntsSrv(ctx, &pb.AddReq{
-			A: &pb.V2{A: int64(n.Hour()), B: int64(n.Minute())},
-			B: &pb.V2{A: int64(n.Second()), B: int64(n.Nanosecond())},
-		})
-		if err != nil {
-			logx.Error(err)
-		}
-		personJson, _ := json.Marshal(person)
-		fmt.Printf("%s\n", personJson)
-		time.Sleep(time.Second)
+	ctx := context.Background()
+	state, err := cli.CallServiceArebotTransportRobotBridgeGetState(ctx, &pb.GetStateReq{})
+	if err != nil {
+		return
 	}
-
+	logx.Info(state)
+	//stream, err := cli.SubscribeTopicArebotTransportRobotBridgeRobotState(ctx, nil)
+	//if err != nil {
+	//	logx.Error(err)
+	//}
+	//for {
+	//	recv, err := stream.Recv()
+	//	if err != nil {
+	//		logx.Error(err)
+	//		return
+	//	}
+	//	recvJson, _ := json.Marshal(recv)
+	//	fmt.Printf("%s\n", recvJson)
+	//	time.Sleep(time.Second)
+	//}
 }

@@ -11,12 +11,12 @@ import (
 )
 
 type IF[Req, Rsp proto.Message] interface {
-	Accept(key string, stream stream[Req, Rsp])
+	Accept(key string, stream Stream[Req, Rsp])
 	Send(key string, value Req) error
 	List() map[string]time.Time
 }
 
-type stream[Req, Rsp proto.Message] interface {
+type Stream[Req, Rsp proto.Message] interface {
 	Send(Req) error
 	Recv() (Rsp, error)
 }
@@ -24,7 +24,7 @@ type stream[Req, Rsp proto.Message] interface {
 func New[Req, Rsp proto.Message](callback func(key string, rsp Rsp)) IF[Req, Rsp] {
 	return &impl[Req, Rsp]{
 		callback: callback,
-		streams:  make(map[string]map[stream[Req, Rsp]]bool),
+		streams:  make(map[string]map[Stream[Req, Rsp]]bool),
 		lastSeen: make(map[string]time.Time),
 	}
 }
@@ -32,14 +32,14 @@ func New[Req, Rsp proto.Message](callback func(key string, rsp Rsp)) IF[Req, Rsp
 type impl[Req, Rsp proto.Message] struct {
 	sync.Mutex
 	callback func(key string, rsp Rsp)
-	streams  map[string]map[stream[Req, Rsp]]bool
+	streams  map[string]map[Stream[Req, Rsp]]bool
 	lastSeen map[string]time.Time
 }
 
-func (i *impl[Req, Rsp]) Accept(key string, s stream[Req, Rsp]) {
+func (i *impl[Req, Rsp]) Accept(key string, s Stream[Req, Rsp]) {
 	i.Lock()
 	if i.streams[key] == nil {
-		i.streams[key] = make(map[stream[Req, Rsp]]bool)
+		i.streams[key] = make(map[Stream[Req, Rsp]]bool)
 	}
 	i.streams[key][s] = true
 	i.lastSeen[key] = time.Now()

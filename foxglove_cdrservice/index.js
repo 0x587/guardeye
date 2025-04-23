@@ -103,6 +103,22 @@ function convertBigNumberAndLongToBigInt(obj) {
     return obj;
 }
 
+function convertKeysToCamelCase(obj) {
+    function toCamelCase(str) {
+        return str.replace(/_([a-z])/g, (_, char) => char.toUpperCase());
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(convertKeysToCamelCase);
+    } else if (obj !== null && typeof obj === "object") {
+        return Object.entries(obj).reduce((acc, [key, value]) => {
+            const camelKey = toCamelCase(key);
+            acc[camelKey] = convertKeysToCamelCase(value);
+            return acc;
+        }, {});
+    }
+    return obj;
+}
+
 // 实现服务方法
 function CdrRead(call, callback) {
     const {
@@ -126,7 +142,7 @@ function CdrRead(call, callback) {
             res = convertTypedArrays(res)
             const jsonRes = JSONbig.stringify(res)
             res = convertBigIntToLong(res)
-            const pbRes = Msg.encode(res).finish()
+            const pbRes = Msg.encode(convertKeysToCamelCase(res)).finish()
             console.log('------------READ----------------')
             console.log(res)
             console.log(jsonRes)

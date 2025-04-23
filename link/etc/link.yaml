@@ -5,4 +5,8 @@ Mode: dev
 DevServer:
   Enabled: true
 
-CdrServiceTarget: foxglove_cdrservice:50051
+CdrServiceTarget: cdr.guardeye.shawnsiu.site:5080
+
+PostgresConf:
+  Driver: postgres
+  Dsn: host=ws.scut.mcurobot.com port=55432 user=postgres dbname=guardeye password=example sslmode=disable

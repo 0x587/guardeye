@@ -3,8 +3,10 @@ package downstream
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
+	"sync"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -20,6 +22,7 @@ import (
 
 type serverLink interface {
 	Init(callback) error
+	Send(*linkclient.LinkCommandUpstream) error
 	Close()
 }
 type callback func(req *linkclient.LinkCommandDownstream) (*linkclient.LinkCommandUpstream, error)
@@ -74,13 +77,20 @@ func (l *mqttServerLink) Init(cb callback) error {
 	return nil
 }
 
+func (l *mqttServerLink) Send(upstream *linkclient.LinkCommandUpstream) error {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (l *mqttServerLink) Close() {
 	l.c.Disconnect(250)
 }
 
 type rpcServerLink struct {
-	cli linkclient.Link
-	cid uuid.UUID
+	sync.RWMutex // for links
+	links        map[link.Link_LinkClient]bool
+	cli          linkclient.Link
+	cid          uuid.UUID
 }
 
 func newRpcServerLink(cid uuid.UUID, linkEndpoint string) (serverLink, error) {
@@ -93,8 +103,9 @@ func newRpcServerLink(cid uuid.UUID, linkEndpoint string) (serverLink, error) {
 	}
 	cli := linkclient.NewLink(client)
 	return &rpcServerLink{
-		cli: cli,
-		cid: cid,
+		cli:   cli,
+		cid:   cid,
+		links: make(map[link.Link_LinkClient]bool),
 	}, nil
 }
 
@@ -169,6 +180,14 @@ func (l *rpcServerLink) Init(cb callback) error {
 						if err != nil {
 							return err
 						}
+						l.Lock()
+						l.links[link_] = true
+						l.Unlock()
+						defer func() {
+							l.Lock()
+							delete(l.links, link_)
+							l.Unlock()
+						}()
 						err = handleLink(link_)
 						if err != nil {
 							return err
@@ -185,6 +204,19 @@ func (l *rpcServerLink) Init(cb callback) error {
 	}()
 
 	return nil
+}
+
+func (l *rpcServerLink) Send(upstream *linkclient.LinkCommandUpstream) error {
+	l.RLock()
+	defer l.RUnlock()
+	for link_ := range l.links {
+		err := link_.Send(upstream)
+		if err == nil {
+			return nil
+		}
+		logx.Error(err)
+	}
+	return errors.New("no link to send")
 }
 
 func (l *rpcServerLink) Close() {

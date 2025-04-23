@@ -33,6 +33,11 @@ func (s *LinkServer) LinkCall(ctx context.Context, in *link.LinkCallReq) (*link.
 	return l.LinkCall(in)
 }
 
+func (s *LinkServer) LinkStreamCall(in *link.LinkCallReq, stream link.Link_LinkStreamCallServer) error {
+	l := logic.NewLinkStreamCallLogic(stream.Context(), s.svcCtx)
+	return l.LinkStreamCall(in, stream)
+}
+
 func (s *LinkServer) TypeList(ctx context.Context, in *link.TypeListReq) (*link.TypeListRsp, error) {
 	l := logic.NewTypeListLogic(ctx, s.svcCtx)
 	return l.TypeList(in)

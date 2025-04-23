@@ -7,4 +7,8 @@ import (
 type Config struct {
 	zrpc.RpcServerConf
 	CdrServiceTarget string
+	PostgresConf     struct {
+		Driver string
+		Dsn    string
+	}
 }

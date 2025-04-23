@@ -26,6 +26,7 @@ type (
 	LinkCommandPayloadRosType = link.LinkCommandPayloadRosType
 	LinkCommandUpstream       = link.LinkCommandUpstream
 	LinkTypeGenResult         = link.LinkTypeGenResult
+	TopicSubscribeRsp         = link.TopicSubscribeRsp
 	TypeGenReq                = link.TypeGenReq
 	TypeGenRsp                = link.TypeGenRsp
 	TypeListReq               = link.TypeListReq
@@ -35,6 +36,7 @@ type (
 	Link interface {
 		Link(ctx context.Context, opts ...grpc.CallOption) (link.Link_LinkClient, error)
 		LinkCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (*LinkCallRsp, error)
+		LinkStreamCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (link.Link_LinkStreamCallClient, error)
 		TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error)
 		TypeGen(ctx context.Context, in *TypeGenReq, opts ...grpc.CallOption) (*TypeGenRsp, error)
 		AgentList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AgentListRsp, error)
@@ -60,6 +62,11 @@ func (m *defaultLink) Link(ctx context.Context, opts ...grpc.CallOption) (link.L
 func (m *defaultLink) LinkCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (*LinkCallRsp, error) {
 	client := link.NewLinkClient(m.cli.Conn())
 	return client.LinkCall(ctx, in, opts...)
+}
+
+func (m *defaultLink) LinkStreamCall(ctx context.Context, in *LinkCallReq, opts ...grpc.CallOption) (link.Link_LinkStreamCallClient, error) {
+	client := link.NewLinkClient(m.cli.Conn())
+	return client.LinkStreamCall(ctx, in, opts...)
 }
 
 func (m *defaultLink) TypeList(ctx context.Context, in *TypeListReq, opts ...grpc.CallOption) (*TypeListRsp, error) {

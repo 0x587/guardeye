@@ -168,6 +168,10 @@ func methodParse(method string) (action string, topic string, err error) {
 		topic = strings.Replace(method, "CallService", "", 1)
 		topic = implcli.Name2Topic(topic)
 		action = ros.ActionCallService
+	} else if strings.HasPrefix(method, "SubscribeTopic") {
+		topic = strings.Replace(method, "SubscribeTopic", "", 1)
+		topic = implcli.Name2Topic(topic)
+		action = ros.ActionSubscribeTopic
 	} else {
 		return "", "", errors.New(fmt.Sprintf("unknown method %s", method))
 	}

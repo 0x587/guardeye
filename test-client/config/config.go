@@ -18,9 +18,10 @@ type ProviderConfig struct {
 }
 
 type BridgeConfig struct {
-	Enable bool
-	Ip     string
-	Port   int
+	Enable   bool
+	Ip       string
+	Port     int
+	Patterns []string
 }
 
 var configFile = flag.String("f", "/etc/guardeye-agent/config.yaml", "the config file")
