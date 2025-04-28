@@ -172,6 +172,44 @@ service api-api {
 	post /set/callback (SetCallbackReq) returns (CallbackConfig)
 }
 
+type (
+	ListenReq {
+		cid   string `json:"cid"`
+		topic string `json:"topic"`
+	}
+	ListenState {
+		state map[string]map[string]bool
+	}
+	RpcProxyReq {
+		cid    string `json:"cid"`
+		topic  string `json:"topic"`
+		action string `json:"action"`
+		data   string `json:"data"`
+	}
+	RpcProxyRsp {
+		data string `json:"data"`
+	}
+)
+
+@server (
+	prefix:  /api/v1/helper
+	group:   helper
+	timeout: 5s
+)
+service api-api {
+	@handler StartListenHandler
+	post /listen/start (ListenReq)
+
+	@handler StopListenHandler
+	post /listen/stop (ListenReq)
+
+	@handler StateListenHandler
+	post /listen/state returns (ListenState)
+
+	@handler RpcProxyHandler
+	post /service/call (RpcProxyReq) returns (RpcProxyRsp)
+}
+
 //type (
 // MetricQuery {
 //  Type      string         `json:"type,options=Number|String"`

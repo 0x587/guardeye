@@ -105,6 +105,15 @@ type LinkListenReq struct {
 	Cid string `path:"cid"`
 }
 
+type ListenReq struct {
+	Cid   string `json:"cid"`
+	Topic string `json:"topic"`
+}
+
+type ListenState struct {
+	State map[string]map[string]bool
+}
+
 type LogQuery struct {
 	NodeId   string   `json:"nodeId"`
 	Provider Provider `json:"provider"`
@@ -157,6 +166,17 @@ type ProviderKey struct {
 type ProviderKeys struct {
 	Provider Provider `json:"provider"`
 	Keys     []string `json:"keys"`
+}
+
+type RpcProxyReq struct {
+	Cid    string `json:"cid"`
+	Topic  string `json:"topic"`
+	Action string `json:"action"`
+	Data   string `json:"data"`
+}
+
+type RpcProxyRsp struct {
+	Data string `json:"data"`
 }
 
 type SetAliasReq struct {

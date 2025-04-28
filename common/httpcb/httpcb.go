@@ -108,13 +108,15 @@ func (i *impl) Data(ctx context.Context, cid uuid.UUID, topic string, payload st
 			logx.Error(err)
 			continue
 		}
+		body := mixedTopicPayload(topic, payload)
 		req := &http.Request{
 			URL:    u,
 			Method: cfgItem.Method,
 			Header: toHeader(cfgItem.Headers),
-			Body:   io.NopCloser(strings.NewReader(mixedTopicPayload(topic, payload))),
+			Body:   io.NopCloser(strings.NewReader(body)),
 		}
 		logx.Infof("http callbck %v", req)
+		logx.Infof("http callbck body %v", body)
 		if _, err := http.DefaultClient.Do(req); err != nil {
 			logx.Error(err)
 			continue
@@ -192,8 +194,7 @@ func mixedTopicPayload(topic, payload string) string {
 		return payload
 	}
 	res, err := json.Marshal(map[string]any{
-		"topic":   topic,
-		"payload": data,
+		"properties": data,
 	})
 	if err != nil {
 		logx.Error(err)

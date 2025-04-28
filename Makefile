@@ -23,3 +23,7 @@ docker-push:
 docker-one: docker-build-one docker-push-one
 
 docker: docker-build docker-push
+
+release:
+	cd test-client && bash ./build/build.sh && cp ./dist/guardeye.deb ../dist/agent.deb && \
+	cd ../cli && goreleaser release --snapshot --clean && cp ./dist/*tar.gz ../dist

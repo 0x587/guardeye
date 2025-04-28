@@ -9,6 +9,7 @@ import (
 
 	admin "github.com/0x587/guardeye/api/internal/handler/admin"
 	es "github.com/0x587/guardeye/api/internal/handler/es"
+	helper "github.com/0x587/guardeye/api/internal/handler/helper"
 	link "github.com/0x587/guardeye/api/internal/handler/link"
 	"github.com/0x587/guardeye/api/internal/svc"
 
@@ -78,6 +79,33 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithPrefix("/api/v1/es"),
 		rest.WithTimeout(100000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/listen/start",
+				Handler: helper.StartListenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/listen/state",
+				Handler: helper.StateListenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/listen/stop",
+				Handler: helper.StopListenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/service/call",
+				Handler: helper.RpcProxyHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1/helper"),
+		rest.WithTimeout(5000*time.Millisecond),
 	)
 
 	server.AddRoutes(
