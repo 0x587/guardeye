@@ -119,6 +119,17 @@ function convertKeysToCamelCase(obj) {
     return obj;
 }
 
+function camelToSnake(obj) {
+    const newObj = {};
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+            newObj[snakeKey] = obj[key];
+        }
+    }
+    return newObj;
+}
+
 // 实现服务方法
 function CdrRead(call, callback) {
     const {
@@ -177,7 +188,7 @@ function CdrWrite(call, callback) {
             console.log('------------WRITE----------------')
             console.log(trans_data)
             console.log(v)
-            const res = write(d, v)
+            const res = write(d, camelToSnake(v))
             const jsonRes = JSONbig.stringify(v)
             callback(null, {cdr_data: res, json_data: jsonRes})
             file.unlink();
