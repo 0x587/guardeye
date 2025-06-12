@@ -127,7 +127,6 @@ func (i *impl) Data(ctx context.Context, cid uuid.UUID, topic string, payload st
 func (i *impl) getConfig(ctx context.Context, cid uuid.UUID) (*CallbackConfig, error) {
 	res, exist := i.c.Get(cid.String())
 	if exist {
-		i.c.Set(cid.String(), res, cache.DefaultExpiration)
 		return res.(*CallbackConfig), nil
 	}
 	cfg, err := i._getConfig(ctx, cid)

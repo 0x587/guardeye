@@ -21,121 +21,71 @@ public final class Main {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nmain.proto\032\024rcl_interfaces.proto\032\035robo" +
-      "t_bridge_interfaces.proto\032\023geometry_msgs" +
-      ".proto2\326\037\n\003Api\022\177\n3PublishTopicArebot_tra" +
-      "nsportRobot_bridgeRobot_state\022#.robot_br" +
-      "idge_interfaces.RobotState\032#.robot_bridg" +
-      "e_interfaces.RobotState\022z\n.PublishTopicA" +
-      "rebot_loadRobot_bridgeRobot_state\022#.robo" +
-      "t_bridge_interfaces.RobotState\032#.robot_b" +
-      "ridge_interfaces.RobotState\022|\n0PublishTo" +
-      "picArebot_unloadRobot_bridgeRobot_state\022" +
-      "#.robot_bridge_interfaces.RobotState\032#.r" +
-      "obot_bridge_interfaces.RobotState\022x\n2Cal" +
-      "lServiceArebot_unloadRobot_bridgeGet_par" +
-      "ameters\022 .rcl_interfaces.GetParametersRe" +
-      "q\032 .rcl_interfaces.GetParametersRsp\022\210\001\n:" +
-      "CallServiceArebot_transportRobot_bridgeG" +
-      "et_parameter_types\022$.rcl_interfaces.GetP" +
-      "arameterTypesReq\032$.rcl_interfaces.GetPar" +
-      "ameterTypesRsp\022\227\001\n=CallServiceArebot_unl" +
-      "oadRobot_bridgeSet_parameters_atomically" +
-      "\022*.rcl_interfaces.SetParametersAtomicall" +
-      "yReq\032*.rcl_interfaces.SetParametersAtomi" +
-      "callyRsp\022\232\001\n@CallServiceArebot_transport" +
-      "Robot_bridgeSet_parameters_atomically\022*." +
-      "rcl_interfaces.SetParametersAtomicallyRe" +
-      "q\032*.rcl_interfaces.SetParametersAtomical" +
-      "lyRsp\022\203\001\n5CallServiceArebot_loadRobot_br" +
-      "idgeGet_parameter_types\022$.rcl_interfaces" +
-      ".GetParameterTypesReq\032$.rcl_interfaces.G" +
-      "etParameterTypesRsp\022v\n0CallServiceArebot" +
-      "_loadRobot_bridgeGet_parameters\022 .rcl_in" +
-      "terfaces.GetParametersReq\032 .rcl_interfac" +
-      "es.GetParametersRsp\022\207\001\n7CallServiceArebo" +
-      "t_unloadRobot_bridgeDescribe_parameters\022" +
-      "%.rcl_interfaces.DescribeParametersReq\032%" +
-      ".rcl_interfaces.DescribeParametersRsp\022~\n" +
-      "6CallServiceArebot_transportRobot_bridge" +
-      "List_parameters\022!.rcl_interfaces.ListPar" +
-      "ametersReq\032!.rcl_interfaces.ListParamete" +
-      "rsRsp\022\215\001\n3CallServiceArebot_loadRobot_br" +
-      "idgeStart_nav_to_pose\022*.robot_bridge_int" +
-      "erfaces.StartNavToPoseReq\032*.robot_bridge" +
-      "_interfaces.StartNavToPoseRsp\022\225\001\n;CallSe" +
-      "rviceArebot_loadRobot_bridgeSet_paramete" +
-      "rs_atomically\022*.rcl_interfaces.SetParame" +
-      "tersAtomicallyReq\032*.rcl_interfaces.SetPa" +
-      "rametersAtomicallyRsp\022\205\001\n7CallServiceAre" +
-      "bot_unloadRobot_bridgeGet_parameter_type" +
-      "s\022$.rcl_interfaces.GetParameterTypesReq\032" +
-      "$.rcl_interfaces.GetParameterTypesRsp\022~\n" +
-      "0CallServiceArebot_transportRobot_bridge" +
-      "Get_state\022$.robot_bridge_interfaces.GetS" +
-      "tateReq\032$.robot_bridge_interfaces.GetSta" +
-      "teRsp\022{\n5CallServiceArebot_transportRobo" +
-      "t_bridgeSet_parameters\022 .rcl_interfaces." +
-      "SetParametersReq\032 .rcl_interfaces.SetPar" +
-      "ametersRsp\022\217\001\n5CallServiceArebot_unloadR" +
-      "obot_bridgeStart_nav_to_pose\022*.robot_bri" +
-      "dge_interfaces.StartNavToPoseReq\032*.robot" +
-      "_bridge_interfaces.StartNavToPoseRsp\022y\n+" +
-      "CallServiceArebot_loadRobot_bridgeGet_st" +
-      "ate\022$.robot_bridge_interfaces.GetStateRe" +
-      "q\032$.robot_bridge_interfaces.GetStateRsp\022" +
-      "y\n1CallServiceArebot_loadRobot_bridgeLis" +
-      "t_parameters\022!.rcl_interfaces.ListParame" +
-      "tersReq\032!.rcl_interfaces.ListParametersR" +
-      "sp\022x\n2CallServiceArebot_unloadRobot_brid" +
-      "geSet_parameters\022 .rcl_interfaces.SetPar" +
-      "ametersReq\032 .rcl_interfaces.SetParameter" +
-      "sRsp\022\222\001\n8CallServiceArebot_transportRobo" +
-      "t_bridgeStart_nav_to_pose\022*.robot_bridge" +
-      "_interfaces.StartNavToPoseReq\032*.robot_br" +
-      "idge_interfaces.StartNavToPoseRsp\022\205\001\n5Ca" +
-      "llServiceArebot_loadRobot_bridgeDescribe" +
-      "_parameters\022%.rcl_interfaces.DescribePar" +
-      "ametersReq\032%.rcl_interfaces.DescribePara" +
-      "metersRsp\022{\n3CallServiceArebot_unloadRob" +
-      "ot_bridgeList_parameters\022!.rcl_interface" +
-      "s.ListParametersReq\032!.rcl_interfaces.Lis" +
-      "tParametersRsp\022\223\001\n5CallServiceArebot_loa" +
-      "dRobot_bridgeStart_pick_and_load\022,.robot" +
-      "_bridge_interfaces.StartPickAndLoadReq\032," +
-      ".robot_bridge_interfaces.StartPickAndLoa" +
-      "dRsp\022{\n-CallServiceArebot_unloadRobot_br" +
-      "idgeGet_state\022$.robot_bridge_interfaces." +
-      "GetStateReq\032$.robot_bridge_interfaces.Ge" +
-      "tStateRsp\022\236\001\n:CallServiceArebot_unloadRo" +
-      "bot_bridgeStart_unload_and_place\022/.robot" +
-      "_bridge_interfaces.StartUnloadAndPlaceRe" +
-      "q\032/.robot_bridge_interfaces.StartUnloadA" +
-      "ndPlaceRsp\022\212\001\n:CallServiceArebot_transpo" +
-      "rtRobot_bridgeDescribe_parameters\022%.rcl_" +
-      "interfaces.DescribeParametersReq\032%.rcl_i" +
-      "nterfaces.DescribeParametersRsp\022{\n5CallS" +
-      "erviceArebot_transportRobot_bridgeGet_pa" +
-      "rameters\022 .rcl_interfaces.GetParametersR" +
-      "eq\032 .rcl_interfaces.GetParametersRsp\022\220\001\n" +
-      "6CallServiceArebot_transportRobot_bridge" +
-      "Start_transport\022*.robot_bridge_interface" +
-      "s.StartTransportReq\032*.robot_bridge_inter" +
-      "faces.StartTransportRsp\022v\n0CallServiceAr" +
-      "ebot_loadRobot_bridgeSet_parameters\022 .rc" +
-      "l_interfaces.SetParametersReq\032 .rcl_inte" +
-      "rfaces.SetParametersRspB\006Z\004./pbb\006proto3"
+      "\n\nmain.proto\032\024rcl_interfaces.proto\032\030buil" +
+      "tin_interfaces.proto\032\022shawn_define.proto" +
+      "2\346\017\n\003Api\022>\n\022PublishTopicRosout\022\023.rcl_int" +
+      "erfaces.Log\032\023.rcl_interfaces.Log\022B\n\024Subs" +
+      "cribeTopicRosout\022\023.rcl_interfaces.Log\032\023." +
+      "rcl_interfaces.Log0\001\022>\n\030PublishTopicV2_p" +
+      "ublisher\022\020.shawn_define.V2\032\020.shawn_defin" +
+      "e.V2\022B\n\032SubscribeTopicV2_publisher\022\020.sha" +
+      "wn_define.V2\032\020.shawn_define.V20\001\022^\n\034Publ" +
+      "ishTopicParameter_events\022\036.rcl_interface" +
+      "s.ParameterEvent\032\036.rcl_interfaces.Parame" +
+      "terEvent\022b\n\036SubscribeTopicParameter_even" +
+      "ts\022\036.rcl_interfaces.ParameterEvent\032\036.rcl" +
+      "_interfaces.ParameterEvent0\001\022I\n\033CallServ" +
+      "iceAdd_two_ints_srv\022\024.shawn_define.AddRe" +
+      "q\032\024.shawn_define.AddRsp\022}\n-CallServiceFo" +
+      "xglove_bridgeDescribe_parameters\022%.rcl_i" +
+      "nterfaces.DescribeParametersReq\032%.rcl_in" +
+      "terfaces.DescribeParametersRsp\022n\n(CallSe" +
+      "rviceFoxglove_bridgeGet_parameters\022 .rcl" +
+      "_interfaces.GetParametersReq\032 .rcl_inter" +
+      "faces.GetParametersRsp\022\215\001\n3CallServiceFo" +
+      "xglove_bridgeSet_parameters_atomically\022*" +
+      ".rcl_interfaces.SetParametersAtomicallyR" +
+      "eq\032*.rcl_interfaces.SetParametersAtomica" +
+      "llyRsp\022q\n)CallServiceFoxglove_bridgeList" +
+      "_parameters\022!.rcl_interfaces.ListParamet" +
+      "ersReq\032!.rcl_interfaces.ListParametersRs" +
+      "p\022s\n+CallServiceService_server_02List_pa" +
+      "rameters\022!.rcl_interfaces.ListParameters" +
+      "Req\032!.rcl_interfaces.ListParametersRsp\022p" +
+      "\n*CallServiceService_server_02Set_parame" +
+      "ters\022 .rcl_interfaces.SetParametersReq\032 " +
+      ".rcl_interfaces.SetParametersRsp\022}\n/Call" +
+      "ServiceService_server_02Get_parameter_ty" +
+      "pes\022$.rcl_interfaces.GetParameterTypesRe" +
+      "q\032$.rcl_interfaces.GetParameterTypesRsp\022" +
+      "n\n(CallServiceFoxglove_bridgeSet_paramet" +
+      "ers\022 .rcl_interfaces.SetParametersReq\032 ." +
+      "rcl_interfaces.SetParametersRsp\022p\n*CallS" +
+      "erviceService_server_02Get_parameters\022 ." +
+      "rcl_interfaces.GetParametersReq\032 .rcl_in" +
+      "terfaces.GetParametersRsp\022\217\001\n5CallServic" +
+      "eService_server_02Set_parameters_atomica" +
+      "lly\022*.rcl_interfaces.SetParametersAtomic" +
+      "allyReq\032*.rcl_interfaces.SetParametersAt" +
+      "omicallyRsp\022{\n-CallServiceFoxglove_bridg" +
+      "eGet_parameter_types\022$.rcl_interfaces.Ge" +
+      "tParameterTypesReq\032$.rcl_interfaces.GetP" +
+      "arameterTypesRsp\022\177\n/CallServiceService_s" +
+      "erver_02Describe_parameters\022%.rcl_interf" +
+      "aces.DescribeParametersReq\032%.rcl_interfa" +
+      "ces.DescribeParametersRspB\006Z\004./pbb\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           rcl_interfaces.RclInterfaces.getDescriptor(),
-          robot_bridge_interfaces.RobotBridgeInterfaces.getDescriptor(),
-          geometry_msgs.GeometryMsgs.getDescriptor(),
+          builtin_interfaces.BuiltinInterfaces.getDescriptor(),
+          shawn_define.ShawnDefine.getDescriptor(),
         });
     rcl_interfaces.RclInterfaces.getDescriptor();
-    robot_bridge_interfaces.RobotBridgeInterfaces.getDescriptor();
-    geometry_msgs.GeometryMsgs.getDescriptor();
+    builtin_interfaces.BuiltinInterfaces.getDescriptor();
+    shawn_define.ShawnDefine.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

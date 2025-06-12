@@ -11,9 +11,10 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
+import builtin_interfaces_pb2 as builtin__interfaces__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14rcl_interfaces.proto\x12\x0ercl_interfaces\"H\n\x10SetParametersRsp\x12\x34\n\x07results\x18\x01 \x03(\x0b\x32#.rcl_interfaces.SetParametersResult\"K\n\x1aSetParametersAtomicallyReq\x12-\n\nparameters\x18\x01 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\"%\n\x14GetParameterTypesReq\x12\r\n\x05names\x18\x01 \x03(\t\"\x88\x02\n\x13ParameterDescriptor\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\r\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x1e\n\x16\x61\x64\x64itional_constraints\x18\x04 \x01(\t\x12\x11\n\tread_only\x18\x05 \x01(\x08\x12\x16\n\x0e\x64ynamic_typing\x18\x06 \x01(\x08\x12@\n\x14\x66loating_point_range\x18\x07 \x03(\x0b\x32\".rcl_interfaces.FloatingPointRange\x12\x33\n\rinteger_range\x18\x08 \x03(\x0b\x32\x1c.rcl_interfaces.IntegerRange\"H\n\x12\x46loatingPointRange\x12\x12\n\nfrom_value\x18\x01 \x01(\x01\x12\x10\n\x08to_value\x18\x02 \x01(\x01\x12\x0c\n\x04step\x18\x03 \x01(\x01\"\xfe\x01\n\x0eParameterValue\x12\x0c\n\x04type\x18\x01 \x01(\r\x12\x12\n\nbool_value\x18\x02 \x01(\x08\x12\x15\n\rinteger_value\x18\x03 \x01(\x03\x12\x14\n\x0c\x64ouble_value\x18\x04 \x01(\x01\x12\x14\n\x0cstring_value\x18\x05 \x01(\t\x12\x18\n\x10\x62yte_array_value\x18\x06 \x01(\x0c\x12\x18\n\x10\x62ool_array_value\x18\x07 \x03(\x08\x12\x1b\n\x13integer_array_value\x18\x08 \x03(\x03\x12\x1a\n\x12\x64ouble_array_value\x18\t \x03(\x01\x12\x1a\n\x12string_array_value\x18\n \x03(\t\"9\n\x13SetParametersResult\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x0e\n\x06reason\x18\x02 \x01(\t\"7\n\x14ListParametersResult\x12\r\n\x05names\x18\x01 \x03(\t\x12\x10\n\x08prefixes\x18\x02 \x03(\t\"%\n\x14GetParameterTypesRsp\x12\r\n\x05types\x18\x01 \x03(\r\"B\n\x10GetParametersRsp\x12.\n\x06values\x18\x01 \x03(\x0b\x32\x1e.rcl_interfaces.ParameterValue\"A\n\x10SetParametersReq\x12-\n\nparameters\x18\x01 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\"H\n\tParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12-\n\x05value\x18\x02 \x01(\x0b\x32\x1e.rcl_interfaces.ParameterValue\"I\n\x11ListParametersRsp\x12\x34\n\x06result\x18\x01 \x01(\x0b\x32$.rcl_interfaces.ListParametersResult\"B\n\x0cIntegerRange\x12\x12\n\nfrom_value\x18\x01 \x01(\x03\x12\x10\n\x08to_value\x18\x02 \x01(\x03\x12\x0c\n\x04step\x18\x03 \x01(\x04\"!\n\x10GetParametersReq\x12\r\n\x05names\x18\x01 \x03(\t\"Q\n\x1aSetParametersAtomicallyRsp\x12\x33\n\x06result\x18\x01 \x01(\x0b\x32#.rcl_interfaces.SetParametersResult\"&\n\x15\x44\x65scribeParametersReq\x12\r\n\x05names\x18\x01 \x03(\t\"Q\n\x15\x44\x65scribeParametersRsp\x12\x38\n\x0b\x64\x65scriptors\x18\x01 \x03(\x0b\x32#.rcl_interfaces.ParameterDescriptor\"4\n\x11ListParametersReq\x12\x10\n\x08prefixes\x18\x01 \x03(\t\x12\r\n\x05\x64\x65pth\x18\x02 \x01(\x04\x42\x06Z\x04./pbb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14rcl_interfaces.proto\x12\x0ercl_interfaces\x1a\x18\x62uiltin_interfaces.proto\"\x86\x01\n\x03Log\x12\'\n\x05stamp\x18\x01 \x01(\x0b\x32\x18.builtin_interfaces.Time\x12\r\n\x05level\x18\x02 \x01(\r\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0b\n\x03msg\x18\x04 \x01(\t\x12\x0c\n\x04\x66ile\x18\x05 \x01(\t\x12\x10\n\x08\x66unction\x18\x06 \x01(\t\x12\x0c\n\x04line\x18\x07 \x01(\r\"&\n\x15\x44\x65scribeParametersReq\x12\r\n\x05names\x18\x01 \x03(\t\"!\n\x10GetParametersReq\x12\r\n\x05names\x18\x01 \x03(\t\"I\n\x11ListParametersRsp\x12\x34\n\x06result\x18\x01 \x01(\x0b\x32$.rcl_interfaces.ListParametersResult\"\xe8\x01\n\x0eParameterEvent\x12\'\n\x05stamp\x18\x01 \x01(\x0b\x32\x18.builtin_interfaces.Time\x12\x0c\n\x04node\x18\x02 \x01(\t\x12\x31\n\x0enew_parameters\x18\x03 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\x12\x35\n\x12\x63hanged_parameters\x18\x04 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\x12\x35\n\x12\x64\x65leted_parameters\x18\x05 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\"B\n\x0cIntegerRange\x12\x12\n\nfrom_value\x18\x01 \x01(\x03\x12\x10\n\x08to_value\x18\x02 \x01(\x03\x12\x0c\n\x04step\x18\x03 \x01(\x04\"H\n\x10SetParametersRsp\x12\x34\n\x07results\x18\x01 \x03(\x0b\x32#.rcl_interfaces.SetParametersResult\"9\n\x13SetParametersResult\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x0e\n\x06reason\x18\x02 \x01(\t\"K\n\x1aSetParametersAtomicallyReq\x12-\n\nparameters\x18\x01 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\"Q\n\x1aSetParametersAtomicallyRsp\x12\x33\n\x06result\x18\x01 \x01(\x0b\x32#.rcl_interfaces.SetParametersResult\"H\n\tParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12-\n\x05value\x18\x02 \x01(\x0b\x32\x1e.rcl_interfaces.ParameterValue\"\xfe\x01\n\x0eParameterValue\x12\x0c\n\x04type\x18\x01 \x01(\r\x12\x12\n\nbool_value\x18\x02 \x01(\x08\x12\x15\n\rinteger_value\x18\x03 \x01(\x03\x12\x14\n\x0c\x64ouble_value\x18\x04 \x01(\x01\x12\x14\n\x0cstring_value\x18\x05 \x01(\t\x12\x18\n\x10\x62yte_array_value\x18\x06 \x01(\x0c\x12\x18\n\x10\x62ool_array_value\x18\x07 \x03(\x08\x12\x1b\n\x13integer_array_value\x18\x08 \x03(\x03\x12\x1a\n\x12\x64ouble_array_value\x18\t \x03(\x01\x12\x1a\n\x12string_array_value\x18\n \x03(\t\"A\n\x10SetParametersReq\x12-\n\nparameters\x18\x01 \x03(\x0b\x32\x19.rcl_interfaces.Parameter\"%\n\x14GetParameterTypesRsp\x12\r\n\x05types\x18\x01 \x03(\r\"7\n\x14ListParametersResult\x12\r\n\x05names\x18\x01 \x03(\t\x12\x10\n\x08prefixes\x18\x02 \x03(\t\"Q\n\x15\x44\x65scribeParametersRsp\x12\x38\n\x0b\x64\x65scriptors\x18\x01 \x03(\x0b\x32#.rcl_interfaces.ParameterDescriptor\"\x88\x02\n\x13ParameterDescriptor\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\r\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x1e\n\x16\x61\x64\x64itional_constraints\x18\x04 \x01(\t\x12\x11\n\tread_only\x18\x05 \x01(\x08\x12\x16\n\x0e\x64ynamic_typing\x18\x06 \x01(\x08\x12@\n\x14\x66loating_point_range\x18\x07 \x03(\x0b\x32\".rcl_interfaces.FloatingPointRange\x12\x33\n\rinteger_range\x18\x08 \x03(\x0b\x32\x1c.rcl_interfaces.IntegerRange\"H\n\x12\x46loatingPointRange\x12\x12\n\nfrom_value\x18\x01 \x01(\x01\x12\x10\n\x08to_value\x18\x02 \x01(\x01\x12\x0c\n\x04step\x18\x03 \x01(\x01\"B\n\x10GetParametersRsp\x12.\n\x06values\x18\x01 \x03(\x0b\x32\x1e.rcl_interfaces.ParameterValue\"%\n\x14GetParameterTypesReq\x12\r\n\x05names\x18\x01 \x03(\t\"4\n\x11ListParametersReq\x12\x10\n\x08prefixes\x18\x01 \x03(\t\x12\r\n\x05\x64\x65pth\x18\x02 \x01(\x04\x42\x06Z\x04./pbb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -21,42 +22,46 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'rcl_interfaces_pb2', _globa
 if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['DESCRIPTOR']._options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z\004./pb'
-  _globals['_SETPARAMETERSRSP']._serialized_start=40
-  _globals['_SETPARAMETERSRSP']._serialized_end=112
-  _globals['_SETPARAMETERSATOMICALLYREQ']._serialized_start=114
-  _globals['_SETPARAMETERSATOMICALLYREQ']._serialized_end=189
-  _globals['_GETPARAMETERTYPESREQ']._serialized_start=191
-  _globals['_GETPARAMETERTYPESREQ']._serialized_end=228
-  _globals['_PARAMETERDESCRIPTOR']._serialized_start=231
-  _globals['_PARAMETERDESCRIPTOR']._serialized_end=495
-  _globals['_FLOATINGPOINTRANGE']._serialized_start=497
-  _globals['_FLOATINGPOINTRANGE']._serialized_end=569
-  _globals['_PARAMETERVALUE']._serialized_start=572
-  _globals['_PARAMETERVALUE']._serialized_end=826
-  _globals['_SETPARAMETERSRESULT']._serialized_start=828
-  _globals['_SETPARAMETERSRESULT']._serialized_end=885
-  _globals['_LISTPARAMETERSRESULT']._serialized_start=887
-  _globals['_LISTPARAMETERSRESULT']._serialized_end=942
-  _globals['_GETPARAMETERTYPESRSP']._serialized_start=944
-  _globals['_GETPARAMETERTYPESRSP']._serialized_end=981
-  _globals['_GETPARAMETERSRSP']._serialized_start=983
-  _globals['_GETPARAMETERSRSP']._serialized_end=1049
-  _globals['_SETPARAMETERSREQ']._serialized_start=1051
-  _globals['_SETPARAMETERSREQ']._serialized_end=1116
-  _globals['_PARAMETER']._serialized_start=1118
-  _globals['_PARAMETER']._serialized_end=1190
-  _globals['_LISTPARAMETERSRSP']._serialized_start=1192
-  _globals['_LISTPARAMETERSRSP']._serialized_end=1265
-  _globals['_INTEGERRANGE']._serialized_start=1267
-  _globals['_INTEGERRANGE']._serialized_end=1333
-  _globals['_GETPARAMETERSREQ']._serialized_start=1335
-  _globals['_GETPARAMETERSREQ']._serialized_end=1368
-  _globals['_SETPARAMETERSATOMICALLYRSP']._serialized_start=1370
-  _globals['_SETPARAMETERSATOMICALLYRSP']._serialized_end=1451
-  _globals['_DESCRIBEPARAMETERSREQ']._serialized_start=1453
-  _globals['_DESCRIBEPARAMETERSREQ']._serialized_end=1491
-  _globals['_DESCRIBEPARAMETERSRSP']._serialized_start=1493
-  _globals['_DESCRIBEPARAMETERSRSP']._serialized_end=1574
-  _globals['_LISTPARAMETERSREQ']._serialized_start=1576
-  _globals['_LISTPARAMETERSREQ']._serialized_end=1628
+  _globals['_LOG']._serialized_start=67
+  _globals['_LOG']._serialized_end=201
+  _globals['_DESCRIBEPARAMETERSREQ']._serialized_start=203
+  _globals['_DESCRIBEPARAMETERSREQ']._serialized_end=241
+  _globals['_GETPARAMETERSREQ']._serialized_start=243
+  _globals['_GETPARAMETERSREQ']._serialized_end=276
+  _globals['_LISTPARAMETERSRSP']._serialized_start=278
+  _globals['_LISTPARAMETERSRSP']._serialized_end=351
+  _globals['_PARAMETEREVENT']._serialized_start=354
+  _globals['_PARAMETEREVENT']._serialized_end=586
+  _globals['_INTEGERRANGE']._serialized_start=588
+  _globals['_INTEGERRANGE']._serialized_end=654
+  _globals['_SETPARAMETERSRSP']._serialized_start=656
+  _globals['_SETPARAMETERSRSP']._serialized_end=728
+  _globals['_SETPARAMETERSRESULT']._serialized_start=730
+  _globals['_SETPARAMETERSRESULT']._serialized_end=787
+  _globals['_SETPARAMETERSATOMICALLYREQ']._serialized_start=789
+  _globals['_SETPARAMETERSATOMICALLYREQ']._serialized_end=864
+  _globals['_SETPARAMETERSATOMICALLYRSP']._serialized_start=866
+  _globals['_SETPARAMETERSATOMICALLYRSP']._serialized_end=947
+  _globals['_PARAMETER']._serialized_start=949
+  _globals['_PARAMETER']._serialized_end=1021
+  _globals['_PARAMETERVALUE']._serialized_start=1024
+  _globals['_PARAMETERVALUE']._serialized_end=1278
+  _globals['_SETPARAMETERSREQ']._serialized_start=1280
+  _globals['_SETPARAMETERSREQ']._serialized_end=1345
+  _globals['_GETPARAMETERTYPESRSP']._serialized_start=1347
+  _globals['_GETPARAMETERTYPESRSP']._serialized_end=1384
+  _globals['_LISTPARAMETERSRESULT']._serialized_start=1386
+  _globals['_LISTPARAMETERSRESULT']._serialized_end=1441
+  _globals['_DESCRIBEPARAMETERSRSP']._serialized_start=1443
+  _globals['_DESCRIBEPARAMETERSRSP']._serialized_end=1524
+  _globals['_PARAMETERDESCRIPTOR']._serialized_start=1527
+  _globals['_PARAMETERDESCRIPTOR']._serialized_end=1791
+  _globals['_FLOATINGPOINTRANGE']._serialized_start=1793
+  _globals['_FLOATINGPOINTRANGE']._serialized_end=1865
+  _globals['_GETPARAMETERSRSP']._serialized_start=1867
+  _globals['_GETPARAMETERSRSP']._serialized_end=1933
+  _globals['_GETPARAMETERTYPESREQ']._serialized_start=1935
+  _globals['_GETPARAMETERTYPESREQ']._serialized_end=1972
+  _globals['_LISTPARAMETERSREQ']._serialized_start=1974
+  _globals['_LISTPARAMETERSREQ']._serialized_end=2026
 # @@protoc_insertion_point(module_scope)

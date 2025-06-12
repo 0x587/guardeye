@@ -23,7 +23,7 @@ var global =
 
 var rcl_interfaces_pb = require('./rcl_interfaces_pb.js');
 goog.object.extend(proto, rcl_interfaces_pb);
-var robot_bridge_interfaces_pb = require('./robot_bridge_interfaces_pb.js');
-goog.object.extend(proto, robot_bridge_interfaces_pb);
-var geometry_msgs_pb = require('./geometry_msgs_pb.js');
-goog.object.extend(proto, geometry_msgs_pb);
+var builtin_interfaces_pb = require('./builtin_interfaces_pb.js');
+goog.object.extend(proto, builtin_interfaces_pb);
+var shawn_define_pb = require('./shawn_define_pb.js');
+goog.object.extend(proto, shawn_define_pb);

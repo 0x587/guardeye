@@ -3,7 +3,7 @@
 
 var main_pb = require("./main_pb");
 var rcl_interfaces_pb = require("./rcl_interfaces_pb");
-var robot_bridge_interfaces_pb = require("./robot_bridge_interfaces_pb");
+var shawn_define_pb = require("./shawn_define_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Api = (function () {
@@ -12,89 +12,71 @@ var Api = (function () {
   return Api;
 }());
 
-Api.PublishTopicArebot_transportRobot_bridgeRobot_state = {
-  methodName: "PublishTopicArebot_transportRobot_bridgeRobot_state",
+Api.PublishTopicRosout = {
+  methodName: "PublishTopicRosout",
   service: Api,
   requestStream: false,
   responseStream: false,
-  requestType: robot_bridge_interfaces_pb.RobotState,
-  responseType: robot_bridge_interfaces_pb.RobotState
+  requestType: rcl_interfaces_pb.Log,
+  responseType: rcl_interfaces_pb.Log
 };
 
-Api.PublishTopicArebot_loadRobot_bridgeRobot_state = {
-  methodName: "PublishTopicArebot_loadRobot_bridgeRobot_state",
+Api.SubscribeTopicRosout = {
+  methodName: "SubscribeTopicRosout",
+  service: Api,
+  requestStream: false,
+  responseStream: true,
+  requestType: rcl_interfaces_pb.Log,
+  responseType: rcl_interfaces_pb.Log
+};
+
+Api.PublishTopicV2_publisher = {
+  methodName: "PublishTopicV2_publisher",
   service: Api,
   requestStream: false,
   responseStream: false,
-  requestType: robot_bridge_interfaces_pb.RobotState,
-  responseType: robot_bridge_interfaces_pb.RobotState
+  requestType: shawn_define_pb.V2,
+  responseType: shawn_define_pb.V2
 };
 
-Api.PublishTopicArebot_unloadRobot_bridgeRobot_state = {
-  methodName: "PublishTopicArebot_unloadRobot_bridgeRobot_state",
+Api.SubscribeTopicV2_publisher = {
+  methodName: "SubscribeTopicV2_publisher",
+  service: Api,
+  requestStream: false,
+  responseStream: true,
+  requestType: shawn_define_pb.V2,
+  responseType: shawn_define_pb.V2
+};
+
+Api.PublishTopicParameter_events = {
+  methodName: "PublishTopicParameter_events",
   service: Api,
   requestStream: false,
   responseStream: false,
-  requestType: robot_bridge_interfaces_pb.RobotState,
-  responseType: robot_bridge_interfaces_pb.RobotState
+  requestType: rcl_interfaces_pb.ParameterEvent,
+  responseType: rcl_interfaces_pb.ParameterEvent
 };
 
-Api.CallServiceArebot_unloadRobot_bridgeGet_parameters = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeGet_parameters",
+Api.SubscribeTopicParameter_events = {
+  methodName: "SubscribeTopicParameter_events",
+  service: Api,
+  requestStream: false,
+  responseStream: true,
+  requestType: rcl_interfaces_pb.ParameterEvent,
+  responseType: rcl_interfaces_pb.ParameterEvent
+};
+
+Api.CallServiceAdd_two_ints_srv = {
+  methodName: "CallServiceAdd_two_ints_srv",
   service: Api,
   requestStream: false,
   responseStream: false,
-  requestType: rcl_interfaces_pb.GetParametersReq,
-  responseType: rcl_interfaces_pb.GetParametersRsp
+  requestType: shawn_define_pb.AddReq,
+  responseType: shawn_define_pb.AddRsp
 };
 
-Api.CallServiceArebot_transportRobot_bridgeGet_parameter_types = {
-  methodName: "CallServiceArebot_transportRobot_bridgeGet_parameter_types",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.GetParameterTypesReq,
-  responseType: rcl_interfaces_pb.GetParameterTypesRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.SetParametersAtomicallyReq,
-  responseType: rcl_interfaces_pb.SetParametersAtomicallyRsp
-};
-
-Api.CallServiceArebot_transportRobot_bridgeSet_parameters_atomically = {
-  methodName: "CallServiceArebot_transportRobot_bridgeSet_parameters_atomically",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.SetParametersAtomicallyReq,
-  responseType: rcl_interfaces_pb.SetParametersAtomicallyRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeGet_parameter_types = {
-  methodName: "CallServiceArebot_loadRobot_bridgeGet_parameter_types",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.GetParameterTypesReq,
-  responseType: rcl_interfaces_pb.GetParameterTypesRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeGet_parameters = {
-  methodName: "CallServiceArebot_loadRobot_bridgeGet_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.GetParametersReq,
-  responseType: rcl_interfaces_pb.GetParametersRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeDescribe_parameters = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeDescribe_parameters",
+Api.CallServiceFoxglove_bridgeDescribe_parameters = {
+  methodName: "CallServiceFoxglove_bridgeDescribe_parameters",
   service: Api,
   requestStream: false,
   responseStream: false,
@@ -102,161 +84,8 @@ Api.CallServiceArebot_unloadRobot_bridgeDescribe_parameters = {
   responseType: rcl_interfaces_pb.DescribeParametersRsp
 };
 
-Api.CallServiceArebot_transportRobot_bridgeList_parameters = {
-  methodName: "CallServiceArebot_transportRobot_bridgeList_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.ListParametersReq,
-  responseType: rcl_interfaces_pb.ListParametersRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeStart_nav_to_pose = {
-  methodName: "CallServiceArebot_loadRobot_bridgeStart_nav_to_pose",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.StartNavToPoseReq,
-  responseType: robot_bridge_interfaces_pb.StartNavToPoseRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeSet_parameters_atomically = {
-  methodName: "CallServiceArebot_loadRobot_bridgeSet_parameters_atomically",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.SetParametersAtomicallyReq,
-  responseType: rcl_interfaces_pb.SetParametersAtomicallyRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeGet_parameter_types = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeGet_parameter_types",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.GetParameterTypesReq,
-  responseType: rcl_interfaces_pb.GetParameterTypesRsp
-};
-
-Api.CallServiceArebot_transportRobot_bridgeGet_state = {
-  methodName: "CallServiceArebot_transportRobot_bridgeGet_state",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.GetStateReq,
-  responseType: robot_bridge_interfaces_pb.GetStateRsp
-};
-
-Api.CallServiceArebot_transportRobot_bridgeSet_parameters = {
-  methodName: "CallServiceArebot_transportRobot_bridgeSet_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.SetParametersReq,
-  responseType: rcl_interfaces_pb.SetParametersRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.StartNavToPoseReq,
-  responseType: robot_bridge_interfaces_pb.StartNavToPoseRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeGet_state = {
-  methodName: "CallServiceArebot_loadRobot_bridgeGet_state",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.GetStateReq,
-  responseType: robot_bridge_interfaces_pb.GetStateRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeList_parameters = {
-  methodName: "CallServiceArebot_loadRobot_bridgeList_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.ListParametersReq,
-  responseType: rcl_interfaces_pb.ListParametersRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeSet_parameters = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeSet_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.SetParametersReq,
-  responseType: rcl_interfaces_pb.SetParametersRsp
-};
-
-Api.CallServiceArebot_transportRobot_bridgeStart_nav_to_pose = {
-  methodName: "CallServiceArebot_transportRobot_bridgeStart_nav_to_pose",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.StartNavToPoseReq,
-  responseType: robot_bridge_interfaces_pb.StartNavToPoseRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeDescribe_parameters = {
-  methodName: "CallServiceArebot_loadRobot_bridgeDescribe_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.DescribeParametersReq,
-  responseType: rcl_interfaces_pb.DescribeParametersRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeList_parameters = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeList_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.ListParametersReq,
-  responseType: rcl_interfaces_pb.ListParametersRsp
-};
-
-Api.CallServiceArebot_loadRobot_bridgeStart_pick_and_load = {
-  methodName: "CallServiceArebot_loadRobot_bridgeStart_pick_and_load",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.StartPickAndLoadReq,
-  responseType: robot_bridge_interfaces_pb.StartPickAndLoadRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeGet_state = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeGet_state",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.GetStateReq,
-  responseType: robot_bridge_interfaces_pb.GetStateRsp
-};
-
-Api.CallServiceArebot_unloadRobot_bridgeStart_unload_and_place = {
-  methodName: "CallServiceArebot_unloadRobot_bridgeStart_unload_and_place",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: robot_bridge_interfaces_pb.StartUnloadAndPlaceReq,
-  responseType: robot_bridge_interfaces_pb.StartUnloadAndPlaceRsp
-};
-
-Api.CallServiceArebot_transportRobot_bridgeDescribe_parameters = {
-  methodName: "CallServiceArebot_transportRobot_bridgeDescribe_parameters",
-  service: Api,
-  requestStream: false,
-  responseStream: false,
-  requestType: rcl_interfaces_pb.DescribeParametersReq,
-  responseType: rcl_interfaces_pb.DescribeParametersRsp
-};
-
-Api.CallServiceArebot_transportRobot_bridgeGet_parameters = {
-  methodName: "CallServiceArebot_transportRobot_bridgeGet_parameters",
+Api.CallServiceFoxglove_bridgeGet_parameters = {
+  methodName: "CallServiceFoxglove_bridgeGet_parameters",
   service: Api,
   requestStream: false,
   responseStream: false,
@@ -264,22 +93,94 @@ Api.CallServiceArebot_transportRobot_bridgeGet_parameters = {
   responseType: rcl_interfaces_pb.GetParametersRsp
 };
 
-Api.CallServiceArebot_transportRobot_bridgeStart_transport = {
-  methodName: "CallServiceArebot_transportRobot_bridgeStart_transport",
+Api.CallServiceFoxglove_bridgeSet_parameters_atomically = {
+  methodName: "CallServiceFoxglove_bridgeSet_parameters_atomically",
   service: Api,
   requestStream: false,
   responseStream: false,
-  requestType: robot_bridge_interfaces_pb.StartTransportReq,
-  responseType: robot_bridge_interfaces_pb.StartTransportRsp
+  requestType: rcl_interfaces_pb.SetParametersAtomicallyReq,
+  responseType: rcl_interfaces_pb.SetParametersAtomicallyRsp
 };
 
-Api.CallServiceArebot_loadRobot_bridgeSet_parameters = {
-  methodName: "CallServiceArebot_loadRobot_bridgeSet_parameters",
+Api.CallServiceFoxglove_bridgeList_parameters = {
+  methodName: "CallServiceFoxglove_bridgeList_parameters",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.ListParametersReq,
+  responseType: rcl_interfaces_pb.ListParametersRsp
+};
+
+Api.CallServiceService_server_02List_parameters = {
+  methodName: "CallServiceService_server_02List_parameters",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.ListParametersReq,
+  responseType: rcl_interfaces_pb.ListParametersRsp
+};
+
+Api.CallServiceService_server_02Set_parameters = {
+  methodName: "CallServiceService_server_02Set_parameters",
   service: Api,
   requestStream: false,
   responseStream: false,
   requestType: rcl_interfaces_pb.SetParametersReq,
   responseType: rcl_interfaces_pb.SetParametersRsp
+};
+
+Api.CallServiceService_server_02Get_parameter_types = {
+  methodName: "CallServiceService_server_02Get_parameter_types",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.GetParameterTypesReq,
+  responseType: rcl_interfaces_pb.GetParameterTypesRsp
+};
+
+Api.CallServiceFoxglove_bridgeSet_parameters = {
+  methodName: "CallServiceFoxglove_bridgeSet_parameters",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.SetParametersReq,
+  responseType: rcl_interfaces_pb.SetParametersRsp
+};
+
+Api.CallServiceService_server_02Get_parameters = {
+  methodName: "CallServiceService_server_02Get_parameters",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.GetParametersReq,
+  responseType: rcl_interfaces_pb.GetParametersRsp
+};
+
+Api.CallServiceService_server_02Set_parameters_atomically = {
+  methodName: "CallServiceService_server_02Set_parameters_atomically",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.SetParametersAtomicallyReq,
+  responseType: rcl_interfaces_pb.SetParametersAtomicallyRsp
+};
+
+Api.CallServiceFoxglove_bridgeGet_parameter_types = {
+  methodName: "CallServiceFoxglove_bridgeGet_parameter_types",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.GetParameterTypesReq,
+  responseType: rcl_interfaces_pb.GetParameterTypesRsp
+};
+
+Api.CallServiceService_server_02Describe_parameters = {
+  methodName: "CallServiceService_server_02Describe_parameters",
+  service: Api,
+  requestStream: false,
+  responseStream: false,
+  requestType: rcl_interfaces_pb.DescribeParametersReq,
+  responseType: rcl_interfaces_pb.DescribeParametersRsp
 };
 
 exports.Api = Api;
@@ -289,11 +190,11 @@ function ApiClient(serviceHost, options) {
   this.options = options || {};
 }
 
-ApiClient.prototype.publishTopicArebot_transportRobot_bridgeRobot_state = function publishTopicArebot_transportRobot_bridgeRobot_state(requestMessage, metadata, callback) {
+ApiClient.prototype.publishTopicRosout = function publishTopicRosout(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.PublishTopicArebot_transportRobot_bridgeRobot_state, {
+  var client = grpc.unary(Api.PublishTopicRosout, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -320,11 +221,50 @@ ApiClient.prototype.publishTopicArebot_transportRobot_bridgeRobot_state = functi
   };
 };
 
-ApiClient.prototype.publishTopicArebot_loadRobot_bridgeRobot_state = function publishTopicArebot_loadRobot_bridgeRobot_state(requestMessage, metadata, callback) {
+ApiClient.prototype.subscribeTopicRosout = function subscribeTopicRosout(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(Api.SubscribeTopicRosout, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
+      client.close();
+    }
+  };
+};
+
+ApiClient.prototype.publishTopicV2_publisher = function publishTopicV2_publisher(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.PublishTopicArebot_loadRobot_bridgeRobot_state, {
+  var client = grpc.unary(Api.PublishTopicV2_publisher, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -351,11 +291,50 @@ ApiClient.prototype.publishTopicArebot_loadRobot_bridgeRobot_state = function pu
   };
 };
 
-ApiClient.prototype.publishTopicArebot_unloadRobot_bridgeRobot_state = function publishTopicArebot_unloadRobot_bridgeRobot_state(requestMessage, metadata, callback) {
+ApiClient.prototype.subscribeTopicV2_publisher = function subscribeTopicV2_publisher(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(Api.SubscribeTopicV2_publisher, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
+      client.close();
+    }
+  };
+};
+
+ApiClient.prototype.publishTopicParameter_events = function publishTopicParameter_events(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.PublishTopicArebot_unloadRobot_bridgeRobot_state, {
+  var client = grpc.unary(Api.PublishTopicParameter_events, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -382,11 +361,50 @@ ApiClient.prototype.publishTopicArebot_unloadRobot_bridgeRobot_state = function 
   };
 };
 
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameters = function callServiceArebot_unloadRobot_bridgeGet_parameters(requestMessage, metadata, callback) {
+ApiClient.prototype.subscribeTopicParameter_events = function subscribeTopicParameter_events(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(Api.SubscribeTopicParameter_events, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
+      client.close();
+    }
+  };
+};
+
+ApiClient.prototype.callServiceAdd_two_ints_srv = function callServiceAdd_two_ints_srv(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeGet_parameters, {
+  var client = grpc.unary(Api.CallServiceAdd_two_ints_srv, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -413,11 +431,11 @@ ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameters = functio
   };
 };
 
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameter_types = function callServiceArebot_transportRobot_bridgeGet_parameter_types(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceFoxglove_bridgeDescribe_parameters = function callServiceFoxglove_bridgeDescribe_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeGet_parameter_types, {
+  var client = grpc.unary(Api.CallServiceFoxglove_bridgeDescribe_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -444,11 +462,11 @@ ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameter_types =
   };
 };
 
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters_atomically = function callServiceArebot_unloadRobot_bridgeSet_parameters_atomically(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceFoxglove_bridgeGet_parameters = function callServiceFoxglove_bridgeGet_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically, {
+  var client = grpc.unary(Api.CallServiceFoxglove_bridgeGet_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -475,11 +493,11 @@ ApiClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters_atomicall
   };
 };
 
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters_atomically = function callServiceArebot_transportRobot_bridgeSet_parameters_atomically(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceFoxglove_bridgeSet_parameters_atomically = function callServiceFoxglove_bridgeSet_parameters_atomically(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeSet_parameters_atomically, {
+  var client = grpc.unary(Api.CallServiceFoxglove_bridgeSet_parameters_atomically, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -506,11 +524,11 @@ ApiClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters_atomic
   };
 };
 
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameter_types = function callServiceArebot_loadRobot_bridgeGet_parameter_types(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceFoxglove_bridgeList_parameters = function callServiceFoxglove_bridgeList_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeGet_parameter_types, {
+  var client = grpc.unary(Api.CallServiceFoxglove_bridgeList_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -537,11 +555,11 @@ ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameter_types = func
   };
 };
 
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameters = function callServiceArebot_loadRobot_bridgeGet_parameters(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceService_server_02List_parameters = function callServiceService_server_02List_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeGet_parameters, {
+  var client = grpc.unary(Api.CallServiceService_server_02List_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -568,11 +586,11 @@ ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameters = function 
   };
 };
 
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeDescribe_parameters = function callServiceArebot_unloadRobot_bridgeDescribe_parameters(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceService_server_02Set_parameters = function callServiceService_server_02Set_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeDescribe_parameters, {
+  var client = grpc.unary(Api.CallServiceService_server_02Set_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -599,11 +617,11 @@ ApiClient.prototype.callServiceArebot_unloadRobot_bridgeDescribe_parameters = fu
   };
 };
 
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeList_parameters = function callServiceArebot_transportRobot_bridgeList_parameters(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceService_server_02Get_parameter_types = function callServiceService_server_02Get_parameter_types(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeList_parameters, {
+  var client = grpc.unary(Api.CallServiceService_server_02Get_parameter_types, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -630,11 +648,11 @@ ApiClient.prototype.callServiceArebot_transportRobot_bridgeList_parameters = fun
   };
 };
 
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeStart_nav_to_pose = function callServiceArebot_loadRobot_bridgeStart_nav_to_pose(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceFoxglove_bridgeSet_parameters = function callServiceFoxglove_bridgeSet_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeStart_nav_to_pose, {
+  var client = grpc.unary(Api.CallServiceFoxglove_bridgeSet_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -661,11 +679,11 @@ ApiClient.prototype.callServiceArebot_loadRobot_bridgeStart_nav_to_pose = functi
   };
 };
 
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters_atomically = function callServiceArebot_loadRobot_bridgeSet_parameters_atomically(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceService_server_02Get_parameters = function callServiceService_server_02Get_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeSet_parameters_atomically, {
+  var client = grpc.unary(Api.CallServiceService_server_02Get_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -692,11 +710,11 @@ ApiClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters_atomically 
   };
 };
 
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameter_types = function callServiceArebot_unloadRobot_bridgeGet_parameter_types(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceService_server_02Set_parameters_atomically = function callServiceService_server_02Set_parameters_atomically(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeGet_parameter_types, {
+  var client = grpc.unary(Api.CallServiceService_server_02Set_parameters_atomically, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -723,11 +741,11 @@ ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameter_types = fu
   };
 };
 
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_state = function callServiceArebot_transportRobot_bridgeGet_state(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceFoxglove_bridgeGet_parameter_types = function callServiceFoxglove_bridgeGet_parameter_types(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeGet_state, {
+  var client = grpc.unary(Api.CallServiceFoxglove_bridgeGet_parameter_types, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -754,445 +772,11 @@ ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_state = function 
   };
 };
 
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters = function callServiceArebot_transportRobot_bridgeSet_parameters(requestMessage, metadata, callback) {
+ApiClient.prototype.callServiceService_server_02Describe_parameters = function callServiceService_server_02Describe_parameters(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeSet_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeStart_nav_to_pose = function callServiceArebot_unloadRobot_bridgeStart_nav_to_pose(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_state = function callServiceArebot_loadRobot_bridgeGet_state(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeGet_state, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeList_parameters = function callServiceArebot_loadRobot_bridgeList_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeList_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters = function callServiceArebot_unloadRobot_bridgeSet_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeSet_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeStart_nav_to_pose = function callServiceArebot_transportRobot_bridgeStart_nav_to_pose(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeStart_nav_to_pose, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeDescribe_parameters = function callServiceArebot_loadRobot_bridgeDescribe_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeDescribe_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeList_parameters = function callServiceArebot_unloadRobot_bridgeList_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeList_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeStart_pick_and_load = function callServiceArebot_loadRobot_bridgeStart_pick_and_load(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeStart_pick_and_load, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_state = function callServiceArebot_unloadRobot_bridgeGet_state(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeGet_state, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_unloadRobot_bridgeStart_unload_and_place = function callServiceArebot_unloadRobot_bridgeStart_unload_and_place(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_unloadRobot_bridgeStart_unload_and_place, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeDescribe_parameters = function callServiceArebot_transportRobot_bridgeDescribe_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeDescribe_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameters = function callServiceArebot_transportRobot_bridgeGet_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeGet_parameters, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_transportRobot_bridgeStart_transport = function callServiceArebot_transportRobot_bridgeStart_transport(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_transportRobot_bridgeStart_transport, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-ApiClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters = function callServiceArebot_loadRobot_bridgeSet_parameters(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Api.CallServiceArebot_loadRobot_bridgeSet_parameters, {
+  var client = grpc.unary(Api.CallServiceService_server_02Describe_parameters, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

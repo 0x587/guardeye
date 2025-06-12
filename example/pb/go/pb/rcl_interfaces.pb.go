@@ -20,6 +20,384 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Log struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Stamp    *Time  `protobuf:"bytes,1,opt,name=stamp,proto3" json:"stamp,omitempty"`
+	Level    uint32 `protobuf:"varint,2,opt,name=level,proto3" json:"level,omitempty"`
+	Name     string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Msg      string `protobuf:"bytes,4,opt,name=msg,proto3" json:"msg,omitempty"`
+	File     string `protobuf:"bytes,5,opt,name=file,proto3" json:"file,omitempty"`
+	Function string `protobuf:"bytes,6,opt,name=function,proto3" json:"function,omitempty"`
+	Line     uint32 `protobuf:"varint,7,opt,name=line,proto3" json:"line,omitempty"`
+}
+
+func (x *Log) Reset() {
+	*x = Log{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Log) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Log) ProtoMessage() {}
+
+func (x *Log) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Log.ProtoReflect.Descriptor instead.
+func (*Log) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Log) GetStamp() *Time {
+	if x != nil {
+		return x.Stamp
+	}
+	return nil
+}
+
+func (x *Log) GetLevel() uint32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *Log) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Log) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *Log) GetFile() string {
+	if x != nil {
+		return x.File
+	}
+	return ""
+}
+
+func (x *Log) GetFunction() string {
+	if x != nil {
+		return x.Function
+	}
+	return ""
+}
+
+func (x *Log) GetLine() uint32 {
+	if x != nil {
+		return x.Line
+	}
+	return 0
+}
+
+type DescribeParametersReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
+}
+
+func (x *DescribeParametersReq) Reset() {
+	*x = DescribeParametersReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeParametersReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeParametersReq) ProtoMessage() {}
+
+func (x *DescribeParametersReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeParametersReq.ProtoReflect.Descriptor instead.
+func (*DescribeParametersReq) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DescribeParametersReq) GetNames() []string {
+	if x != nil {
+		return x.Names
+	}
+	return nil
+}
+
+type GetParametersReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
+}
+
+func (x *GetParametersReq) Reset() {
+	*x = GetParametersReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetParametersReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetParametersReq) ProtoMessage() {}
+
+func (x *GetParametersReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetParametersReq.ProtoReflect.Descriptor instead.
+func (*GetParametersReq) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetParametersReq) GetNames() []string {
+	if x != nil {
+		return x.Names
+	}
+	return nil
+}
+
+type ListParametersRsp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result *ListParametersResult `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+}
+
+func (x *ListParametersRsp) Reset() {
+	*x = ListParametersRsp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListParametersRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListParametersRsp) ProtoMessage() {}
+
+func (x *ListParametersRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListParametersRsp.ProtoReflect.Descriptor instead.
+func (*ListParametersRsp) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListParametersRsp) GetResult() *ListParametersResult {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
+type ParameterEvent struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Stamp             *Time        `protobuf:"bytes,1,opt,name=stamp,proto3" json:"stamp,omitempty"`
+	Node              string       `protobuf:"bytes,2,opt,name=node,proto3" json:"node,omitempty"`
+	NewParameters     []*Parameter `protobuf:"bytes,3,rep,name=new_parameters,json=newParameters,proto3" json:"new_parameters,omitempty"`
+	ChangedParameters []*Parameter `protobuf:"bytes,4,rep,name=changed_parameters,json=changedParameters,proto3" json:"changed_parameters,omitempty"`
+	DeletedParameters []*Parameter `protobuf:"bytes,5,rep,name=deleted_parameters,json=deletedParameters,proto3" json:"deleted_parameters,omitempty"`
+}
+
+func (x *ParameterEvent) Reset() {
+	*x = ParameterEvent{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ParameterEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParameterEvent) ProtoMessage() {}
+
+func (x *ParameterEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParameterEvent.ProtoReflect.Descriptor instead.
+func (*ParameterEvent) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ParameterEvent) GetStamp() *Time {
+	if x != nil {
+		return x.Stamp
+	}
+	return nil
+}
+
+func (x *ParameterEvent) GetNode() string {
+	if x != nil {
+		return x.Node
+	}
+	return ""
+}
+
+func (x *ParameterEvent) GetNewParameters() []*Parameter {
+	if x != nil {
+		return x.NewParameters
+	}
+	return nil
+}
+
+func (x *ParameterEvent) GetChangedParameters() []*Parameter {
+	if x != nil {
+		return x.ChangedParameters
+	}
+	return nil
+}
+
+func (x *ParameterEvent) GetDeletedParameters() []*Parameter {
+	if x != nil {
+		return x.DeletedParameters
+	}
+	return nil
+}
+
+type IntegerRange struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FromValue int64  `protobuf:"varint,1,opt,name=from_value,json=fromValue,proto3" json:"from_value,omitempty"`
+	ToValue   int64  `protobuf:"varint,2,opt,name=to_value,json=toValue,proto3" json:"to_value,omitempty"`
+	Step      uint64 `protobuf:"varint,3,opt,name=step,proto3" json:"step,omitempty"`
+}
+
+func (x *IntegerRange) Reset() {
+	*x = IntegerRange{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *IntegerRange) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IntegerRange) ProtoMessage() {}
+
+func (x *IntegerRange) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IntegerRange.ProtoReflect.Descriptor instead.
+func (*IntegerRange) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *IntegerRange) GetFromValue() int64 {
+	if x != nil {
+		return x.FromValue
+	}
+	return 0
+}
+
+func (x *IntegerRange) GetToValue() int64 {
+	if x != nil {
+		return x.ToValue
+	}
+	return 0
+}
+
+func (x *IntegerRange) GetStep() uint64 {
+	if x != nil {
+		return x.Step
+	}
+	return 0
+}
+
 type SetParametersRsp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -31,7 +409,7 @@ type SetParametersRsp struct {
 func (x *SetParametersRsp) Reset() {
 	*x = SetParametersRsp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[0]
+		mi := &file_rcl_interfaces_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +422,7 @@ func (x *SetParametersRsp) String() string {
 func (*SetParametersRsp) ProtoMessage() {}
 
 func (x *SetParametersRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[0]
+	mi := &file_rcl_interfaces_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +435,7 @@ func (x *SetParametersRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetParametersRsp.ProtoReflect.Descriptor instead.
 func (*SetParametersRsp) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{0}
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *SetParametersRsp) GetResults() []*SetParametersResult {
@@ -65,6 +443,61 @@ func (x *SetParametersRsp) GetResults() []*SetParametersResult {
 		return x.Results
 	}
 	return nil
+}
+
+type SetParametersResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Successful bool   `protobuf:"varint,1,opt,name=successful,proto3" json:"successful,omitempty"`
+	Reason     string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+}
+
+func (x *SetParametersResult) Reset() {
+	*x = SetParametersResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SetParametersResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetParametersResult) ProtoMessage() {}
+
+func (x *SetParametersResult) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetParametersResult.ProtoReflect.Descriptor instead.
+func (*SetParametersResult) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SetParametersResult) GetSuccessful() bool {
+	if x != nil {
+		return x.Successful
+	}
+	return false
+}
+
+func (x *SetParametersResult) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
 }
 
 type SetParametersAtomicallyReq struct {
@@ -78,7 +511,7 @@ type SetParametersAtomicallyReq struct {
 func (x *SetParametersAtomicallyReq) Reset() {
 	*x = SetParametersAtomicallyReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[1]
+		mi := &file_rcl_interfaces_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -91,7 +524,7 @@ func (x *SetParametersAtomicallyReq) String() string {
 func (*SetParametersAtomicallyReq) ProtoMessage() {}
 
 func (x *SetParametersAtomicallyReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[1]
+	mi := &file_rcl_interfaces_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +537,7 @@ func (x *SetParametersAtomicallyReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetParametersAtomicallyReq.ProtoReflect.Descriptor instead.
 func (*SetParametersAtomicallyReq) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{1}
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SetParametersAtomicallyReq) GetParameters() []*Parameter {
@@ -114,31 +547,31 @@ func (x *SetParametersAtomicallyReq) GetParameters() []*Parameter {
 	return nil
 }
 
-type GetParameterTypesReq struct {
+type SetParametersAtomicallyRsp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
+	Result *SetParametersResult `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 }
 
-func (x *GetParameterTypesReq) Reset() {
-	*x = GetParameterTypesReq{}
+func (x *SetParametersAtomicallyRsp) Reset() {
+	*x = SetParametersAtomicallyRsp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[2]
+		mi := &file_rcl_interfaces_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *GetParameterTypesReq) String() string {
+func (x *SetParametersAtomicallyRsp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetParameterTypesReq) ProtoMessage() {}
+func (*SetParametersAtomicallyRsp) ProtoMessage() {}
 
-func (x *GetParameterTypesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[2]
+func (x *SetParametersAtomicallyRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -149,50 +582,44 @@ func (x *GetParameterTypesReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetParameterTypesReq.ProtoReflect.Descriptor instead.
-func (*GetParameterTypesReq) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use SetParametersAtomicallyRsp.ProtoReflect.Descriptor instead.
+func (*SetParametersAtomicallyRsp) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *GetParameterTypesReq) GetNames() []string {
+func (x *SetParametersAtomicallyRsp) GetResult() *SetParametersResult {
 	if x != nil {
-		return x.Names
+		return x.Result
 	}
 	return nil
 }
 
-type ParameterDescriptor struct {
+type Parameter struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name                  string                `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Type                  uint32                `protobuf:"varint,2,opt,name=type,proto3" json:"type,omitempty"`
-	Description           string                `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	AdditionalConstraints string                `protobuf:"bytes,4,opt,name=additional_constraints,json=additionalConstraints,proto3" json:"additional_constraints,omitempty"`
-	ReadOnly              bool                  `protobuf:"varint,5,opt,name=read_only,json=readOnly,proto3" json:"read_only,omitempty"`
-	DynamicTyping         bool                  `protobuf:"varint,6,opt,name=dynamic_typing,json=dynamicTyping,proto3" json:"dynamic_typing,omitempty"`
-	FloatingPointRange    []*FloatingPointRange `protobuf:"bytes,7,rep,name=floating_point_range,json=floatingPointRange,proto3" json:"floating_point_range,omitempty"`
-	IntegerRange          []*IntegerRange       `protobuf:"bytes,8,rep,name=integer_range,json=integerRange,proto3" json:"integer_range,omitempty"`
+	Name  string          `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Value *ParameterValue `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
-func (x *ParameterDescriptor) Reset() {
-	*x = ParameterDescriptor{}
+func (x *Parameter) Reset() {
+	*x = Parameter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[3]
+		mi := &file_rcl_interfaces_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *ParameterDescriptor) String() string {
+func (x *Parameter) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ParameterDescriptor) ProtoMessage() {}
+func (*Parameter) ProtoMessage() {}
 
-func (x *ParameterDescriptor) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[3]
+func (x *Parameter) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -203,128 +630,23 @@ func (x *ParameterDescriptor) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ParameterDescriptor.ProtoReflect.Descriptor instead.
-func (*ParameterDescriptor) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use Parameter.ProtoReflect.Descriptor instead.
+func (*Parameter) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *ParameterDescriptor) GetName() string {
+func (x *Parameter) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *ParameterDescriptor) GetType() uint32 {
+func (x *Parameter) GetValue() *ParameterValue {
 	if x != nil {
-		return x.Type
-	}
-	return 0
-}
-
-func (x *ParameterDescriptor) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *ParameterDescriptor) GetAdditionalConstraints() string {
-	if x != nil {
-		return x.AdditionalConstraints
-	}
-	return ""
-}
-
-func (x *ParameterDescriptor) GetReadOnly() bool {
-	if x != nil {
-		return x.ReadOnly
-	}
-	return false
-}
-
-func (x *ParameterDescriptor) GetDynamicTyping() bool {
-	if x != nil {
-		return x.DynamicTyping
-	}
-	return false
-}
-
-func (x *ParameterDescriptor) GetFloatingPointRange() []*FloatingPointRange {
-	if x != nil {
-		return x.FloatingPointRange
+		return x.Value
 	}
 	return nil
-}
-
-func (x *ParameterDescriptor) GetIntegerRange() []*IntegerRange {
-	if x != nil {
-		return x.IntegerRange
-	}
-	return nil
-}
-
-type FloatingPointRange struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	FromValue float64 `protobuf:"fixed64,1,opt,name=from_value,json=fromValue,proto3" json:"from_value,omitempty"`
-	ToValue   float64 `protobuf:"fixed64,2,opt,name=to_value,json=toValue,proto3" json:"to_value,omitempty"`
-	Step      float64 `protobuf:"fixed64,3,opt,name=step,proto3" json:"step,omitempty"`
-}
-
-func (x *FloatingPointRange) Reset() {
-	*x = FloatingPointRange{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *FloatingPointRange) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FloatingPointRange) ProtoMessage() {}
-
-func (x *FloatingPointRange) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FloatingPointRange.ProtoReflect.Descriptor instead.
-func (*FloatingPointRange) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *FloatingPointRange) GetFromValue() float64 {
-	if x != nil {
-		return x.FromValue
-	}
-	return 0
-}
-
-func (x *FloatingPointRange) GetToValue() float64 {
-	if x != nil {
-		return x.ToValue
-	}
-	return 0
-}
-
-func (x *FloatingPointRange) GetStep() float64 {
-	if x != nil {
-		return x.Step
-	}
-	return 0
 }
 
 type ParameterValue struct {
@@ -347,7 +669,7 @@ type ParameterValue struct {
 func (x *ParameterValue) Reset() {
 	*x = ParameterValue{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[5]
+		mi := &file_rcl_interfaces_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -360,7 +682,7 @@ func (x *ParameterValue) String() string {
 func (*ParameterValue) ProtoMessage() {}
 
 func (x *ParameterValue) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[5]
+	mi := &file_rcl_interfaces_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -373,7 +695,7 @@ func (x *ParameterValue) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ParameterValue.ProtoReflect.Descriptor instead.
 func (*ParameterValue) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{5}
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ParameterValue) GetType() uint32 {
@@ -446,32 +768,31 @@ func (x *ParameterValue) GetStringArrayValue() []string {
 	return nil
 }
 
-type SetParametersResult struct {
+type SetParametersReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Successful bool   `protobuf:"varint,1,opt,name=successful,proto3" json:"successful,omitempty"`
-	Reason     string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	Parameters []*Parameter `protobuf:"bytes,1,rep,name=parameters,proto3" json:"parameters,omitempty"`
 }
 
-func (x *SetParametersResult) Reset() {
-	*x = SetParametersResult{}
+func (x *SetParametersReq) Reset() {
+	*x = SetParametersReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[6]
+		mi := &file_rcl_interfaces_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *SetParametersResult) String() string {
+func (x *SetParametersReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SetParametersResult) ProtoMessage() {}
+func (*SetParametersReq) ProtoMessage() {}
 
-func (x *SetParametersResult) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[6]
+func (x *SetParametersReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -482,23 +803,63 @@ func (x *SetParametersResult) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetParametersResult.ProtoReflect.Descriptor instead.
-func (*SetParametersResult) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{6}
+// Deprecated: Use SetParametersReq.ProtoReflect.Descriptor instead.
+func (*SetParametersReq) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *SetParametersResult) GetSuccessful() bool {
+func (x *SetParametersReq) GetParameters() []*Parameter {
 	if x != nil {
-		return x.Successful
+		return x.Parameters
 	}
-	return false
+	return nil
 }
 
-func (x *SetParametersResult) GetReason() string {
-	if x != nil {
-		return x.Reason
+type GetParameterTypesRsp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Types []uint32 `protobuf:"varint,1,rep,packed,name=types,proto3" json:"types,omitempty"`
+}
+
+func (x *GetParameterTypesRsp) Reset() {
+	*x = GetParameterTypesRsp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
 	}
-	return ""
+}
+
+func (x *GetParameterTypesRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetParameterTypesRsp) ProtoMessage() {}
+
+func (x *GetParameterTypesRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetParameterTypesRsp.ProtoReflect.Descriptor instead.
+func (*GetParameterTypesRsp) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetParameterTypesRsp) GetTypes() []uint32 {
+	if x != nil {
+		return x.Types
+	}
+	return nil
 }
 
 type ListParametersResult struct {
@@ -513,7 +874,7 @@ type ListParametersResult struct {
 func (x *ListParametersResult) Reset() {
 	*x = ListParametersResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[7]
+		mi := &file_rcl_interfaces_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -526,7 +887,7 @@ func (x *ListParametersResult) String() string {
 func (*ListParametersResult) ProtoMessage() {}
 
 func (x *ListParametersResult) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[7]
+	mi := &file_rcl_interfaces_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -539,7 +900,7 @@ func (x *ListParametersResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListParametersResult.ProtoReflect.Descriptor instead.
 func (*ListParametersResult) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{7}
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ListParametersResult) GetNames() []string {
@@ -556,31 +917,31 @@ func (x *ListParametersResult) GetPrefixes() []string {
 	return nil
 }
 
-type GetParameterTypesRsp struct {
+type DescribeParametersRsp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Types []uint32 `protobuf:"varint,1,rep,packed,name=types,proto3" json:"types,omitempty"`
+	Descriptors []*ParameterDescriptor `protobuf:"bytes,1,rep,name=descriptors,proto3" json:"descriptors,omitempty"`
 }
 
-func (x *GetParameterTypesRsp) Reset() {
-	*x = GetParameterTypesRsp{}
+func (x *DescribeParametersRsp) Reset() {
+	*x = DescribeParametersRsp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[8]
+		mi := &file_rcl_interfaces_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *GetParameterTypesRsp) String() string {
+func (x *DescribeParametersRsp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetParameterTypesRsp) ProtoMessage() {}
+func (*DescribeParametersRsp) ProtoMessage() {}
 
-func (x *GetParameterTypesRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[8]
+func (x *DescribeParametersRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -591,16 +952,182 @@ func (x *GetParameterTypesRsp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetParameterTypesRsp.ProtoReflect.Descriptor instead.
-func (*GetParameterTypesRsp) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{8}
+// Deprecated: Use DescribeParametersRsp.ProtoReflect.Descriptor instead.
+func (*DescribeParametersRsp) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *GetParameterTypesRsp) GetTypes() []uint32 {
+func (x *DescribeParametersRsp) GetDescriptors() []*ParameterDescriptor {
 	if x != nil {
-		return x.Types
+		return x.Descriptors
 	}
 	return nil
+}
+
+type ParameterDescriptor struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name                  string                `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type                  uint32                `protobuf:"varint,2,opt,name=type,proto3" json:"type,omitempty"`
+	Description           string                `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	AdditionalConstraints string                `protobuf:"bytes,4,opt,name=additional_constraints,json=additionalConstraints,proto3" json:"additional_constraints,omitempty"`
+	ReadOnly              bool                  `protobuf:"varint,5,opt,name=read_only,json=readOnly,proto3" json:"read_only,omitempty"`
+	DynamicTyping         bool                  `protobuf:"varint,6,opt,name=dynamic_typing,json=dynamicTyping,proto3" json:"dynamic_typing,omitempty"`
+	FloatingPointRange    []*FloatingPointRange `protobuf:"bytes,7,rep,name=floating_point_range,json=floatingPointRange,proto3" json:"floating_point_range,omitempty"`
+	IntegerRange          []*IntegerRange       `protobuf:"bytes,8,rep,name=integer_range,json=integerRange,proto3" json:"integer_range,omitempty"`
+}
+
+func (x *ParameterDescriptor) Reset() {
+	*x = ParameterDescriptor{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ParameterDescriptor) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParameterDescriptor) ProtoMessage() {}
+
+func (x *ParameterDescriptor) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParameterDescriptor.ProtoReflect.Descriptor instead.
+func (*ParameterDescriptor) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ParameterDescriptor) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ParameterDescriptor) GetType() uint32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+func (x *ParameterDescriptor) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ParameterDescriptor) GetAdditionalConstraints() string {
+	if x != nil {
+		return x.AdditionalConstraints
+	}
+	return ""
+}
+
+func (x *ParameterDescriptor) GetReadOnly() bool {
+	if x != nil {
+		return x.ReadOnly
+	}
+	return false
+}
+
+func (x *ParameterDescriptor) GetDynamicTyping() bool {
+	if x != nil {
+		return x.DynamicTyping
+	}
+	return false
+}
+
+func (x *ParameterDescriptor) GetFloatingPointRange() []*FloatingPointRange {
+	if x != nil {
+		return x.FloatingPointRange
+	}
+	return nil
+}
+
+func (x *ParameterDescriptor) GetIntegerRange() []*IntegerRange {
+	if x != nil {
+		return x.IntegerRange
+	}
+	return nil
+}
+
+type FloatingPointRange struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FromValue float64 `protobuf:"fixed64,1,opt,name=from_value,json=fromValue,proto3" json:"from_value,omitempty"`
+	ToValue   float64 `protobuf:"fixed64,2,opt,name=to_value,json=toValue,proto3" json:"to_value,omitempty"`
+	Step      float64 `protobuf:"fixed64,3,opt,name=step,proto3" json:"step,omitempty"`
+}
+
+func (x *FloatingPointRange) Reset() {
+	*x = FloatingPointRange{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rcl_interfaces_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FloatingPointRange) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FloatingPointRange) ProtoMessage() {}
+
+func (x *FloatingPointRange) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FloatingPointRange.ProtoReflect.Descriptor instead.
+func (*FloatingPointRange) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *FloatingPointRange) GetFromValue() float64 {
+	if x != nil {
+		return x.FromValue
+	}
+	return 0
+}
+
+func (x *FloatingPointRange) GetToValue() float64 {
+	if x != nil {
+		return x.ToValue
+	}
+	return 0
+}
+
+func (x *FloatingPointRange) GetStep() float64 {
+	if x != nil {
+		return x.Step
+	}
+	return 0
 }
 
 type GetParametersRsp struct {
@@ -614,7 +1141,7 @@ type GetParametersRsp struct {
 func (x *GetParametersRsp) Reset() {
 	*x = GetParametersRsp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[9]
+		mi := &file_rcl_interfaces_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -627,7 +1154,7 @@ func (x *GetParametersRsp) String() string {
 func (*GetParametersRsp) ProtoMessage() {}
 
 func (x *GetParametersRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[9]
+	mi := &file_rcl_interfaces_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -640,7 +1167,7 @@ func (x *GetParametersRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetParametersRsp.ProtoReflect.Descriptor instead.
 func (*GetParametersRsp) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{9}
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetParametersRsp) GetValues() []*ParameterValue {
@@ -650,219 +1177,7 @@ func (x *GetParametersRsp) GetValues() []*ParameterValue {
 	return nil
 }
 
-type SetParametersReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Parameters []*Parameter `protobuf:"bytes,1,rep,name=parameters,proto3" json:"parameters,omitempty"`
-}
-
-func (x *SetParametersReq) Reset() {
-	*x = SetParametersReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *SetParametersReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SetParametersReq) ProtoMessage() {}
-
-func (x *SetParametersReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SetParametersReq.ProtoReflect.Descriptor instead.
-func (*SetParametersReq) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *SetParametersReq) GetParameters() []*Parameter {
-	if x != nil {
-		return x.Parameters
-	}
-	return nil
-}
-
-type Parameter struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Name  string          `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Value *ParameterValue `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
-}
-
-func (x *Parameter) Reset() {
-	*x = Parameter{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Parameter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Parameter) ProtoMessage() {}
-
-func (x *Parameter) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Parameter.ProtoReflect.Descriptor instead.
-func (*Parameter) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *Parameter) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Parameter) GetValue() *ParameterValue {
-	if x != nil {
-		return x.Value
-	}
-	return nil
-}
-
-type ListParametersRsp struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Result *ListParametersResult `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-}
-
-func (x *ListParametersRsp) Reset() {
-	*x = ListParametersRsp{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ListParametersRsp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListParametersRsp) ProtoMessage() {}
-
-func (x *ListParametersRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListParametersRsp.ProtoReflect.Descriptor instead.
-func (*ListParametersRsp) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *ListParametersRsp) GetResult() *ListParametersResult {
-	if x != nil {
-		return x.Result
-	}
-	return nil
-}
-
-type IntegerRange struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	FromValue int64  `protobuf:"varint,1,opt,name=from_value,json=fromValue,proto3" json:"from_value,omitempty"`
-	ToValue   int64  `protobuf:"varint,2,opt,name=to_value,json=toValue,proto3" json:"to_value,omitempty"`
-	Step      uint64 `protobuf:"varint,3,opt,name=step,proto3" json:"step,omitempty"`
-}
-
-func (x *IntegerRange) Reset() {
-	*x = IntegerRange{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *IntegerRange) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*IntegerRange) ProtoMessage() {}
-
-func (x *IntegerRange) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use IntegerRange.ProtoReflect.Descriptor instead.
-func (*IntegerRange) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *IntegerRange) GetFromValue() int64 {
-	if x != nil {
-		return x.FromValue
-	}
-	return 0
-}
-
-func (x *IntegerRange) GetToValue() int64 {
-	if x != nil {
-		return x.ToValue
-	}
-	return 0
-}
-
-func (x *IntegerRange) GetStep() uint64 {
-	if x != nil {
-		return x.Step
-	}
-	return 0
-}
-
-type GetParametersReq struct {
+type GetParameterTypesReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -870,23 +1185,23 @@ type GetParametersReq struct {
 	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
 }
 
-func (x *GetParametersReq) Reset() {
-	*x = GetParametersReq{}
+func (x *GetParameterTypesReq) Reset() {
+	*x = GetParameterTypesReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[14]
+		mi := &file_rcl_interfaces_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *GetParametersReq) String() string {
+func (x *GetParameterTypesReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetParametersReq) ProtoMessage() {}
+func (*GetParameterTypesReq) ProtoMessage() {}
 
-func (x *GetParametersReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[14]
+func (x *GetParameterTypesReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rcl_interfaces_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -897,155 +1212,14 @@ func (x *GetParametersReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetParametersReq.ProtoReflect.Descriptor instead.
-func (*GetParametersReq) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{14}
+// Deprecated: Use GetParameterTypesReq.ProtoReflect.Descriptor instead.
+func (*GetParameterTypesReq) Descriptor() ([]byte, []int) {
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *GetParametersReq) GetNames() []string {
+func (x *GetParameterTypesReq) GetNames() []string {
 	if x != nil {
 		return x.Names
-	}
-	return nil
-}
-
-type SetParametersAtomicallyRsp struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Result *SetParametersResult `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-}
-
-func (x *SetParametersAtomicallyRsp) Reset() {
-	*x = SetParametersAtomicallyRsp{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[15]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *SetParametersAtomicallyRsp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SetParametersAtomicallyRsp) ProtoMessage() {}
-
-func (x *SetParametersAtomicallyRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[15]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SetParametersAtomicallyRsp.ProtoReflect.Descriptor instead.
-func (*SetParametersAtomicallyRsp) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *SetParametersAtomicallyRsp) GetResult() *SetParametersResult {
-	if x != nil {
-		return x.Result
-	}
-	return nil
-}
-
-type DescribeParametersReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Names []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
-}
-
-func (x *DescribeParametersReq) Reset() {
-	*x = DescribeParametersReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DescribeParametersReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeParametersReq) ProtoMessage() {}
-
-func (x *DescribeParametersReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeParametersReq.ProtoReflect.Descriptor instead.
-func (*DescribeParametersReq) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *DescribeParametersReq) GetNames() []string {
-	if x != nil {
-		return x.Names
-	}
-	return nil
-}
-
-type DescribeParametersRsp struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Descriptors []*ParameterDescriptor `protobuf:"bytes,1,rep,name=descriptors,proto3" json:"descriptors,omitempty"`
-}
-
-func (x *DescribeParametersRsp) Reset() {
-	*x = DescribeParametersRsp{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DescribeParametersRsp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeParametersRsp) ProtoMessage() {}
-
-func (x *DescribeParametersRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeParametersRsp.ProtoReflect.Descriptor instead.
-func (*DescribeParametersRsp) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *DescribeParametersRsp) GetDescriptors() []*ParameterDescriptor {
-	if x != nil {
-		return x.Descriptors
 	}
 	return nil
 }
@@ -1062,7 +1236,7 @@ type ListParametersReq struct {
 func (x *ListParametersReq) Reset() {
 	*x = ListParametersReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rcl_interfaces_proto_msgTypes[18]
+		mi := &file_rcl_interfaces_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1075,7 +1249,7 @@ func (x *ListParametersReq) String() string {
 func (*ListParametersReq) ProtoMessage() {}
 
 func (x *ListParametersReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rcl_interfaces_proto_msgTypes[18]
+	mi := &file_rcl_interfaces_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1088,7 +1262,7 @@ func (x *ListParametersReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListParametersReq.ProtoReflect.Descriptor instead.
 func (*ListParametersReq) Descriptor() ([]byte, []int) {
-	return file_rcl_interfaces_proto_rawDescGZIP(), []int{18}
+	return file_rcl_interfaces_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *ListParametersReq) GetPrefixes() []string {
@@ -1110,136 +1284,168 @@ var File_rcl_interfaces_proto protoreflect.FileDescriptor
 var file_rcl_interfaces_proto_rawDesc = []byte{
 	0x0a, 0x14, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x22, 0x51, 0x0a, 0x10, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72,
-	0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x73, 0x70, 0x12, 0x3d, 0x0a, 0x07, 0x72, 0x65,
-	0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x72, 0x63,
-	0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x53, 0x65, 0x74,
-	0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74,
-	0x52, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0x57, 0x0a, 0x1a, 0x53, 0x65, 0x74,
-	0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x41, 0x74, 0x6f, 0x6d, 0x69, 0x63,
-	0x61, 0x6c, 0x6c, 0x79, 0x52, 0x65, 0x71, 0x12, 0x39, 0x0a, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d,
-	0x65, 0x74, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63,
-	0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72,
-	0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x52, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65,
-	0x72, 0x73, 0x22, 0x2c, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
-	0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61,
-	0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73,
-	0x22, 0xf3, 0x02, 0x0a, 0x13, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x44, 0x65,
-	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04,
-	0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65,
-	0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
-	0x6f, 0x6e, 0x12, 0x35, 0x0a, 0x16, 0x61, 0x64, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c,
-	0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x74, 0x73, 0x18, 0x04, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x15, 0x61, 0x64, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x43, 0x6f,
-	0x6e, 0x73, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x74, 0x73, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x61,
-	0x64, 0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x08, 0x72, 0x65,
-	0x61, 0x64, 0x4f, 0x6e, 0x6c, 0x79, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x79, 0x6e, 0x61, 0x6d, 0x69,
-	0x63, 0x5f, 0x74, 0x79, 0x70, 0x69, 0x6e, 0x67, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d,
-	0x64, 0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x54, 0x79, 0x70, 0x69, 0x6e, 0x67, 0x12, 0x54, 0x0a,
-	0x14, 0x66, 0x6c, 0x6f, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x5f, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x5f,
-	0x72, 0x61, 0x6e, 0x67, 0x65, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x72, 0x63,
-	0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x46, 0x6c, 0x6f,
-	0x61, 0x74, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52,
-	0x12, 0x66, 0x6c, 0x6f, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x61,
-	0x6e, 0x67, 0x65, 0x12, 0x41, 0x0a, 0x0d, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x5f, 0x72,
-	0x61, 0x6e, 0x67, 0x65, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x72, 0x63, 0x6c,
-	0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x74, 0x65,
-	0x67, 0x65, 0x72, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x0c, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65,
-	0x72, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x22, 0x62, 0x0a, 0x12, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x69,
-	0x6e, 0x67, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x1d, 0x0a, 0x0a,
-	0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x01,
-	0x52, 0x09, 0x66, 0x72, 0x6f, 0x6d, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x74,
-	0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x07, 0x74,
-	0x6f, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x74, 0x65, 0x70, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x73, 0x74, 0x65, 0x70, 0x22, 0x8e, 0x03, 0x0a, 0x0e, 0x50,
-	0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x12, 0x0a,
-	0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x74, 0x79, 0x70,
-	0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x62, 0x6f, 0x6f, 0x6c, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x62, 0x6f, 0x6f, 0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65,
-	0x12, 0x23, 0x0a, 0x0d, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x5f, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72,
-	0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x64, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x5f,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0b, 0x64, 0x6f, 0x75,
-	0x62, 0x6c, 0x65, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x74, 0x72, 0x69,
-	0x6e, 0x67, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
-	0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x28, 0x0a, 0x10, 0x62,
-	0x79, 0x74, 0x65, 0x5f, 0x61, 0x72, 0x72, 0x61, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
-	0x06, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0e, 0x62, 0x79, 0x74, 0x65, 0x41, 0x72, 0x72, 0x61, 0x79,
-	0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x28, 0x0a, 0x10, 0x62, 0x6f, 0x6f, 0x6c, 0x5f, 0x61, 0x72,
-	0x72, 0x61, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x07, 0x20, 0x03, 0x28, 0x08, 0x52,
-	0x0e, 0x62, 0x6f, 0x6f, 0x6c, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
-	0x2e, 0x0a, 0x13, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x5f, 0x61, 0x72, 0x72, 0x61, 0x79,
-	0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x08, 0x20, 0x03, 0x28, 0x03, 0x52, 0x11, 0x69, 0x6e,
-	0x74, 0x65, 0x67, 0x65, 0x72, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
-	0x2c, 0x0a, 0x12, 0x64, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x5f, 0x61, 0x72, 0x72, 0x61, 0x79, 0x5f,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x09, 0x20, 0x03, 0x28, 0x01, 0x52, 0x10, 0x64, 0x6f, 0x75,
-	0x62, 0x6c, 0x65, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x2c, 0x0a,
-	0x12, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x5f, 0x61, 0x72, 0x72, 0x61, 0x79, 0x5f, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x0a, 0x20, 0x03, 0x28, 0x09, 0x52, 0x10, 0x73, 0x74, 0x72, 0x69, 0x6e,
-	0x67, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x4d, 0x0a, 0x13, 0x53,
-	0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75,
-	0x6c, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66,
-	0x75, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x22, 0x48, 0x0a, 0x14, 0x4c, 0x69,
+	0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x1a, 0x18, 0x62, 0x75, 0x69, 0x6c, 0x74, 0x69, 0x6e, 0x5f,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x22, 0xb5, 0x01, 0x0a, 0x03, 0x4c, 0x6f, 0x67, 0x12, 0x2e, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x6d,
+	0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x62, 0x75, 0x69, 0x6c, 0x74, 0x69,
+	0x6e, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x54, 0x69, 0x6d,
+	0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x65, 0x76, 0x65,
+	0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x12, 0x12,
+	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x6d, 0x73, 0x67, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x69, 0x6c, 0x65, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x66, 0x69, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x66, 0x75, 0x6e, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x66, 0x75, 0x6e, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x69, 0x6e, 0x65, 0x18, 0x07, 0x20, 0x01,
+	0x28, 0x0d, 0x52, 0x04, 0x6c, 0x69, 0x6e, 0x65, 0x22, 0x2d, 0x0a, 0x15, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65,
+	0x71, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09,
+	0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x22, 0x28, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x6e,
+	0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65,
+	0x73, 0x22, 0x51, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x73, 0x52, 0x73, 0x70, 0x12, 0x3c, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61,
+	0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x22, 0xaa, 0x02, 0x0a, 0x0e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x2e, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x6d, 0x70,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x62, 0x75, 0x69, 0x6c, 0x74, 0x69, 0x6e,
+	0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x54, 0x69, 0x6d, 0x65,
+	0x52, 0x05, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x6f, 0x64, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x6f, 0x64, 0x65, 0x12, 0x40, 0x0a, 0x0e, 0x6e,
+	0x65, 0x77, 0x5f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x18, 0x03, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66,
+	0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x52, 0x0d,
+	0x6e, 0x65, 0x77, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x12, 0x48, 0x0a,
+	0x12, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x5f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63, 0x6c, 0x5f,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d,
+	0x65, 0x74, 0x65, 0x72, 0x52, 0x11, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x50, 0x61, 0x72,
+	0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x12, 0x48, 0x0a, 0x12, 0x64, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x64, 0x5f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x18, 0x05, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66,
+	0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x52, 0x11,
+	0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72,
+	0x73, 0x22, 0x5c, 0x0a, 0x0c, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x52, 0x61, 0x6e, 0x67,
+	0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x66, 0x72, 0x6f, 0x6d, 0x56, 0x61, 0x6c, 0x75, 0x65,
+	0x12, 0x19, 0x0a, 0x08, 0x74, 0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x07, 0x74, 0x6f, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x73,
+	0x74, 0x65, 0x70, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x04, 0x73, 0x74, 0x65, 0x70, 0x22,
+	0x51, 0x0a, 0x10, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73,
+	0x52, 0x73, 0x70, 0x12, 0x3d, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72,
+	0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x73, 0x22, 0x4d, 0x0a, 0x13, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x75, 0x63,
+	0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x73,
+	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61,
+	0x73, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f,
+	0x6e, 0x22, 0x57, 0x0a, 0x1a, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65,
+	0x72, 0x73, 0x41, 0x74, 0x6f, 0x6d, 0x69, 0x63, 0x61, 0x6c, 0x6c, 0x79, 0x52, 0x65, 0x71, 0x12,
+	0x39, 0x0a, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66,
+	0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x52, 0x0a,
+	0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x22, 0x59, 0x0a, 0x1a, 0x53, 0x65,
+	0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x41, 0x74, 0x6f, 0x6d, 0x69,
+	0x63, 0x61, 0x6c, 0x6c, 0x79, 0x52, 0x73, 0x70, 0x12, 0x3b, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72,
+	0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x55, 0x0a, 0x09, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x34, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72,
+	0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x8e, 0x03, 0x0a,
+	0x0e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
+	0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x74,
+	0x79, 0x70, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x62, 0x6f, 0x6f, 0x6c, 0x5f, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x62, 0x6f, 0x6f, 0x6c, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x5f, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x69, 0x6e, 0x74, 0x65, 0x67,
+	0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x64, 0x6f, 0x75, 0x62, 0x6c,
+	0x65, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0b, 0x64,
+	0x6f, 0x75, 0x62, 0x6c, 0x65, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x74,
+	0x72, 0x69, 0x6e, 0x67, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0b, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x28, 0x0a,
+	0x10, 0x62, 0x79, 0x74, 0x65, 0x5f, 0x61, 0x72, 0x72, 0x61, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0e, 0x62, 0x79, 0x74, 0x65, 0x41, 0x72, 0x72,
+	0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x28, 0x0a, 0x10, 0x62, 0x6f, 0x6f, 0x6c, 0x5f,
+	0x61, 0x72, 0x72, 0x61, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x07, 0x20, 0x03, 0x28,
+	0x08, 0x52, 0x0e, 0x62, 0x6f, 0x6f, 0x6c, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75,
+	0x65, 0x12, 0x2e, 0x0a, 0x13, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x5f, 0x61, 0x72, 0x72,
+	0x61, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x08, 0x20, 0x03, 0x28, 0x03, 0x52, 0x11,
+	0x69, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75,
+	0x65, 0x12, 0x2c, 0x0a, 0x12, 0x64, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x5f, 0x61, 0x72, 0x72, 0x61,
+	0x79, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x09, 0x20, 0x03, 0x28, 0x01, 0x52, 0x10, 0x64,
+	0x6f, 0x75, 0x62, 0x6c, 0x65, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
+	0x2c, 0x0a, 0x12, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x5f, 0x61, 0x72, 0x72, 0x61, 0x79, 0x5f,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x0a, 0x20, 0x03, 0x28, 0x09, 0x52, 0x10, 0x73, 0x74, 0x72,
+	0x69, 0x6e, 0x67, 0x41, 0x72, 0x72, 0x61, 0x79, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x4d, 0x0a,
+	0x10, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65,
+	0x71, 0x12, 0x39, 0x0a, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72,
+	0x52, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x22, 0x2c, 0x0a, 0x14,
+	0x47, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65,
+	0x73, 0x52, 0x73, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0d, 0x52, 0x05, 0x74, 0x79, 0x70, 0x65, 0x73, 0x22, 0x48, 0x0a, 0x14, 0x4c, 0x69,
 	0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75,
 	0x6c, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
 	0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x72, 0x65, 0x66,
 	0x69, 0x78, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x08, 0x70, 0x72, 0x65, 0x66,
-	0x69, 0x78, 0x65, 0x73, 0x22, 0x2c, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d,
-	0x65, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52, 0x73, 0x70, 0x12, 0x14, 0x0a, 0x05,
-	0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x05, 0x74, 0x79, 0x70,
-	0x65, 0x73, 0x22, 0x4a, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
-	0x65, 0x72, 0x73, 0x52, 0x73, 0x70, 0x12, 0x36, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73,
-	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65,
-	0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x22, 0x4d,
-	0x0a, 0x10, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52,
-	0x65, 0x71, 0x12, 0x39, 0x0a, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73,
-	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65,
-	0x72, 0x52, 0x0a, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x22, 0x55, 0x0a,
-	0x09, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x34,
-	0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e,
-	0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50,
-	0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x05, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x22, 0x51, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x73, 0x70, 0x12, 0x3c, 0x0a, 0x06, 0x72, 0x65, 0x73,
-	0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x72, 0x63, 0x6c, 0x5f,
-	0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50,
-	0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52,
-	0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x5c, 0x0a, 0x0c, 0x49, 0x6e, 0x74, 0x65, 0x67,
-	0x65, 0x72, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x66, 0x72, 0x6f, 0x6d, 0x5f,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x66, 0x72, 0x6f,
-	0x6d, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x74, 0x6f, 0x5f, 0x76, 0x61, 0x6c,
-	0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x74, 0x6f, 0x56, 0x61, 0x6c, 0x75,
-	0x65, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x74, 0x65, 0x70, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x04, 0x73, 0x74, 0x65, 0x70, 0x22, 0x28, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61, 0x6d,
-	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x22,
-	0x59, 0x0a, 0x1a, 0x53, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73,
-	0x41, 0x74, 0x6f, 0x6d, 0x69, 0x63, 0x61, 0x6c, 0x6c, 0x79, 0x52, 0x73, 0x70, 0x12, 0x3b, 0x0a,
-	0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e,
-	0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x53,
-	0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x75,
-	0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x2d, 0x0a, 0x15, 0x44, 0x65,
-	0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73,
-	0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03,
-	0x28, 0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x22, 0x5e, 0x0a, 0x15, 0x44, 0x65, 0x73,
-	0x63, 0x72, 0x69, 0x62, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52,
-	0x73, 0x70, 0x12, 0x45, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e,
-	0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
-	0x65, 0x72, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x0b, 0x64, 0x65,
-	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x73, 0x22, 0x45, 0x0a, 0x11, 0x4c, 0x69, 0x73,
-	0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x12, 0x1a,
-	0x0a, 0x08, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09,
-	0x52, 0x08, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x65, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x64, 0x65,
-	0x70, 0x74, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x64, 0x65, 0x70, 0x74, 0x68,
-	0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x78, 0x65, 0x73, 0x22, 0x5e, 0x0a, 0x15, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65,
+	0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x73, 0x70, 0x12, 0x45, 0x0a,
+	0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x23, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61,
+	0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x44, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x6f, 0x72, 0x73, 0x22, 0xf3, 0x02, 0x0a, 0x13, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74,
+	0x65, 0x72, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04,
+	0x74, 0x79, 0x70, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74,
+	0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x35, 0x0a, 0x16, 0x61, 0x64, 0x64, 0x69, 0x74, 0x69,
+	0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x74, 0x73,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x15, 0x61, 0x64, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x61, 0x6c, 0x43, 0x6f, 0x6e, 0x73, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x74, 0x73, 0x12, 0x1b, 0x0a,
+	0x09, 0x72, 0x65, 0x61, 0x64, 0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x08, 0x72, 0x65, 0x61, 0x64, 0x4f, 0x6e, 0x6c, 0x79, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x79,
+	0x6e, 0x61, 0x6d, 0x69, 0x63, 0x5f, 0x74, 0x79, 0x70, 0x69, 0x6e, 0x67, 0x18, 0x06, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x0d, 0x64, 0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x54, 0x79, 0x70, 0x69, 0x6e,
+	0x67, 0x12, 0x54, 0x0a, 0x14, 0x66, 0x6c, 0x6f, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x5f, 0x70, 0x6f,
+	0x69, 0x6e, 0x74, 0x5f, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x22, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73,
+	0x2e, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x61,
+	0x6e, 0x67, 0x65, 0x52, 0x12, 0x66, 0x6c, 0x6f, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x69,
+	0x6e, 0x74, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x41, 0x0a, 0x0d, 0x69, 0x6e, 0x74, 0x65, 0x67,
+	0x65, 0x72, 0x5f, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c,
+	0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e,
+	0x49, 0x6e, 0x74, 0x65, 0x67, 0x65, 0x72, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x0c, 0x69, 0x6e,
+	0x74, 0x65, 0x67, 0x65, 0x72, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x22, 0x62, 0x0a, 0x12, 0x46, 0x6c,
+	0x6f, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x61, 0x6e, 0x67, 0x65,
+	0x12, 0x1d, 0x0a, 0x0a, 0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x01, 0x52, 0x09, 0x66, 0x72, 0x6f, 0x6d, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
+	0x19, 0x0a, 0x08, 0x74, 0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x01, 0x52, 0x07, 0x74, 0x6f, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x74,
+	0x65, 0x70, 0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x73, 0x74, 0x65, 0x70, 0x22, 0x4a,
+	0x0a, 0x10, 0x47, 0x65, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52,
+	0x73, 0x70, 0x12, 0x36, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x72, 0x63, 0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61,
+	0x63, 0x65, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x22, 0x2c, 0x0a, 0x14, 0x47, 0x65,
+	0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x73, 0x52,
+	0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x09, 0x52, 0x05, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x22, 0x45, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74,
+	0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x12, 0x1a, 0x0a,
+	0x08, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52,
+	0x08, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x65, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x64, 0x65, 0x70,
+	0x74, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x64, 0x65, 0x70, 0x74, 0x68, 0x42,
+	0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1254,44 +1460,52 @@ func file_rcl_interfaces_proto_rawDescGZIP() []byte {
 	return file_rcl_interfaces_proto_rawDescData
 }
 
-var file_rcl_interfaces_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_rcl_interfaces_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_rcl_interfaces_proto_goTypes = []any{
-	(*SetParametersRsp)(nil),           // 0: rcl_interfaces.SetParametersRsp
-	(*SetParametersAtomicallyReq)(nil), // 1: rcl_interfaces.SetParametersAtomicallyReq
-	(*GetParameterTypesReq)(nil),       // 2: rcl_interfaces.GetParameterTypesReq
-	(*ParameterDescriptor)(nil),        // 3: rcl_interfaces.ParameterDescriptor
-	(*FloatingPointRange)(nil),         // 4: rcl_interfaces.FloatingPointRange
-	(*ParameterValue)(nil),             // 5: rcl_interfaces.ParameterValue
-	(*SetParametersResult)(nil),        // 6: rcl_interfaces.SetParametersResult
-	(*ListParametersResult)(nil),       // 7: rcl_interfaces.ListParametersResult
-	(*GetParameterTypesRsp)(nil),       // 8: rcl_interfaces.GetParameterTypesRsp
-	(*GetParametersRsp)(nil),           // 9: rcl_interfaces.GetParametersRsp
-	(*SetParametersReq)(nil),           // 10: rcl_interfaces.SetParametersReq
-	(*Parameter)(nil),                  // 11: rcl_interfaces.Parameter
-	(*ListParametersRsp)(nil),          // 12: rcl_interfaces.ListParametersRsp
-	(*IntegerRange)(nil),               // 13: rcl_interfaces.IntegerRange
-	(*GetParametersReq)(nil),           // 14: rcl_interfaces.GetParametersReq
-	(*SetParametersAtomicallyRsp)(nil), // 15: rcl_interfaces.SetParametersAtomicallyRsp
-	(*DescribeParametersReq)(nil),      // 16: rcl_interfaces.DescribeParametersReq
-	(*DescribeParametersRsp)(nil),      // 17: rcl_interfaces.DescribeParametersRsp
-	(*ListParametersReq)(nil),          // 18: rcl_interfaces.ListParametersReq
+	(*Log)(nil),                        // 0: rcl_interfaces.Log
+	(*DescribeParametersReq)(nil),      // 1: rcl_interfaces.DescribeParametersReq
+	(*GetParametersReq)(nil),           // 2: rcl_interfaces.GetParametersReq
+	(*ListParametersRsp)(nil),          // 3: rcl_interfaces.ListParametersRsp
+	(*ParameterEvent)(nil),             // 4: rcl_interfaces.ParameterEvent
+	(*IntegerRange)(nil),               // 5: rcl_interfaces.IntegerRange
+	(*SetParametersRsp)(nil),           // 6: rcl_interfaces.SetParametersRsp
+	(*SetParametersResult)(nil),        // 7: rcl_interfaces.SetParametersResult
+	(*SetParametersAtomicallyReq)(nil), // 8: rcl_interfaces.SetParametersAtomicallyReq
+	(*SetParametersAtomicallyRsp)(nil), // 9: rcl_interfaces.SetParametersAtomicallyRsp
+	(*Parameter)(nil),                  // 10: rcl_interfaces.Parameter
+	(*ParameterValue)(nil),             // 11: rcl_interfaces.ParameterValue
+	(*SetParametersReq)(nil),           // 12: rcl_interfaces.SetParametersReq
+	(*GetParameterTypesRsp)(nil),       // 13: rcl_interfaces.GetParameterTypesRsp
+	(*ListParametersResult)(nil),       // 14: rcl_interfaces.ListParametersResult
+	(*DescribeParametersRsp)(nil),      // 15: rcl_interfaces.DescribeParametersRsp
+	(*ParameterDescriptor)(nil),        // 16: rcl_interfaces.ParameterDescriptor
+	(*FloatingPointRange)(nil),         // 17: rcl_interfaces.FloatingPointRange
+	(*GetParametersRsp)(nil),           // 18: rcl_interfaces.GetParametersRsp
+	(*GetParameterTypesReq)(nil),       // 19: rcl_interfaces.GetParameterTypesReq
+	(*ListParametersReq)(nil),          // 20: rcl_interfaces.ListParametersReq
+	(*Time)(nil),                       // 21: builtin_interfaces.Time
 }
 var file_rcl_interfaces_proto_depIdxs = []int32{
-	6,  // 0: rcl_interfaces.SetParametersRsp.results:type_name -> rcl_interfaces.SetParametersResult
-	11, // 1: rcl_interfaces.SetParametersAtomicallyReq.parameters:type_name -> rcl_interfaces.Parameter
-	4,  // 2: rcl_interfaces.ParameterDescriptor.floating_point_range:type_name -> rcl_interfaces.FloatingPointRange
-	13, // 3: rcl_interfaces.ParameterDescriptor.integer_range:type_name -> rcl_interfaces.IntegerRange
-	5,  // 4: rcl_interfaces.GetParametersRsp.values:type_name -> rcl_interfaces.ParameterValue
-	11, // 5: rcl_interfaces.SetParametersReq.parameters:type_name -> rcl_interfaces.Parameter
-	5,  // 6: rcl_interfaces.Parameter.value:type_name -> rcl_interfaces.ParameterValue
-	7,  // 7: rcl_interfaces.ListParametersRsp.result:type_name -> rcl_interfaces.ListParametersResult
-	6,  // 8: rcl_interfaces.SetParametersAtomicallyRsp.result:type_name -> rcl_interfaces.SetParametersResult
-	3,  // 9: rcl_interfaces.DescribeParametersRsp.descriptors:type_name -> rcl_interfaces.ParameterDescriptor
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	21, // 0: rcl_interfaces.Log.stamp:type_name -> builtin_interfaces.Time
+	14, // 1: rcl_interfaces.ListParametersRsp.result:type_name -> rcl_interfaces.ListParametersResult
+	21, // 2: rcl_interfaces.ParameterEvent.stamp:type_name -> builtin_interfaces.Time
+	10, // 3: rcl_interfaces.ParameterEvent.new_parameters:type_name -> rcl_interfaces.Parameter
+	10, // 4: rcl_interfaces.ParameterEvent.changed_parameters:type_name -> rcl_interfaces.Parameter
+	10, // 5: rcl_interfaces.ParameterEvent.deleted_parameters:type_name -> rcl_interfaces.Parameter
+	7,  // 6: rcl_interfaces.SetParametersRsp.results:type_name -> rcl_interfaces.SetParametersResult
+	10, // 7: rcl_interfaces.SetParametersAtomicallyReq.parameters:type_name -> rcl_interfaces.Parameter
+	7,  // 8: rcl_interfaces.SetParametersAtomicallyRsp.result:type_name -> rcl_interfaces.SetParametersResult
+	11, // 9: rcl_interfaces.Parameter.value:type_name -> rcl_interfaces.ParameterValue
+	10, // 10: rcl_interfaces.SetParametersReq.parameters:type_name -> rcl_interfaces.Parameter
+	16, // 11: rcl_interfaces.DescribeParametersRsp.descriptors:type_name -> rcl_interfaces.ParameterDescriptor
+	17, // 12: rcl_interfaces.ParameterDescriptor.floating_point_range:type_name -> rcl_interfaces.FloatingPointRange
+	5,  // 13: rcl_interfaces.ParameterDescriptor.integer_range:type_name -> rcl_interfaces.IntegerRange
+	11, // 14: rcl_interfaces.GetParametersRsp.values:type_name -> rcl_interfaces.ParameterValue
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_rcl_interfaces_proto_init() }
@@ -1299,9 +1513,10 @@ func file_rcl_interfaces_proto_init() {
 	if File_rcl_interfaces_proto != nil {
 		return
 	}
+	file_builtin_interfaces_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_rcl_interfaces_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*SetParametersRsp); i {
+			switch v := v.(*Log); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1313,186 +1528,6 @@ func file_rcl_interfaces_proto_init() {
 			}
 		}
 		file_rcl_interfaces_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*SetParametersAtomicallyReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*GetParameterTypesReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*ParameterDescriptor); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[4].Exporter = func(v any, i int) any {
-			switch v := v.(*FloatingPointRange); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*ParameterValue); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[6].Exporter = func(v any, i int) any {
-			switch v := v.(*SetParametersResult); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[7].Exporter = func(v any, i int) any {
-			switch v := v.(*ListParametersResult); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[8].Exporter = func(v any, i int) any {
-			switch v := v.(*GetParameterTypesRsp); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[9].Exporter = func(v any, i int) any {
-			switch v := v.(*GetParametersRsp); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[10].Exporter = func(v any, i int) any {
-			switch v := v.(*SetParametersReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[11].Exporter = func(v any, i int) any {
-			switch v := v.(*Parameter); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[12].Exporter = func(v any, i int) any {
-			switch v := v.(*ListParametersRsp); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[13].Exporter = func(v any, i int) any {
-			switch v := v.(*IntegerRange); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[14].Exporter = func(v any, i int) any {
-			switch v := v.(*GetParametersReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[15].Exporter = func(v any, i int) any {
-			switch v := v.(*SetParametersAtomicallyRsp); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rcl_interfaces_proto_msgTypes[16].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeParametersReq); i {
 			case 0:
 				return &v.state
@@ -1504,7 +1539,163 @@ func file_rcl_interfaces_proto_init() {
 				return nil
 			}
 		}
-		file_rcl_interfaces_proto_msgTypes[17].Exporter = func(v any, i int) any {
+		file_rcl_interfaces_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*GetParametersReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*ListParametersRsp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[4].Exporter = func(v any, i int) any {
+			switch v := v.(*ParameterEvent); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[5].Exporter = func(v any, i int) any {
+			switch v := v.(*IntegerRange); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[6].Exporter = func(v any, i int) any {
+			switch v := v.(*SetParametersRsp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[7].Exporter = func(v any, i int) any {
+			switch v := v.(*SetParametersResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[8].Exporter = func(v any, i int) any {
+			switch v := v.(*SetParametersAtomicallyReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[9].Exporter = func(v any, i int) any {
+			switch v := v.(*SetParametersAtomicallyRsp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*Parameter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[11].Exporter = func(v any, i int) any {
+			switch v := v.(*ParameterValue); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[12].Exporter = func(v any, i int) any {
+			switch v := v.(*SetParametersReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[13].Exporter = func(v any, i int) any {
+			switch v := v.(*GetParameterTypesRsp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[14].Exporter = func(v any, i int) any {
+			switch v := v.(*ListParametersResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[15].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeParametersRsp); i {
 			case 0:
 				return &v.state
@@ -1516,7 +1707,55 @@ func file_rcl_interfaces_proto_init() {
 				return nil
 			}
 		}
+		file_rcl_interfaces_proto_msgTypes[16].Exporter = func(v any, i int) any {
+			switch v := v.(*ParameterDescriptor); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[17].Exporter = func(v any, i int) any {
+			switch v := v.(*FloatingPointRange); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_rcl_interfaces_proto_msgTypes[18].Exporter = func(v any, i int) any {
+			switch v := v.(*GetParametersRsp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[19].Exporter = func(v any, i int) any {
+			switch v := v.(*GetParameterTypesReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rcl_interfaces_proto_msgTypes[20].Exporter = func(v any, i int) any {
 			switch v := v.(*ListParametersReq); i {
 			case 0:
 				return &v.state
@@ -1535,7 +1774,7 @@ func file_rcl_interfaces_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rcl_interfaces_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   19,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

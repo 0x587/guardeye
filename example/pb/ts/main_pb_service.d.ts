@@ -3,91 +3,73 @@
 
 import * as main_pb from "./main_pb";
 import * as rcl_interfaces_pb from "./rcl_interfaces_pb";
-import * as robot_bridge_interfaces_pb from "./robot_bridge_interfaces_pb";
+import * as shawn_define_pb from "./shawn_define_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
-type ApiPublishTopicArebot_transportRobot_bridgeRobot_state = {
+type ApiPublishTopicRosout = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.RobotState;
-  readonly responseType: typeof robot_bridge_interfaces_pb.RobotState;
+  readonly requestType: typeof rcl_interfaces_pb.Log;
+  readonly responseType: typeof rcl_interfaces_pb.Log;
 };
 
-type ApiPublishTopicArebot_loadRobot_bridgeRobot_state = {
+type ApiSubscribeTopicRosout = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof rcl_interfaces_pb.Log;
+  readonly responseType: typeof rcl_interfaces_pb.Log;
+};
+
+type ApiPublishTopicV2_publisher = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.RobotState;
-  readonly responseType: typeof robot_bridge_interfaces_pb.RobotState;
+  readonly requestType: typeof shawn_define_pb.V2;
+  readonly responseType: typeof shawn_define_pb.V2;
 };
 
-type ApiPublishTopicArebot_unloadRobot_bridgeRobot_state = {
+type ApiSubscribeTopicV2_publisher = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof shawn_define_pb.V2;
+  readonly responseType: typeof shawn_define_pb.V2;
+};
+
+type ApiPublishTopicParameter_events = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.RobotState;
-  readonly responseType: typeof robot_bridge_interfaces_pb.RobotState;
+  readonly requestType: typeof rcl_interfaces_pb.ParameterEvent;
+  readonly responseType: typeof rcl_interfaces_pb.ParameterEvent;
 };
 
-type ApiCallServiceArebot_unloadRobot_bridgeGet_parameters = {
+type ApiSubscribeTopicParameter_events = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof rcl_interfaces_pb.ParameterEvent;
+  readonly responseType: typeof rcl_interfaces_pb.ParameterEvent;
+};
+
+type ApiCallServiceAdd_two_ints_srv = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.GetParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.GetParametersRsp;
+  readonly requestType: typeof shawn_define_pb.AddReq;
+  readonly responseType: typeof shawn_define_pb.AddRsp;
 };
 
-type ApiCallServiceArebot_transportRobot_bridgeGet_parameter_types = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.GetParameterTypesReq;
-  readonly responseType: typeof rcl_interfaces_pb.GetParameterTypesRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeSet_parameters_atomically = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.SetParametersAtomicallyReq;
-  readonly responseType: typeof rcl_interfaces_pb.SetParametersAtomicallyRsp;
-};
-
-type ApiCallServiceArebot_transportRobot_bridgeSet_parameters_atomically = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.SetParametersAtomicallyReq;
-  readonly responseType: typeof rcl_interfaces_pb.SetParametersAtomicallyRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeGet_parameter_types = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.GetParameterTypesReq;
-  readonly responseType: typeof rcl_interfaces_pb.GetParameterTypesRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeGet_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.GetParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.GetParametersRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeDescribe_parameters = {
+type ApiCallServiceFoxglove_bridgeDescribe_parameters = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
@@ -96,160 +78,7 @@ type ApiCallServiceArebot_unloadRobot_bridgeDescribe_parameters = {
   readonly responseType: typeof rcl_interfaces_pb.DescribeParametersRsp;
 };
 
-type ApiCallServiceArebot_transportRobot_bridgeList_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.ListParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.ListParametersRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeStart_nav_to_pose = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.StartNavToPoseReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.StartNavToPoseRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeSet_parameters_atomically = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.SetParametersAtomicallyReq;
-  readonly responseType: typeof rcl_interfaces_pb.SetParametersAtomicallyRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeGet_parameter_types = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.GetParameterTypesReq;
-  readonly responseType: typeof rcl_interfaces_pb.GetParameterTypesRsp;
-};
-
-type ApiCallServiceArebot_transportRobot_bridgeGet_state = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.GetStateReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.GetStateRsp;
-};
-
-type ApiCallServiceArebot_transportRobot_bridgeSet_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.SetParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.SetParametersRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeStart_nav_to_pose = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.StartNavToPoseReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.StartNavToPoseRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeGet_state = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.GetStateReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.GetStateRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeList_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.ListParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.ListParametersRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeSet_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.SetParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.SetParametersRsp;
-};
-
-type ApiCallServiceArebot_transportRobot_bridgeStart_nav_to_pose = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.StartNavToPoseReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.StartNavToPoseRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeDescribe_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.DescribeParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.DescribeParametersRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeList_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.ListParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.ListParametersRsp;
-};
-
-type ApiCallServiceArebot_loadRobot_bridgeStart_pick_and_load = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.StartPickAndLoadReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.StartPickAndLoadRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeGet_state = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.GetStateReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.GetStateRsp;
-};
-
-type ApiCallServiceArebot_unloadRobot_bridgeStart_unload_and_place = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.StartUnloadAndPlaceReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.StartUnloadAndPlaceRsp;
-};
-
-type ApiCallServiceArebot_transportRobot_bridgeDescribe_parameters = {
-  readonly methodName: string;
-  readonly service: typeof Api;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof rcl_interfaces_pb.DescribeParametersReq;
-  readonly responseType: typeof rcl_interfaces_pb.DescribeParametersRsp;
-};
-
-type ApiCallServiceArebot_transportRobot_bridgeGet_parameters = {
+type ApiCallServiceFoxglove_bridgeGet_parameters = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
@@ -258,56 +87,117 @@ type ApiCallServiceArebot_transportRobot_bridgeGet_parameters = {
   readonly responseType: typeof rcl_interfaces_pb.GetParametersRsp;
 };
 
-type ApiCallServiceArebot_transportRobot_bridgeStart_transport = {
+type ApiCallServiceFoxglove_bridgeSet_parameters_atomically = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof robot_bridge_interfaces_pb.StartTransportReq;
-  readonly responseType: typeof robot_bridge_interfaces_pb.StartTransportRsp;
+  readonly requestType: typeof rcl_interfaces_pb.SetParametersAtomicallyReq;
+  readonly responseType: typeof rcl_interfaces_pb.SetParametersAtomicallyRsp;
 };
 
-type ApiCallServiceArebot_loadRobot_bridgeSet_parameters = {
+type ApiCallServiceFoxglove_bridgeList_parameters = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.ListParametersReq;
+  readonly responseType: typeof rcl_interfaces_pb.ListParametersRsp;
+};
+
+type ApiCallServiceService_server_02List_parameters = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.ListParametersReq;
+  readonly responseType: typeof rcl_interfaces_pb.ListParametersRsp;
+};
+
+type ApiCallServiceService_server_02Set_parameters = {
   readonly methodName: string;
   readonly service: typeof Api;
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof rcl_interfaces_pb.SetParametersReq;
   readonly responseType: typeof rcl_interfaces_pb.SetParametersRsp;
+};
+
+type ApiCallServiceService_server_02Get_parameter_types = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.GetParameterTypesReq;
+  readonly responseType: typeof rcl_interfaces_pb.GetParameterTypesRsp;
+};
+
+type ApiCallServiceFoxglove_bridgeSet_parameters = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.SetParametersReq;
+  readonly responseType: typeof rcl_interfaces_pb.SetParametersRsp;
+};
+
+type ApiCallServiceService_server_02Get_parameters = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.GetParametersReq;
+  readonly responseType: typeof rcl_interfaces_pb.GetParametersRsp;
+};
+
+type ApiCallServiceService_server_02Set_parameters_atomically = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.SetParametersAtomicallyReq;
+  readonly responseType: typeof rcl_interfaces_pb.SetParametersAtomicallyRsp;
+};
+
+type ApiCallServiceFoxglove_bridgeGet_parameter_types = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.GetParameterTypesReq;
+  readonly responseType: typeof rcl_interfaces_pb.GetParameterTypesRsp;
+};
+
+type ApiCallServiceService_server_02Describe_parameters = {
+  readonly methodName: string;
+  readonly service: typeof Api;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rcl_interfaces_pb.DescribeParametersReq;
+  readonly responseType: typeof rcl_interfaces_pb.DescribeParametersRsp;
 };
 
 export class Api {
   static readonly serviceName: string;
-  static readonly PublishTopicArebot_transportRobot_bridgeRobot_state: ApiPublishTopicArebot_transportRobot_bridgeRobot_state;
-  static readonly PublishTopicArebot_loadRobot_bridgeRobot_state: ApiPublishTopicArebot_loadRobot_bridgeRobot_state;
-  static readonly PublishTopicArebot_unloadRobot_bridgeRobot_state: ApiPublishTopicArebot_unloadRobot_bridgeRobot_state;
-  static readonly CallServiceArebot_unloadRobot_bridgeGet_parameters: ApiCallServiceArebot_unloadRobot_bridgeGet_parameters;
-  static readonly CallServiceArebot_transportRobot_bridgeGet_parameter_types: ApiCallServiceArebot_transportRobot_bridgeGet_parameter_types;
-  static readonly CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically: ApiCallServiceArebot_unloadRobot_bridgeSet_parameters_atomically;
-  static readonly CallServiceArebot_transportRobot_bridgeSet_parameters_atomically: ApiCallServiceArebot_transportRobot_bridgeSet_parameters_atomically;
-  static readonly CallServiceArebot_loadRobot_bridgeGet_parameter_types: ApiCallServiceArebot_loadRobot_bridgeGet_parameter_types;
-  static readonly CallServiceArebot_loadRobot_bridgeGet_parameters: ApiCallServiceArebot_loadRobot_bridgeGet_parameters;
-  static readonly CallServiceArebot_unloadRobot_bridgeDescribe_parameters: ApiCallServiceArebot_unloadRobot_bridgeDescribe_parameters;
-  static readonly CallServiceArebot_transportRobot_bridgeList_parameters: ApiCallServiceArebot_transportRobot_bridgeList_parameters;
-  static readonly CallServiceArebot_loadRobot_bridgeStart_nav_to_pose: ApiCallServiceArebot_loadRobot_bridgeStart_nav_to_pose;
-  static readonly CallServiceArebot_loadRobot_bridgeSet_parameters_atomically: ApiCallServiceArebot_loadRobot_bridgeSet_parameters_atomically;
-  static readonly CallServiceArebot_unloadRobot_bridgeGet_parameter_types: ApiCallServiceArebot_unloadRobot_bridgeGet_parameter_types;
-  static readonly CallServiceArebot_transportRobot_bridgeGet_state: ApiCallServiceArebot_transportRobot_bridgeGet_state;
-  static readonly CallServiceArebot_transportRobot_bridgeSet_parameters: ApiCallServiceArebot_transportRobot_bridgeSet_parameters;
-  static readonly CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose: ApiCallServiceArebot_unloadRobot_bridgeStart_nav_to_pose;
-  static readonly CallServiceArebot_loadRobot_bridgeGet_state: ApiCallServiceArebot_loadRobot_bridgeGet_state;
-  static readonly CallServiceArebot_loadRobot_bridgeList_parameters: ApiCallServiceArebot_loadRobot_bridgeList_parameters;
-  static readonly CallServiceArebot_unloadRobot_bridgeSet_parameters: ApiCallServiceArebot_unloadRobot_bridgeSet_parameters;
-  static readonly CallServiceArebot_transportRobot_bridgeStart_nav_to_pose: ApiCallServiceArebot_transportRobot_bridgeStart_nav_to_pose;
-  static readonly CallServiceArebot_loadRobot_bridgeDescribe_parameters: ApiCallServiceArebot_loadRobot_bridgeDescribe_parameters;
-  static readonly CallServiceArebot_unloadRobot_bridgeList_parameters: ApiCallServiceArebot_unloadRobot_bridgeList_parameters;
-  static readonly CallServiceArebot_loadRobot_bridgeStart_pick_and_load: ApiCallServiceArebot_loadRobot_bridgeStart_pick_and_load;
-  static readonly CallServiceArebot_unloadRobot_bridgeGet_state: ApiCallServiceArebot_unloadRobot_bridgeGet_state;
-  static readonly CallServiceArebot_unloadRobot_bridgeStart_unload_and_place: ApiCallServiceArebot_unloadRobot_bridgeStart_unload_and_place;
-  static readonly CallServiceArebot_transportRobot_bridgeDescribe_parameters: ApiCallServiceArebot_transportRobot_bridgeDescribe_parameters;
-  static readonly CallServiceArebot_transportRobot_bridgeGet_parameters: ApiCallServiceArebot_transportRobot_bridgeGet_parameters;
-  static readonly CallServiceArebot_transportRobot_bridgeStart_transport: ApiCallServiceArebot_transportRobot_bridgeStart_transport;
-  static readonly CallServiceArebot_loadRobot_bridgeSet_parameters: ApiCallServiceArebot_loadRobot_bridgeSet_parameters;
+  static readonly PublishTopicRosout: ApiPublishTopicRosout;
+  static readonly SubscribeTopicRosout: ApiSubscribeTopicRosout;
+  static readonly PublishTopicV2_publisher: ApiPublishTopicV2_publisher;
+  static readonly SubscribeTopicV2_publisher: ApiSubscribeTopicV2_publisher;
+  static readonly PublishTopicParameter_events: ApiPublishTopicParameter_events;
+  static readonly SubscribeTopicParameter_events: ApiSubscribeTopicParameter_events;
+  static readonly CallServiceAdd_two_ints_srv: ApiCallServiceAdd_two_ints_srv;
+  static readonly CallServiceFoxglove_bridgeDescribe_parameters: ApiCallServiceFoxglove_bridgeDescribe_parameters;
+  static readonly CallServiceFoxglove_bridgeGet_parameters: ApiCallServiceFoxglove_bridgeGet_parameters;
+  static readonly CallServiceFoxglove_bridgeSet_parameters_atomically: ApiCallServiceFoxglove_bridgeSet_parameters_atomically;
+  static readonly CallServiceFoxglove_bridgeList_parameters: ApiCallServiceFoxglove_bridgeList_parameters;
+  static readonly CallServiceService_server_02List_parameters: ApiCallServiceService_server_02List_parameters;
+  static readonly CallServiceService_server_02Set_parameters: ApiCallServiceService_server_02Set_parameters;
+  static readonly CallServiceService_server_02Get_parameter_types: ApiCallServiceService_server_02Get_parameter_types;
+  static readonly CallServiceFoxglove_bridgeSet_parameters: ApiCallServiceFoxglove_bridgeSet_parameters;
+  static readonly CallServiceService_server_02Get_parameters: ApiCallServiceService_server_02Get_parameters;
+  static readonly CallServiceService_server_02Set_parameters_atomically: ApiCallServiceService_server_02Set_parameters_atomically;
+  static readonly CallServiceFoxglove_bridgeGet_parameter_types: ApiCallServiceFoxglove_bridgeGet_parameter_types;
+  static readonly CallServiceService_server_02Describe_parameters: ApiCallServiceService_server_02Describe_parameters;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -342,275 +232,152 @@ export class ApiClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
-  publishTopicArebot_transportRobot_bridgeRobot_state(
-    requestMessage: robot_bridge_interfaces_pb.RobotState,
+  publishTopicRosout(
+    requestMessage: rcl_interfaces_pb.Log,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.RobotState|null) => void
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.Log|null) => void
   ): UnaryResponse;
-  publishTopicArebot_transportRobot_bridgeRobot_state(
-    requestMessage: robot_bridge_interfaces_pb.RobotState,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.RobotState|null) => void
+  publishTopicRosout(
+    requestMessage: rcl_interfaces_pb.Log,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.Log|null) => void
   ): UnaryResponse;
-  publishTopicArebot_loadRobot_bridgeRobot_state(
-    requestMessage: robot_bridge_interfaces_pb.RobotState,
+  subscribeTopicRosout(requestMessage: rcl_interfaces_pb.Log, metadata?: grpc.Metadata): ResponseStream<rcl_interfaces_pb.Log>;
+  publishTopicV2_publisher(
+    requestMessage: shawn_define_pb.V2,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.RobotState|null) => void
+    callback: (error: ServiceError|null, responseMessage: shawn_define_pb.V2|null) => void
   ): UnaryResponse;
-  publishTopicArebot_loadRobot_bridgeRobot_state(
-    requestMessage: robot_bridge_interfaces_pb.RobotState,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.RobotState|null) => void
+  publishTopicV2_publisher(
+    requestMessage: shawn_define_pb.V2,
+    callback: (error: ServiceError|null, responseMessage: shawn_define_pb.V2|null) => void
   ): UnaryResponse;
-  publishTopicArebot_unloadRobot_bridgeRobot_state(
-    requestMessage: robot_bridge_interfaces_pb.RobotState,
+  subscribeTopicV2_publisher(requestMessage: shawn_define_pb.V2, metadata?: grpc.Metadata): ResponseStream<shawn_define_pb.V2>;
+  publishTopicParameter_events(
+    requestMessage: rcl_interfaces_pb.ParameterEvent,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.RobotState|null) => void
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ParameterEvent|null) => void
   ): UnaryResponse;
-  publishTopicArebot_unloadRobot_bridgeRobot_state(
-    requestMessage: robot_bridge_interfaces_pb.RobotState,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.RobotState|null) => void
+  publishTopicParameter_events(
+    requestMessage: rcl_interfaces_pb.ParameterEvent,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ParameterEvent|null) => void
   ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeGet_parameters(
-    requestMessage: rcl_interfaces_pb.GetParametersReq,
+  subscribeTopicParameter_events(requestMessage: rcl_interfaces_pb.ParameterEvent, metadata?: grpc.Metadata): ResponseStream<rcl_interfaces_pb.ParameterEvent>;
+  callServiceAdd_two_ints_srv(
+    requestMessage: shawn_define_pb.AddReq,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
+    callback: (error: ServiceError|null, responseMessage: shawn_define_pb.AddRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeGet_parameters(
-    requestMessage: rcl_interfaces_pb.GetParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
+  callServiceAdd_two_ints_srv(
+    requestMessage: shawn_define_pb.AddReq,
+    callback: (error: ServiceError|null, responseMessage: shawn_define_pb.AddRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeGet_parameter_types(
-    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeGet_parameter_types(
-    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeSet_parameters_atomically(
-    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeSet_parameters_atomically(
-    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeSet_parameters_atomically(
-    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeSet_parameters_atomically(
-    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeGet_parameter_types(
-    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeGet_parameter_types(
-    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeGet_parameters(
-    requestMessage: rcl_interfaces_pb.GetParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeGet_parameters(
-    requestMessage: rcl_interfaces_pb.GetParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeDescribe_parameters(
+  callServiceFoxglove_bridgeDescribe_parameters(
     requestMessage: rcl_interfaces_pb.DescribeParametersReq,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeDescribe_parameters(
+  callServiceFoxglove_bridgeDescribe_parameters(
     requestMessage: rcl_interfaces_pb.DescribeParametersReq,
     callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeList_parameters(
-    requestMessage: rcl_interfaces_pb.ListParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeList_parameters(
-    requestMessage: rcl_interfaces_pb.ListParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeStart_nav_to_pose(
-    requestMessage: robot_bridge_interfaces_pb.StartNavToPoseReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartNavToPoseRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeStart_nav_to_pose(
-    requestMessage: robot_bridge_interfaces_pb.StartNavToPoseReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartNavToPoseRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeSet_parameters_atomically(
-    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeSet_parameters_atomically(
-    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeGet_parameter_types(
-    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeGet_parameter_types(
-    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeGet_state(
-    requestMessage: robot_bridge_interfaces_pb.GetStateReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.GetStateRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeGet_state(
-    requestMessage: robot_bridge_interfaces_pb.GetStateReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.GetStateRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeSet_parameters(
-    requestMessage: rcl_interfaces_pb.SetParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeSet_parameters(
-    requestMessage: rcl_interfaces_pb.SetParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeStart_nav_to_pose(
-    requestMessage: robot_bridge_interfaces_pb.StartNavToPoseReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartNavToPoseRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeStart_nav_to_pose(
-    requestMessage: robot_bridge_interfaces_pb.StartNavToPoseReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartNavToPoseRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeGet_state(
-    requestMessage: robot_bridge_interfaces_pb.GetStateReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.GetStateRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeGet_state(
-    requestMessage: robot_bridge_interfaces_pb.GetStateReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.GetStateRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeList_parameters(
-    requestMessage: rcl_interfaces_pb.ListParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeList_parameters(
-    requestMessage: rcl_interfaces_pb.ListParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeSet_parameters(
-    requestMessage: rcl_interfaces_pb.SetParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeSet_parameters(
-    requestMessage: rcl_interfaces_pb.SetParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeStart_nav_to_pose(
-    requestMessage: robot_bridge_interfaces_pb.StartNavToPoseReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartNavToPoseRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeStart_nav_to_pose(
-    requestMessage: robot_bridge_interfaces_pb.StartNavToPoseReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartNavToPoseRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeDescribe_parameters(
-    requestMessage: rcl_interfaces_pb.DescribeParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeDescribe_parameters(
-    requestMessage: rcl_interfaces_pb.DescribeParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeList_parameters(
-    requestMessage: rcl_interfaces_pb.ListParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeList_parameters(
-    requestMessage: rcl_interfaces_pb.ListParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeStart_pick_and_load(
-    requestMessage: robot_bridge_interfaces_pb.StartPickAndLoadReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartPickAndLoadRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeStart_pick_and_load(
-    requestMessage: robot_bridge_interfaces_pb.StartPickAndLoadReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartPickAndLoadRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeGet_state(
-    requestMessage: robot_bridge_interfaces_pb.GetStateReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.GetStateRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeGet_state(
-    requestMessage: robot_bridge_interfaces_pb.GetStateReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.GetStateRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeStart_unload_and_place(
-    requestMessage: robot_bridge_interfaces_pb.StartUnloadAndPlaceReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartUnloadAndPlaceRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_unloadRobot_bridgeStart_unload_and_place(
-    requestMessage: robot_bridge_interfaces_pb.StartUnloadAndPlaceReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartUnloadAndPlaceRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeDescribe_parameters(
-    requestMessage: rcl_interfaces_pb.DescribeParametersReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeDescribe_parameters(
-    requestMessage: rcl_interfaces_pb.DescribeParametersReq,
-    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
-  ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeGet_parameters(
+  callServiceFoxglove_bridgeGet_parameters(
     requestMessage: rcl_interfaces_pb.GetParametersReq,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeGet_parameters(
+  callServiceFoxglove_bridgeGet_parameters(
     requestMessage: rcl_interfaces_pb.GetParametersReq,
     callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeStart_transport(
-    requestMessage: robot_bridge_interfaces_pb.StartTransportReq,
+  callServiceFoxglove_bridgeSet_parameters_atomically(
+    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartTransportRsp|null) => void
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_transportRobot_bridgeStart_transport(
-    requestMessage: robot_bridge_interfaces_pb.StartTransportReq,
-    callback: (error: ServiceError|null, responseMessage: robot_bridge_interfaces_pb.StartTransportRsp|null) => void
+  callServiceFoxglove_bridgeSet_parameters_atomically(
+    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeSet_parameters(
+  callServiceFoxglove_bridgeList_parameters(
+    requestMessage: rcl_interfaces_pb.ListParametersReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceFoxglove_bridgeList_parameters(
+    requestMessage: rcl_interfaces_pb.ListParametersReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02List_parameters(
+    requestMessage: rcl_interfaces_pb.ListParametersReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02List_parameters(
+    requestMessage: rcl_interfaces_pb.ListParametersReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.ListParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Set_parameters(
     requestMessage: rcl_interfaces_pb.SetParametersReq,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
   ): UnaryResponse;
-  callServiceArebot_loadRobot_bridgeSet_parameters(
+  callServiceService_server_02Set_parameters(
     requestMessage: rcl_interfaces_pb.SetParametersReq,
     callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Get_parameter_types(
+    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Get_parameter_types(
+    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
+  ): UnaryResponse;
+  callServiceFoxglove_bridgeSet_parameters(
+    requestMessage: rcl_interfaces_pb.SetParametersReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceFoxglove_bridgeSet_parameters(
+    requestMessage: rcl_interfaces_pb.SetParametersReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Get_parameters(
+    requestMessage: rcl_interfaces_pb.GetParametersReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Get_parameters(
+    requestMessage: rcl_interfaces_pb.GetParametersReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Set_parameters_atomically(
+    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Set_parameters_atomically(
+    requestMessage: rcl_interfaces_pb.SetParametersAtomicallyReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.SetParametersAtomicallyRsp|null) => void
+  ): UnaryResponse;
+  callServiceFoxglove_bridgeGet_parameter_types(
+    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
+  ): UnaryResponse;
+  callServiceFoxglove_bridgeGet_parameter_types(
+    requestMessage: rcl_interfaces_pb.GetParameterTypesReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.GetParameterTypesRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Describe_parameters(
+    requestMessage: rcl_interfaces_pb.DescribeParametersReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
+  ): UnaryResponse;
+  callServiceService_server_02Describe_parameters(
+    requestMessage: rcl_interfaces_pb.DescribeParametersReq,
+    callback: (error: ServiceError|null, responseMessage: rcl_interfaces_pb.DescribeParametersRsp|null) => void
   ): UnaryResponse;
 }
 

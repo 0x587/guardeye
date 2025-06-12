@@ -22,9 +22,9 @@ grpc.web = require('grpc-web');
 
 var rcl_interfaces_pb = require('./rcl_interfaces_pb.js')
 
-var robot_bridge_interfaces_pb = require('./robot_bridge_interfaces_pb.js')
+var builtin_interfaces_pb = require('./builtin_interfaces_pb.js')
 
-var geometry_msgs_pb = require('./geometry_msgs_pb.js')
+var shawn_define_pb = require('./shawn_define_pb.js')
 const proto = require('./main_pb.js');
 
 /**
@@ -82,549 +82,412 @@ proto.ApiPromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.RobotState,
- *   !proto.robot_bridge_interfaces.RobotState>}
+ *   !proto.rcl_interfaces.Log,
+ *   !proto.rcl_interfaces.Log>}
  */
-const methodDescriptor_Api_PublishTopicArebot_transportRobot_bridgeRobot_state = new grpc.web.MethodDescriptor(
-  '/Api/PublishTopicArebot_transportRobot_bridgeRobot_state',
+const methodDescriptor_Api_PublishTopicRosout = new grpc.web.MethodDescriptor(
+  '/Api/PublishTopicRosout',
   grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.RobotState,
-  robot_bridge_interfaces_pb.RobotState,
+  rcl_interfaces_pb.Log,
+  rcl_interfaces_pb.Log,
   /**
-   * @param {!proto.robot_bridge_interfaces.RobotState} request
+   * @param {!proto.rcl_interfaces.Log} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  robot_bridge_interfaces_pb.RobotState.deserializeBinary
+  rcl_interfaces_pb.Log.deserializeBinary
 );
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.RobotState} request The
+ * @param {!proto.rcl_interfaces.Log} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.RobotState)}
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.Log)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.RobotState>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.Log>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.publishTopicArebot_transportRobot_bridgeRobot_state =
+proto.ApiClient.prototype.publishTopicRosout =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/PublishTopicArebot_transportRobot_bridgeRobot_state',
+      '/Api/PublishTopicRosout',
       request,
       metadata || {},
-      methodDescriptor_Api_PublishTopicArebot_transportRobot_bridgeRobot_state,
+      methodDescriptor_Api_PublishTopicRosout,
       callback);
 };
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.RobotState} request The
+ * @param {!proto.rcl_interfaces.Log} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.RobotState>}
+ * @return {!Promise<!proto.rcl_interfaces.Log>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.publishTopicArebot_transportRobot_bridgeRobot_state =
+proto.ApiPromiseClient.prototype.publishTopicRosout =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/PublishTopicArebot_transportRobot_bridgeRobot_state',
+      '/Api/PublishTopicRosout',
       request,
       metadata || {},
-      methodDescriptor_Api_PublishTopicArebot_transportRobot_bridgeRobot_state);
+      methodDescriptor_Api_PublishTopicRosout);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.RobotState,
- *   !proto.robot_bridge_interfaces.RobotState>}
+ *   !proto.rcl_interfaces.Log,
+ *   !proto.rcl_interfaces.Log>}
  */
-const methodDescriptor_Api_PublishTopicArebot_loadRobot_bridgeRobot_state = new grpc.web.MethodDescriptor(
-  '/Api/PublishTopicArebot_loadRobot_bridgeRobot_state',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.RobotState,
-  robot_bridge_interfaces_pb.RobotState,
+const methodDescriptor_Api_SubscribeTopicRosout = new grpc.web.MethodDescriptor(
+  '/Api/SubscribeTopicRosout',
+  grpc.web.MethodType.SERVER_STREAMING,
+  rcl_interfaces_pb.Log,
+  rcl_interfaces_pb.Log,
   /**
-   * @param {!proto.robot_bridge_interfaces.RobotState} request
+   * @param {!proto.rcl_interfaces.Log} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  robot_bridge_interfaces_pb.RobotState.deserializeBinary
+  rcl_interfaces_pb.Log.deserializeBinary
 );
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.RobotState} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
+ * @param {!proto.rcl_interfaces.Log} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.RobotState)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.RobotState>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.Log>}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.publishTopicArebot_loadRobot_bridgeRobot_state =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/PublishTopicArebot_loadRobot_bridgeRobot_state',
+proto.ApiClient.prototype.subscribeTopicRosout =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/Api/SubscribeTopicRosout',
       request,
       metadata || {},
-      methodDescriptor_Api_PublishTopicArebot_loadRobot_bridgeRobot_state,
-      callback);
+      methodDescriptor_Api_SubscribeTopicRosout);
 };
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.RobotState} request The
- *     request proto
+ * @param {!proto.rcl_interfaces.Log} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.RobotState>}
- *     Promise that resolves to the response
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.Log>}
+ *     The XHR Node Readable Stream
  */
-proto.ApiPromiseClient.prototype.publishTopicArebot_loadRobot_bridgeRobot_state =
+proto.ApiPromiseClient.prototype.subscribeTopicRosout =
     function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/PublishTopicArebot_loadRobot_bridgeRobot_state',
+  return this.client_.serverStreaming(this.hostname_ +
+      '/Api/SubscribeTopicRosout',
       request,
       metadata || {},
-      methodDescriptor_Api_PublishTopicArebot_loadRobot_bridgeRobot_state);
+      methodDescriptor_Api_SubscribeTopicRosout);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.RobotState,
- *   !proto.robot_bridge_interfaces.RobotState>}
+ *   !proto.shawn_define.V2,
+ *   !proto.shawn_define.V2>}
  */
-const methodDescriptor_Api_PublishTopicArebot_unloadRobot_bridgeRobot_state = new grpc.web.MethodDescriptor(
-  '/Api/PublishTopicArebot_unloadRobot_bridgeRobot_state',
+const methodDescriptor_Api_PublishTopicV2_publisher = new grpc.web.MethodDescriptor(
+  '/Api/PublishTopicV2_publisher',
   grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.RobotState,
-  robot_bridge_interfaces_pb.RobotState,
+  shawn_define_pb.V2,
+  shawn_define_pb.V2,
   /**
-   * @param {!proto.robot_bridge_interfaces.RobotState} request
+   * @param {!proto.shawn_define.V2} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  robot_bridge_interfaces_pb.RobotState.deserializeBinary
+  shawn_define_pb.V2.deserializeBinary
 );
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.RobotState} request The
+ * @param {!proto.shawn_define.V2} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.RobotState)}
+ * @param {function(?grpc.web.RpcError, ?proto.shawn_define.V2)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.RobotState>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.shawn_define.V2>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.publishTopicArebot_unloadRobot_bridgeRobot_state =
+proto.ApiClient.prototype.publishTopicV2_publisher =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/PublishTopicArebot_unloadRobot_bridgeRobot_state',
+      '/Api/PublishTopicV2_publisher',
       request,
       metadata || {},
-      methodDescriptor_Api_PublishTopicArebot_unloadRobot_bridgeRobot_state,
+      methodDescriptor_Api_PublishTopicV2_publisher,
       callback);
 };
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.RobotState} request The
+ * @param {!proto.shawn_define.V2} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.RobotState>}
+ * @return {!Promise<!proto.shawn_define.V2>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.publishTopicArebot_unloadRobot_bridgeRobot_state =
+proto.ApiPromiseClient.prototype.publishTopicV2_publisher =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/PublishTopicArebot_unloadRobot_bridgeRobot_state',
+      '/Api/PublishTopicV2_publisher',
       request,
       metadata || {},
-      methodDescriptor_Api_PublishTopicArebot_unloadRobot_bridgeRobot_state);
+      methodDescriptor_Api_PublishTopicV2_publisher);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.GetParametersReq,
- *   !proto.rcl_interfaces.GetParametersRsp>}
+ *   !proto.shawn_define.V2,
+ *   !proto.shawn_define.V2>}
  */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeGet_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.GetParametersReq,
-  rcl_interfaces_pb.GetParametersRsp,
+const methodDescriptor_Api_SubscribeTopicV2_publisher = new grpc.web.MethodDescriptor(
+  '/Api/SubscribeTopicV2_publisher',
+  grpc.web.MethodType.SERVER_STREAMING,
+  shawn_define_pb.V2,
+  shawn_define_pb.V2,
   /**
-   * @param {!proto.rcl_interfaces.GetParametersReq} request
+   * @param {!proto.shawn_define.V2} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  rcl_interfaces_pb.GetParametersRsp.deserializeBinary
+  shawn_define_pb.V2.deserializeBinary
 );
 
 
 /**
- * @param {!proto.rcl_interfaces.GetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
+ * @param {!proto.shawn_define.V2} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParametersRsp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.shawn_define.V2>}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeGet_parameters',
+proto.ApiClient.prototype.subscribeTopicV2_publisher =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/Api/SubscribeTopicV2_publisher',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_parameters,
-      callback);
+      methodDescriptor_Api_SubscribeTopicV2_publisher);
 };
 
 
 /**
- * @param {!proto.rcl_interfaces.GetParametersReq} request The
- *     request proto
+ * @param {!proto.shawn_define.V2} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.GetParametersRsp>}
- *     Promise that resolves to the response
+ * @return {!grpc.web.ClientReadableStream<!proto.shawn_define.V2>}
+ *     The XHR Node Readable Stream
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameters =
+proto.ApiPromiseClient.prototype.subscribeTopicV2_publisher =
     function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeGet_parameters',
+  return this.client_.serverStreaming(this.hostname_ +
+      '/Api/SubscribeTopicV2_publisher',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_parameters);
+      methodDescriptor_Api_SubscribeTopicV2_publisher);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.GetParameterTypesReq,
- *   !proto.rcl_interfaces.GetParameterTypesRsp>}
+ *   !proto.rcl_interfaces.ParameterEvent,
+ *   !proto.rcl_interfaces.ParameterEvent>}
  */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameter_types = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeGet_parameter_types',
+const methodDescriptor_Api_PublishTopicParameter_events = new grpc.web.MethodDescriptor(
+  '/Api/PublishTopicParameter_events',
   grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.GetParameterTypesReq,
-  rcl_interfaces_pb.GetParameterTypesRsp,
+  rcl_interfaces_pb.ParameterEvent,
+  rcl_interfaces_pb.ParameterEvent,
   /**
-   * @param {!proto.rcl_interfaces.GetParameterTypesReq} request
+   * @param {!proto.rcl_interfaces.ParameterEvent} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  rcl_interfaces_pb.GetParameterTypesRsp.deserializeBinary
+  rcl_interfaces_pb.ParameterEvent.deserializeBinary
 );
 
 
 /**
- * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
+ * @param {!proto.rcl_interfaces.ParameterEvent} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParameterTypesRsp)}
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.ParameterEvent)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParameterTypesRsp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ParameterEvent>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameter_types =
+proto.ApiClient.prototype.publishTopicParameter_events =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeGet_parameter_types',
+      '/Api/PublishTopicParameter_events',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameter_types,
+      methodDescriptor_Api_PublishTopicParameter_events,
       callback);
 };
 
 
 /**
- * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
+ * @param {!proto.rcl_interfaces.ParameterEvent} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.GetParameterTypesRsp>}
+ * @return {!Promise<!proto.rcl_interfaces.ParameterEvent>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameter_types =
+proto.ApiPromiseClient.prototype.publishTopicParameter_events =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeGet_parameter_types',
+      '/Api/PublishTopicParameter_events',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameter_types);
+      methodDescriptor_Api_PublishTopicParameter_events);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.SetParametersAtomicallyReq,
- *   !proto.rcl_interfaces.SetParametersAtomicallyRsp>}
+ *   !proto.rcl_interfaces.ParameterEvent,
+ *   !proto.rcl_interfaces.ParameterEvent>}
  */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.SetParametersAtomicallyReq,
-  rcl_interfaces_pb.SetParametersAtomicallyRsp,
+const methodDescriptor_Api_SubscribeTopicParameter_events = new grpc.web.MethodDescriptor(
+  '/Api/SubscribeTopicParameter_events',
+  grpc.web.MethodType.SERVER_STREAMING,
+  rcl_interfaces_pb.ParameterEvent,
+  rcl_interfaces_pb.ParameterEvent,
   /**
-   * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request
+   * @param {!proto.rcl_interfaces.ParameterEvent} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  rcl_interfaces_pb.SetParametersAtomicallyRsp.deserializeBinary
+  rcl_interfaces_pb.ParameterEvent.deserializeBinary
 );
 
 
 /**
- * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
+ * @param {!proto.rcl_interfaces.ParameterEvent} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersAtomicallyRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersAtomicallyRsp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ParameterEvent>}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters_atomically =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically',
+proto.ApiClient.prototype.subscribeTopicParameter_events =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/Api/SubscribeTopicParameter_events',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically,
-      callback);
+      methodDescriptor_Api_SubscribeTopicParameter_events);
 };
 
 
 /**
- * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
- *     request proto
+ * @param {!proto.rcl_interfaces.ParameterEvent} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.SetParametersAtomicallyRsp>}
- *     Promise that resolves to the response
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ParameterEvent>}
+ *     The XHR Node Readable Stream
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters_atomically =
+proto.ApiPromiseClient.prototype.subscribeTopicParameter_events =
     function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically',
+  return this.client_.serverStreaming(this.hostname_ +
+      '/Api/SubscribeTopicParameter_events',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeSet_parameters_atomically);
+      methodDescriptor_Api_SubscribeTopicParameter_events);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.SetParametersAtomicallyReq,
- *   !proto.rcl_interfaces.SetParametersAtomicallyRsp>}
+ *   !proto.shawn_define.AddReq,
+ *   !proto.shawn_define.AddRsp>}
  */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeSet_parameters_atomically = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeSet_parameters_atomically',
+const methodDescriptor_Api_CallServiceAdd_two_ints_srv = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceAdd_two_ints_srv',
   grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.SetParametersAtomicallyReq,
-  rcl_interfaces_pb.SetParametersAtomicallyRsp,
+  shawn_define_pb.AddReq,
+  shawn_define_pb.AddRsp,
   /**
-   * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request
+   * @param {!proto.shawn_define.AddReq} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  rcl_interfaces_pb.SetParametersAtomicallyRsp.deserializeBinary
+  shawn_define_pb.AddRsp.deserializeBinary
 );
 
 
 /**
- * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
+ * @param {!proto.shawn_define.AddReq} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersAtomicallyRsp)}
+ * @param {function(?grpc.web.RpcError, ?proto.shawn_define.AddRsp)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersAtomicallyRsp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.shawn_define.AddRsp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters_atomically =
+proto.ApiClient.prototype.callServiceAdd_two_ints_srv =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeSet_parameters_atomically',
+      '/Api/CallServiceAdd_two_ints_srv',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeSet_parameters_atomically,
+      methodDescriptor_Api_CallServiceAdd_two_ints_srv,
       callback);
 };
 
 
 /**
- * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
+ * @param {!proto.shawn_define.AddReq} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.SetParametersAtomicallyRsp>}
+ * @return {!Promise<!proto.shawn_define.AddRsp>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters_atomically =
+proto.ApiPromiseClient.prototype.callServiceAdd_two_ints_srv =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeSet_parameters_atomically',
+      '/Api/CallServiceAdd_two_ints_srv',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeSet_parameters_atomically);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.GetParameterTypesReq,
- *   !proto.rcl_interfaces.GetParameterTypesRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_parameter_types = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeGet_parameter_types',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.GetParameterTypesReq,
-  rcl_interfaces_pb.GetParameterTypesRsp,
-  /**
-   * @param {!proto.rcl_interfaces.GetParameterTypesReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.GetParameterTypesRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParameterTypesRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParameterTypesRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameter_types =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeGet_parameter_types',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_parameter_types,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.GetParameterTypesRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameter_types =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeGet_parameter_types',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_parameter_types);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.GetParametersReq,
- *   !proto.rcl_interfaces.GetParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeGet_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.GetParametersReq,
-  rcl_interfaces_pb.GetParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.GetParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.GetParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.GetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeGet_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.GetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.GetParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeGet_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_parameters);
+      methodDescriptor_Api_CallServiceAdd_two_ints_srv);
 };
 
 
@@ -634,8 +497,8 @@ proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeGet_parameter
  *   !proto.rcl_interfaces.DescribeParametersReq,
  *   !proto.rcl_interfaces.DescribeParametersRsp>}
  */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeDescribe_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeDescribe_parameters',
+const methodDescriptor_Api_CallServiceFoxglove_bridgeDescribe_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceFoxglove_bridgeDescribe_parameters',
   grpc.web.MethodType.UNARY,
   rcl_interfaces_pb.DescribeParametersReq,
   rcl_interfaces_pb.DescribeParametersRsp,
@@ -660,13 +523,13 @@ const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeDescribe_paramete
  * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.DescribeParametersRsp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeDescribe_parameters =
+proto.ApiClient.prototype.callServiceFoxglove_bridgeDescribe_parameters =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeDescribe_parameters',
+      '/Api/CallServiceFoxglove_bridgeDescribe_parameters',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeDescribe_parameters,
+      methodDescriptor_Api_CallServiceFoxglove_bridgeDescribe_parameters,
       callback);
 };
 
@@ -679,1050 +542,13 @@ proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeDescribe_parameter
  * @return {!Promise<!proto.rcl_interfaces.DescribeParametersRsp>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeDescribe_parameters =
+proto.ApiPromiseClient.prototype.callServiceFoxglove_bridgeDescribe_parameters =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeDescribe_parameters',
+      '/Api/CallServiceFoxglove_bridgeDescribe_parameters',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeDescribe_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.ListParametersReq,
- *   !proto.rcl_interfaces.ListParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeList_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeList_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.ListParametersReq,
-  rcl_interfaces_pb.ListParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.ListParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.ListParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.ListParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.ListParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ListParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeList_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeList_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeList_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.ListParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.ListParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeList_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeList_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeList_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.StartNavToPoseReq,
- *   !proto.robot_bridge_interfaces.StartNavToPoseRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeStart_nav_to_pose = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeStart_nav_to_pose',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.StartNavToPoseReq,
-  robot_bridge_interfaces_pb.StartNavToPoseRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.StartNavToPoseRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.StartNavToPoseRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.StartNavToPoseRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeStart_nav_to_pose =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeStart_nav_to_pose',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeStart_nav_to_pose,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.StartNavToPoseRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeStart_nav_to_pose =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeStart_nav_to_pose',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeStart_nav_to_pose);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.SetParametersAtomicallyReq,
- *   !proto.rcl_interfaces.SetParametersAtomicallyRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters_atomically = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeSet_parameters_atomically',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.SetParametersAtomicallyReq,
-  rcl_interfaces_pb.SetParametersAtomicallyRsp,
-  /**
-   * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.SetParametersAtomicallyRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersAtomicallyRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersAtomicallyRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters_atomically =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeSet_parameters_atomically',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters_atomically,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.SetParametersAtomicallyRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters_atomically =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeSet_parameters_atomically',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters_atomically);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.GetParameterTypesReq,
- *   !proto.rcl_interfaces.GetParameterTypesRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_parameter_types = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeGet_parameter_types',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.GetParameterTypesReq,
-  rcl_interfaces_pb.GetParameterTypesRsp,
-  /**
-   * @param {!proto.rcl_interfaces.GetParameterTypesReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.GetParameterTypesRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParameterTypesRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParameterTypesRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameter_types =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeGet_parameter_types',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_parameter_types,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.GetParameterTypesRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeGet_parameter_types =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeGet_parameter_types',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_parameter_types);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.GetStateReq,
- *   !proto.robot_bridge_interfaces.GetStateRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_state = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeGet_state',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.GetStateReq,
-  robot_bridge_interfaces_pb.GetStateRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.GetStateReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.GetStateRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.GetStateReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.GetStateRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.GetStateRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_state =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeGet_state',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_state,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.GetStateReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.GetStateRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeGet_state =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeGet_state',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_state);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.SetParametersReq,
- *   !proto.rcl_interfaces.SetParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeSet_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeSet_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.SetParametersReq,
-  rcl_interfaces_pb.SetParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.SetParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.SetParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.SetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeSet_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeSet_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.SetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.SetParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeSet_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeSet_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeSet_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.StartNavToPoseReq,
- *   !proto.robot_bridge_interfaces.StartNavToPoseRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.StartNavToPoseReq,
-  robot_bridge_interfaces_pb.StartNavToPoseRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.StartNavToPoseRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.StartNavToPoseRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.StartNavToPoseRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeStart_nav_to_pose =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.StartNavToPoseRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeStart_nav_to_pose =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeStart_nav_to_pose);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.GetStateReq,
- *   !proto.robot_bridge_interfaces.GetStateRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_state = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeGet_state',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.GetStateReq,
-  robot_bridge_interfaces_pb.GetStateRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.GetStateReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.GetStateRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.GetStateReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.GetStateRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.GetStateRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeGet_state =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeGet_state',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_state,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.GetStateReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.GetStateRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeGet_state =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeGet_state',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeGet_state);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.ListParametersReq,
- *   !proto.rcl_interfaces.ListParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeList_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeList_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.ListParametersReq,
-  rcl_interfaces_pb.ListParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.ListParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.ListParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.ListParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.ListParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ListParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeList_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeList_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeList_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.ListParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.ListParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeList_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeList_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeList_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.SetParametersReq,
- *   !proto.rcl_interfaces.SetParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeSet_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.SetParametersReq,
-  rcl_interfaces_pb.SetParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.SetParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.SetParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.SetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeSet_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.SetParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.SetParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeSet_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeSet_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeSet_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.StartNavToPoseReq,
- *   !proto.robot_bridge_interfaces.StartNavToPoseRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeStart_nav_to_pose = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeStart_nav_to_pose',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.StartNavToPoseReq,
-  robot_bridge_interfaces_pb.StartNavToPoseRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.StartNavToPoseRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.StartNavToPoseRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.StartNavToPoseRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeStart_nav_to_pose =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeStart_nav_to_pose',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeStart_nav_to_pose,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartNavToPoseReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.StartNavToPoseRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeStart_nav_to_pose =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeStart_nav_to_pose',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeStart_nav_to_pose);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.DescribeParametersReq,
- *   !proto.rcl_interfaces.DescribeParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeDescribe_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeDescribe_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.DescribeParametersReq,
-  rcl_interfaces_pb.DescribeParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.DescribeParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.DescribeParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.DescribeParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.DescribeParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.DescribeParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeDescribe_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeDescribe_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeDescribe_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.DescribeParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.DescribeParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeDescribe_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeDescribe_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeDescribe_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.ListParametersReq,
- *   !proto.rcl_interfaces.ListParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeList_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeList_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.ListParametersReq,
-  rcl_interfaces_pb.ListParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.ListParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.ListParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.ListParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.ListParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ListParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeList_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeList_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeList_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.ListParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.ListParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeList_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeList_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeList_parameters);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.StartPickAndLoadReq,
- *   !proto.robot_bridge_interfaces.StartPickAndLoadRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeStart_pick_and_load = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeStart_pick_and_load',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.StartPickAndLoadReq,
-  robot_bridge_interfaces_pb.StartPickAndLoadRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.StartPickAndLoadReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.StartPickAndLoadRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartPickAndLoadReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.StartPickAndLoadRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.StartPickAndLoadRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeStart_pick_and_load =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeStart_pick_and_load',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeStart_pick_and_load,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartPickAndLoadReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.StartPickAndLoadRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeStart_pick_and_load =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeStart_pick_and_load',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeStart_pick_and_load);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.GetStateReq,
- *   !proto.robot_bridge_interfaces.GetStateRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_state = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeGet_state',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.GetStateReq,
-  robot_bridge_interfaces_pb.GetStateRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.GetStateReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.GetStateRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.GetStateReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.GetStateRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.GetStateRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeGet_state =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeGet_state',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_state,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.GetStateReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.GetStateRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeGet_state =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeGet_state',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeGet_state);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.StartUnloadAndPlaceReq,
- *   !proto.robot_bridge_interfaces.StartUnloadAndPlaceRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeStart_unload_and_place = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_unloadRobot_bridgeStart_unload_and_place',
-  grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.StartUnloadAndPlaceReq,
-  robot_bridge_interfaces_pb.StartUnloadAndPlaceRsp,
-  /**
-   * @param {!proto.robot_bridge_interfaces.StartUnloadAndPlaceReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  robot_bridge_interfaces_pb.StartUnloadAndPlaceRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartUnloadAndPlaceReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.StartUnloadAndPlaceRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.StartUnloadAndPlaceRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_unloadRobot_bridgeStart_unload_and_place =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeStart_unload_and_place',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeStart_unload_and_place,
-      callback);
-};
-
-
-/**
- * @param {!proto.robot_bridge_interfaces.StartUnloadAndPlaceReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.StartUnloadAndPlaceRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_unloadRobot_bridgeStart_unload_and_place =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_unloadRobot_bridgeStart_unload_and_place',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_unloadRobot_bridgeStart_unload_and_place);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.rcl_interfaces.DescribeParametersReq,
- *   !proto.rcl_interfaces.DescribeParametersRsp>}
- */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeDescribe_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeDescribe_parameters',
-  grpc.web.MethodType.UNARY,
-  rcl_interfaces_pb.DescribeParametersReq,
-  rcl_interfaces_pb.DescribeParametersRsp,
-  /**
-   * @param {!proto.rcl_interfaces.DescribeParametersReq} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  rcl_interfaces_pb.DescribeParametersRsp.deserializeBinary
-);
-
-
-/**
- * @param {!proto.rcl_interfaces.DescribeParametersReq} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.DescribeParametersRsp)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.DescribeParametersRsp>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeDescribe_parameters =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeDescribe_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeDescribe_parameters,
-      callback);
-};
-
-
-/**
- * @param {!proto.rcl_interfaces.DescribeParametersReq} request The
- *     request proto
- * @param {?Object<string, string>=} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.rcl_interfaces.DescribeParametersRsp>}
- *     Promise that resolves to the response
- */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeDescribe_parameters =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeDescribe_parameters',
-      request,
-      metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeDescribe_parameters);
+      methodDescriptor_Api_CallServiceFoxglove_bridgeDescribe_parameters);
 };
 
 
@@ -1732,8 +558,8 @@ proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeDescribe
  *   !proto.rcl_interfaces.GetParametersReq,
  *   !proto.rcl_interfaces.GetParametersRsp>}
  */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeGet_parameters',
+const methodDescriptor_Api_CallServiceFoxglove_bridgeGet_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceFoxglove_bridgeGet_parameters',
   grpc.web.MethodType.UNARY,
   rcl_interfaces_pb.GetParametersReq,
   rcl_interfaces_pb.GetParametersRsp,
@@ -1758,13 +584,13 @@ const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameters
  * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParametersRsp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameters =
+proto.ApiClient.prototype.callServiceFoxglove_bridgeGet_parameters =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeGet_parameters',
+      '/Api/CallServiceFoxglove_bridgeGet_parameters',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameters,
+      methodDescriptor_Api_CallServiceFoxglove_bridgeGet_parameters,
       callback);
 };
 
@@ -1777,74 +603,196 @@ proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameters 
  * @return {!Promise<!proto.rcl_interfaces.GetParametersRsp>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeGet_parameters =
+proto.ApiPromiseClient.prototype.callServiceFoxglove_bridgeGet_parameters =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeGet_parameters',
+      '/Api/CallServiceFoxglove_bridgeGet_parameters',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeGet_parameters);
+      methodDescriptor_Api_CallServiceFoxglove_bridgeGet_parameters);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.robot_bridge_interfaces.StartTransportReq,
- *   !proto.robot_bridge_interfaces.StartTransportRsp>}
+ *   !proto.rcl_interfaces.SetParametersAtomicallyReq,
+ *   !proto.rcl_interfaces.SetParametersAtomicallyRsp>}
  */
-const methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeStart_transport = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_transportRobot_bridgeStart_transport',
+const methodDescriptor_Api_CallServiceFoxglove_bridgeSet_parameters_atomically = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceFoxglove_bridgeSet_parameters_atomically',
   grpc.web.MethodType.UNARY,
-  robot_bridge_interfaces_pb.StartTransportReq,
-  robot_bridge_interfaces_pb.StartTransportRsp,
+  rcl_interfaces_pb.SetParametersAtomicallyReq,
+  rcl_interfaces_pb.SetParametersAtomicallyRsp,
   /**
-   * @param {!proto.robot_bridge_interfaces.StartTransportReq} request
+   * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  robot_bridge_interfaces_pb.StartTransportRsp.deserializeBinary
+  rcl_interfaces_pb.SetParametersAtomicallyRsp.deserializeBinary
 );
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.StartTransportReq} request The
+ * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.robot_bridge_interfaces.StartTransportRsp)}
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersAtomicallyRsp)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.robot_bridge_interfaces.StartTransportRsp>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersAtomicallyRsp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_transportRobot_bridgeStart_transport =
+proto.ApiClient.prototype.callServiceFoxglove_bridgeSet_parameters_atomically =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeStart_transport',
+      '/Api/CallServiceFoxglove_bridgeSet_parameters_atomically',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeStart_transport,
+      methodDescriptor_Api_CallServiceFoxglove_bridgeSet_parameters_atomically,
       callback);
 };
 
 
 /**
- * @param {!proto.robot_bridge_interfaces.StartTransportReq} request The
+ * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.robot_bridge_interfaces.StartTransportRsp>}
+ * @return {!Promise<!proto.rcl_interfaces.SetParametersAtomicallyRsp>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeStart_transport =
+proto.ApiPromiseClient.prototype.callServiceFoxglove_bridgeSet_parameters_atomically =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_transportRobot_bridgeStart_transport',
+      '/Api/CallServiceFoxglove_bridgeSet_parameters_atomically',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_transportRobot_bridgeStart_transport);
+      methodDescriptor_Api_CallServiceFoxglove_bridgeSet_parameters_atomically);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.ListParametersReq,
+ *   !proto.rcl_interfaces.ListParametersRsp>}
+ */
+const methodDescriptor_Api_CallServiceFoxglove_bridgeList_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceFoxglove_bridgeList_parameters',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.ListParametersReq,
+  rcl_interfaces_pb.ListParametersRsp,
+  /**
+   * @param {!proto.rcl_interfaces.ListParametersReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.ListParametersRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.ListParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.ListParametersRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ListParametersRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceFoxglove_bridgeList_parameters =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceFoxglove_bridgeList_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceFoxglove_bridgeList_parameters,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.ListParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.ListParametersRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceFoxglove_bridgeList_parameters =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceFoxglove_bridgeList_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceFoxglove_bridgeList_parameters);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.ListParametersReq,
+ *   !proto.rcl_interfaces.ListParametersRsp>}
+ */
+const methodDescriptor_Api_CallServiceService_server_02List_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceService_server_02List_parameters',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.ListParametersReq,
+  rcl_interfaces_pb.ListParametersRsp,
+  /**
+   * @param {!proto.rcl_interfaces.ListParametersReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.ListParametersRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.ListParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.ListParametersRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.ListParametersRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceService_server_02List_parameters =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceService_server_02List_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02List_parameters,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.ListParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.ListParametersRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceService_server_02List_parameters =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceService_server_02List_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02List_parameters);
 };
 
 
@@ -1854,8 +802,8 @@ proto.ApiPromiseClient.prototype.callServiceArebot_transportRobot_bridgeStart_tr
  *   !proto.rcl_interfaces.SetParametersReq,
  *   !proto.rcl_interfaces.SetParametersRsp>}
  */
-const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters = new grpc.web.MethodDescriptor(
-  '/Api/CallServiceArebot_loadRobot_bridgeSet_parameters',
+const methodDescriptor_Api_CallServiceService_server_02Set_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceService_server_02Set_parameters',
   grpc.web.MethodType.UNARY,
   rcl_interfaces_pb.SetParametersReq,
   rcl_interfaces_pb.SetParametersRsp,
@@ -1880,13 +828,13 @@ const methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters = ne
  * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersRsp>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters =
+proto.ApiClient.prototype.callServiceService_server_02Set_parameters =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeSet_parameters',
+      '/Api/CallServiceService_server_02Set_parameters',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters,
+      methodDescriptor_Api_CallServiceService_server_02Set_parameters,
       callback);
 };
 
@@ -1899,13 +847,379 @@ proto.ApiClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters =
  * @return {!Promise<!proto.rcl_interfaces.SetParametersRsp>}
  *     Promise that resolves to the response
  */
-proto.ApiPromiseClient.prototype.callServiceArebot_loadRobot_bridgeSet_parameters =
+proto.ApiPromiseClient.prototype.callServiceService_server_02Set_parameters =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/Api/CallServiceArebot_loadRobot_bridgeSet_parameters',
+      '/Api/CallServiceService_server_02Set_parameters',
       request,
       metadata || {},
-      methodDescriptor_Api_CallServiceArebot_loadRobot_bridgeSet_parameters);
+      methodDescriptor_Api_CallServiceService_server_02Set_parameters);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.GetParameterTypesReq,
+ *   !proto.rcl_interfaces.GetParameterTypesRsp>}
+ */
+const methodDescriptor_Api_CallServiceService_server_02Get_parameter_types = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceService_server_02Get_parameter_types',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.GetParameterTypesReq,
+  rcl_interfaces_pb.GetParameterTypesRsp,
+  /**
+   * @param {!proto.rcl_interfaces.GetParameterTypesReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.GetParameterTypesRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParameterTypesRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParameterTypesRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceService_server_02Get_parameter_types =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Get_parameter_types',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Get_parameter_types,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.GetParameterTypesRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceService_server_02Get_parameter_types =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Get_parameter_types',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Get_parameter_types);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.SetParametersReq,
+ *   !proto.rcl_interfaces.SetParametersRsp>}
+ */
+const methodDescriptor_Api_CallServiceFoxglove_bridgeSet_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceFoxglove_bridgeSet_parameters',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.SetParametersReq,
+  rcl_interfaces_pb.SetParametersRsp,
+  /**
+   * @param {!proto.rcl_interfaces.SetParametersReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.SetParametersRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.SetParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceFoxglove_bridgeSet_parameters =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceFoxglove_bridgeSet_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceFoxglove_bridgeSet_parameters,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.SetParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.SetParametersRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceFoxglove_bridgeSet_parameters =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceFoxglove_bridgeSet_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceFoxglove_bridgeSet_parameters);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.GetParametersReq,
+ *   !proto.rcl_interfaces.GetParametersRsp>}
+ */
+const methodDescriptor_Api_CallServiceService_server_02Get_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceService_server_02Get_parameters',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.GetParametersReq,
+  rcl_interfaces_pb.GetParametersRsp,
+  /**
+   * @param {!proto.rcl_interfaces.GetParametersReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.GetParametersRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.GetParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParametersRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParametersRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceService_server_02Get_parameters =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Get_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Get_parameters,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.GetParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.GetParametersRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceService_server_02Get_parameters =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Get_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Get_parameters);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.SetParametersAtomicallyReq,
+ *   !proto.rcl_interfaces.SetParametersAtomicallyRsp>}
+ */
+const methodDescriptor_Api_CallServiceService_server_02Set_parameters_atomically = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceService_server_02Set_parameters_atomically',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.SetParametersAtomicallyReq,
+  rcl_interfaces_pb.SetParametersAtomicallyRsp,
+  /**
+   * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.SetParametersAtomicallyRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.SetParametersAtomicallyRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.SetParametersAtomicallyRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceService_server_02Set_parameters_atomically =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Set_parameters_atomically',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Set_parameters_atomically,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.SetParametersAtomicallyReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.SetParametersAtomicallyRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceService_server_02Set_parameters_atomically =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Set_parameters_atomically',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Set_parameters_atomically);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.GetParameterTypesReq,
+ *   !proto.rcl_interfaces.GetParameterTypesRsp>}
+ */
+const methodDescriptor_Api_CallServiceFoxglove_bridgeGet_parameter_types = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceFoxglove_bridgeGet_parameter_types',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.GetParameterTypesReq,
+  rcl_interfaces_pb.GetParameterTypesRsp,
+  /**
+   * @param {!proto.rcl_interfaces.GetParameterTypesReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.GetParameterTypesRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.GetParameterTypesRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.GetParameterTypesRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceFoxglove_bridgeGet_parameter_types =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceFoxglove_bridgeGet_parameter_types',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceFoxglove_bridgeGet_parameter_types,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.GetParameterTypesReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.GetParameterTypesRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceFoxglove_bridgeGet_parameter_types =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceFoxglove_bridgeGet_parameter_types',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceFoxglove_bridgeGet_parameter_types);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.rcl_interfaces.DescribeParametersReq,
+ *   !proto.rcl_interfaces.DescribeParametersRsp>}
+ */
+const methodDescriptor_Api_CallServiceService_server_02Describe_parameters = new grpc.web.MethodDescriptor(
+  '/Api/CallServiceService_server_02Describe_parameters',
+  grpc.web.MethodType.UNARY,
+  rcl_interfaces_pb.DescribeParametersReq,
+  rcl_interfaces_pb.DescribeParametersRsp,
+  /**
+   * @param {!proto.rcl_interfaces.DescribeParametersReq} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  rcl_interfaces_pb.DescribeParametersRsp.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.rcl_interfaces.DescribeParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.rcl_interfaces.DescribeParametersRsp)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.rcl_interfaces.DescribeParametersRsp>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ApiClient.prototype.callServiceService_server_02Describe_parameters =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Describe_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Describe_parameters,
+      callback);
+};
+
+
+/**
+ * @param {!proto.rcl_interfaces.DescribeParametersReq} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.rcl_interfaces.DescribeParametersRsp>}
+ *     Promise that resolves to the response
+ */
+proto.ApiPromiseClient.prototype.callServiceService_server_02Describe_parameters =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/Api/CallServiceService_server_02Describe_parameters',
+      request,
+      metadata || {},
+      methodDescriptor_Api_CallServiceService_server_02Describe_parameters);
 };
 
 

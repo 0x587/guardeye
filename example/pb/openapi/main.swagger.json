@@ -17,52 +17,16 @@
   ],
   "paths": {},
   "definitions": {
-    "geometry_msgsPoint": {
+    "builtin_interfacesTime": {
       "type": "object",
       "properties": {
-        "x": {
-          "type": "number",
-          "format": "double"
+        "sec": {
+          "type": "integer",
+          "format": "int32"
         },
-        "y": {
-          "type": "number",
-          "format": "double"
-        },
-        "z": {
-          "type": "number",
-          "format": "double"
-        }
-      }
-    },
-    "geometry_msgsPose": {
-      "type": "object",
-      "properties": {
-        "position": {
-          "$ref": "#/definitions/geometry_msgsPoint"
-        },
-        "orientation": {
-          "$ref": "#/definitions/geometry_msgsQuaternion"
-        }
-      }
-    },
-    "geometry_msgsQuaternion": {
-      "type": "object",
-      "properties": {
-        "x": {
-          "type": "number",
-          "format": "double"
-        },
-        "y": {
-          "type": "number",
-          "format": "double"
-        },
-        "z": {
-          "type": "number",
-          "format": "double"
-        },
-        "w": {
-          "type": "number",
-          "format": "double"
+        "nanosec": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -170,6 +134,34 @@
         }
       }
     },
+    "rcl_interfacesLog": {
+      "type": "object",
+      "properties": {
+        "stamp": {
+          "$ref": "#/definitions/builtin_interfacesTime"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "rcl_interfacesParameter": {
       "type": "object",
       "properties": {
@@ -215,6 +207,38 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/rcl_interfacesIntegerRange"
+          }
+        }
+      }
+    },
+    "rcl_interfacesParameterEvent": {
+      "type": "object",
+      "properties": {
+        "stamp": {
+          "$ref": "#/definitions/builtin_interfacesTime"
+        },
+        "node": {
+          "type": "string"
+        },
+        "newParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameter"
+          }
+        },
+        "changedParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameter"
+          }
+        },
+        "deletedParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/rcl_interfacesParameter"
           }
         }
       }
@@ -303,410 +327,6 @@
         }
       }
     },
-    "robot_bridge_interfacesGetStateRsp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "robotName": {
-          "type": "string"
-        },
-        "robotType": {
-          "type": "string"
-        },
-        "isWorking": {
-          "type": "boolean"
-        },
-        "taskName": {
-          "type": "string"
-        },
-        "taskSuccess": {
-          "type": "boolean"
-        },
-        "taskMessage": {
-          "type": "string"
-        },
-        "positionX": {
-          "type": "number",
-          "format": "double"
-        },
-        "positionY": {
-          "type": "number",
-          "format": "double"
-        },
-        "positionZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationX": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationY": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationW": {
-          "type": "number",
-          "format": "double"
-        },
-        "motor1JointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "motor2JointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "motor3JointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "endJointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionX": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionXUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionY": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionYUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionZUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationX": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationXUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationY": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationYUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationZUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationW": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationWUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityX": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityXUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityY": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityYUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityZUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityRoll": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityRollUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityPitch": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityPitchUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityYaw": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityYawUncertainty": {
-          "type": "number",
-          "format": "double"
-        }
-      }
-    },
-    "robot_bridge_interfacesRobotState": {
-      "type": "object",
-      "properties": {
-        "robotName": {
-          "type": "string"
-        },
-        "robotType": {
-          "type": "string"
-        },
-        "isWorking": {
-          "type": "boolean"
-        },
-        "taskName": {
-          "type": "string"
-        },
-        "taskSuccess": {
-          "type": "boolean"
-        },
-        "taskMessage": {
-          "type": "string"
-        },
-        "positionX": {
-          "type": "number",
-          "format": "double"
-        },
-        "positionY": {
-          "type": "number",
-          "format": "double"
-        },
-        "positionZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationX": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationY": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "orientationW": {
-          "type": "number",
-          "format": "double"
-        },
-        "motor1JointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "motor2JointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "motor3JointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "endJointAngle": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionX": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionXUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionY": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionYUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomPositionZUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationX": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationXUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationY": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationYUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationZUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationW": {
-          "type": "number",
-          "format": "double"
-        },
-        "odomOrientationWUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityX": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityXUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityY": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityYUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityZ": {
-          "type": "number",
-          "format": "double"
-        },
-        "linearVelocityZUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityRoll": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityRollUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityPitch": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityPitchUncertainty": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityYaw": {
-          "type": "number",
-          "format": "double"
-        },
-        "angularVelocityYawUncertainty": {
-          "type": "number",
-          "format": "double"
-        }
-      }
-    },
-    "robot_bridge_interfacesStartNavToPoseRsp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "taskName": {
-          "type": "string"
-        }
-      }
-    },
-    "robot_bridge_interfacesStartPickAndLoadRsp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "taskName": {
-          "type": "string"
-        }
-      }
-    },
-    "robot_bridge_interfacesStartTransportRsp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "taskName": {
-          "type": "string"
-        }
-      }
-    },
-    "robot_bridge_interfacesStartUnloadAndPlaceRsp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "taskName": {
-          "type": "string"
-        }
-      }
-    },
     "rpcStatus": {
       "type": "object",
       "properties": {
@@ -723,6 +343,27 @@
             "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "shawn_defineAddRsp": {
+      "type": "object",
+      "properties": {
+        "res": {
+          "$ref": "#/definitions/shawn_defineV2"
+        }
+      }
+    },
+    "shawn_defineV2": {
+      "type": "object",
+      "properties": {
+        "a": {
+          "type": "string",
+          "format": "int64"
+        },
+        "b": {
+          "type": "string",
+          "format": "int64"
         }
       }
     }
